@@ -161,17 +161,17 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab.html">Classification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cleanlab.html#module-cleanlab.latent_estimation">Latent Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleanlab.html#latent-estimation">Latent Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab.html#module-cleanlab.noise_generation">Noise Generation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cleanlab.html#module-cleanlab.baseline_methods">Baseline Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleanlab.html#baseline-methods">Baseline Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab.html#module-cleanlab.coteaching">Co-Teaching</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cleanlab.html#module-cleanlab.latent_algebra">Latent Algebra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cleanlab.html#module-cleanlab.pruning">Pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleanlab.html#latent-algebra">Latent Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleanlab.html#pruning">Pruning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab.html#module-cleanlab.util">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cleanlab.html#module-cleanlab.polyplex">Polyplex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleanlab.html#polyplex">Polyplex</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab.html#models">Models</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab.models.html">CIFAR CNN</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cleanlab.models.html#module-cleanlab.models.mnist_pytorch">MNIST PyTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab.models.html#mnist-pytorch">MNIST PyTorch</a></li>
 </ul>
 </li>
 </ul>
@@ -314,16 +314,16 @@
 </div>
 </div></div>
 </div>
-<div class="section" id="find-label-errors-with-get-noise-indices">
-<h2>2. Find label errors with <code class="docutils literal notranslate"><span class="pre">get_noise_indices</span></code>.<a class="headerlink" href="#find-label-errors-with-get-noise-indices" title="Permalink to this headline">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>’s <code class="docutils literal notranslate"><span class="pre">get_noise_indices</span></code> function tells you which examples in your dataset are likely mislabeled. At a minimum, it expects two inputs - your data’s given labels, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pyx</span></code>, from some trained model (Note: these must be out-of-sample predictions where the data points were held out from the model during training, which can be obtained via cross-validation).</p>
-<p>Setting <code class="docutils literal notranslate"><span class="pre">sorted_index_method</span></code> instructs <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> to return the indices of potential mislabeled examples, ordered by the likelihood of label error estimate via <code class="docutils literal notranslate"><span class="pre">prob_given_label</span></code> scores (predicted probability of given label according to the model).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.pruning</span> <span class="kn">import</span> <span class="n">get_noise_indices</span>
+<div class="section" id="find-label-errors-with-find-label-issues">
+<h2>2. Find label errors with <code class="docutils literal notranslate"><span class="pre">find_label_issues</span></code>.<a class="headerlink" href="#find-label-errors-with-find-label-issues" title="Permalink to this headline">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>’s <code class="docutils literal notranslate"><span class="pre">find_label_issues</span></code> function tells you which examples in your dataset are likely mislabeled. At a minimum, it expects two inputs - your data’s given labels, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pyx</span></code>, from some trained model (Note: these must be out-of-sample predictions where the data points were held out from the model during training, which can be obtained via cross-validation).</p>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">sorted_index_method</span></code> instructs <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> to return the indices of potential mislabeled examples, ordered by the likelihood of label error estimate via <code class="docutils literal notranslate"><span class="pre">self_confidence</span></code> scores (predicted probability of given label according to the model).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.pruning</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
 
-<span class="n">ordered_label_errors</span> <span class="o">=</span> <span class="n">get_noise_indices</span><span class="p">(</span>
+<span class="n">ordered_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
    <span class="n">s</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-   <span class="n">psx</span><span class="o">=</span><span class="n">pyx</span><span class="p">,</span>
-   <span class="n">sorted_index_method</span><span class="o">=</span><span class="s1">'prob_given_label'</span><span class="p">)</span>
+   <span class="n">pred_probs</span><span class="o">=</span><span class="n">pyx</span><span class="p">,</span>
+   <span class="n">sorted_index_method</span><span class="o">=</span><span class="s1">'self_confidence'</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition important">
@@ -418,7 +418,7 @@
 <li><a class="reference internal" href="#">Introduction</a></li>
 <li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
 <li><a class="reference internal" href="#install-cleanlab">1. Install <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>.</a></li>
-<li><a class="reference internal" href="#find-label-errors-with-get-noise-indices">2. Find label errors with <code class="docutils literal notranslate"><span class="pre">get_noise_indices</span></code>.</a></li>
+<li><a class="reference internal" href="#find-label-errors-with-find-label-issues">2. Find label errors with <code class="docutils literal notranslate"><span class="pre">find_label_issues</span></code>.</a></li>
 <li><a class="reference internal" href="#train-robust-models-with-noisy-labels-using-learningwithnoisylabels">3. Train robust models with noisy labels using <code class="docutils literal notranslate"><span class="pre">LearningWithNoisyLabels</span></code>.</a><ul>
 </ul>
 </li>

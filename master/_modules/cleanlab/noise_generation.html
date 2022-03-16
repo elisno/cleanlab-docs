@@ -161,17 +161,17 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html">Classification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#module-cleanlab.latent_estimation">Latent Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#latent-estimation">Latent Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#module-cleanlab.noise_generation">Noise Generation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#module-cleanlab.baseline_methods">Baseline Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#baseline-methods">Baseline Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#module-cleanlab.coteaching">Co-Teaching</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#module-cleanlab.latent_algebra">Latent Algebra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#module-cleanlab.pruning">Pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#latent-algebra">Latent Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#pruning">Pruning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#module-cleanlab.util">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#module-cleanlab.polyplex">Polyplex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cleanlab.html#polyplex">Polyplex</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../cleanlab.html#models">Models</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../cleanlab.models.html">CIFAR CNN</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../cleanlab.models.html#module-cleanlab.models.mnist_pytorch">MNIST PyTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cleanlab.models.html#mnist-pytorch">MNIST PyTorch</a></li>
 </ul>
 </li>
 </ul>
@@ -313,15 +313,13 @@
 <span class="c1"># </span>
 <span class="c1"># #### Contains methods for generating valid (learning with noise is possible) noise matrices, generating noisy labels given a noise matrix, generating valid noise matrices with a specific trace value, and more.</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> \
-    <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">with_statement</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">cleanlab.util</span> <span class="kn">import</span> <span class="n">value_counts</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+<span class="kn">from</span> <span class="nn">cleanlab.utils.util</span> <span class="kn">import</span> <span class="n">value_counts</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 
-<div class="viewcode-block" id="noise_matrix_is_valid"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.noise_matrix_is_valid">[docs]</a><span class="k">def</span> <span class="nf">noise_matrix_is_valid</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">"""Given a prior py = p(y=k), returns true if the given noise_matrix is a</span>
+<div class="viewcode-block" id="noise_matrix_is_valid"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.noise_matrix_is_valid">[docs]</a><span class="k">def</span> <span class="nf">noise_matrix_is_valid</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">"""Given a prior py = p(true_label=k), returns true if the given noise_matrix is a</span>
 <span class="sd">    learnable matrix. Learnability means that it is possible to achieve</span>
 <span class="sd">    better than random performance, on average, for the amount of noise in</span>
 <span class="sd">    noise_matrix. """</span>
@@ -329,13 +327,13 @@
     <span class="c1"># Number of classes</span>
     <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">py</span><span class="p">)</span>
 
-    <span class="c1"># Let's assume some number of training examples for code readability, </span>
-    <span class="c1"># but it doesn't matter what we choose as its not actually used.</span>
+    <span class="c1"># let's assume some number of training examples for code readability,</span>
+    <span class="c1"># but it doesn't matter what we choose as it's not actually used.</span>
     <span class="n">N</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
 
-    <span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">py</span><span class="p">)</span>  <span class="c1"># P(y=k)</span>
+    <span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">py</span><span class="p">)</span>  <span class="c1"># P(true_label=k)</span>
 
-    <span class="c1"># P(s=k, y=k')</span>
+    <span class="c1"># P(label=k, true_label=k')</span>
     <span class="n">joint_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">py</span><span class="p">)</span>  <span class="c1"># / float(N)</span>
 
     <span class="c1"># Check that joint_probs is valid probability matrix</span>
@@ -343,7 +341,7 @@
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="c1"># Check that noise_matrix is a valid matrix</span>
-    <span class="c1"># i.e. check p(s=k)*p(y=k) &lt; p(s=k, y=k)</span>
+    <span class="c1"># i.e. check p(label=k)*p(true_label=k) &lt; p(label=k, true_label=k)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
         <span class="n">C</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="n">joint_noise</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
         <span class="n">E1</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="n">joint_noise</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">C</span>
@@ -369,9 +367,9 @@
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="generate_noisy_labels"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.generate_noisy_labels">[docs]</a><span class="k">def</span> <span class="nf">generate_noisy_labels</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">"""Generates noisy labels s (shape (N, 1)) from perfect labels y,</span>
-<span class="sd">    'exactly' yielding the provided noise_matrix between s and y.</span>
+<div class="viewcode-block" id="generate_noisy_labels"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.generate_noisy_labels">[docs]</a><span class="k">def</span> <span class="nf">generate_noisy_labels</span><span class="p">(</span><span class="n">true_labels</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">):</span>
+    <span class="sd">"""Generates noisy labels (shape (N, 1)) from perfect labels y,</span>
+<span class="sd">    'exactly' yielding the provided noise_matrix between labels and y.</span>
 
 <span class="sd">    Below we provide a for loop implementation of what this function does.</span>
 <span class="sd">    We do not use this implementation as it is not a fast algorithm, but</span>
@@ -380,12 +378,12 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 
-<span class="sd">    y : np.array (shape (N, 1))</span>
+<span class="sd">    true_labels : np.array (shape (N, 1))</span>
 <span class="sd">        Perfect labels, without any noise. Contains K distinct natural number</span>
 <span class="sd">        classes, e.g. 0, 1,..., K-1</span>
 
 <span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
-<span class="sd">        A conditional probablity matrix of the form P(s=k_s|y=k_y) containing</span>
+<span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">        Assumes columns of noise_matrix sum to 1.</span>
 
@@ -394,15 +392,15 @@
 
 <span class="sd">    .. code:: python</span>
 
-<span class="sd">        # Generate s</span>
+<span class="sd">        # Generate labels</span>
 <span class="sd">        count_joint = (noise_matrix * py * len(y)).round().astype(int)</span>
-<span class="sd">        s = np.array(y)</span>
+<span class="sd">        labels = np.array(y)</span>
 <span class="sd">        for k_s in range(K):</span>
 <span class="sd">            for k_y in range(K):</span>
 <span class="sd">                if k_s != k_y:</span>
-<span class="sd">                    idx_flip = np.where((s==k_y)&amp;(y==k_y))[0]</span>
+<span class="sd">                    idx_flip = np.where((labels==k_y)&amp;(true_label==k_y))[0]</span>
 <span class="sd">                    if len(idx_flip): # pragma: no cover</span>
-<span class="sd">                        s[np.random.choice(</span>
+<span class="sd">                        labels[np.random.choice(</span>
 <span class="sd">                            idx_flip,</span>
 <span class="sd">                            count_joint[k_s][k_y],</span>
 <span class="sd">                            replace=False,</span>
@@ -410,46 +408,47 @@
 <span class="sd">    """</span>
 
     <span class="c1"># Make y a numpy array, if it is not</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">true_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">true_labels</span><span class="p">)</span>
 
     <span class="c1"># Number of classes</span>
     <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">)</span>
 
-    <span class="c1"># Compute p(y=k)</span>
-    <span class="n">py</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="c1"># Compute p(true_label=k)</span>
+    <span class="n">py</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">(</span><span class="n">true_labels</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">true_labels</span><span class="p">))</span>
 
-    <span class="c1"># Counts of pairs (s, y)</span>
-    <span class="n">count_joint</span> <span class="o">=</span> <span class="p">(</span><span class="n">noise_matrix</span> <span class="o">*</span> <span class="n">py</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="c1"># Counts of pairs (labels, y)</span>
+    <span class="n">count_joint</span> <span class="o">=</span> <span class="p">(</span><span class="n">noise_matrix</span> <span class="o">*</span> <span class="n">py</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">true_labels</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="c1"># Remove diagonal entries as they do not involve flipping of labels.</span>
     <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">count_joint</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-    <span class="c1"># Generate s</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>  <span class="c1"># Iterate over true class y == k</span>
-        <span class="c1"># Get the noisy s labels that have non-zero counts</span>
-        <span class="n">s_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">count_joint</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="c1"># Find out how many of each noisy s label we need to flip to</span>
-        <span class="n">s_counts</span> <span class="o">=</span> <span class="n">count_joint</span><span class="p">[</span><span class="n">s_labels</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+    <span class="c1"># Generate labels</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">true_labels</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>  <span class="c1"># Iterate over true_label == k</span>
+        <span class="c1"># Get the noisy labels that have non-zero counts</span>
+        <span class="n">labels_per_class</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">count_joint</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Find out how many of each noisy  label we need to flip to</span>
+        <span class="n">label_counts</span> <span class="o">=</span> <span class="n">count_joint</span><span class="p">[</span><span class="n">labels_per_class</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
         <span class="c1"># Create a list of the new noisy labels</span>
-        <span class="n">noise</span> <span class="o">=</span> <span class="p">[</span><span class="n">s_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s_counts</span><span class="p">)</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels_per_class</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">label_counts</span><span class="p">)</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
         <span class="c1"># Randomly choose y labels for class k and set them to the noisy labels.</span>
-        <span class="n">idx_flip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">s</span> <span class="o">==</span> <span class="n">k</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">k</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">idx_flip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">labels</span> <span class="o">==</span> <span class="n">k</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">true_labels</span> <span class="o">==</span> <span class="n">k</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx_flip</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx_flip</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span>
                 <span class="n">noise</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-            <span class="n">s</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">idx_flip</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span> <span class="o">=</span> <span class="n">noise</span>
+            <span class="n">labels</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">idx_flip</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span> <span class="o">=</span> <span class="n">noise</span>
 
-    <span class="c1"># Validate that s indeed produces the correct noise_matrix (or close to it)</span>
-    <span class="c1"># Compute the actual noise matrix induced by s</span>
-    <span class="c1"># counts = confusion_matrix(s, y).astype(float)</span>
+    <span class="c1"># Validate that labels indeed produces the correct noise_matrix (or close to it)</span>
+    <span class="c1"># Compute the actual noise matrix induced by labels</span>
+    <span class="c1"># counts = confusion_matrix(labels, true_labels).astype(float)</span>
     <span class="c1"># new_noise_matrix = counts / counts.sum(axis=0)</span>
     <span class="c1"># assert(np.linalg.norm(noise_matrix - new_noise_matrix) &lt;= 2)</span>
 
-    <span class="k">return</span> <span class="n">s</span></div>
+    <span class="k">return</span> <span class="n">labels</span></div>
 
 
 <div class="viewcode-block" id="generate_noise_matrix_from_trace"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.generate_noise_matrix_from_trace">[docs]</a><span class="k">def</span> <span class="nf">generate_noise_matrix_from_trace</span><span class="p">(</span>
         <span class="n">K</span><span class="p">,</span>
         <span class="n">trace</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
         <span class="n">max_trace_prob</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
         <span class="n">min_trace_prob</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
         <span class="n">max_noise_rate</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-5</span><span class="p">,</span>
@@ -460,7 +459,7 @@
         <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Generates a K x K noise matrix P(s=k_s|y=k_y) with trace</span>
+    <span class="sd">"""Generates a K x K noise matrix P(label=k_s|true_label=k_y) with trace</span>
 <span class="sd">    as the np.mean(np.diagonal(noise_matrix)).</span>
 
 <span class="sd">    Parameters</span>
@@ -487,11 +486,11 @@
 
 <span class="sd">    valid_noise_matrix : bool</span>
 <span class="sd">      If True, returns a matrix having all necessary conditions for</span>
-<span class="sd">      learning with noisy labels. In particular, p(y=k)p(s=k) &lt; p(y=k,s=k)</span>
+<span class="sd">      learning with noisy labels. In particular, p(true_label=k)p(label=k) &lt; p(true_label=k,label=k)</span>
 <span class="sd">      is satisfied. This requires that Trace &gt; 1.</span>
 
 <span class="sd">    py : np.array (shape (K, 1))</span>
-<span class="sd">      Fraction (prior probability) of each true/hidden class label, P(y = k).</span>
+<span class="sd">      Fraction (prior probability) of each true class label, P(true_label = k).</span>
 <span class="sd">      REQUIRED when valid_noise_matrix == True.</span>
 
 <span class="sd">    frac_zero_noise_rates : float</span>
@@ -511,7 +510,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    np.array (shape (K, K))</span>
-<span class="sd">      noise matrix P(s=k_s|y=k_y) with trace</span>
+<span class="sd">      noise matrix P(label=k_s|true_label=k_y) with trace</span>
 <span class="sd">      as the np.sum(np.diagonal(noise_matrix)).</span>
 <span class="sd">      This a conditional probability matrix and a</span>
 <span class="sd">      left stochastic matrix."""</span>
@@ -606,6 +605,7 @@
 <div class="viewcode-block" id="generate_n_rand_probabilities_that_sum_to_m"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.generate_n_rand_probabilities_that_sum_to_m">[docs]</a><span class="k">def</span> <span class="nf">generate_n_rand_probabilities_that_sum_to_m</span><span class="p">(</span>
         <span class="n">n</span><span class="p">,</span>
         <span class="n">m</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
         <span class="n">max_prob</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
         <span class="n">min_prob</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
 <span class="p">):</span>
@@ -679,6 +679,7 @@
 <div class="viewcode-block" id="randomly_distribute_N_balls_into_K_bins"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.randomly_distribute_N_balls_into_K_bins">[docs]</a><span class="k">def</span> <span class="nf">randomly_distribute_N_balls_into_K_bins</span><span class="p">(</span>
         <span class="n">N</span><span class="p">,</span>  <span class="c1"># int</span>
         <span class="n">K</span><span class="p">,</span>  <span class="c1"># int</span>
+        <span class="o">*</span><span class="p">,</span>
         <span class="n">max_balls_per_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">min_balls_per_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
@@ -724,6 +725,7 @@
 
 <div class="viewcode-block" id="generate_noise_matrix"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.generate_noise_matrix">[docs]</a><span class="k">def</span> <span class="nf">generate_noise_matrix</span><span class="p">(</span>
         <span class="n">K</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
         <span class="n">max_noise_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
         <span class="n">frac_zero_noise_rates</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -732,7 +734,7 @@
 
 <span class="sd">    Generates a noise matrix by randomly assigning noise rates</span>
 <span class="sd">    up to max_noise_rate, then setting noise rates to</span>
-<span class="sd">    zero until P(s!=k|s=k) &lt; 1 is satisfied. Additionally,</span>
+<span class="sd">    zero until P(label!=k|label=k) &lt; 1 is satisfied. Additionally,</span>
 <span class="sd">    frac_zero_noise_rates are set to zero.</span>
 
 <span class="sd">    Parameters</span>
@@ -759,20 +761,20 @@
     <span class="p">)</span>
 
     <span class="c1"># Init noise matrix to be random values from (0, max_noise_rate)</span>
-    <span class="c1"># P(s=k|y=k')</span>
+    <span class="c1"># P(label=k|true_label=k')</span>
     <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span> <span class="o">*</span> <span class="n">max_noise_rate</span>
 
     <span class="c1"># Round all noise rates </span>
     <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-    <span class="c1"># Initialize all P(s=k|y=k) = 0</span>
+    <span class="c1"># Initialize all P(label=k|true_label=k) = 0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
         <span class="n">noise_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
     <span class="c1"># Compute sum for each column</span>
     <span class="n">col_sum</span> <span class="o">=</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="c1"># For each column, randomly set noise rates to zero until P(s!=k|s=k) &lt; 1.</span>
+    <span class="c1"># For each column, randomly set noise rates to zero until P(label!=k|label=k) &lt; 1.</span>
     <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>  <span class="c1"># col</span>
         <span class="n">col</span> <span class="o">=</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
         <span class="n">col_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
@@ -793,7 +795,7 @@
     <span class="c1"># Compute sum for each column</span>
     <span class="n">col_sum</span> <span class="o">=</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="c1"># Normalize each column such that P(s=k|y=k) = 1 - P(s!=k|s=k)</span>
+    <span class="c1"># Normalize each column such that P(label=k|true_label=k) = 1 - P(label!=k|label=k)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
         <span class="n">noise_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">col_sum</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
