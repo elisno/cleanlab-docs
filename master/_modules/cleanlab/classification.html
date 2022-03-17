@@ -294,17 +294,17 @@
 <h1>Source code for cleanlab.classification</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (C) 2017-2022  Cleanlab Inc.</span>
 <span class="c1"># This file is part of cleanlab.</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1"># cleanlab is free software: you can redistribute it and/or modify</span>
 <span class="c1"># it under the terms of the GNU Affero General Public License as published</span>
 <span class="c1"># by the Free Software Foundation, either version 3 of the License, or</span>
 <span class="c1"># (at your option) any later version.</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1"># cleanlab is distributed in the hope that it will be useful,</span>
 <span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
 <span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
 <span class="c1"># GNU Affero General Public License for more details.</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1"># You should have received a copy of the GNU Affero General Public License</span>
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
@@ -390,8 +390,6 @@
 <span class="sd">to the classifier during training. `labels` denotes the noisy label instead of</span>
 <span class="sd">\\tilde(y) (used in confident learning paper), for ASCII encoding reasons.</span>
 <span class="sd">"""</span>
-
-
 
 
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span> <span class="k">as</span> <span class="n">LogReg</span>
@@ -483,32 +481,29 @@
 <span class="sd">      Set this to 1 to REMOVE parallel processing (if it's causing issues)."""</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">clf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="o">*</span><span class="p">,</span>
-            <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="c1"># Hyper-parameters (used by .fit() function)</span>
-            <span class="n">cv_n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-            <span class="n">filter_by</span><span class="o">=</span><span class="s1">'prune_by_noise_rate'</span><span class="p">,</span>
-            <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">pulearning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">clf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="c1"># Hyper-parameters (used by .fit() function)</span>
+        <span class="n">cv_n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">filter_by</span><span class="o">=</span><span class="s2">"prune_by_noise_rate"</span><span class="p">,</span>
+        <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">pulearning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 
         <span class="k">if</span> <span class="n">clf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Use logistic regression if no classifier is provided.</span>
-            <span class="n">clf</span> <span class="o">=</span> <span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">'lbfgs'</span><span class="p">)</span>
+            <span class="n">clf</span> <span class="o">=</span> <span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">"lbfgs"</span><span class="p">)</span>
 
         <span class="c1"># Make sure the given classifier has the appropriate methods defined.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="s2">"fit"</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">'The classifier (clf) must define a .fit() method.'</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The classifier (clf) must define a .fit() method."</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="s2">"predict_proba"</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">'The classifier (clf) must define a .predict_proba() method.'</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The classifier (clf) must define a .predict_proba() method."</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="s2">"predict"</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">'The classifier (clf) must define a .predict() method.'</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The classifier (clf) must define a .predict() method."</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
@@ -517,7 +512,7 @@
         <span class="k">if</span> <span class="n">n_jobs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">n_jobs</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="p">(</span><span class="n">n_jobs</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">n_jobs</span> <span class="o">&gt;=</span> <span class="mi">1</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">clf</span> <span class="o">=</span> <span class="n">clf</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
@@ -536,14 +531,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="LearningWithNoisyLabels.fit"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.classification.LearningWithNoisyLabels.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">X</span><span class="p">,</span>
-            <span class="n">labels</span><span class="p">,</span>
-            <span class="o">*</span><span class="p">,</span>
-            <span class="n">pred_probs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">noise_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">inverse_noise_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">X</span><span class="p">,</span>
+        <span class="n">labels</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">pred_probs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">noise_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">inverse_noise_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">"""This method trains the model `self.clf` with error-prone, noisy labels as if</span>
 <span class="sd">        the model had been instead trained on a dataset with perfect labels.</span>
@@ -601,14 +596,10 @@
         <span class="n">assert_inputs_are_valid</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"Trace(noise_matrix) is </span><span class="si">{}</span><span class="s2">, but must exceed 1."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">inverse_noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">inverse_noise_matrix</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span>
-        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Trace(noise_matrix) is </span><span class="si">{}</span><span class="s2">, but must exceed 1."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">inverse_noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">inverse_noise_matrix</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">inverse_noise_matrix</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"Trace(inverse_noise_matrix) is </span><span class="si">{}</span><span class="s2">. Must exceed 1."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Trace(inverse_noise_matrix) is </span><span class="si">{}</span><span class="s2">. Must exceed 1."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
 
         <span class="c1"># Number of classes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
@@ -617,15 +608,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="c1"># If needed, compute noise rates (mislabeling) for all classes. </span>
+        <span class="c1"># If needed, compute noise rates (mislabeling) for all classes.</span>
         <span class="c1"># Also, if needed, compute P(label=k|x), denoted pred_probs.</span>
 
         <span class="c1"># Set / re-set noise matrices / pred_probs; estimate if not provided.</span>
         <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">noise_matrix</span>
             <span class="k">if</span> <span class="n">inverse_noise_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">py</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">compute_py_inv_noise_matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">py</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span> <span class="o">=</span> <span class="n">compute_py_inv_noise_matrix</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span>
+                <span class="p">)</span>
         <span class="k">if</span> <span class="n">inverse_noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span> <span class="o">=</span> <span class="n">inverse_noise_matrix</span>
             <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -635,28 +627,33 @@
                 <span class="p">)</span>
         <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">inverse_noise_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">pred_probs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">py</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span><span class="p">,</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">pred_probs</span> <span class="o">=</span> \
-                    <span class="n">estimate_py_noise_matrices_and_cv_pred_proba</span><span class="p">(</span>
-                        <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
-                        <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-                        <span class="n">clf</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="p">,</span>
-                        <span class="n">cv_n_folds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cv_n_folds</span><span class="p">,</span>
-                        <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
-                        <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="p">(</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">converge_latent_estimates</span><span class="p">),</span>
-                        <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
-                    <span class="p">)</span>
+                <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">py</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span><span class="p">,</span>
+                    <span class="n">pred_probs</span><span class="p">,</span>
+                <span class="p">)</span> <span class="o">=</span> <span class="n">estimate_py_noise_matrices_and_cv_pred_proba</span><span class="p">(</span>
+                    <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                    <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+                    <span class="n">clf</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="p">,</span>
+                    <span class="n">cv_n_folds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cv_n_folds</span><span class="p">,</span>
+                    <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
+                    <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">converge_latent_estimates</span><span class="p">),</span>
+                    <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># pred_probs is provided by user (assumed holdout probabilities)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">py</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span><span class="p">,</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span> <span class="o">=</span> \
-                    <span class="n">estimate_py_and_noise_matrices_from_probabilities</span><span class="p">(</span>
-                        <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-                        <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
-                        <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
-                        <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="p">(</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">converge_latent_estimates</span><span class="p">),</span>
-                    <span class="p">)</span>
+                <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">py</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span><span class="p">,</span>
+                <span class="p">)</span> <span class="o">=</span> <span class="n">estimate_py_and_noise_matrices_from_probabilities</span><span class="p">(</span>
+                    <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+                    <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
+                    <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
+                    <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">converge_latent_estimates</span><span class="p">),</span>
+                <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">pred_probs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">estimate_cv_predicted_probabilities</span><span class="p">(</span>
@@ -682,15 +679,20 @@
         <span class="c1"># This is the actual work of this function.</span>
 
         <span class="c1"># Get the indices of the examples we wish to prune</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">confident_joint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span><span class="p">,</span>
-                                            <span class="n">filter_by</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_by</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
+            <span class="n">labels</span><span class="p">,</span>
+            <span class="n">pred_probs</span><span class="p">,</span>
+            <span class="n">confident_joint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span><span class="p">,</span>
+            <span class="n">filter_by</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_by</span><span class="p">,</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="n">x_mask</span> <span class="o">=</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span>
         <span class="n">x_cleaned</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">x_mask</span><span class="p">]</span>
         <span class="n">labels_cleaned</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">x_mask</span><span class="p">]</span>
 
         <span class="c1"># Check if sample_weight in clf.fit(). Not compatible with Python 2.</span>
-        <span class="k">if</span> <span class="s1">'sample_weight'</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
             <span class="c1"># Re-weight examples in the loss function for the final fitting</span>
             <span class="c1"># labels.t. the "apparent" original number of examples in each class</span>
             <span class="c1"># is preserved, even though the pruned sets may differ.</span>
@@ -742,16 +744,19 @@
 <span class="sd">        sample_weight : :obj:`np.array&lt;float&gt;` of shape (n,) or (n, 1)</span>
 <span class="sd">          Weights each example when computing the score / accuracy."""</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">):</span>
 
             <span class="c1"># Check if sample_weight in clf.score(). Not compatible with Python 2.</span>
-            <span class="k">if</span> <span class="s1">'sample_weight'</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">accuracy_score</span><span class="p">(</span>
-                <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span> <span class="p">)</span></div>
+                <span class="n">y</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span>
+                <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="LearningWithNoisyLabels.get_label_issues"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.classification.LearningWithNoisyLabels.get_label_issues">[docs]</a>    <span class="k">def</span> <span class="nf">get_label_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Accessor. Returns `self.label_issues_mask` computed via `filter.find_label_issues()`"""</span>

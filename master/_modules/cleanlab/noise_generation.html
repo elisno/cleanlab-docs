@@ -294,23 +294,23 @@
 <h1>Source code for cleanlab.noise_generation</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (C) 2017-2022  Cleanlab Inc.</span>
 <span class="c1"># This file is part of cleanlab.</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1"># cleanlab is free software: you can redistribute it and/or modify</span>
 <span class="c1"># it under the terms of the GNU Affero General Public License as published</span>
 <span class="c1"># by the Free Software Foundation, either version 3 of the License, or</span>
 <span class="c1"># (at your option) any later version.</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1"># cleanlab is distributed in the hope that it will be useful,</span>
 <span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
 <span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
 <span class="c1"># GNU Affero General Public License for more details.</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1"># You should have received a copy of the GNU Affero General Public License</span>
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
 
 <span class="c1"># ## Noise Generation</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1"># #### Contains methods for generating valid (learning with noise is possible) noise matrices, generating noisy labels given a noise matrix, generating valid noise matrices with a specific trace value, and more.</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -322,7 +322,7 @@
     <span class="sd">"""Given a prior py = p(true_label=k), returns true if the given noise_matrix is a</span>
 <span class="sd">    learnable matrix. Learnability means that it is possible to achieve</span>
 <span class="sd">    better than random performance, on average, for the amount of noise in</span>
-<span class="sd">    noise_matrix. """</span>
+<span class="sd">    noise_matrix."""</span>
 
     <span class="c1"># Number of classes</span>
     <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">py</span><span class="p">)</span>
@@ -349,16 +349,27 @@
         <span class="n">O</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="n">E1</span> <span class="o">-</span> <span class="n">E2</span> <span class="o">-</span> <span class="n">C</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="s2">"E1E2/C"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">E1</span> <span class="o">*</span> <span class="n">E2</span> <span class="o">/</span> <span class="n">C</span><span class="p">),</span>
-                <span class="s2">"E1"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">E1</span><span class="p">),</span>
-                <span class="s2">"E2"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">E2</span><span class="p">),</span>
-                <span class="s2">"C"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">C</span><span class="p">),</span>
-                <span class="s2">"|"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">E1</span> <span class="o">*</span> <span class="n">E2</span> <span class="o">/</span> <span class="n">C</span> <span class="o">+</span> <span class="n">E1</span> <span class="o">+</span> <span class="n">E2</span> <span class="o">+</span> <span class="n">C</span><span class="p">),</span>
-                <span class="s2">"|"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">E1</span> <span class="o">*</span> <span class="n">E2</span> <span class="o">/</span> <span class="n">C</span><span class="p">),</span> <span class="s2">"&lt;"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">O</span><span class="p">),</span>
+                <span class="s2">"E1E2/C"</span><span class="p">,</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">E1</span> <span class="o">*</span> <span class="n">E2</span> <span class="o">/</span> <span class="n">C</span><span class="p">),</span>
+                <span class="s2">"E1"</span><span class="p">,</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">E1</span><span class="p">),</span>
+                <span class="s2">"E2"</span><span class="p">,</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">E2</span><span class="p">),</span>
+                <span class="s2">"C"</span><span class="p">,</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">C</span><span class="p">),</span>
+                <span class="s2">"|"</span><span class="p">,</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">E1</span> <span class="o">*</span> <span class="n">E2</span> <span class="o">/</span> <span class="n">C</span> <span class="o">+</span> <span class="n">E1</span> <span class="o">+</span> <span class="n">E2</span> <span class="o">+</span> <span class="n">C</span><span class="p">),</span>
+                <span class="s2">"|"</span><span class="p">,</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">E1</span> <span class="o">*</span> <span class="n">E2</span> <span class="o">/</span> <span class="n">C</span><span class="p">),</span>
+                <span class="s2">"&lt;"</span><span class="p">,</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">O</span><span class="p">),</span>
             <span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="nb">round</span><span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">py</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="s2">"&lt;"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">joint_noise</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]),</span>
-                <span class="s2">":"</span><span class="p">,</span> <span class="n">ps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">py</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">joint_noise</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">py</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                <span class="s2">"&lt;"</span><span class="p">,</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">joint_noise</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]),</span>
+                <span class="s2">":"</span><span class="p">,</span>
+                <span class="n">ps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">py</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">joint_noise</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">py</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">joint_noise</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]):</span>
@@ -432,8 +443,7 @@
         <span class="n">noise</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels_per_class</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">label_counts</span><span class="p">)</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
         <span class="c1"># Randomly choose y labels for class k and set them to the noisy labels.</span>
         <span class="n">idx_flip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">labels</span> <span class="o">==</span> <span class="n">k</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">true_labels</span> <span class="o">==</span> <span class="n">k</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx_flip</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx_flip</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span>
-                <span class="n">noise</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx_flip</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx_flip</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
             <span class="n">labels</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">idx_flip</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span> <span class="o">=</span> <span class="n">noise</span>
 
     <span class="c1"># Validate that labels indeed produces the correct noise_matrix (or close to it)</span>
@@ -446,18 +456,18 @@
 
 
 <div class="viewcode-block" id="generate_noise_matrix_from_trace"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.generate_noise_matrix_from_trace">[docs]</a><span class="k">def</span> <span class="nf">generate_noise_matrix_from_trace</span><span class="p">(</span>
-        <span class="n">K</span><span class="p">,</span>
-        <span class="n">trace</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
-        <span class="n">max_trace_prob</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">min_trace_prob</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
-        <span class="n">max_noise_rate</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-5</span><span class="p">,</span>
-        <span class="n">min_noise_rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">valid_noise_matrix</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">py</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">frac_zero_noise_rates</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
-        <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="n">K</span><span class="p">,</span>
+    <span class="n">trace</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">max_trace_prob</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">min_trace_prob</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+    <span class="n">max_noise_rate</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-5</span><span class="p">,</span>
+    <span class="n">min_noise_rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">valid_noise_matrix</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">py</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">frac_zero_noise_rates</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""Generates a K x K noise matrix P(label=k_s|true_label=k_y) with trace</span>
 <span class="sd">    as the np.mean(np.diagonal(noise_matrix)).</span>
@@ -517,16 +527,17 @@
 
     <span class="k">if</span> <span class="n">valid_noise_matrix</span> <span class="ow">and</span> <span class="n">trace</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">"trace = </span><span class="si">{}</span><span class="s2">. trace &gt; 1 is necessary for a"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span> <span class="o">+</span>
-            <span class="s2">" valid noise matrix to be returned (valid_noise_matrix == True)"</span><span class="p">)</span>
+            <span class="s2">"trace = </span><span class="si">{}</span><span class="s2">. trace &gt; 1 is necessary for a"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">" valid noise matrix to be returned (valid_noise_matrix == True)"</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">valid_noise_matrix</span> <span class="ow">and</span> <span class="n">py</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">K</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">"py must be provided (not None) if the input parameter"</span> <span class="o">+</span>
-            <span class="s2">" valid_noise_matrix == True"</span><span class="p">)</span>
+            <span class="s2">"py must be provided (not None) if the input parameter"</span> <span class="o">+</span> <span class="s2">" valid_noise_matrix == True"</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">K</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'K must be &gt;= 2, but K = </span><span class="si">{}</span><span class="s1">.'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">K</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"K must be &gt;= 2, but K = </span><span class="si">{}</span><span class="s2">."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">K</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">max_iter</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -537,18 +548,21 @@
     <span class="c1"># Every 2 x 2 noise matrix with trace &gt; 1 is valid because p(y) is not used</span>
     <span class="k">if</span> <span class="n">K</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">frac_zero_noise_rates</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">:</span>  <span class="c1"># Include a single zero noise rate</span>
-            <span class="n">noise_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-                <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">trace</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)],</span>
-                <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="n">trace</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">],</span>
-            <span class="p">])</span>
-            <span class="k">return</span> <span class="n">noise_mat</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">noise_mat</span><span class="p">,</span>
-                                                                     <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">noise_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">trace</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)],</span>
+                    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">trace</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">],</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">noise_mat</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">noise_mat</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># No zero noise rates</span>
             <span class="n">diag</span> <span class="o">=</span> <span class="n">generate_n_rand_probabilities_that_sum_to_m</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">trace</span><span class="p">)</span>
-            <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-                <span class="p">[</span><span class="n">diag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">diag</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">diag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">diag</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-            <span class="p">])</span>
+            <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">[</span><span class="n">diag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">diag</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">diag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">diag</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
             <span class="k">return</span> <span class="n">noise_matrix</span>
 
             <span class="c1"># K &gt; 2</span>
@@ -569,31 +583,36 @@
         <span class="n">num_zero_noise_rates</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">K</span> <span class="o">*</span> <span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">frac_zero_noise_rates</span><span class="p">)</span>
         <span class="c1"># Remove zeros already in [1,0,..,0] columns</span>
         <span class="n">num_zero_noise_rates</span> <span class="o">-=</span> <span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="n">num_col_with_noise</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">num_zero_noise_rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">num_zero_noise_rates</span><span class="p">,</span>
-                                          <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Prevent negative</span>
-        <span class="n">num_zero_noise_rates_per_col</span> <span class="o">=</span> <span class="n">randomly_distribute_N_balls_into_K_bins</span><span class="p">(</span>
-            <span class="n">N</span><span class="o">=</span><span class="n">num_zero_noise_rates</span><span class="p">,</span>
-            <span class="n">K</span><span class="o">=</span><span class="n">num_col_with_noise</span><span class="p">,</span>
-            <span class="n">max_balls_per_bin</span><span class="o">=</span><span class="n">K</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="c1"># 2 = one for diagonal, and one to sum to 1</span>
-            <span class="n">min_balls_per_bin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="p">)</span> <span class="k">if</span> <span class="n">K</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># Special case when K == 2</span>
-        <span class="n">stack_nonzero_noise_rates_per_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-            <span class="n">K</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">num_zero_noise_rates_per_col</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">num_zero_noise_rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">num_zero_noise_rates</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Prevent negative</span>
+        <span class="n">num_zero_noise_rates_per_col</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">randomly_distribute_N_balls_into_K_bins</span><span class="p">(</span>
+                <span class="n">N</span><span class="o">=</span><span class="n">num_zero_noise_rates</span><span class="p">,</span>
+                <span class="n">K</span><span class="o">=</span><span class="n">num_col_with_noise</span><span class="p">,</span>
+                <span class="n">max_balls_per_bin</span><span class="o">=</span><span class="n">K</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="c1"># 2 = one for diagonal, and one to sum to 1</span>
+                <span class="n">min_balls_per_bin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">K</span> <span class="o">&gt;</span> <span class="mi">2</span>
+            <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="p">)</span>  <span class="c1"># Special case when K == 2</span>
+        <span class="n">stack_nonzero_noise_rates_per_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">K</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">num_zero_noise_rates_per_col</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="c1"># Randomly generate noise rates for columns with noise.</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">K</span><span class="p">)[</span><span class="n">nm_diagonal</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">]:</span>
             <span class="n">num_noise</span> <span class="o">=</span> <span class="n">stack_nonzero_noise_rates_per_col</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
             <span class="c1"># Generate num_noise noise_rates for the given column.</span>
-            <span class="n">noise_rates_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">generate_n_rand_probabilities_that_sum_to_m</span><span class="p">(</span>
-                <span class="n">n</span><span class="o">=</span><span class="n">num_noise</span><span class="p">,</span>
-                <span class="n">m</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="n">nm_diagonal</span><span class="p">[</span><span class="n">col</span><span class="p">],</span>
-                <span class="n">max_prob</span><span class="o">=</span><span class="n">max_noise_rate</span><span class="p">,</span>
-                <span class="n">min_prob</span><span class="o">=</span><span class="n">min_noise_rate</span><span class="p">,</span>
-            <span class="p">))</span>
+            <span class="n">noise_rates_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="n">generate_n_rand_probabilities_that_sum_to_m</span><span class="p">(</span>
+                    <span class="n">n</span><span class="o">=</span><span class="n">num_noise</span><span class="p">,</span>
+                    <span class="n">m</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="n">nm_diagonal</span><span class="p">[</span><span class="n">col</span><span class="p">],</span>
+                    <span class="n">max_prob</span><span class="o">=</span><span class="n">max_noise_rate</span><span class="p">,</span>
+                    <span class="n">min_prob</span><span class="o">=</span><span class="n">min_noise_rate</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
             <span class="c1"># Randomly select which rows of the noisy column to assign the</span>
             <span class="c1"># random noise rates</span>
-            <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="k">if</span> <span class="n">row</span> <span class="o">!=</span> <span class="n">col</span><span class="p">],</span>
-                                    <span class="n">num_noise</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="k">if</span> <span class="n">row</span> <span class="o">!=</span> <span class="n">col</span><span class="p">],</span> <span class="n">num_noise</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
             <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
                 <span class="n">noise_matrix</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">noise_rates_col</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_noise_matrix</span> <span class="ow">or</span> <span class="n">noise_matrix_is_valid</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">py</span><span class="p">):</span>
@@ -603,11 +622,11 @@
 
 
 <div class="viewcode-block" id="generate_n_rand_probabilities_that_sum_to_m"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.generate_n_rand_probabilities_that_sum_to_m">[docs]</a><span class="k">def</span> <span class="nf">generate_n_rand_probabilities_that_sum_to_m</span><span class="p">(</span>
-        <span class="n">n</span><span class="p">,</span>
-        <span class="n">m</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
-        <span class="n">max_prob</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">min_prob</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">n</span><span class="p">,</span>
+    <span class="n">m</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">max_prob</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">min_prob</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""When min_prob=0 and max_prob = 1.0, this method is deprecated.</span>
 <span class="sd">    Instead use np.random.dirichlet(np.ones(n))*m</span>
@@ -634,15 +653,29 @@
     <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">max_prob</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">m</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"max_prob must be greater or equal to m / n, but "</span> <span class="o">+</span>
-                         <span class="s2">"max_prob = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_prob</span><span class="p">)</span> <span class="o">+</span> <span class="s2">", m = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
-            <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="s2">", n = "</span> <span class="o">+</span>
-                         <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="s2">", m / n = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">m</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"max_prob must be greater or equal to m / n, but "</span>
+            <span class="o">+</span> <span class="s2">"max_prob = "</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_prob</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">", m = "</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">", n = "</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">", m / n = "</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">m</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="n">min_prob</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"min_prob must be less or equal to m / n, but "</span> <span class="o">+</span>
-                         <span class="s2">"max_prob = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_prob</span><span class="p">)</span> <span class="o">+</span> <span class="s2">", m = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
-            <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="s2">", n = "</span> <span class="o">+</span>
-                         <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="s2">", m / n = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">m</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"min_prob must be less or equal to m / n, but "</span>
+            <span class="o">+</span> <span class="s2">"max_prob = "</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">max_prob</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">", m = "</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">", n = "</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">", m / n = "</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">m</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+        <span class="p">)</span>
 
     <span class="c1"># When max_prob = 1, min_prob = 0, the next two lines are equivalent to:</span>
     <span class="c1">#   intermediate = np.sort(np.append(np.random.uniform(0, 1, n-1), [0, 1]))</span>
@@ -677,11 +710,11 @@
 
 
 <div class="viewcode-block" id="randomly_distribute_N_balls_into_K_bins"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.randomly_distribute_N_balls_into_K_bins">[docs]</a><span class="k">def</span> <span class="nf">randomly_distribute_N_balls_into_K_bins</span><span class="p">(</span>
-        <span class="n">N</span><span class="p">,</span>  <span class="c1"># int</span>
-        <span class="n">K</span><span class="p">,</span>  <span class="c1"># int</span>
-        <span class="o">*</span><span class="p">,</span>
-        <span class="n">max_balls_per_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">min_balls_per_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">N</span><span class="p">,</span>  <span class="c1"># int</span>
+    <span class="n">K</span><span class="p">,</span>  <span class="c1"># int</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">max_balls_per_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">min_balls_per_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""Returns a uniformly random numpy integer array of length N that sums</span>
 <span class="sd">    to K.</span>
@@ -706,12 +739,15 @@
     <span class="k">if</span> <span class="n">N</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_balls_per_bin</span><span class="p">:</span>
         <span class="n">N</span> <span class="o">=</span> <span class="n">max_balls_per_bin</span> <span class="o">*</span> <span class="n">K</span>
 
-    <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">generate_n_rand_probabilities_that_sum_to_m</span><span class="p">(</span>
-        <span class="n">n</span><span class="o">=</span><span class="n">K</span><span class="p">,</span>
-        <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">max_prob</span><span class="o">=</span><span class="n">max_balls_per_bin</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">),</span>
-        <span class="n">min_prob</span><span class="o">=</span><span class="n">min_balls_per_bin</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">),</span>
-    <span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span>
+        <span class="n">generate_n_rand_probabilities_that_sum_to_m</span><span class="p">(</span>
+            <span class="n">n</span><span class="o">=</span><span class="n">K</span><span class="p">,</span>
+            <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">max_prob</span><span class="o">=</span><span class="n">max_balls_per_bin</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">),</span>
+            <span class="n">min_prob</span><span class="o">=</span><span class="n">min_balls_per_bin</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="o">*</span> <span class="n">N</span>
+    <span class="p">)</span>
     <span class="k">while</span> <span class="nb">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">!=</span> <span class="n">N</span><span class="p">:</span>
         <span class="k">while</span> <span class="nb">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="n">arr</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">arr</span><span class="p">)]</span> <span class="o">-=</span> <span class="mi">1</span>
@@ -724,11 +760,11 @@
 
 
 <div class="viewcode-block" id="generate_noise_matrix"><a class="viewcode-back" href="../../cleanlab.html#cleanlab.noise_generation.generate_noise_matrix">[docs]</a><span class="k">def</span> <span class="nf">generate_noise_matrix</span><span class="p">(</span>
-        <span class="n">K</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
-        <span class="n">max_noise_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">frac_zero_noise_rates</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">K</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">max_noise_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">frac_zero_noise_rates</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""DEPRECATED - Use generate_noise_matrix_from_trace()</span>
 
@@ -755,8 +791,7 @@
 <span class="sd">      Print debugging output if set to True."""</span>
 
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="s2">"This method is deprecated. Use 'generate_noise_matrix_from_trace' "</span>
-        <span class="s2">"instead."</span><span class="p">,</span>
+        <span class="s2">"This method is deprecated. Use 'generate_noise_matrix_from_trace' "</span> <span class="s2">"instead."</span><span class="p">,</span>
         <span class="ne">DeprecationWarning</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -764,7 +799,7 @@
     <span class="c1"># P(label=k|true_label=k')</span>
     <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span> <span class="o">*</span> <span class="n">max_noise_rate</span>
 
-    <span class="c1"># Round all noise rates </span>
+    <span class="c1"># Round all noise rates</span>
     <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="c1"># Initialize all P(label=k|true_label=k) = 0</span>
@@ -800,8 +835,7 @@
         <span class="n">noise_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">col_sum</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">"Average trace of noise matrix is"</span><span class="p">,</span>
-              <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">K</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Average trace of noise matrix is"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">K</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">noise_matrix</span></div>
 </pre></div> 
