@@ -2,7 +2,7 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Classification" href="../cleanlab.html" /><link rel="prev" title="cleanlab documentation" href="../index.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="classification" href="../cleanlab/classification.html" /><link rel="prev" title="cleanlab documentation" href="../index.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/master/cleanlab/cleanlab_logo_only.png"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
         <title>Image Classification with PyTorch and Cleanlab - cleanlab</title>
@@ -154,25 +154,29 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
-<ul class="current">
+  <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Quickstart</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Image Classification with PyTorch and Cleanlab</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../cleanlab.html">Classification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cleanlab.html#latent-estimation">Latent Estimation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cleanlab.html#module-cleanlab.noise_generation">Noise Generation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cleanlab.html#baseline-methods">Baseline Methods</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cleanlab.html#module-cleanlab.coteaching">Co-Teaching</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cleanlab.html#latent-algebra">Latent Algebra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cleanlab.html#pruning">Pruning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cleanlab.html#module-cleanlab.util">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cleanlab.html#polyplex">Polyplex</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab.html#models">Models</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../cleanlab.models.html">CIFAR CNN</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cleanlab.models.html#mnist-pytorch">MNIST PyTorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/classification.html">classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/count.html">count</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/rank.html">rank</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/filter.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/noise_generation.html">noise_generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/coteaching.html">coteaching</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/example_models/index.html">example_models</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/example_models/cifar_cnn.html">cifar.cnn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/example_models/mnist_pytorch.html">mnist_pytorch</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/util.html">util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 </ul>
 </li>
 </ul>
@@ -677,40 +681,40 @@ div.rendered_html tbody tr:hover {
 <div class="highlight"><pre>
   epoch    train_loss    valid_acc    valid_loss     dur
 -------  ------------  -----------  ------------  ------
-      1        <span class="ansi-cyan-fg">2.0339</span>       <span class="ansi-green-fg">0.7044</span>        <span class="ansi-magenta-fg">1.6629</span>  1.1635
-      2        <span class="ansi-cyan-fg">1.3469</span>       <span class="ansi-green-fg">0.7871</span>        <span class="ansi-magenta-fg">1.0263</span>  1.1394
-      3        <span class="ansi-cyan-fg">0.9406</span>       <span class="ansi-green-fg">0.8240</span>        <span class="ansi-magenta-fg">0.7592</span>  1.1365
-      4        <span class="ansi-cyan-fg">0.7617</span>       <span class="ansi-green-fg">0.8426</span>        <span class="ansi-magenta-fg">0.6331</span>  1.1335
-      5        <span class="ansi-cyan-fg">0.6680</span>       <span class="ansi-green-fg">0.8547</span>        <span class="ansi-magenta-fg">0.5625</span>  1.1347
-      6        <span class="ansi-cyan-fg">0.6065</span>       <span class="ansi-green-fg">0.8652</span>        <span class="ansi-magenta-fg">0.5146</span>  1.1331
-      7        <span class="ansi-cyan-fg">0.5637</span>       <span class="ansi-green-fg">0.8718</span>        <span class="ansi-magenta-fg">0.4809</span>  1.1362
-      8        <span class="ansi-cyan-fg">0.5302</span>       <span class="ansi-green-fg">0.8757</span>        <span class="ansi-magenta-fg">0.4550</span>  1.1330
-      9        <span class="ansi-cyan-fg">0.5072</span>       <span class="ansi-green-fg">0.8780</span>        <span class="ansi-magenta-fg">0.4367</span>  1.1336
-     10        <span class="ansi-cyan-fg">0.4817</span>       <span class="ansi-green-fg">0.8833</span>        <span class="ansi-magenta-fg">0.4197</span>  1.1381
+      1        <span class="ansi-cyan-fg">1.9878</span>       <span class="ansi-green-fg">0.7034</span>        <span class="ansi-magenta-fg">1.5819</span>  1.1670
+      2        <span class="ansi-cyan-fg">1.2730</span>       <span class="ansi-green-fg">0.7970</span>        <span class="ansi-magenta-fg">0.9735</span>  1.1340
+      3        <span class="ansi-cyan-fg">0.8984</span>       <span class="ansi-green-fg">0.8331</span>        <span class="ansi-magenta-fg">0.7329</span>  1.1377
+      4        <span class="ansi-cyan-fg">0.7387</span>       <span class="ansi-green-fg">0.8489</span>        <span class="ansi-magenta-fg">0.6191</span>  1.1282
+      5        <span class="ansi-cyan-fg">0.6469</span>       <span class="ansi-green-fg">0.8594</span>        <span class="ansi-magenta-fg">0.5525</span>  1.1338
+      6        <span class="ansi-cyan-fg">0.5903</span>       <span class="ansi-green-fg">0.8653</span>        <span class="ansi-magenta-fg">0.5086</span>  1.1291
+      7        <span class="ansi-cyan-fg">0.5493</span>       <span class="ansi-green-fg">0.8703</span>        <span class="ansi-magenta-fg">0.4767</span>  1.1303
+      8        <span class="ansi-cyan-fg">0.5187</span>       <span class="ansi-green-fg">0.8749</span>        <span class="ansi-magenta-fg">0.4528</span>  1.1225
+      9        <span class="ansi-cyan-fg">0.4946</span>       <span class="ansi-green-fg">0.8786</span>        <span class="ansi-magenta-fg">0.4347</span>  1.1191
+     10        <span class="ansi-cyan-fg">0.4752</span>       <span class="ansi-green-fg">0.8802</span>        <span class="ansi-magenta-fg">0.4185</span>  1.1255
   epoch    train_loss    valid_acc    valid_loss     dur
 -------  ------------  -----------  ------------  ------
-      1        <span class="ansi-cyan-fg">2.0279</span>       <span class="ansi-green-fg">0.7289</span>        <span class="ansi-magenta-fg">1.6378</span>  1.1291
-      2        <span class="ansi-cyan-fg">1.3278</span>       <span class="ansi-green-fg">0.8073</span>        <span class="ansi-magenta-fg">0.9902</span>  1.1313
-      3        <span class="ansi-cyan-fg">0.9288</span>       <span class="ansi-green-fg">0.8384</span>        <span class="ansi-magenta-fg">0.7250</span>  1.1290
-      4        <span class="ansi-cyan-fg">0.7558</span>       <span class="ansi-green-fg">0.8538</span>        <span class="ansi-magenta-fg">0.6044</span>  1.1297
-      5        <span class="ansi-cyan-fg">0.6635</span>       <span class="ansi-green-fg">0.8665</span>        <span class="ansi-magenta-fg">0.5343</span>  1.1306
-      6        <span class="ansi-cyan-fg">0.6031</span>       <span class="ansi-green-fg">0.8752</span>        <span class="ansi-magenta-fg">0.4871</span>  1.1304
-      7        <span class="ansi-cyan-fg">0.5613</span>       <span class="ansi-green-fg">0.8802</span>        <span class="ansi-magenta-fg">0.4539</span>  1.1311
-      8        <span class="ansi-cyan-fg">0.5284</span>       <span class="ansi-green-fg">0.8865</span>        <span class="ansi-magenta-fg">0.4283</span>  1.1328
-      9        <span class="ansi-cyan-fg">0.5026</span>       <span class="ansi-green-fg">0.8909</span>        <span class="ansi-magenta-fg">0.4084</span>  1.1310
-     10        <span class="ansi-cyan-fg">0.4813</span>       <span class="ansi-green-fg">0.8940</span>        <span class="ansi-magenta-fg">0.3927</span>  1.1314
+      1        <span class="ansi-cyan-fg">1.9848</span>       <span class="ansi-green-fg">0.7208</span>        <span class="ansi-magenta-fg">1.5634</span>  1.1346
+      2        <span class="ansi-cyan-fg">1.2682</span>       <span class="ansi-green-fg">0.8102</span>        <span class="ansi-magenta-fg">0.9499</span>  1.1367
+      3        <span class="ansi-cyan-fg">0.8972</span>       <span class="ansi-green-fg">0.8414</span>        <span class="ansi-magenta-fg">0.7079</span>  1.1449
+      4        <span class="ansi-cyan-fg">0.7385</span>       <span class="ansi-green-fg">0.8579</span>        <span class="ansi-magenta-fg">0.5930</span>  1.1303
+      5        <span class="ansi-cyan-fg">0.6454</span>       <span class="ansi-green-fg">0.8685</span>        <span class="ansi-magenta-fg">0.5257</span>  1.1356
+      6        <span class="ansi-cyan-fg">0.5862</span>       <span class="ansi-green-fg">0.8780</span>        <span class="ansi-magenta-fg">0.4807</span>  1.1198
+      7        <span class="ansi-cyan-fg">0.5462</span>       <span class="ansi-green-fg">0.8834</span>        <span class="ansi-magenta-fg">0.4486</span>  1.1299
+      8        <span class="ansi-cyan-fg">0.5143</span>       <span class="ansi-green-fg">0.8879</span>        <span class="ansi-magenta-fg">0.4248</span>  1.1246
+      9        <span class="ansi-cyan-fg">0.4911</span>       <span class="ansi-green-fg">0.8914</span>        <span class="ansi-magenta-fg">0.4055</span>  1.1368
+     10        <span class="ansi-cyan-fg">0.4714</span>       <span class="ansi-green-fg">0.8936</span>        <span class="ansi-magenta-fg">0.3913</span>  1.1415
   epoch    train_loss    valid_acc    valid_loss     dur
 -------  ------------  -----------  ------------  ------
-      1        <span class="ansi-cyan-fg">2.0413</span>       <span class="ansi-green-fg">0.7194</span>        <span class="ansi-magenta-fg">1.6563</span>  1.1319
-      2        <span class="ansi-cyan-fg">1.3672</span>       <span class="ansi-green-fg">0.8038</span>        <span class="ansi-magenta-fg">1.0069</span>  1.1395
-      3        <span class="ansi-cyan-fg">0.9668</span>       <span class="ansi-green-fg">0.8429</span>        <span class="ansi-magenta-fg">0.7349</span>  1.1331
-      4        <span class="ansi-cyan-fg">0.7904</span>       <span class="ansi-green-fg">0.8599</span>        <span class="ansi-magenta-fg">0.6080</span>  1.1324
-      5        <span class="ansi-cyan-fg">0.6916</span>       <span class="ansi-green-fg">0.8710</span>        <span class="ansi-magenta-fg">0.5350</span>  1.1387
-      6        <span class="ansi-cyan-fg">0.6295</span>       <span class="ansi-green-fg">0.8794</span>        <span class="ansi-magenta-fg">0.4871</span>  1.1341
-      7        <span class="ansi-cyan-fg">0.5866</span>       <span class="ansi-green-fg">0.8858</span>        <span class="ansi-magenta-fg">0.4532</span>  1.1406
-      8        <span class="ansi-cyan-fg">0.5502</span>       <span class="ansi-green-fg">0.8923</span>        <span class="ansi-magenta-fg">0.4263</span>  1.1395
-      9        <span class="ansi-cyan-fg">0.5242</span>       <span class="ansi-green-fg">0.8951</span>        <span class="ansi-magenta-fg">0.4059</span>  1.1370
-     10        <span class="ansi-cyan-fg">0.5070</span>       <span class="ansi-green-fg">0.8982</span>        <span class="ansi-magenta-fg">0.3895</span>  1.1594
+      1        <span class="ansi-cyan-fg">1.9985</span>       <span class="ansi-green-fg">0.7324</span>        <span class="ansi-magenta-fg">1.5782</span>  1.1370
+      2        <span class="ansi-cyan-fg">1.2995</span>       <span class="ansi-green-fg">0.8133</span>        <span class="ansi-magenta-fg">0.9585</span>  1.1344
+      3        <span class="ansi-cyan-fg">0.9271</span>       <span class="ansi-green-fg">0.8464</span>        <span class="ansi-magenta-fg">0.7130</span>  1.1338
+      4        <span class="ansi-cyan-fg">0.7660</span>       <span class="ansi-green-fg">0.8633</span>        <span class="ansi-magenta-fg">0.5948</span>  1.1344
+      5        <span class="ansi-cyan-fg">0.6690</span>       <span class="ansi-green-fg">0.8753</span>        <span class="ansi-magenta-fg">0.5254</span>  1.1373
+      6        <span class="ansi-cyan-fg">0.6127</span>       <span class="ansi-green-fg">0.8823</span>        <span class="ansi-magenta-fg">0.4791</span>  1.1357
+      7        <span class="ansi-cyan-fg">0.5719</span>       <span class="ansi-green-fg">0.8872</span>        <span class="ansi-magenta-fg">0.4470</span>  1.1356
+      8        <span class="ansi-cyan-fg">0.5397</span>       <span class="ansi-green-fg">0.8915</span>        <span class="ansi-magenta-fg">0.4224</span>  1.1343
+      9        <span class="ansi-cyan-fg">0.5139</span>       <span class="ansi-green-fg">0.8950</span>        <span class="ansi-magenta-fg">0.4023</span>  1.1345
+     10        <span class="ansi-cyan-fg">0.4936</span>       <span class="ansi-green-fg">0.8980</span>        <span class="ansi-magenta-fg">0.3869</span>  1.1317
 </pre></div></div>
 </div>
 </div>
@@ -748,10 +752,10 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Cleanlab found 1254 potential label errors.
+Cleanlab found 1246 potential label errors.
 Here are the indices of the top 15 most likely ones:
- [24798 18598  8729 15942 20820  1352 31134 61790 53216 20735 12679 59915
- 39457 55739 50239]
+ [24798  8729 18598 61790  7010 55739 15942 31134 12679 59915  1352 20820
+ 59731 20735 39457]
 </pre></div></div>
 </div>
 <p>We’ll define a new <code class="docutils literal notranslate"><span class="pre">plot_examples</span></code> function to display any examples in a subplot conveniently.</p>
@@ -862,12 +866,12 @@ Matplotlib is building the font cache; this may take a moment.
       <footer>
          
         <div class="related-pages">
-          <a class="next-page" href="../cleanlab.html">
+          <a class="next-page" href="../cleanlab/classification.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Classification</div>
+                <div class="title">classification</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
