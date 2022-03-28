@@ -329,6 +329,11 @@ meaning it must define four functions:</p>
 contains the contains targets formatted as <code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">...,</span> <span class="pre">K-1</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">sample_weight</span></code> (of length <em>n</em>) re-weights examples in the loss function while
 training.</p>
+<p>Furthermore, your estimator should be correctly clonable via
+<cite>sklearn.base.clone</cite>: cleanlab internally creates multiple instances of your
+estimator, and if you e.g. manually wrap a PyTorch model, you must ensure that
+every call to your estimator’s <cite>__init__()</cite> creates an independent instance of
+the model.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>There are two new notions of confidence in this package:</p>
