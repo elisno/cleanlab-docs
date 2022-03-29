@@ -339,7 +339,6 @@
 <span class="sd">every example. You can then do something like: `np.argsort(label_quality_score)` to obtain ranked</span>
 <span class="sd">indices of individual data.</span>
 
-<span class="sd">If you aren't sure which method to use, try `get_normalized_margin_for_each_label()`.</span>
 <span class="sd">"""</span>
 
 
@@ -357,13 +356,12 @@
     <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">rank_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"normalized_margin"</span><span class="p">,</span>
+    <span class="n">rank_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"self_confidence"</span><span class="p">,</span>
     <span class="n">rank_by_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
     <span class="sd">"""Sorts label issues by label quality score.</span>
 
-<span class="sd">    Default label quality score is "normalized margin".</span>
-<span class="sd">    See https://arxiv.org/pdf/1810.05369.pdf (eqn 2.2)</span>
+<span class="sd">    Default label quality score is "self_confidence".</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -414,7 +412,7 @@
     <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"normalized_margin"</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"self_confidence"</span><span class="p">,</span>
     <span class="n">adjust_pred_probs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
     <span class="sd">"""Returns label quality scores for each datapoint.</span>
@@ -439,7 +437,7 @@
 <span class="sd">      The columns must be ordered such that these probabilities correspond to class 0,1,2,...</span>
 <span class="sd">      `pred_probs` should have been computed using 3 (or higher) fold cross-validation.</span>
 
-<span class="sd">    method : {"self_confidence", "normalized_margin", "confidence_weighted_entropy"}, default="normalized_margin"</span>
+<span class="sd">    method : {"self_confidence", "normalized_margin", "confidence_weighted_entropy"}, default="self_confidence"</span>
 <span class="sd">      Label quality scoring method.</span>
 
 <span class="sd">      Letting `k := labels[i]` and `P := pred_probs[i]` denote the given label and predicted class-probabilities</span>
@@ -523,7 +521,7 @@
     <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
     <span class="n">pred_probs_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"normalized_margin"</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"self_confidence"</span><span class="p">,</span>
     <span class="n">adjust_pred_probs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">weight_ensemble_members_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"accuracy"</span><span class="p">,</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
@@ -552,8 +550,8 @@
 <span class="sd">      expected by the `get_label_quality_scores()` method.</span>
 <span class="sd">      Each element of pred_probs_list corresponds to the predictions from one model for all datapoints.</span>
 
-<span class="sd">    method : {"self_confidence", "normalized_margin", "confidence_weighted_entropy"}, default="normalized_margin"</span>
-<span class="sd">      Label quality scoring method. Default is "normalized_margin".</span>
+<span class="sd">    method : {"self_confidence", "normalized_margin", "confidence_weighted_entropy"}, default="self_confidence"</span>
+<span class="sd">      Label quality scoring method. Default is "self_confidence".</span>
 <span class="sd">      See `get_label_quality_scores()` for scenarios on when to use each method.</span>
 
 <span class="sd">      .. seealso::</span>
