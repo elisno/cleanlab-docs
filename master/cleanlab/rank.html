@@ -321,6 +321,12 @@ as potential label issues/errors, the methods in the <cite>rank</cite> module ca
 of the dataset you choose (including the entire dataset) and provide a <cite>label quality score</cite> for
 every example. You can then do something like: <cite>np.argsort(label_quality_score)</cite> to obtain ranked
 indices of individual data.</p>
+<p>CAUTION: These label quality scores are computed based on <cite>pred_probs</cite> from your model that must be out-of-sample!
+You should never provide predictions on the same datapoints used to train the model,
+as these will be overfit and unsuitable for finding label-errors.
+To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use cross-validation.
+Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating
+labels in data that was previously held-out.</p>
 <p><strong>Functions:</strong></p>
 <div class="table-wrapper"><table class="longtable docutils align-default">
 <colgroup>
@@ -389,7 +395,7 @@ Take the average of the scores with the chosen weighting scheme determined by we
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Labels in the same format expected by the <cite>get_label_quality_scores()</cite> method.</p></li>
 <li><p><strong>pred_probs_list</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(shape</span> <span class="pre">(N</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code>) – Each element in this list should be an array of pred_probs in the same format
 expected by the <cite>get_label_quality_scores()</cite> method.
-Each element of pred_probs_list corresponds to the predictions from one model for all datapoints.</p></li>
+Each element of <cite>pred_probs_list</cite> corresponds to the predictions from one model for all datapoints.</p></li>
 <li><p><strong>method</strong> (<code class="docutils literal notranslate"><span class="pre">{"self_confidence",</span> <span class="pre">"normalized_margin",</span> <span class="pre">"confidence_weighted_entropy"}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">"self_confidence"</span></code>) – <p>Label quality scoring method. Default is “self_confidence”.
 See <cite>get_label_quality_scores()</cite> for scenarios on when to use each method.</p>
 <div class="admonition seealso">
@@ -435,11 +441,17 @@ where lower scores indicate labels less likely to be correct.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – A discrete vector of noisy labels, i.e. some labels may be erroneous.
 <em>Format requirements</em>: for dataset with K classes, labels must be in {0,1,…,K-1}.</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(shape</span> <span class="pre">(N</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code>) – P(label=k|x) is a matrix with K model-predicted probabilities.
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(shape</span> <span class="pre">(N</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code>) – <p>P(label=k|x) is a matrix with K model-predicted probabilities.
 Each row of this matrix corresponds to an example x and contains the model-predicted
 probabilities that x belongs to each possible class.
-The columns must be ordered such that these probabilities correspond to class 0,1,2,…
-<cite>pred_probs</cite> should have been computed using 3 (or higher) fold cross-validation.</p></li>
+The columns must be ordered such that these probabilities correspond to class 0,1,2,…</p>
+<p>CAUTION: <cite>pred_probs</cite> from your model must be out-of-sample!
+You should never provide predictions on the same datapoints used to train the model,
+as these will be overfit and unsuitable for finding label-errors.
+To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use cross-validation.
+Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating
+labels in data that was previously held-out.</p>
+</p></li>
 <li><p><strong>method</strong> (<code class="docutils literal notranslate"><span class="pre">{"self_confidence",</span> <span class="pre">"normalized_margin",</span> <span class="pre">"confidence_weighted_entropy"}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">"self_confidence"</span></code>) – <p>Label quality scoring method.</p>
 <p>Letting <cite>k := labels[i]</cite> and <cite>P := pred_probs[i]</cite> denote the given label and predicted class-probabilities
 for the <a href="#id1"><span class="problematic" id="id2">`</span></a>i`th datapoint, its score can either be:
