@@ -676,7 +676,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>To identify label issues, <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> requires a probabilistic prediction from your model for every datapoint. However, these predictions will be <em>overfitted</em> (and thus unreliable) for datapoints the model was previously trained on. <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> is intended to only be used with <strong>out-of-sample</strong> predicted probabilities, i.e., on datapoints held out from the model during the training.</p>
+<p>To identify label issues, <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> requires a probabilistic prediction from your model for every datapoint. However, these predictions will be <em>overfitted</em> (and thus unreliable) for examples the model was previously trained on. <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> is intended to only be used with <strong>out-of-sample</strong> predicted probabilities, i.e., on examples held out from the model during the training.</p>
 <p>K-fold cross-validation is a straightforward way to produce out-of-sample predicted probabilities for every datapoint in the dataset by training K copies of our model on different data subsets and using each copy to predict on the subset of data it did not see during training. An additional benefit of cross-validation is that it provides a more reliable evaluation of our model than a single training/validation split. We can obtain cross-validated out-of-sample predicted probabilities from any
 classifier via a simple scikit-learn wrapper:</p>
 <div class="nbinput nblast docutils container">
@@ -897,7 +897,7 @@ Cleanlab found 173 potential label errors.
 <p>5 rows × 21 columns</p>
 </div></div>
 </div>
-<p>These datapoints appear the most suspicious to our model and should be carefully re-examined. Perhaps the original annotators missed something when deciding on the labels for these individuals.</p>
+<p>These examples appear the most suspicious to our model and should be carefully re-examined. Perhaps the original annotators missed something when deciding on the labels for these individuals.</p>
 </div>
 <div class="section" id="5.-Train-a-more-robust-model-from-noisy-labels">
 <h2><strong>5. Train a more robust model from noisy labels</strong><a class="headerlink" href="#5.-Train-a-more-robust-model-from-noisy-labels" title="Permalink to this headline">#</a></h2>
@@ -977,9 +977,10 @@ Test acuracy of original logistic regression: 0.736
 <div class="highlight"><pre>
 Computing out of sample predicted probabilites via 5-fold cross validation. May take a while ...
 Using predicted probabilities to identify label issues ...
-Pruning 120 datapoints with label issues ...
-Remaining clean data has 630 datapoints.
-Assigning sample weights for final training based on estimated label quality ...
+Identified 120 examples with label issues.
+Pruning 120 examples with label issues ...
+Remaining clean data has 630 examples.
+Assigning sample weights for final training based on estimated label quality.
 Fitting final model on the clean data ...
 </pre></div></div>
 </div>
