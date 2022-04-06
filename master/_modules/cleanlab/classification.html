@@ -337,7 +337,7 @@
 <span class="sd">"""</span>
 <span class="sd">cleanlab package for multiclass, multi-label learning with noisy labels for any dataset and model.</span>
 
-<span class="sd">The LearningWithNoisyLabels class wraps around an instance of a</span>
+<span class="sd">The CleanLearning class wraps around an instance of a</span>
 <span class="sd">classifier class. Your classifier must adhere to the sklearn template,</span>
 <span class="sd">meaning it must define four functions:</span>
 
@@ -371,12 +371,12 @@
 
 <span class="sd">Examples</span>
 <span class="sd">--------</span>
-<span class="sd">&gt;&gt;&gt; from cleanlab.classification import LearningWithNoisyLabels</span>
+<span class="sd">&gt;&gt;&gt; from cleanlab.classification import CleanLearning</span>
 <span class="sd">&gt;&gt;&gt; from sklearn.linear_model import LogisticRegression as LogReg</span>
-<span class="sd">&gt;&gt;&gt; rp = LearningWithNoisyLabels(clf=LogReg()) # Pass in any classifier.</span>
-<span class="sd">&gt;&gt;&gt; rp.fit(X_train, labels_maybe_with_errors)</span>
+<span class="sd">&gt;&gt;&gt; cl = CleanLearning(clf=LogReg()) # Pass in any classifier.</span>
+<span class="sd">&gt;&gt;&gt; cl.fit(X_train, labels_maybe_with_errors)</span>
 <span class="sd">&gt;&gt;&gt; # Estimate the predictions as if you had trained without label issues.</span>
-<span class="sd">&gt;&gt;&gt; pred = rp.predict(X_test)</span>
+<span class="sd">&gt;&gt;&gt; pred = cl.predict(X_test)</span>
 
 <span class="sd">The easiest way to use any model (Tensorflow, caffe2, PyTorch, etc.)</span>
 <span class="sd">with ``cleanlab`` is to wrap it in a class that inherits</span>
@@ -446,8 +446,10 @@
 <span class="kn">from</span> <span class="nn">cleanlab</span> <span class="kn">import</span> <span class="nb">filter</span>
 
 
-<div class="viewcode-block" id="LearningWithNoisyLabels"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.LearningWithNoisyLabels">[docs]</a><span class="k">class</span> <span class="nc">LearningWithNoisyLabels</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>  <span class="c1"># Inherits sklearn classifier</span>
-    <span class="sd">"""Automated and robust learning with noisy labels using any dataset and any model. This class</span>
+<div class="viewcode-block" id="CleanLearning"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning">[docs]</a><span class="k">class</span> <span class="nc">CleanLearning</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>  <span class="c1"># Inherits sklearn classifier</span>
+    <span class="sd">"""CleanLearning = Machine Learning with cleaned data (even if with messy, error-prone data).</span>
+
+<span class="sd">    Automated and robust learning with noisy labels using any dataset and any model. This class</span>
 <span class="sd">    trains a model `clf` with error-prone, noisy labels as if the model had been instead trained</span>
 <span class="sd">    on a dataset with perfect labels. It achieves this by cleaning out the error and providing</span>
 <span class="sd">    cleaned data while training.</span>
@@ -537,7 +539,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">clf_kwargs</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="LearningWithNoisyLabels.fit"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.LearningWithNoisyLabels.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
+<div class="viewcode-block" id="CleanLearning.fit"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">X</span><span class="p">,</span>
         <span class="n">labels</span><span class="p">,</span>
@@ -601,7 +603,7 @@
 
 <span class="sd">        label_issues_mask : np.array&lt;bool&gt;, default = None</span>
 <span class="sd">          A boolean mask for the entire dataset such as those returned by:</span>
-<span class="sd">          `LearningWithNoisyLabels.find_label_issues()` or `filter.find_label_issues()`.</span>
+<span class="sd">          `CleanLearning.find_label_issues()` or `filter.find_label_issues()`.</span>
 <span class="sd">          If specified, examples corresponding to False entries will be pruned from the data before</span>
 <span class="sd">          training the `clf` model.</span>
 <span class="sd">          Providing this argument significantly reduces the time this method takes to run by</span>
@@ -683,7 +685,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span></div>
 
-<div class="viewcode-block" id="LearningWithNoisyLabels.predict"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.LearningWithNoisyLabels.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="CleanLearning.predict"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""Returns a vector of predictions.</span>
 
 <span class="sd">        Parameters</span>
@@ -693,7 +695,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LearningWithNoisyLabels.predict_proba"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.LearningWithNoisyLabels.predict_proba">[docs]</a>    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="CleanLearning.predict_proba"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.predict_proba">[docs]</a>    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""Returns a vector of probabilities P(true_label=k)</span>
 <span class="sd">        for each example in X.</span>
 
@@ -704,7 +706,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LearningWithNoisyLabels.score"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.LearningWithNoisyLabels.score">[docs]</a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="CleanLearning.score"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.score">[docs]</a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""Returns the clf's score on a test set X with labels y.</span>
 <span class="sd">        Uses the model/clf's default scoring function.</span>
 
@@ -733,7 +735,7 @@
                 <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="LearningWithNoisyLabels.find_label_issues"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.LearningWithNoisyLabels.find_label_issues">[docs]</a>    <span class="k">def</span> <span class="nf">find_label_issues</span><span class="p">(</span>
+<div class="viewcode-block" id="CleanLearning.find_label_issues"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.find_label_issues">[docs]</a>    <span class="k">def</span> <span class="nf">find_label_issues</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -748,17 +750,17 @@
 <span class="sd">        and then calls `filter.find_label_issues(labels, pred_probs)` to find label issues.</span>
 <span class="sd">        The resulting label_issues_mask is saved in self.label_issues_mask and returned.</span>
 <span class="sd">        Kwargs for `filter.find_label_issues` must have already been specified</span>
-<span class="sd">        in the initialization of LearningWithNoisyLabels, not here.</span>
+<span class="sd">        in the initialization of CleanLearning, not here.</span>
 
 <span class="sd">        Unlike `filter.find_label_issues`, which requires `pred_probs`,</span>
 <span class="sd">        this method only requires a classifier and it can do the cross-validation training for you.</span>
 <span class="sd">        Both methods return the same boolean mask that identifies which examples have label issues.</span>
 
 <span class="sd">        Note: This method computes the label issues from scratch, to access previously-computed</span>
-<span class="sd">        label issues from this LearningWithNoisyLabels instance, use `self.get_label_issues()`.</span>
+<span class="sd">        label issues from this CleanLearning instance, use `self.get_label_issues()`.</span>
 
-<span class="sd">        This is the method called to find label issues inside `LearningWithNoisyLabels.fit()`.</span>
-<span class="sd">        For descriptions of the arguments, see `LearningWithNoisyLabels.fit()` documentation.</span>
+<span class="sd">        This is the method called to find label issues inside `CleanLearning.fit()`.</span>
+<span class="sd">        For descriptions of the arguments, see `CleanLearning.fit()` documentation.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -790,7 +792,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cv_n_folds</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"Need more data from each class for cross-validation. "</span>
-                <span class="s2">"Try decreasing `cv_n_folds` (eg. to 2,3) in LearningWithNoisyLabels()"</span>
+                <span class="s2">"Try decreasing `cv_n_folds` (eg. to 2,3) in CleanLearning()"</span>
             <span class="p">)</span>
         <span class="c1"># 'ps' is p(labels=k)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
@@ -905,7 +907,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span></div>
 
-<div class="viewcode-block" id="LearningWithNoisyLabels.get_label_issues"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.LearningWithNoisyLabels.get_label_issues">[docs]</a>    <span class="k">def</span> <span class="nf">get_label_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CleanLearning.get_label_issues"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.get_label_issues">[docs]</a>    <span class="k">def</span> <span class="nf">get_label_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Accessor. Returns `self.label_issues_mask` if previously already computed."""</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -917,14 +919,14 @@
 
     <span class="k">def</span> <span class="nf">_process_label_issues_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">find_label_issues_kwargs</span><span class="p">):</span>
         <span class="sd">"""Private helper function that is used to modify the arguments to passed to</span>
-<span class="sd">        filter.find_label_issues via the LearningWithNoisyLabels.find_label_issues class. Because</span>
+<span class="sd">        filter.find_label_issues via the CleanLearning.find_label_issues class. Because</span>
 <span class="sd">        this is a classification task, some default parameters change and some errors should</span>
 <span class="sd">        be throne if certain unsupported (for classification) arguments are passed in. This method</span>
 <span class="sd">        handles those parameters inside of find_label_issues_kwargs and throws an error if you pass</span>
 <span class="sd">        in a kwargs argument to filter.find_label_issues that is not supported by the</span>
-<span class="sd">        LearningWithNoisyLabels.find_label_issues() function."""</span>
+<span class="sd">        CleanLearning.find_label_issues() function."""</span>
 
-        <span class="c1"># Defaults for LearningWithNoisyLabels.find_label_issues() vs filter.find_label_issues()</span>
+        <span class="c1"># Defaults for CleanLearning.find_label_issues() vs filter.find_label_issues()</span>
         <span class="n">DEFAULT_FIND_LABEL_ISSUES_KWARGS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"min_examples_per_class"</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
         <span class="n">find_label_issues_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">DEFAULT_FIND_LABEL_ISSUES_KWARGS</span><span class="p">,</span> <span class="o">**</span><span class="n">find_label_issues_kwargs</span><span class="p">}</span>
         <span class="c1"># Todo: support multi_label classification in the future and remove multi_label from list</span>
@@ -933,9 +935,9 @@
             <span class="k">if</span> <span class="n">unsupported_kwarg</span> <span class="ow">in</span> <span class="n">find_label_issues_kwargs</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">"These kwargs of `find_label_issues()` are not supported "</span>
-                    <span class="sa">f</span><span class="s2">"for `LearningWithNoisyLabels`: </span><span class="si">{</span><span class="n">unsupported_kwargs</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"for `CleanLearning`: </span><span class="si">{</span><span class="n">unsupported_kwargs</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
-        <span class="c1"># LearningWithNoisyLabels will use this to compute the noise_matrix and inverse_noise_matrix</span>
+        <span class="c1"># CleanLearning will use this to compute the noise_matrix and inverse_noise_matrix</span>
         <span class="k">if</span> <span class="s2">"confident_joint"</span> <span class="ow">in</span> <span class="n">find_label_issues_kwargs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span> <span class="o">=</span> <span class="n">find_label_issues_kwargs</span><span class="p">[</span><span class="s2">"confident_joint"</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">find_label_issues_kwargs</span> <span class="o">=</span> <span class="n">find_label_issues_kwargs</span></div>
