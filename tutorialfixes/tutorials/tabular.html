@@ -1004,16 +1004,6 @@ Test acuracy of cleanlab's logistic regression: 0.744
 </div>
 <p>We can see that the test set accuracy slightly improved as a result of the data cleaning. Note that this will not always be the case, especially when we evaluate on test data that are themselves noisy. The best practice is to run <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> to identify potential label issues and then manually review them, before blindly trusting any accuracy metrics. In particular, the most effort should be made to ensure high-quality test data, which is supposed to reflect the expected performance of our
 model during deployment.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Hidden code cell to check that cleanlab has improved prediction accuracy</span>
-<span class="k">if</span> <span class="n">acc_og</span> <span class="o">&gt;=</span> <span class="n">acc_cl</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Cleanlab training failed to improve model accuracy."</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
 </div>
 </div>
  
