@@ -433,26 +433,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
-<span class="sd">    confident_joint : np.array (shape (K, K))</span>
-<span class="sd">        A K,K integer matrix of count(label=k, true_label=k). Estimates a confident subset of</span>
-<span class="sd">        the joint distribution of the noisy and true labels P_{labels,y}.</span>
-<span class="sd">        Each entry in the matrix contains the number of examples confidently</span>
-<span class="sd">        counted into every pair (label=j, true_label=k) classes.</span>
-
-<span class="sd">    labels : np.array</span>
-<span class="sd">        A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">        *Format requirements*: for dataset with K classes, labels must be in {0,1,...,K-1}.</span>
-
-<span class="sd">    multi_label : bool</span>
-<span class="sd">        If true, labels should be an iterable (e.g. list) of iterables, containing a</span>
-<span class="sd">        list of labels for each example, instead of just a single label.</span>
-<span class="sd">        The MAJOR DIFFERENCE in how this is calibrated versus single_label, is the total number of</span>
-<span class="sd">        errors considered is based on the number of labels, not the number of examples. So, the</span>
-<span class="sd">        calibrated confident_joint will sum to the number of total labels.</span>
-<span class="sd">        The multi-label setting supports classification tasks where an example has 1 or more labels.</span>
-<span class="sd">        Example of a multi-labeled `labels` input: [[0,1], [1], [0,2], [0,1,2], [0], [1], ...]</span>
-
+<span class="sd">    See `cleanlab.count.estimate_joint` docstring.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -480,7 +461,31 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    See `cleanlab.count.calibrate_confident_joint` docstring.</span>
+<span class="sd">    labels : np.array</span>
+<span class="sd">        A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
+<span class="sd">        *Format requirements*: for dataset with K classes, labels must be in {0,1,...,K-1}.</span>
+
+<span class="sd">    pred_probs : np.array (shape (N, K))</span>
+<span class="sd">        P(label=k|x) is a matrix with K model-predicted probabilities.</span>
+<span class="sd">        Each row of this matrix corresponds to an example `x` and contains the model-predicted</span>
+<span class="sd">        probabilities that `x` belongs to each possible class.</span>
+<span class="sd">        The columns must be ordered such that these probabilities correspond to class 0,1,2,...</span>
+<span class="sd">        `pred_probs` should have been computed using 3 (or higher) fold cross-validation.</span>
+
+<span class="sd">    confident_joint : np.array (shape (K, K))</span>
+<span class="sd">        A K,K integer matrix of count(label=k, true_label=k). Estimates a confident subset of</span>
+<span class="sd">        the joint distribution of the noisy and true labels P_{labels,y}.</span>
+<span class="sd">        Each entry in the matrix contains the number of examples confidently</span>
+<span class="sd">        counted into every pair (label=j, true_label=k) classes.</span>
+
+<span class="sd">    multi_label : bool</span>
+<span class="sd">        If true, labels should be an iterable (e.g. list) of iterables, containing a</span>
+<span class="sd">        list of labels for each example, instead of just a single label.</span>
+<span class="sd">        The MAJOR DIFFERENCE in how this is calibrated versus single_label, is the total number of</span>
+<span class="sd">        errors considered is based on the number of labels, not the number of examples. So, the</span>
+<span class="sd">        calibrated confident_joint will sum to the number of total labels.</span>
+<span class="sd">        The multi-label setting supports classification tasks where an example has 1 or more labels.</span>
+<span class="sd">        Example of a multi-labeled `labels` input: [[0,1], [1], [0,2], [0,1,2], [0], [1], ...]</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -755,16 +760,15 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
-<span class="sd">    labels : np.array</span>
-<span class="sd">        A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">        *Format requirements*: for dataset with K classes, labels must be in {0,1,...,K-1}.</span>
-
 <span class="sd">    confident_joint : np.array (shape (K, K), type int)</span>
 <span class="sd">        A K,K integer matrix of count(label=k, true_label=k). Estimates a confident subset</span>
 <span class="sd">        of the joint distribution of the noisy and true labels P_{labels,y}.</span>
 <span class="sd">        Each entry in the matrix contains the number of examples confidently</span>
 <span class="sd">        counted into every pair (label=j, true_label=k) classes.</span>
+
+<span class="sd">    labels : np.array</span>
+<span class="sd">        A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
+<span class="sd">        *Format requirements*: for dataset with K classes, labels must be in {0,1,...,K-1}.</span>
 
 <span class="sd">    py_method : str (Options: ["cnt", "eqn", "marginal", "marginal_ps"])</span>
 <span class="sd">        `py` is shorthand for the `class proportions (a.k.a prior) of the true labels`</span>
@@ -779,6 +783,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
+<span class="sd">    tuple</span>
 <span class="sd">        A tuple containing (py, noise_matrix, inv_noise_matrix)."""</span>
 
     <span class="c1"># 'ps' is p(labels=k)</span>
@@ -787,9 +792,9 @@
     <span class="n">labels_class_counts</span> <span class="o">=</span> <span class="n">confident_joint</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
     <span class="c1"># Number of training examples confidently counted into each true class</span>
     <span class="n">true_labels_class_counts</span> <span class="o">=</span> <span class="n">confident_joint</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-    <span class="c1"># Confident Counts Estimator: p(label=k_s|true_label=k_y) ~ |label=k_s and true_label=k_y| / |true_label=k_y|</span>
+    <span class="c1"># p(label=k_s|true_label=k_y) ~ |label=k_s and true_label=k_y| / |true_label=k_y|</span>
     <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">confident_joint</span> <span class="o">/</span> <span class="n">true_labels_class_counts</span>
-    <span class="c1"># Confident Counts Estimator: p(true_label=k_y|label=k_s) ~ |true_label=k_y and label=k_s| / |label=k_s|</span>
+    <span class="c1"># p(true_label=k_y|label=k_s) ~ |true_label=k_y and label=k_s| / |label=k_s|</span>
     <span class="n">inv_noise_matrix</span> <span class="o">=</span> <span class="n">confident_joint</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">labels_class_counts</span>
     <span class="c1"># Compute the prior p(y), the latent (uncorrupted) class distribution.</span>
     <span class="n">py</span> <span class="o">=</span> <span class="n">compute_py</span><span class="p">(</span>
@@ -841,7 +846,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    labels : np.array</span>
 <span class="sd">        A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">        *Format requirements*: for dataset with K classes, labels must be in {0,1,...,K-1}.</span>
