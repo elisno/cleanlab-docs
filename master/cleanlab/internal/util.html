@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
     
     
@@ -596,14 +598,18 @@ parameter is optional, but should be included if not obvious.</p>
 <dd><p>Returns an np.array of shape (K, 1), with the
 value counts for every unique item in the labels list/array,
 where K is the number of unique entries in labels.</p>
-<dl class="simple">
-<dt>Why this matters? Here is an example:</dt><dd><p>x = [np.random.randint(0,100) for i in range(100000)]</p>
-</dd>
-<dt>%timeit np.bincount(x)</dt><dd><p>–Result: 100 loops, best of 3: 3.9 ms per loop</p>
-</dd>
-<dt>%timeit np.unique(x, return_counts=True)[1]</dt><dd><p>–Result: 100 loops, best of 3: 7.47 ms per loop</p>
-</dd>
-</dl>
+<p>Why this matters? Here is an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">)]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> np.bincount(x)
+<span class="c1"># Result: 100 loops, best of 3: 3.9 ms per loop</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> np.unique(x, return_counts=True)[1]
+<span class="c1"># Result: 100 loops, best of 3: 7.47 ms per loop</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(one</span> <span class="pre">dimensional)</span></code>) – A list of discrete objects, like lists or strings, for

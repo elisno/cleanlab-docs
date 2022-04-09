@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
     
     
@@ -348,11 +350,11 @@
 
 
 <span class="sd">"""</span>
-<span class="sd">Methods to rank/order data by cleanlab's `label quality score`. </span>
-<span class="sd">Except for `order_label_issues`, which operates only on the subset of the data identified</span>
-<span class="sd">as potential label issues/errors, the methods in the `rank` module can be used on whichever subset</span>
+<span class="sd">Methods to rank/order data by cleanlab's `label quality score`.</span>
+<span class="sd">Except for :py:func:`order_label_issues &lt;cleanlab.rank.order_label_issues&gt;`, which operates only on the subset of the data identified</span>
+<span class="sd">as potential label issues/errors, the methods in this module can be used on whichever subset</span>
 <span class="sd">of the dataset you choose (including the entire dataset) and provide a `label quality score` for</span>
-<span class="sd">every example. You can then do something like: `np.argsort(label_quality_score)` to obtain ranked</span>
+<span class="sd">every example. You can then do something like: ``np.argsort(label_quality_score)`` to obtain ranked</span>
 <span class="sd">indices of individual data.</span>
 
 <span class="sd">CAUTION: These label quality scores are computed based on `pred_probs` from your model that must be out-of-sample!</span>
@@ -387,30 +389,31 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    label_issues_mask : np.array (bool)</span>
-<span class="sd">      Contains True if the index of labels is an error, o.w. false</span>
+<span class="sd">    label_issues_mask : np.array</span>
+<span class="sd">      A boolean mask for the entire dataset where ``True`` represents a label</span>
+<span class="sd">      issue and ``False`` represents an example that is accurately labeled with</span>
+<span class="sd">      high confidence.</span>
 
 <span class="sd">    labels : np.array</span>
-<span class="sd">      Labels in the same format expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">      Labels in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
 <span class="sd">    pred_probs : np.array (shape (N, K))</span>
-<span class="sd">      Predicted-probabilities in the same format expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">      Predicted-probabilities in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
-<span class="sd">    rank_by : str ['normalized_margin', 'self_confidence', 'confidence_weighted_entropy']</span>
-<span class="sd">      Score by which to order label error indices (in increasing order), either:</span>
-<span class="sd">      'normalized_margin', 'self_confidence', or 'confidence_weighted_entropy'.</span>
-<span class="sd">      See `get_label_quality_scores()` documentation for description of these scores.</span>
+<span class="sd">    rank_by : str, optional</span>
+<span class="sd">      Score by which to order label error indices (in increasing order). See</span>
+<span class="sd">      the `method` argument of :py:func:`get_label_quality_scores</span>
+<span class="sd">      &lt;cleanlab.rank.get_label_quality_scores&gt;`.</span>
 
-<span class="sd">    rank_by_kwargs : dict</span>
-<span class="sd">      Optional keyword arguments to pass into `get_label_quality_scores()` method.</span>
-<span class="sd">      Accepted args include:</span>
-<span class="sd">      adjust_pred_probs : bool, default = False</span>
+<span class="sd">    rank_by_kwargs : dict, optional</span>
+<span class="sd">      Optional keyword arguments to pass into :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
+<span class="sd">      Accepted args include `adjust_pred_probs`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    label_issues_idx : np.array (int)</span>
-<span class="sd">      Return the index integers of the label issues, ordered by the label-quality scoring method</span>
-<span class="sd">      passed to rank_by.</span>
+<span class="sd">    label_issues_idx : np.array</span>
+<span class="sd">      Return an array of the indices of the label issues, ordered by the label-quality scoring method</span>
+<span class="sd">      passed to `rank_by`.</span>
 
 <span class="sd">    """</span>
 
@@ -443,6 +446,7 @@
 <span class="sd">    where lower scores indicate labels less likely to be correct.</span>
 
 <span class="sd">    Score is between 0 and 1.</span>
+
 <span class="sd">    1 - clean label (given label is likely correct).</span>
 <span class="sd">    0 - dirty label (given label is likely incorrect).</span>
 
@@ -450,32 +454,34 @@
 <span class="sd">    ----------</span>
 <span class="sd">    labels : np.array</span>
 <span class="sd">      A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      *Format requirements*: for dataset with K classes, labels must be in {0,1,...,K-1}.</span>
+<span class="sd">      *Format requirements*: for dataset with K classes, labels must be in 0, 1, ..., K-1.</span>
 
-<span class="sd">    pred_probs : np.array (shape (N, K))</span>
-<span class="sd">      P(label=k|x) is a matrix with K model-predicted probabilities.</span>
-<span class="sd">      Each row of this matrix corresponds to an example x and contains the model-predicted</span>
-<span class="sd">      probabilities that x belongs to each possible class.</span>
-<span class="sd">      The columns must be ordered such that these probabilities correspond to class 0,1,2,...</span>
+<span class="sd">    pred_probs : np.array, optional</span>
+<span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
+<span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
+<span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
+<span class="sd">      `x` belongs to each possible class, for each of the K classes. The</span>
+<span class="sd">      columns must be ordered such that these probabilities correspond to</span>
+<span class="sd">      class 0, 1, ..., K-1.</span>
 
-<span class="sd">      CAUTION: `pred_probs` from your model must be out-of-sample!</span>
+<span class="sd">      **Caution**: `pred_probs` from your model must be out-of-sample!</span>
 <span class="sd">      You should never provide predictions on the same examples used to train the model,</span>
 <span class="sd">      as these will be overfit and unsuitable for finding label-errors.</span>
-<span class="sd">      To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use</span>
-<span class="sd">      :ref:`cross-validation &lt;pred_probs_cross_val&gt;`.</span>
+<span class="sd">      To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use :ref:`cross-validation &lt;pred_probs_cross_val&gt;`.</span>
 <span class="sd">      Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating</span>
-<span class="sd">      labels in data that was previously held-out.</span>
+<span class="sd">      data that was previously held-out.</span>
 
 <span class="sd">    method : {"self_confidence", "normalized_margin", "confidence_weighted_entropy"}, default="self_confidence"</span>
 <span class="sd">      Label quality scoring method.</span>
 
-<span class="sd">      Letting `k := labels[i]` and `P := pred_probs[i]` denote the given label and predicted class-probabilities</span>
-<span class="sd">      for the `i`th datapoint, its score can either be:</span>
-<span class="sd">      'normalized_margin' := P[k] - max_{k' != k}[ P[k'] ]</span>
-<span class="sd">      'self_confidence' := P[k]</span>
-<span class="sd">      'confidence_weighted_entropy' := entropy(P) / self_confidence</span>
+<span class="sd">      Letting ``k = labels[i]`` and ``P = pred_probs[i]`` denote the given label and predicted class-probabilities</span>
+<span class="sd">      for datapoint *i*, its score can either be:</span>
 
-<span class="sd">      Let `C = {0,1,...,K}` denote the classification task's specified set of classes.</span>
+<span class="sd">      - ``'normalized_margin'``: ``P[k] - max_{k' != k}[ P[k'] ]``</span>
+<span class="sd">      - ``'self_confidence'``: ``P[k]``</span>
+<span class="sd">      - ``'confidence_weighted_entropy'``: ``entropy(P) / self_confidence``</span>
+
+<span class="sd">      Let ``C = {0, 1, ..., K}`` denote the classification task's specified set of classes.</span>
 
 <span class="sd">      The normalized_margin score works better for identifying class conditional label errors,</span>
 <span class="sd">      i.e. examples for which another label in C is appropriate but the given label is not.</span>
@@ -484,29 +490,22 @@
 <span class="sd">      to bad examples that are: not from any of the classes in C, well-described by 2 or more labels in C,</span>
 <span class="sd">      or generally just out-of-distribution (ie. anomalous outliers).</span>
 
-<span class="sd">      .. seealso::</span>
-<span class="sd">        :func:`self_confidence`</span>
-<span class="sd">        :func:`normalized_margin`</span>
-<span class="sd">        :func:`confidence_weighted_entropy`</span>
-
-<span class="sd">    adjust_pred_probs : bool, default = False</span>
-<span class="sd">      Account for class-imbalance in the label-quality scoring by adjusting predicted probabilities</span>
+<span class="sd">    adjust_pred_probs : bool, optional</span>
+<span class="sd">      Account for class imbalance in the label-quality scoring by adjusting predicted probabilities</span>
 <span class="sd">      via subtraction of class confident thresholds and renormalization.</span>
-<span class="sd">      Set this = True if you prefer to account for class-imbalance.</span>
-<span class="sd">      See paper "Confident Learning: Estimating Uncertainty in Dataset Labels" by Northcutt et al.</span>
-<span class="sd">      https://arxiv.org/abs/1911.00068</span>
+<span class="sd">      Set this to ``True`` if you prefer to account for class-imbalance.</span>
+<span class="sd">      See `Northcutt et al., 2021 &lt;https://jair.org/index.php/jair/article/view/12125&gt;`_.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    label_quality_scores : np.array (float)</span>
+<span class="sd">    label_quality_scores : np.array</span>
 <span class="sd">      Scores are between 0 and 1 where lower scores indicate labels less likely to be correct.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    self_confidence</span>
-<span class="sd">    normalized_margin</span>
-<span class="sd">    confidence_weighted_entropy</span>
-<span class="sd">    _subtract_confident_thresholds</span>
+<span class="sd">    get_self_confidence_for_each_label</span>
+<span class="sd">    get_normalized_margin_for_each_label</span>
+<span class="sd">    get_confidence_weighted_entropy_for_each_label</span>
 
 <span class="sd">    """</span>
 
@@ -553,7 +552,7 @@
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"self_confidence"</span><span class="p">,</span>
     <span class="n">adjust_pred_probs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">weight_ensemble_members_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"accuracy"</span><span class="p">,</span>
-    <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
     <span class="sd">"""Returns label quality scores based on predictions from an ensemble of models.</span>
 
@@ -563,45 +562,42 @@
 <span class="sd">    Ensemble scoring requires a list of pred_probs from each model in the ensemble.</span>
 
 <span class="sd">    For each pred_probs in list, compute label quality score.</span>
-<span class="sd">    Take the average of the scores with the chosen weighting scheme determined by weight_ensemble_members_by.</span>
+<span class="sd">    Take the average of the scores with the chosen weighting scheme determined by `weight_ensemble_members_by`.</span>
 
-<span class="sd">    Score is between 0 and 1.</span>
-<span class="sd">    1 - clean label (given label is likely correct).</span>
-<span class="sd">    0 - dirty label (given label is likely incorrect).</span>
+<span class="sd">    Score is between 0 and 1:</span>
+
+<span class="sd">    - 1 --- clean label (given label is likely correct).</span>
+<span class="sd">    - 0 --- dirty label (given label is likely incorrect).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels : np.array</span>
-<span class="sd">      Labels in the same format expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">      Labels in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
-<span class="sd">    pred_probs_list : List of np.array (shape (N, K))</span>
+<span class="sd">    pred_probs_list : List[np.array]</span>
 <span class="sd">      Each element in this list should be an array of pred_probs in the same format</span>
-<span class="sd">      expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">      expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 <span class="sd">      Each element of `pred_probs_list` corresponds to the predictions from one model for all examples.</span>
 
 <span class="sd">    method : {"self_confidence", "normalized_margin", "confidence_weighted_entropy"}, default="self_confidence"</span>
-<span class="sd">      Label quality scoring method. Default is "self_confidence".</span>
-<span class="sd">      See `get_label_quality_scores()` for scenarios on when to use each method.</span>
+<span class="sd">      Label quality scoring method. See :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;`</span>
+<span class="sd">      for scenarios on when to use each method.</span>
 
-<span class="sd">      .. seealso::</span>
-<span class="sd">        :func:`self_confidence`</span>
-<span class="sd">        :func:`normalized_margin`</span>
-<span class="sd">        :func:`confidence_weighted_entropy`</span>
-
-<span class="sd">    adjust_pred_probs : bool, default = False</span>
-<span class="sd">      adjust_pred_probs in the same format expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">    adjust_pred_probs : bool, optional</span>
+<span class="sd">      `adjust_pred_probs` in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
 <span class="sd">    weight_ensemble_members_by : {"uniform", "accuracy"}, default="accuracy"</span>
 <span class="sd">      Weighting scheme used to aggregate scores from each model:</span>
-<span class="sd">        "uniform": Take the simple average of scores</span>
-<span class="sd">        "accuracy": Take weighted average of scores, weighted by model accuracy</span>
 
-<span class="sd">    verbose : int, default = 1</span>
-<span class="sd">      Set this = 0 to suppress all print statements.</span>
+<span class="sd">      - "uniform": take the simple average of scores</span>
+<span class="sd">      - "accuracy": take weighted average of scores, weighted by model accuracy</span>
+
+<span class="sd">    verbose : bool, default=True</span>
+<span class="sd">      Set to ``False`` to suppress all print statements.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    label_quality_scores : np.array (float)</span>
+<span class="sd">    label_quality_scores : np.array</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -693,15 +689,15 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels : np.array</span>
-<span class="sd">      Labels in the same format expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">      Labels in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
-<span class="sd">    pred_probs : np.array (shape (N, K))</span>
-<span class="sd">      Predicted-probabilities in the same format expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">    pred_probs : np.array</span>
+<span class="sd">      Predicted-probabilities in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    label_quality_scores : np.array (float)</span>
-<span class="sd">      Return the holdout probability that each example in pred_probs belongs to its</span>
+<span class="sd">    label_quality_scores : np.array</span>
+<span class="sd">      An array of holdout probabilities that each example in `pred_probs` belongs to its</span>
 <span class="sd">      label.</span>
 
 <span class="sd">    """</span>
@@ -721,7 +717,7 @@
 <span class="sd">    where lower scores indicate labels less likely to be correct.</span>
 
 <span class="sd">    Letting k denote the given label for a datapoint, the normalized margin is</span>
-<span class="sd">    (p(label = k) - max(p(label != k))), i.e. the probability</span>
+<span class="sd">    ``(p(label = k) - max(p(label != k)))``, i.e. the probability</span>
 <span class="sd">    of the given label minus the probability of the argmax label that is not</span>
 <span class="sd">    the given label. This gives you an idea of how likely an example is BOTH</span>
 <span class="sd">    its given label AND not another label, and therefore, scores its likelihood</span>
@@ -732,20 +728,17 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    labels : np.array</span>
-<span class="sd">      Labels in the same format expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">      Labels in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
-<span class="sd">    pred_probs : np.array (shape (N, K))</span>
-<span class="sd">      Predicted-probabilities in the same format expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">    pred_probs : np.array</span>
+<span class="sd">      Predicted-probabilities in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    label_quality_scores : np.array (float)</span>
-<span class="sd">      Return a score (between 0 and 1) for each example of its likelihood of</span>
-<span class="sd">      being correctly labeled.</span>
-<span class="sd">      normalized_margin = prob_label - max_prob_not_label</span>
-
+<span class="sd">    label_quality_scores : np.array</span>
+<span class="sd">      An array of scores (between 0 and 1) for each example of its likelihood of</span>
+<span class="sd">      being correctly labeled. ``normalized_margin = prob_label - max_prob_not_label``</span>
 <span class="sd">    """</span>
 
     <span class="n">self_confidence</span> <span class="o">=</span> <span class="n">get_self_confidence_for_each_label</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
@@ -769,17 +762,16 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels : np.array</span>
-<span class="sd">      Labels in the same format expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">      Labels in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
-<span class="sd">    pred_probs : np.array (shape (N, K))</span>
-<span class="sd">      Predicted-probabilities in the same format expected by the `get_label_quality_scores()` method.</span>
+<span class="sd">    pred_probs : np.array</span>
+<span class="sd">      Predicted-probabilities in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    label_quality_scores : np.array (float)</span>
-<span class="sd">      Return a score (between 0 and 1) for each example of its likelihood of</span>
+<span class="sd">    label_quality_scores : np.array</span>
+<span class="sd">      An array of scores (between 0 and 1) for each example of its likelihood of</span>
 <span class="sd">      being correctly labeled.</span>
-
 <span class="sd">    """</span>
 
     <span class="n">self_confidence</span> <span class="o">=</span> <span class="n">get_self_confidence_for_each_label</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
