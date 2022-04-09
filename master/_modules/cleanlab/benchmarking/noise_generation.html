@@ -348,9 +348,9 @@
 
 
 <span class="sd">"""</span>
-<span class="sd">Helper methods that are useful for benchmarking cleanlab’s core algorithms. </span>
+<span class="sd">Helper methods that are useful for benchmarking cleanlab’s core algorithms.</span>
 <span class="sd">These methods introduce synthetic noise into the labels of a classification dataset.</span>
-<span class="sd">Specifically, provides methods for generating valid noise matrices (for which learning with noise is possible), </span>
+<span class="sd">Specifically, provides methods for generating valid noise matrices (for which learning with noise is possible),</span>
 <span class="sd">generating noisy labels given a noise matrix, generating valid noise matrices with a specific trace value, and more.</span>
 <span class="sd">"""</span>
 
@@ -795,90 +795,6 @@
         <span class="k">while</span> <span class="nb">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">:</span>
             <span class="n">arr</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">arr</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
-
-
-<span class="c1"># Deprecated functions below</span>
-
-
-<div class="viewcode-block" id="generate_noise_matrix"><a class="viewcode-back" href="../../../cleanlab/benchmarking/noise_generation.html#cleanlab.benchmarking.noise_generation.generate_noise_matrix">[docs]</a><span class="k">def</span> <span class="nf">generate_noise_matrix</span><span class="p">(</span>
-    <span class="n">K</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">max_noise_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">frac_zero_noise_rates</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">):</span>
-    <span class="sd">"""DEPRECATED - Use generate_noise_matrix_from_trace()</span>
-
-<span class="sd">    Generates a noise matrix by randomly assigning noise rates</span>
-<span class="sd">    up to max_noise_rate, then setting noise rates to</span>
-<span class="sd">    zero until P(label!=k|label=k) &lt; 1 is satisfied. Additionally,</span>
-<span class="sd">    frac_zero_noise_rates are set to zero.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-
-<span class="sd">    K : int</span>
-<span class="sd">      Creates a noise matrix of shape (K, K). Implies there are</span>
-<span class="sd">      K classes for learning with noisy labels.</span>
-
-<span class="sd">    max_noise_rate : float</span>
-<span class="sd">      Smaller ---&gt; easier learning problem (less noise)</span>
-
-<span class="sd">    frac_zero_noise_rates : float</span>
-<span class="sd">      Make problem more tractable by making a fraction of noise rates zero.</span>
-<span class="sd">      Larger --&gt; Easier learning problem</span>
-
-<span class="sd">    verbose : bool</span>
-<span class="sd">      Print debugging output if set to True."""</span>
-
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-        <span class="s2">"This method is deprecated. Use 'generate_noise_matrix_from_trace' "</span> <span class="s2">"instead."</span><span class="p">,</span>
-        <span class="ne">DeprecationWarning</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Init noise matrix to be random values from (0, max_noise_rate)</span>
-    <span class="c1"># P(label=k|true_label=k')</span>
-    <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span> <span class="o">*</span> <span class="n">max_noise_rate</span>
-
-    <span class="c1"># Round all noise rates</span>
-    <span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="c1"># Initialize all P(label=k|true_label=k) = 0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
-        <span class="n">noise_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
-
-    <span class="c1"># Compute sum for each column</span>
-    <span class="n">col_sum</span> <span class="o">=</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># For each column, randomly set noise rates to zero until P(label!=k|label=k) &lt; 1.</span>
-    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>  <span class="c1"># col</span>
-        <span class="n">col</span> <span class="o">=</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
-        <span class="n">col_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
-        <span class="k">while</span> <span class="n">col_sum</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">non_zero_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">K</span><span class="p">)[</span><span class="n">col</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">non_zero_indices</span><span class="p">)</span>
-            <span class="n">noise_matrix</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
-            <span class="n">col</span> <span class="o">=</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
-            <span class="n">col_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
-
-    <span class="c1"># Set frac_zero_noise_rates of the noise rates to 0 for increased</span>
-    <span class="c1"># tractability.</span>
-    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">frac_zero_noise_rates</span><span class="p">:</span>
-                <span class="n">noise_matrix</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="c1"># Compute sum for each column</span>
-    <span class="n">col_sum</span> <span class="o">=</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="c1"># Normalize each column such that P(label=k|true_label=k) = 1 - P(label!=k|label=k)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
-        <span class="n">noise_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">col_sum</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">"Average trace of noise matrix is"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">K</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">noise_matrix</span></div>
 </pre></div> 
         </article>
       </div>

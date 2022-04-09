@@ -345,19 +345,16 @@ generating noisy labels given a noise matrix, generating valid noise matrices wi
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.generate_n_rand_probabilities_that_sum_to_m" title="cleanlab.benchmarking.noise_generation.generate_n_rand_probabilities_that_sum_to_m"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_n_rand_probabilities_that_sum_to_m</span></code></a>(n, m, *)</p></td>
 <td><p>When min_prob=0 and max_prob = 1.0, this method is deprecated.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.generate_noise_matrix" title="cleanlab.benchmarking.noise_generation.generate_noise_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_noise_matrix</span></code></a>(K, *[, ...])</p></td>
-<td><p>DEPRECATED - Use generate_noise_matrix_from_trace()</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.generate_noise_matrix_from_trace" title="cleanlab.benchmarking.noise_generation.generate_noise_matrix_from_trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_noise_matrix_from_trace</span></code></a>(K, trace, *)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.generate_noise_matrix_from_trace" title="cleanlab.benchmarking.noise_generation.generate_noise_matrix_from_trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_noise_matrix_from_trace</span></code></a>(K, trace, *)</p></td>
 <td><p>Generates a K x K noise matrix P(label=k_s|true_label=k_y) with trace as the np.mean(np.diagonal(noise_matrix)).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.generate_noisy_labels" title="cleanlab.benchmarking.noise_generation.generate_noisy_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_noisy_labels</span></code></a>(true_labels, noise_matrix)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.generate_noisy_labels" title="cleanlab.benchmarking.noise_generation.generate_noisy_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_noisy_labels</span></code></a>(true_labels, noise_matrix)</p></td>
 <td><p>Generates noisy labels (shape (N, 1)) from perfect labels y, 'exactly' yielding the provided noise_matrix between labels and y.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.noise_matrix_is_valid" title="cleanlab.benchmarking.noise_generation.noise_matrix_is_valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">noise_matrix_is_valid</span></code></a>(noise_matrix, py, *[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.noise_matrix_is_valid" title="cleanlab.benchmarking.noise_generation.noise_matrix_is_valid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">noise_matrix_is_valid</span></code></a>(noise_matrix, py, *[, ...])</p></td>
 <td><p>Given a prior py = p(true_label=k), returns true if the given noise_matrix is a learnable matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.randomly_distribute_N_balls_into_K_bins" title="cleanlab.benchmarking.noise_generation.randomly_distribute_N_balls_into_K_bins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">randomly_distribute_N_balls_into_K_bins</span></code></a>(N, K, *)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.randomly_distribute_N_balls_into_K_bins" title="cleanlab.benchmarking.noise_generation.randomly_distribute_N_balls_into_K_bins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">randomly_distribute_N_balls_into_K_bins</span></code></a>(N, K, *)</p></td>
 <td><p>Returns a uniformly random numpy integer array of length N that sums to K.</p></td>
 </tr>
 </tbody>
@@ -375,27 +372,6 @@ Instead use np.random.dirichlet(np.ones(n))*m</p>
 <li><p><strong>m</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Sum of np.array of random probabilities that is returned.</p></li>
 <li><p><strong>max_prob</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span> <span class="pre">(0.0</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">1.0]</span> <span class="pre">|</span> <span class="pre">Default</span> <span class="pre">value</span> <span class="pre">is</span> <span class="pre">1.0</span></code>) – Maximum probability of any entry in the returned np.array.</p></li>
 <li><p><strong>min_prob</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span> <span class="pre">[0.0</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">1.0)</span> <span class="pre">|</span> <span class="pre">Default</span> <span class="pre">value</span> <span class="pre">is</span> <span class="pre">0.0</span></code>) – Minimum probability of any entry in the returned np.array.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="cleanlab.benchmarking.noise_generation.generate_noise_matrix">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.benchmarking.noise_generation.</span></span><span class="sig-name descname"><span class="pre">generate_noise_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_noise_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frac_zero_noise_rates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/benchmarking/noise_generation.html#generate_noise_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.benchmarking.noise_generation.generate_noise_matrix" title="Permalink to this definition">#</a></dt>
-<dd><p>DEPRECATED - Use generate_noise_matrix_from_trace()</p>
-<p>Generates a noise matrix by randomly assigning noise rates
-up to max_noise_rate, then setting noise rates to
-zero until P(label!=k|label=k) &lt; 1 is satisfied. Additionally,
-frac_zero_noise_rates are set to zero.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>K</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Creates a noise matrix of shape (K, K). Implies there are
-K classes for learning with noisy labels.</p></li>
-<li><p><strong>max_noise_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Smaller —&gt; easier learning problem (less noise)</p></li>
-<li><p><strong>frac_zero_noise_rates</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Make problem more tractable by making a fraction of noise rates zero.
-Larger –&gt; Easier learning problem</p></li>
-<li><p><strong>verbose</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Print debugging output if set to True.</p></li>
 </ul>
 </dd>
 </dl>
