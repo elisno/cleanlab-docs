@@ -2,10 +2,10 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="label_quality_utils" href="../cleanlab/internal/label_quality_utils.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
-        <title>Overview: module code - cleanlab</title>
+        <title>How to migrate to 2.0.0 from versions pre 1.0.1 - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -133,7 +133,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -201,8 +201,8 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../migrating/migrate_v2.html">Migrating to v2.0</a></li>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Migrating to v2.0</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -286,7 +286,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -336,28 +336,86 @@
 
 <!-- End of Version Warning Banner -->
 
- <h1>All modules for which code is available</h1>
-<ul><li><a href="cleanlab/benchmarking/noise_generation.html">cleanlab.benchmarking.noise_generation</a></li>
-<li><a href="cleanlab/classification.html">cleanlab.classification</a></li>
-<li><a href="cleanlab/count.html">cleanlab.count</a></li>
-<li><a href="cleanlab/dataset.html">cleanlab.dataset</a></li>
-<li><a href="cleanlab/experimental/cifar_cnn.html">cleanlab.experimental.cifar_cnn</a></li>
-<li><a href="cleanlab/experimental/coteaching.html">cleanlab.experimental.coteaching</a></li>
-<li><a href="cleanlab/experimental/fasttext.html">cleanlab.experimental.fasttext</a></li>
-<li><a href="cleanlab/experimental/mnist_pytorch.html">cleanlab.experimental.mnist_pytorch</a></li>
-<li><a href="cleanlab/filter.html">cleanlab.filter</a></li>
-<li><a href="cleanlab/internal/label_quality_utils.html">cleanlab.internal.label_quality_utils</a></li>
-<li><a href="cleanlab/internal/latent_algebra.html">cleanlab.internal.latent_algebra</a></li>
-<li><a href="cleanlab/internal/util.html">cleanlab.internal.util</a></li>
-<li><a href="cleanlab/rank.html">cleanlab.rank</a></li>
-</ul> 
+ <div class="section" id="how-to-migrate-to-2-0-0-from-versions-pre-1-0-1">
+<h1>How to migrate to 2.0.0 from versions pre 1.0.1<a class="headerlink" href="#how-to-migrate-to-2-0-0-from-versions-pre-1-0-1" title="Permalink to this headline">#</a></h1>
+<p>If you previously used older versions of cleanlab,
+this migration guide can help you update your existing code to work with v2.0.0 in no time!
+Below we outline the major updates and code substitutions to be aware of.
+The full change-log is listed in the <a class="reference external" href="https://github.com/cleanlab/cleanlab/releases/tag/v2.0.0">v2.0.0. Release Notes</a>.</p>
+<div class="section" id="method-and-class-name-changes">
+<h2>Method and class name changes<a class="headerlink" href="#method-and-class-name-changes" title="Permalink to this headline">#</a></h2>
+<div class="line-block">
+<div class="line"><strong>Old:</strong> <code class="docutils literal notranslate"><span class="pre">pruning.get_noise_indices(s,</span> <span class="pre">psx,</span> <span class="pre">prune_method,</span> <span class="pre">sorted_index_method,</span> <span class="pre">...)</span></code></div>
+<div class="line">–&gt;</div>
+<div class="line"><strong>New:</strong> <a class="reference internal" href="../cleanlab/filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">filter.find_label_issues</span></code></a> <code class="docutils literal notranslate"><span class="pre">(labels,</span> <span class="pre">pred_probs,</span> <span class="pre">filter_by,</span> <span class="pre">return_indices_ranked_by,</span> <span class="pre">...)</span></code></div>
+</div>
+<p>Note: <code class="docutils literal notranslate"><span class="pre">inverse_noise_matrix</span></code> is no longer a supported input argument, but <code class="docutils literal notranslate"><span class="pre">confident_joint</span></code> remains (you can easily convert between these two).</p>
+<hr class="docutils"/>
+<div class="line-block">
+<div class="line"><strong>Old:</strong> <code class="docutils literal notranslate"><span class="pre">pruning.order_label_errors(label_errors_bool,</span> <span class="pre">psx,</span> <span class="pre">labels,</span> <span class="pre">sorted_index_method)</span></code></div>
+<div class="line">–&gt;</div>
+<div class="line"><strong>New:</strong> <a class="reference internal" href="../cleanlab/rank.html#cleanlab.rank.order_label_issues" title="cleanlab.rank.order_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">rank.order_label_issues</span></code></a> <code class="docutils literal notranslate"><span class="pre">(label_issues_mask,</span> <span class="pre">labels,</span> <span class="pre">pred_probs,</span> <span class="pre">rank_by,</span> <span class="pre">...)</span></code></div>
+</div>
+<p>Note: You can now alternatively use <code class="xref py py-func docutils literal notranslate"><span class="pre">rank.get_label_quality_score()</span></code> to numerically score the labels instead of ranking them.</p>
+<hr class="docutils"/>
+<div class="line-block">
+<div class="line"><strong>Old:</strong> <code class="docutils literal notranslate"><span class="pre">latent_estimation.num_label_errors(labels,</span> <span class="pre">psx,</span> <span class="pre">...)</span></code></div>
+<div class="line">–&gt;</div>
+<div class="line"><strong>New:</strong> <a class="reference internal" href="../cleanlab/count.html#cleanlab.count.num_label_issues" title="cleanlab.count.num_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">count.num_label_issues</span></code></a> <code class="docutils literal notranslate"><span class="pre">(labels,</span> <span class="pre">pred_probs,</span> <span class="pre">...)</span></code></div>
+</div>
+<p>Note: This is the most accurate way to estimate the raw <em>number</em> of label errors in a dataset.</p>
+<hr class="docutils"/>
+<div class="line-block">
+<div class="line"><strong>Old:</strong> <code class="docutils literal notranslate"><span class="pre">classification.LearningWithNoisyLabels(...,</span> <span class="pre">prune_method)</span></code></div>
+<div class="line">–&gt;</div>
+<div class="line"><strong>New:</strong> <a class="reference internal" href="../cleanlab/classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">classification.CleanLearning</span></code></a> <code class="docutils literal notranslate"><span class="pre">(...,</span> <span class="pre">find_label_issues_kwargs)</span></code></div>
+</div>
+<p>Note: <a class="reference internal" href="../cleanlab/classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> can now find label errors for you, neatly organizing them in a <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> as well as computing the required out-of-sample predicted probabilities. You just specify which classifier, we handle the cross-validation!</p>
+</div>
+<div class="section" id="module-name-changes">
+<h2>Module name changes<a class="headerlink" href="#module-name-changes" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cleanlab.pruning</span></code> –&gt; <a class="reference internal" href="../cleanlab/filter.html#module-cleanlab.filter" title="cleanlab.filter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cleanlab.filter</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cleanlab.latent_estimation</span></code> –&gt; <a class="reference internal" href="../cleanlab/count.html#module-cleanlab.count" title="cleanlab.count"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cleanlab.count</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cleanlab.models</span></code> –&gt; <a class="reference internal" href="../cleanlab/experimental/index.html#module-cleanlab.experimental" title="cleanlab.experimental"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cleanlab.experimental</span></code></a></p></li>
+</ul>
+<p>Note: The <code class="docutils literal notranslate"><span class="pre">cleanlab.coteaching</span></code> module has also been moved into <a class="reference internal" href="../cleanlab/experimental/coteaching.html#module-cleanlab.experimental.coteaching" title="cleanlab.experimental.coteaching"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cleanlab.experimental.coteaching</span></code></a>.</p>
+</div>
+<div class="section" id="new-modules">
+<h2>New modules<a class="headerlink" href="#new-modules" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../cleanlab/rank.html#module-cleanlab.rank" title="cleanlab.rank"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cleanlab.rank</span></code></a> : Moved all ranking and ordering functions from <code class="docutils literal notranslate"><span class="pre">cleanlab.pruning</span></code> and <code class="docutils literal notranslate"><span class="pre">cleanlab.filter</span></code> to here. This module contains methods to score the label quality of each example and rank your data by the quality of their labels.</p></li>
+<li><p><a class="reference internal" href="../cleanlab/dataset.html#module-cleanlab.dataset" title="cleanlab.dataset"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cleanlab.dataset</span></code></a> : New methods to print summaries of overall types of label issues most common in a dataset.</p></li>
+<li><p><a class="reference internal" href="../cleanlab/internal/index.html#module-cleanlab.internal" title="cleanlab.internal"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cleanlab.internal</span></code></a> : Moved all advanced code and utility methods to this module, including the old <code class="docutils literal notranslate"><span class="pre">cleanlab.latent_algebra</span></code> module. Researchers may find useful functions in here.</p></li>
+</ul>
+</div>
+<div class="section" id="common-argument-and-variable-name-changes">
+<h2>Common argument and variable name changes<a class="headerlink" href="#common-argument-and-variable-name-changes" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">labels</span></code>  (the given labels in the data, which are potentially noisy)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">psx</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>  (predicted probabilities output by trained classifier)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">label_error</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">label_issue</span></code>  (a label that is likely to be wrong)</p></li>
+</ul>
+</div>
+</div>
+ 
         </article>
       </div>
       <footer>
          
         <div class="related-pages">
           
-          
+          <a class="prev-page" href="../cleanlab/internal/label_quality_utils.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">label_quality_utils</div>
+                
+              </div>
+            </a>
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -396,8 +454,30 @@
 
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">How to migrate to 2.0.0 from versions pre 1.0.1</a><ul>
+<li><a class="reference internal" href="#method-and-class-name-changes">Method and class name changes</a></li>
+<li><a class="reference internal" href="#module-name-changes">Module name changes</a></li>
+<li><a class="reference internal" href="#new-modules">New modules</a></li>
+<li><a class="reference internal" href="#common-argument-and-variable-name-changes">Common argument and variable name changes</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
@@ -409,7 +489,6 @@
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/tabs.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     
