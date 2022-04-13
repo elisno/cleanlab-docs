@@ -342,14 +342,14 @@
 <col style="width: 90%"/>
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.label_quality_utils.get_normalized_entropy" title="cleanlab.internal.label_quality_utils.get_normalized_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normalized_entropy</span></code></a>(pred_probs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.label_quality_utils.get_normalized_entropy" title="cleanlab.internal.label_quality_utils.get_normalized_entropy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normalized_entropy</span></code></a>(pred_probs[, ...])</p></td>
 <td><p>Returns the normalized entropy of pred_probs.</p></td>
 </tr>
 </tbody>
 </table></div>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.internal.label_quality_utils.get_normalized_entropy">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.label_quality_utils.</span></span><span class="sig-name descname"><span class="pre">get_normalized_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.array</span></span></span><a class="reference internal" href="../../_modules/cleanlab/internal/label_quality_utils.html#get_normalized_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.label_quality_utils.get_normalized_entropy" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.label_quality_utils.</span></span><span class="sig-name descname"><span class="pre">get_normalized_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_allowed_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.array</span></span></span><a class="reference internal" href="../../_modules/cleanlab/internal/label_quality_utils.html#get_normalized_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.label_quality_utils.get_normalized_entropy" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the normalized entropy of pred_probs.</p>
 <p>Normalized entropy is between 0 and 1. Higher values of entropy indicate higher uncertainty in the model’s prediction of the correct label.</p>
 <p>Read more about normalized entropy <a class="reference external" href="https://en.wikipedia.org/wiki/Entropy_(information_theory)">on Wikipedia</a>.</p>
@@ -357,11 +357,15 @@
 <p>Unlike label-quality scores, entropy only depends on the model’s predictions, not the given label.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(shape</span> <span class="pre">(N</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code>) – P(label=k|x) is a matrix with K model-predicted probabilities.
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(shape</span> <span class="pre">(N</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code>) – P(label=k|x) is a matrix with K model-predicted probabilities.
 Each row of this matrix corresponds to an example x and contains the model-predicted
 probabilities that x belongs to each possible class.
 The columns must be ordered such that these probabilities correspond to class 0,1,2,…
-<cite>pred_probs</cite> should have been computed using 3 (or higher) fold cross-validation.</p>
+<cite>pred_probs</cite> should have been computed using 3 (or higher) fold cross-validation.</p></li>
+<li><p><strong>min_allowed_prob</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">1e-6</span></code>) – Minimum allowed probability value. Entries of <cite>pred_probs</cite> below this value will be clipped to this value.
+Ensures entropy remains well-behaved even when <cite>pred_probs</cite> contains zeros.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>entropy</strong></p>

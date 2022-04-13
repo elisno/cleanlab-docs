@@ -774,6 +774,17 @@
         <span class="n">short_title</span><span class="o">=</span><span class="s2">"p(labels,y)"</span><span class="p">,</span>
         <span class="n">round_places</span><span class="o">=</span><span class="n">round_places</span><span class="p">,</span>
     <span class="p">)</span></div>
+
+<div class="viewcode-block" id="compress_int_array"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.compress_int_array">[docs]</a><span class="k">def</span> <span class="nf">compress_int_array</span><span class="p">(</span><span class="n">int_array</span><span class="p">,</span> <span class="n">num_possible_values</span><span class="p">):</span>
+    <span class="sd">"""Compresses dtype of np.array&lt;int&gt; if num_possible_values is small enough."""</span>
+    <span class="n">compressed_type</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">num_possible_values</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"int16"</span><span class="p">))</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>
+        <span class="n">compressed_type</span> <span class="o">=</span> <span class="s2">"int16"</span>
+    <span class="k">elif</span> <span class="n">num_possible_values</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"int32"</span><span class="p">))</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="n">compressed_type</span> <span class="o">=</span> <span class="s2">"int32"</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">if</span> <span class="n">compressed_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">int_array</span> <span class="o">=</span> <span class="n">int_array</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">compressed_type</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">int_array</span></div>
 </pre></div> 
         </article>
       </div>

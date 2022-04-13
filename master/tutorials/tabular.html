@@ -1009,6 +1009,7 @@ Pruning 120 examples with label issues ...
 Remaining clean data has 630 examples.
 Assigning sample weights for final training based on estimated label quality.
 Fitting final model on the clean data ...
+Label issues stored in label_issues_df DataFrame accessible via: self.get_label_issues(). Call self.save_space() to delete this potentially large DataFrame attribute.
 </pre></div></div>
 </div>
 <p>We can get predictions from the resulting model and evaluate them, just like how we did it for the original scikit-learn model.</p>
