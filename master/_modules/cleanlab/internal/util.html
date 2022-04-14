@@ -709,10 +709,10 @@
 
 <div class="viewcode-block" id="print_square_matrix"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.print_square_matrix">[docs]</a><span class="k">def</span> <span class="nf">print_square_matrix</span><span class="p">(</span>
     <span class="n">matrix</span><span class="p">,</span>
-    <span class="n">left_name</span><span class="o">=</span><span class="s2">"labels"</span><span class="p">,</span>
+    <span class="n">left_name</span><span class="o">=</span><span class="s2">"s"</span><span class="p">,</span>
     <span class="n">top_name</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span>
     <span class="n">title</span><span class="o">=</span><span class="s2">" A square matrix"</span><span class="p">,</span>
-    <span class="n">short_title</span><span class="o">=</span><span class="s2">"labels,y"</span><span class="p">,</span>
+    <span class="n">short_title</span><span class="o">=</span><span class="s2">"s,y"</span><span class="p">,</span>
     <span class="n">round_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""Pretty prints a matrix.</span>
@@ -752,8 +752,8 @@
     <span class="sd">"""Pretty prints the noise matrix."""</span>
     <span class="n">print_square_matrix</span><span class="p">(</span>
         <span class="n">noise_matrix</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">" Noise Matrix (aka Noisy Channel) P(labels|y)"</span><span class="p">,</span>
-        <span class="n">short_title</span><span class="o">=</span><span class="s2">"p(labels|y)"</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">" Noise Matrix (aka Noisy Channel) P(given_label|true_label)"</span><span class="p">,</span>
+        <span class="n">short_title</span><span class="o">=</span><span class="s2">"p(s|y)"</span><span class="p">,</span>
         <span class="n">round_places</span><span class="o">=</span><span class="n">round_places</span><span class="p">,</span>
     <span class="p">)</span></div>
 
@@ -763,9 +763,9 @@
     <span class="n">print_square_matrix</span><span class="p">(</span>
         <span class="n">inverse_noise_matrix</span><span class="p">,</span>
         <span class="n">left_name</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span>
-        <span class="n">top_name</span><span class="o">=</span><span class="s2">"labels"</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">" Inverse Noise Matrix P(y|labels)"</span><span class="p">,</span>
-        <span class="n">short_title</span><span class="o">=</span><span class="s2">"p(y|labels)"</span><span class="p">,</span>
+        <span class="n">top_name</span><span class="o">=</span><span class="s2">"s"</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">" Inverse Noise Matrix P(true_label|given_label)"</span><span class="p">,</span>
+        <span class="n">short_title</span><span class="o">=</span><span class="s2">"p(y|s)"</span><span class="p">,</span>
         <span class="n">round_places</span><span class="o">=</span><span class="n">round_places</span><span class="p">,</span>
     <span class="p">)</span></div>
 
@@ -774,8 +774,8 @@
     <span class="sd">"""Pretty prints the joint label noise matrix."""</span>
     <span class="n">print_square_matrix</span><span class="p">(</span>
         <span class="n">joint_matrix</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">" Joint Label Noise Distribution Matrix P(labels,y)"</span><span class="p">,</span>
-        <span class="n">short_title</span><span class="o">=</span><span class="s2">"p(labels,y)"</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">" Joint Label Noise Distribution Matrix P(given_label, true_label)"</span><span class="p">,</span>
+        <span class="n">short_title</span><span class="o">=</span><span class="s2">"p(s,y)"</span><span class="p">,</span>
         <span class="n">round_places</span><span class="o">=</span><span class="n">round_places</span><span class="p">,</span>
     <span class="p">)</span></div>
 
