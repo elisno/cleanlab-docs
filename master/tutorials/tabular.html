@@ -993,28 +993,13 @@ Test accuracy of original logistic regression: 0.736
 </div>
 </div>
 <p>The following operations take place when we train the cleanlab-wrapped model: The original model is trained in a cross-validated fashion to produce out-of-sample predicted probabilities. Then, these predicted probabilities are used to identify label issues, which are then removed from the dataset. Finally, the original model is trained on the remaining clean subset of the data once more.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Computing out of sample predicted probabilites via 5-fold cross validation. May take a while ...
-Using predicted probabilities to identify label issues ...
-Identified 120 examples with label issues.
-Pruning 120 examples with label issues ...
-Remaining clean data has 630 examples.
-Assigning sample weights for final training based on estimated label quality.
-Fitting final model on the clean data ...
-Label issues stored in label_issues_df DataFrame accessible via: self.get_label_issues(). Call self.save_space() to delete this potentially large DataFrame attribute.
-</pre></div></div>
 </div>
 <p>We can get predictions from the resulting model and evaluate them, just like how we did it for the original scikit-learn model.</p>
 <div class="nbinput docutils container">
