@@ -409,8 +409,8 @@ class 0, 1, …, K-1. <cite>pred_probs</cite> should have been computed using 3 
 higher) fold cross-validation.</p></li>
 <li><p><strong>asymmetric</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">asymmetric=True</span></code>, includes both pairs (class1, class2) and (class2, class1). Use this
 for finding “is a” relationships where for example “class1 is a class2”.
-If <cite>asymmetric==False</cite>, the pair (class1, class2) will only be returned once and order is
-arbitrary (internally this is just summing score(class1, class2) + score(class2, class1)).</p></li>
+If <code class="docutils literal notranslate"><span class="pre">asymmetric=False</span></code>, the pair (class1, class2) will only be returned once and order is
+arbitrary (internally this is just summing <code class="docutils literal notranslate"><span class="pre">score(class1,</span> <span class="pre">class2)</span> <span class="pre">+</span> <span class="pre">score(class2,</span> <span class="pre">class1))</span></code>.</p></li>
 <li><p><strong>class_names</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable[str]</span></code>) – A list or other iterable of the string class names. The list should be in the order that
 matches the class indices. So if class 0 is ‘dog’ and class 1 is ‘cat’, then
 <code class="docutils literal notranslate"><span class="pre">class_names</span> <span class="pre">=</span> <span class="pre">['dog',</span> <span class="pre">'cat']</span></code>.</p></li>
