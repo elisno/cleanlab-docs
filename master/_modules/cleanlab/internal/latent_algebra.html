@@ -378,7 +378,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    labels : np.array</span>
 <span class="sd">          A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">          *Format requirements*: for dataset with K classes, labels must be in {0,1,...,K-1}.</span>
@@ -400,7 +399,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    ps : np.array (shape (K, ) or (1, K))</span>
 <span class="sd">        The fraction (prior probability) of each observed, NOISY class P(labels = k).</span>
 
@@ -427,7 +425,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    py : np.array (shape (K, 1))</span>
 <span class="sd">        The fraction (prior probability) of each TRUE class label, P(true_label = k)</span>
 
@@ -548,7 +545,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    ps : np.array (shape (K, ) or (1, K))</span>
 <span class="sd">        The fraction (prior probability) of each observed, noisy label, P(labels = k)</span>
 
@@ -574,7 +570,6 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-
 <span class="sd">    py : np.array (shape (K, ) or (1, K))</span>
 <span class="sd">        The fraction (prior probability) of each TRUE class label, P(true_label = k)."""</span>
 
@@ -623,7 +618,6 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    pred_probs : np.array (shape (N, K))</span>
 <span class="sd">        P(label=k|x) is a matrix with K model-predicted probabilities.</span>
 <span class="sd">        Each row of this matrix corresponds to an example `x` and contains the model-predicted</span>
@@ -645,7 +639,6 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-
 <span class="sd">    pyx : np.array (shape (N, K))</span>
 <span class="sd">        P(true_label=k|x) is a matrix with K model-predicted probabilities.</span>
 <span class="sd">        Each row of this matrix corresponds to an example `x` and contains the model-predicted</span>
