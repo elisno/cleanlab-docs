@@ -2,7 +2,7 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Image Classification with PyTorch and Cleanlab" href="tutorials/image.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Cleanlab 2.0: The Workflows of Data-centric AI" href="tutorials/indepth_overview.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
         <title>cleanlab</title>
@@ -169,11 +169,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/indepth_overview.html">Cleanlab 2.0: The Workflows of Data-centric AI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/image.html">Image Classification with PyTorch and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/text.html">Text Classification with TensorFlow, Keras, and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tabular.html">Classification with Tabular Data using Scikit-Learn and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/audio.html">Audio Classification with SpeechBrain and Cleanlab</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/indepth_overview.html">Cleanlab 2.0: The Workflows of Data-centric AI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
@@ -393,6 +393,19 @@
 <span class="n">cl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="fix-dataset-level-issues-and-dataset-curation">
+<h2>4. Fix dataset-level issues and dataset curation<a class="headerlink" href="#fix-dataset-level-issues-and-dataset-curation" title="Permalink to this headline">#</a></h2>
+<p>cleanlab’s <a class="reference internal" href="cleanlab/dataset.html#module-cleanlab.dataset" title="cleanlab.dataset"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataset</span></code></a> module helps you find and deal with issues at the dataset-level level with:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="cleanlab/dataset.html#cleanlab.dataset.find_overlapping_classes" title="cleanlab.dataset.find_overlapping_classes"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataset.find_overlapping_classes</span></code></a> (which classes to merge)</p></li>
+<li><p><a class="reference internal" href="cleanlab/dataset.html#cleanlab.dataset.rank_classes_by_label_quality" title="cleanlab.dataset.rank_classes_by_label_quality"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataset.rank_classes_by_label_quality</span></code></a> (which classes to remove/keep)</p></li>
+<li><p><a class="reference internal" href="cleanlab/dataset.html#cleanlab.dataset.overall_label_health_score" title="cleanlab.dataset.overall_label_health_score"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataset.overall_label_health_score</span></code></a> (track dataset quality progress as you make adjustments)</p></li>
+</ul>
+<p>View all dataset health and label quality information in one line of code with <a class="reference internal" href="cleanlab/dataset.html#cleanlab.dataset.health_summary" title="cleanlab.dataset.health_summary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dataset.health_summary()</span></code></a>. Check out the dataset tutorial for more examples.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cleanlab</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">health_summary</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">class_names</span><span class="o">=</span><span class="n">class_names</span><span class="p">)</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
@@ -411,12 +424,12 @@
       <footer>
          
         <div class="related-pages">
-          <a class="next-page" href="tutorials/image.html">
+          <a class="next-page" href="tutorials/indepth_overview.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Image Classification with PyTorch and Cleanlab</div>
+                <div class="title">Cleanlab 2.0: The Workflows of Data-centric AI</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -475,7 +488,8 @@
 <li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
 <li><a class="reference internal" href="#install-cleanlab">1. Install <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code></a></li>
 <li><a class="reference internal" href="#find-label-errors-in-your-data">2. Find label errors in your data</a></li>
-<li><a class="reference internal" href="#train-robust-models-with-noisy-labels">3. Train robust models with noisy labels</a><ul>
+<li><a class="reference internal" href="#train-robust-models-with-noisy-labels">3. Train robust models with noisy labels</a></li>
+<li><a class="reference internal" href="#fix-dataset-level-issues-and-dataset-curation">4. Fix dataset-level issues and dataset curation</a><ul>
 </ul>
 </li>
 </ul>
