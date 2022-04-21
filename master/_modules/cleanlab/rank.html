@@ -792,15 +792,16 @@
 <span class="sd">      being correctly labeled.</span>
 <span class="sd">    """</span>
 
-    <span class="n">MIN_ALLOWED_RAW_SCORE</span> <span class="o">=</span> <span class="mf">1e-6</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># lower-bound clipping threshold to prevent 0 in logarithm</span>
+    <span class="n">MIN_ALLOWED</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># lower-bound clipping threshold to prevents 0 in logs and division</span>
     <span class="n">self_confidence</span> <span class="o">=</span> <span class="n">get_self_confidence_for_each_label</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
+    <span class="n">self_confidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">self_confidence</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="n">MIN_ALLOWED</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="c1"># Divide entropy by self confidence</span>
     <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">get_normalized_entropy</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">"pred_probs"</span><span class="p">:</span> <span class="n">pred_probs</span><span class="p">})</span> <span class="o">/</span> <span class="n">self_confidence</span>
 
     <span class="c1"># Rescale</span>
-    <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">label_quality_scores</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="n">MIN_ALLOWED_RAW_SCORE</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">label_quality_scores</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">label_quality_scores</span>
+    <span class="n">clipped_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">label_quality_scores</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="n">MIN_ALLOWED</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">label_quality_scores</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">clipped_scores</span>
 
     <span class="k">return</span> <span class="n">label_quality_scores</span></div>
 </pre></div> 
