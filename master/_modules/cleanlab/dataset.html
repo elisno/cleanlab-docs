@@ -465,7 +465,7 @@
     <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Returns the classes that are often confused by the data labelers.</span>
+    <span class="sd">"""Returns the pairs of classes that are often mislabeled as one another.</span>
 <span class="sd">    Consider merging the top pairs of classes returned by this method each into a single class.</span>
 <span class="sd">    If the dataset is labeled by human annotators, consider clearly defining the</span>
 <span class="sd">    difference between the classes prior to having annotators label the data.</span>
@@ -497,7 +497,8 @@
 <span class="sd">    distribution. If you do not want this behavior, simply set ``asymmetric=False``.</span>
 
 <span class="sd">    This method estimates how often the annotators confuse two classes.</span>
-<span class="sd">    This differs from just using a similarity matrix or confusion matrix, as these summarize characteristics of the predictive model rather than the data labelers (i.e. annotators).</span>
+<span class="sd">    This differs from just using a similarity matrix or confusion matrix,</span>
+<span class="sd">    as these summarize characteristics of the predictive model rather than the data labelers (i.e. annotators).</span>
 <span class="sd">    Instead, this method works even if the model that generated `pred_probs` tends to be more confident in some classes than others.</span>
 
 <span class="sd">    Parameters</span>
