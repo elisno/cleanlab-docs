@@ -702,7 +702,10 @@ div.rendered_html tbody tr:hover {
 <div class="admonition note">
 <p class="admonition-title">Bringing Your Own Data (BYOD)?</p>
 <p>You can easily replace the above with your own tabular dataset, and continue with the rest of the tutorial.</p>
-<p>Your classes (and entries of <code class="docutils literal notranslate"><span class="pre">y</span></code>) should be represented as integer indices 0, 1, …, num_classes - 1.</p>
+<div class="line-block">
+<div class="line">Your classes (and entries of <code class="docutils literal notranslate"><span class="pre">y</span></code>) should be represented as integer indices 0, 1, …, num_classes - 1.</div>
+<div class="line">For example, if your dataset has 7 examples from 3 classes, <code class="docutils literal notranslate"><span class="pre">y</span></code> might look like: <code class="docutils literal notranslate"><span class="pre">np.array([2,0,0,1,2,0,1])</span></code></div>
+</div>
 </div>
 </div>
 <div class="section" id="3.-Select-a-classification-model-and-compute-out-of-sample-predicted-probabilities">
@@ -741,7 +744,8 @@ classifier via a simple scikit-learn wrapper:</p>
 </div>
 <div class="section" id="4.-Use-cleanlab-to-find-label-issues">
 <h2><strong>4. Use cleanlab to find label issues</strong><a class="headerlink" href="#4.-Use-cleanlab-to-find-label-issues" title="Permalink to this headline">#</a></h2>
-<p>Based on the given labels and out-of-sample predicted probabilities, cleanlab can quickly help us identify label issues in our dataset. Here we request that the indices of the identified label issues be sorted by cleanlab’s self-confidence score, which measures the quality of each given label via the probability assigned to it in our model’s prediction.</p>
+<p>Based on the given labels and out-of-sample predicted probabilities, cleanlab can quickly help us identify label issues in our dataset. For a dataset with N examples from K classes, the labels should be a 1D array of length N and predicted probabilities should be a 2D (N x K) array. Here we request that the indices of the identified label issues be sorted by cleanlab’s self-confidence score, which measures the quality of each given label via the probability assigned to it in our model’s
+prediction.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
