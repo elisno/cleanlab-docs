@@ -387,7 +387,11 @@ value to identify fewer label issues. If you aren’t sure, leave this set to 1.
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – A discrete vector of noisy labels, i.e. some labels may be erroneous.
-<em>Format requirements</em>: for dataset with K classes, labels must be in 0, 1, …, K-1.</p></li>
+<em>Format requirements</em>: for dataset with K classes, labels must be in 0, 1, …, K-1.
+All the classes (0, 1, …, and K-1) MUST be present in <code class="docutils literal notranslate"><span class="pre">labels</span></code>, such that:
+<code class="docutils literal notranslate"><span class="pre">len(set(labels))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1]</span></code> for standard multi-class classification with single-labeled data (e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span>  <span class="pre">[1,0,2,1,1,0...]</span></code>).
+For multi-label classification where each example can belong to multiple classes(e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">[[1,2],[1],[0],..]</span></code>),
+your labels should instead satisfy: <code class="docutils literal notranslate"><span class="pre">len(set(k</span> <span class="pre">for</span> <span class="pre">l</span> <span class="pre">in</span> <span class="pre">labels</span> <span class="pre">for</span> <span class="pre">k</span> <span class="pre">in</span> <span class="pre">l))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1])</span></code>.</p></li>
 <li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – <p>An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds
 to an example <cite>x</cite> and contains the model-predicted probabilities that
