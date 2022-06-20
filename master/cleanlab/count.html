@@ -467,7 +467,6 @@ to an example <cite>x</cite> and contains the model-predicted probabilities that
 columns must be ordered such that these probabilities correspond to
 class 0, 1, …, K-1. <cite>pred_probs</cite> should have been computed using 3 (or
 higher) fold cross-validation.</p></li>
-<li><p><strong>K</strong> (<em>optional</em>) – Number of unique classes. Calculated as <code class="docutils literal notranslate"><span class="pre">len(np.unique(labels))</span></code> when <code class="docutils literal notranslate"><span class="pre">K=None</span></code>.</p></li>
 <li><p><strong>thresholds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">array_like</span></code>, <em>optional</em>) – <p>An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">1)</span></code> or <code class="docutils literal notranslate"><span class="pre">(K,)</span></code> of per-class threshold
 probabilities, used to determine the cutoff probability necessary to
 consider an example as a given class label (see <a class="reference external" href="https://jair.org/index.php/jair/article/view/12125">Northcutt et al.,
@@ -848,14 +847,16 @@ the cross-validated folds. If <code class="docutils literal notranslate"><span c
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.count.get_confident_thresholds">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.count.</span></span><span class="sig-name descname"><span class="pre">get_confident_thresholds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.array</span></span></span><a class="reference internal" href="../_modules/cleanlab/count.html#get_confident_thresholds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.count.get_confident_thresholds" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.count.</span></span><span class="sig-name descname"><span class="pre">get_confident_thresholds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.array</span></span></span><a class="reference internal" href="../_modules/cleanlab/count.html#get_confident_thresholds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.count.get_confident_thresholds" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns expected (average) “self-confidence” for each class.</p>
 <p>The confident class threshold for a class j is the expected (average) “self-confidence” for class j.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
-Elements must be in the set 0, 1, …, K-1, where K is the number of classes.</p></li>
+Elements must be in the set 0, 1, …, K-1, where K is the number of classes.
+All the classes (0, 1, …, and K-1) MUST be present in <code class="docutils literal notranslate"><span class="pre">labels</span></code>, such that:
+len(set(k for l in labels for k in l)) == pred_probs.shape[1]</p></li>
 <li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds
 to an example <cite>x</cite> and contains the model-predicted probabilities that
@@ -863,10 +864,19 @@ to an example <cite>x</cite> and contains the model-predicted probabilities that
 columns must be ordered such that these probabilities correspond to
 class 0, 1, …, K-1. <cite>pred_probs</cite> should have been computed using 3 (or
 higher) fold cross-validation.</p></li>
+<li><p><strong>multi_label</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, labels should be an iterable (e.g. list) of iterables, containing a
+list of labels for each example, instead of just a single label.
+Assumes all classes in pred_probs.shape[1] are represented in labels.
+The multi-label setting supports classification tasks where an example has 1 or more labels.
+Example of a multi-labeled <cite>labels</cite> input: <code class="docutils literal notranslate"><span class="pre">[[0,1],</span> <span class="pre">[1],</span> <span class="pre">[0,2],</span> <span class="pre">[0,1,2],</span> <span class="pre">[0],</span> <span class="pre">[1],</span> <span class="pre">...]</span></code>.
+The major difference in how this is calibrated versus single-label is that
+the total number of errors considered is based on the number of labels,
+not the number of examples. So, the calibrated <cite>confident_joint</cite> will sum
+to the number of total labels.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>confident_thresholds</strong> – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,)</span></code>.</p>
+<dd class="field-even"><p><strong>confident_thresholds</strong> – An array of shape <code class="docutils literal notranslate"><span class="pre">(num_classes,</span> <span class="pre">)</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>

@@ -372,7 +372,11 @@
 <span class="kn">from</span> <span class="nn">cleanlab.count</span> <span class="kn">import</span> <span class="n">get_confident_thresholds</span>
 
 
-<span class="k">def</span> <span class="nf">_subtract_confident_thresholds</span><span class="p">(</span><span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_subtract_confident_thresholds</span><span class="p">(</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+    <span class="n">multi_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
     <span class="sd">"""Returns adjusted predicted probabilities by subtracting the class confident thresholds and renormalizing.</span>
 
 <span class="sd">    The confident class threshold for a class j is the expected (average) "self-confidence" for class j.</span>
@@ -387,6 +391,16 @@
 <span class="sd">    pred_probs : np.array (shape (N, K))</span>
 <span class="sd">      Predicted-probabilities in the same format expected by the `cleanlab.count.get_confident_thresholds()` method.</span>
 
+<span class="sd">    multi_label : bool, optional</span>
+<span class="sd">      If ``True``, labels should be an iterable (e.g. list) of iterables, containing a</span>
+<span class="sd">      list of labels for each example, instead of just a single label.</span>
+<span class="sd">      The multi-label setting supports classification tasks where an example has 1 or more labels.</span>
+<span class="sd">      Example of a multi-labeled `labels` input: ``[[0,1], [1], [0,2], [0,1,2], [0], [1], ...]``.</span>
+<span class="sd">      The major difference in how this is calibrated versus single-label is that</span>
+<span class="sd">      the total number of errors considered is based on the number of labels,</span>
+<span class="sd">      not the number of examples. So, the calibrated `confident_joint` will sum</span>
+<span class="sd">      to the number of total labels.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pred_probs_adj : np.array (float)</span>
@@ -394,12 +408,13 @@
 <span class="sd">    """</span>
 
     <span class="c1"># Get expected (average) self-confidence for each class</span>
-    <span class="n">confident_thresholds</span> <span class="o">=</span> <span class="n">get_confident_thresholds</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
+    <span class="c1"># TODO: Test this for multi-label</span>
+    <span class="n">confident_thresholds</span> <span class="o">=</span> <span class="n">get_confident_thresholds</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span><span class="p">)</span>
 
     <span class="c1"># Subtract the class confident thresholds</span>
     <span class="n">pred_probs_adj</span> <span class="o">=</span> <span class="n">pred_probs</span> <span class="o">-</span> <span class="n">confident_thresholds</span>
 
-    <span class="c1"># Renormalize by shifting data to take care of negative values from the subtraction</span>
+    <span class="c1"># Re-normalize by shifting data to take care of negative values from the subtraction</span>
     <span class="n">pred_probs_adj</span> <span class="o">+=</span> <span class="n">confident_thresholds</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
     <span class="n">pred_probs_adj</span> <span class="o">/=</span> <span class="n">pred_probs_adj</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span>
         <span class="p">:,</span> <span class="kc">None</span>
