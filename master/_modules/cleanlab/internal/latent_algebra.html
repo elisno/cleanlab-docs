@@ -588,12 +588,12 @@
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">"marginal"</span> <span class="ow">and</span> <span class="n">true_labels_class_counts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">err</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s1">'py_method == "marginal" requires true_labels_class_counts, '</span>
             <span class="s2">"but true_labels_class_counts is None. "</span>
         <span class="p">)</span>
-        <span class="n">err</span> <span class="o">+=</span> <span class="s2">" Provide parameter true_labels_class_counts."</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">" Provide parameter true_labels_class_counts."</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">"cnt"</span><span class="p">:</span>
         <span class="c1"># Computing py this way avoids dividing by zero noise rates.</span>

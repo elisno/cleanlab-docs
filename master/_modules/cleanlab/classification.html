@@ -470,10 +470,14 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">cleanlab.rank</span> <span class="kn">import</span> <span class="n">get_label_quality_scores</span>
+<span class="kn">from</span> <span class="nn">cleanlab</span> <span class="kn">import</span> <span class="nb">filter</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.util</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">assert_inputs_are_valid</span><span class="p">,</span>
     <span class="n">value_counts</span><span class="p">,</span>
     <span class="n">compress_int_array</span><span class="p">,</span>
+    <span class="n">subset_X_y</span><span class="p">,</span>
+    <span class="n">get_num_classes</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">cleanlab.count</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">estimate_py_noise_matrices_and_cv_pred_proba</span><span class="p">,</span>
@@ -486,8 +490,10 @@
     <span class="n">compute_py_inv_noise_matrix</span><span class="p">,</span>
     <span class="n">compute_noise_matrix_from_inverse</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">cleanlab.rank</span> <span class="kn">import</span> <span class="n">get_label_quality_scores</span>
-<span class="kn">from</span> <span class="nn">cleanlab</span> <span class="kn">import</span> <span class="nb">filter</span>
+<span class="kn">from</span> <span class="nn">cleanlab.internal.validation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">assert_valid_inputs</span><span class="p">,</span>
+    <span class="n">labels_to_array</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="CleanLearning"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning">[docs]</a><span class="k">class</span> <span class="nc">CleanLearning</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>  <span class="c1"># Inherits sklearn classifier</span>
@@ -628,12 +634,15 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        X : np.array</span>
-<span class="sd">          Input feature matrix of shape ``(N, ...)``, where N is the number of</span>
-<span class="sd">          examples. The classifier that this instance was initialized with,</span>
-<span class="sd">          `clf`, must be able to handle data with this shape.</span>
+<span class="sd">        X : np.array or pd.DataFrame</span>
+<span class="sd">          Data features (i.e. training inputs for ML), typically an array of shape ``(N, ...)``,</span>
+<span class="sd">          where N is the number of examples. Sparse matrices are supported.</span>
+<span class="sd">          If not an array or DataFrame, then ``X`` must support list-based indexing:</span>
+<span class="sd">          ``X[index_list]`` to select a subset of training examples.</span>
+<span class="sd">          The classifier that this instance was initialized with,</span>
+<span class="sd">          ``clf``, must be able to fit() and predict() data with this format.</span>
 
-<span class="sd">        labels : np.array</span>
+<span class="sd">        labels : np.array or pd.Series</span>
 <span class="sd">          An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">          Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
@@ -665,13 +674,13 @@
 <span class="sd">          noise rates using confident counts.</span>
 
 <span class="sd">        noise_matrix : np.array, optional</span>
-<span class="sd">          An array of shape ``(N, N)`` representing the conditional probability</span>
+<span class="sd">          An array of shape ``(K, K)`` representing the conditional probability</span>
 <span class="sd">          matrix ``P(label=k_s | true label=k_y)``, the</span>
 <span class="sd">          fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">          Assumes columns of `noise_matrix` sum to 1.</span>
 
 <span class="sd">        inverse_noise_matrix : np.array, optional</span>
-<span class="sd">          An array of shape ``(N, N)`` representing the conditional probability</span>
+<span class="sd">          An array of shape ``(K, K)`` representing the conditional probability</span>
 <span class="sd">          matrix ``P(true label=k_y | label=k_s)``,</span>
 <span class="sd">          the estimated fraction observed examples in each class ``k_s``</span>
 <span class="sd">          that are mislabeled examples from every other class ``k_y``,</span>
@@ -771,8 +780,13 @@
             <span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># set args that may not have been set if `self.find_label_issues()` wasn't called yet</span>
+            <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">label_matrix</span> <span class="o">=</span> <span class="n">noise_matrix</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">label_matrix</span> <span class="o">=</span> <span class="n">inverse_noise_matrix</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">label_matrix</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">"Using provided label_issues instead of finding label issues."</span><span class="p">)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -793,15 +807,13 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span><span class="p">[</span><span class="s2">"is_label_issue"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">x_mask</span> <span class="o">=</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span>
-        <span class="n">x_cleaned</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">x_mask</span><span class="p">]</span>
-        <span class="n">labels_cleaned</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">x_mask</span><span class="p">]</span>
+        <span class="n">x_cleaned</span><span class="p">,</span> <span class="n">labels_cleaned</span> <span class="o">=</span> <span class="n">subset_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">x_mask</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Pruning </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span><span class="p">)</span><span class="si">}</span><span class="s2"> examples with label issues ..."</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Remaining clean data has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_cleaned</span><span class="p">)</span><span class="si">}</span><span class="s2"> examples."</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">sample_weight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Check if sample_weight in args of clf.fit()</span>
-
             <span class="k">if</span> <span class="p">(</span>
                 <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
                 <span class="ow">and</span> <span class="s2">"sample_weight"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span>
@@ -991,8 +1003,7 @@
 <span class="sd">        """</span>
 
         <span class="c1"># Check inputs</span>
-        <span class="n">allow_empty_X</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">pred_probs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">True</span>
-        <span class="n">assert_inputs_are_valid</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">allow_empty_X</span><span class="o">=</span><span class="n">allow_empty_X</span><span class="p">)</span>
+        <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Trace(noise_matrix) is </span><span class="si">{}</span><span class="s2">, but must exceed 1."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
@@ -1000,8 +1011,11 @@
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">inverse_noise_matrix</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Trace(inverse_noise_matrix) is </span><span class="si">{}</span><span class="s2">. Must exceed 1."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
 
-        <span class="c1"># Number of classes</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">label_matrix</span> <span class="o">=</span> <span class="n">noise_matrix</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">label_matrix</span> <span class="o">=</span> <span class="n">inverse_noise_matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">label_matrix</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cv_n_folds</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"Need more data from each class for cross-validation. "</span>
@@ -1111,6 +1125,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">pulearning</span><span class="p">][</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulearning</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulearning</span><span class="p">][</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulearning</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_to_array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">"Using predicted probabilities to identify label issues ..."</span><span class="p">)</span>
         <span class="n">label_issues_mask</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span>
@@ -1229,6 +1244,7 @@
 <span class="sd">        Helper method to get the label_issues input arg into a formatted DataFrame.</span>
 <span class="sd">        """</span>
 
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_to_array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label_issues</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
             <span class="k">if</span> <span class="s2">"is_label_issue"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>

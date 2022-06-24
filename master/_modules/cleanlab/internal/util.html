@@ -372,44 +372,7 @@
 <span class="c1"># #### Contains ancillary helper functions used throughout this package.</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">check_X_y</span>
-
-
-<div class="viewcode-block" id="assert_inputs_are_valid"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.assert_inputs_are_valid">[docs]</a><span class="k">def</span> <span class="nf">assert_inputs_are_valid</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allow_empty_X</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-    <span class="sd">"""Checks that X, labels, and pred_probs are correctly formatted"""</span>
-
-    <span class="k">if</span> <span class="n">pred_probs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"pred_probs should be a numpy array."</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"pred_probs and labels must have same length."</span><span class="p">)</span>
-        <span class="c1"># Check for valid probabilities.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">pred_probs</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span><span class="n">pred_probs</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Values in pred_probs must be between 0 and 1."</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"labels should be a numpy array."</span><span class="p">)</span>
-
-    <span class="c1"># Check that labels is zero-indexed (first label is 0).</span>
-    <span class="n">unique_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">unique_classes</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unique_classes</span><span class="p">))):</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s2">"cleanlab requires zero-indexed labels (0,1,2,..,m-1), but in "</span>
-        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">"your case: np.unique(labels) = </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">unique_classes</span><span class="p">))</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_empty_X</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"X cannot be None."</span><span class="p">)</span>
-
-        <span class="n">check_X_y</span><span class="p">(</span>
-            <span class="n">X</span><span class="p">,</span>
-            <span class="n">s</span><span class="p">,</span>
-            <span class="n">accept_sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">force_all_finite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">ensure_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">allow_nd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span></div>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
 <div class="viewcode-block" id="remove_noise_from_class"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.remove_noise_from_class">[docs]</a><span class="k">def</span> <span class="nf">remove_noise_from_class</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">class_without_noise</span><span class="p">):</span>
@@ -790,14 +753,129 @@
 
 <div class="viewcode-block" id="compress_int_array"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.compress_int_array">[docs]</a><span class="k">def</span> <span class="nf">compress_int_array</span><span class="p">(</span><span class="n">int_array</span><span class="p">,</span> <span class="n">num_possible_values</span><span class="p">):</span>
     <span class="sd">"""Compresses dtype of np.array&lt;int&gt; if num_possible_values is small enough."""</span>
-    <span class="n">compressed_type</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">num_possible_values</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"int16"</span><span class="p">))</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>
-        <span class="n">compressed_type</span> <span class="o">=</span> <span class="s2">"int16"</span>
-    <span class="k">elif</span> <span class="n">num_possible_values</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"int32"</span><span class="p">))</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="n">compressed_type</span> <span class="o">=</span> <span class="s2">"int32"</span>  <span class="c1"># pragma: no cover</span>
-    <span class="k">if</span> <span class="n">compressed_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">int_array</span> <span class="o">=</span> <span class="n">int_array</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">compressed_type</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">int_array</span></div>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">compressed_type</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">num_possible_values</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"int16"</span><span class="p">))</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>
+            <span class="n">compressed_type</span> <span class="o">=</span> <span class="s2">"int16"</span>
+        <span class="k">elif</span> <span class="n">num_possible_values</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"int32"</span><span class="p">))</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">compressed_type</span> <span class="o">=</span> <span class="s2">"int32"</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">if</span> <span class="n">compressed_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">int_array</span> <span class="o">=</span> <span class="n">int_array</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">compressed_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">int_array</span>
+    <span class="k">except</span><span class="p">:</span>  <span class="c1"># int_array may not even be numpy array, keep as is then</span>
+        <span class="k">return</span> <span class="n">int_array</span></div>
+
+
+<div class="viewcode-block" id="train_val_split"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.train_val_split">[docs]</a><span class="k">def</span> <span class="nf">train_val_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">holdout_idx</span><span class="p">):</span>
+    <span class="sd">"""Splits data into training/validation sets based on given indices"""</span>
+    <span class="n">labels_train</span><span class="p">,</span> <span class="n">labels_holdout</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">labels</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span>
+        <span class="n">labels</span><span class="p">[</span><span class="n">holdout_idx</span><span class="p">],</span>
+    <span class="p">)</span>  <span class="c1"># labels are always np.array</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)):</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">X_holdout</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">holdout_idx</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">X_holdout</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">holdout_idx</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_holdout</span><span class="p">,</span> <span class="n">labels_train</span><span class="p">,</span> <span class="n">labels_holdout</span></div>
+
+
+<div class="viewcode-block" id="subset_X_y"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.subset_X_y">[docs]</a><span class="k">def</span> <span class="nf">subset_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+    <span class="sd">"""Extracts subset of features/labels where mask is True"""</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">subset_labels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Data features X must be subsettable with boolean mask: X[mask]"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">labels</span></div>
+
+
+<div class="viewcode-block" id="subset_labels"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.subset_labels">[docs]</a><span class="k">def</span> <span class="nf">subset_labels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+    <span class="sd">"""Extracts subset of labels where mask is True"""</span>
+    <span class="k">try</span><span class="p">:</span>  <span class="c1"># filtering labels as if it is array or DataFrame</span>
+        <span class="k">return</span> <span class="n">labels</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>  <span class="c1"># filtering labels as if it is list</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">l</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="k">if</span> <span class="n">mask</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"labels must be 1D np.array, list, or pd.Series."</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="csr_vstack"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.csr_vstack">[docs]</a><span class="k">def</span> <span class="nf">csr_vstack</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">"""Takes in 2 csr_matrices and appends the second one to the bottom of the first one.</span>
+<span class="sd">    Alternative to scipy.sparse.vstack. Returns a sparse matrix.</span>
+<span class="sd">    """</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">a</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">a</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">indices</span><span class="p">))</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">indptr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">a</span><span class="o">.</span><span class="n">indptr</span><span class="p">,</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">indptr</span> <span class="o">+</span> <span class="n">a</span><span class="o">.</span><span class="n">nnz</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]))</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">a</span></div>
+
+
+<div class="viewcode-block" id="append_extra_datapoint"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.append_extra_datapoint">[docs]</a><span class="k">def</span> <span class="nf">append_extra_datapoint</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="n">from_data</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="sd">"""Appends an extra datapoint to the data object ``to_data``.</span>
+<span class="sd">    This datapoint is taken from the data object ``from_data`` at the corresponding index.</span>
+<span class="sd">    One place this could be useful is ensuring no missing classes after train/validation split.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">from_data</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">to_data</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot append datapoint from different type of data object."</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">to_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">to_data</span><span class="p">,</span> <span class="n">from_data</span><span class="p">[</span><span class="n">index</span><span class="p">]])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>  <span class="c1"># extract single example to add to training set</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+                <span class="n">X_extra</span> <span class="o">=</span> <span class="n">from_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+                <span class="n">X_extra</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">from_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">X_extra</span> <span class="o">=</span> <span class="n">from_data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Data features X must support: X[i]."</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">to_data</span> <span class="o">=</span> <span class="n">to_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X_extra</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="c1"># append for sparse matrix</span>
+                <span class="n">to_data</span> <span class="o">=</span> <span class="n">csr_vstack</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="n">X_extra</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Data features X must support: X.append(X[i])"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)):</span>
+        <span class="n">to_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">to_data</span></div>
+
+
+<div class="viewcode-block" id="get_num_classes"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.get_num_classes">[docs]</a><span class="k">def</span> <span class="nf">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">"""Determines the number of classes based on information considered in a</span>
+<span class="sd">    canonical ordering. label_matrix can be: noise_matrix, inverse_noise_matrix,</span>
+<span class="sd">    or any other K x K matrix where K = number of classes.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">pred_probs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pred_probs is number 1 source of truth</span>
+        <span class="k">return</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">label_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># matrix dimension is number 2 source of truth</span>
+        <span class="k">if</span> <span class="n">label_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">label_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"label matrix must be K x K, not </span><span class="si">{</span><span class="n">label_matrix</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">label_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">num_unique_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="num_unique_classes"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.num_unique_classes">[docs]</a><span class="k">def</span> <span class="nf">num_unique_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">"""Finds the number of unique classes for both single-labeled</span>
+<span class="sd">    and multi-labeled labels. If multi_label is set to None (default)</span>
+<span class="sd">    this method will infer if multi_label is True or False based on</span>
+<span class="sd">    the format of labels.</span>
+<span class="sd">    This allows for a more general form of multiclass labels that looks</span>
+<span class="sd">    like this: [1, [1,2], [0], [0, 1], 2, 1]"""</span>
+    <span class="k">if</span> <span class="n">multi_label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">multi_label</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">l</span> <span class="k">for</span> <span class="n">grp</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">grp</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="smart_display_dataframe"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.smart_display_dataframe">[docs]</a><span class="k">def</span> <span class="nf">smart_display_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>

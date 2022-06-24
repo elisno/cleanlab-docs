@@ -380,6 +380,7 @@
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
 <span class="kn">import</span> <span class="nn">sklearn.base</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">cleanlab.internal.util</span> <span class="kn">import</span> <span class="p">(</span>
@@ -387,12 +388,18 @@
     <span class="n">clip_values</span><span class="p">,</span>
     <span class="n">clip_noise_rates</span><span class="p">,</span>
     <span class="n">round_preserving_row_totals</span><span class="p">,</span>
-    <span class="n">assert_inputs_are_valid</span><span class="p">,</span>
+    <span class="n">csr_vstack</span><span class="p">,</span>
+    <span class="n">append_extra_datapoint</span><span class="p">,</span>
+    <span class="n">train_val_split</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.latent_algebra</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">compute_inv_noise_matrix</span><span class="p">,</span>
     <span class="n">compute_py</span><span class="p">,</span>
     <span class="n">compute_noise_matrix_from_inverse</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">cleanlab.internal.validation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">assert_valid_inputs</span><span class="p">,</span>
+    <span class="n">labels_to_array</span><span class="p">,</span>
 <span class="p">)</span>
 
 
@@ -1016,12 +1023,12 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    X : np.array</span>
+<span class="sd">    X : np.array or pd.DataFrame</span>
 <span class="sd">      Input feature matrix of shape ``(N, ...)``, where N is the number of</span>
 <span class="sd">      examples. The classifier that this instance was initialized with,</span>
-<span class="sd">      `clf`, must be able to handle data with this shape.</span>
+<span class="sd">          ``clf``, must be able to fit() and predict() data with this format.</span>
 
-<span class="sd">    labels : np.array</span>
+<span class="sd">    labels : np.array or pd.Series</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
@@ -1064,12 +1071,11 @@
 <span class="sd">      Tuple of two numpy arrays in the form:</span>
 <span class="sd">      (joint counts matrix, predicted probability matrix)"""</span>
 
-    <span class="n">assert_inputs_are_valid</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+    <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_to_array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
     <span class="c1"># Number of classes</span>
     <span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
-
-    <span class="c1"># Ensure labels are of type np.array()</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
 
     <span class="c1"># Create cross-validation object for out-of-sample predicted probabilities.</span>
     <span class="c1"># CV folds preserve the fraction of noisy positive and</span>
@@ -1084,17 +1090,15 @@
         <span class="n">clf_copy</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span>
 
         <span class="c1"># Select the training and holdout cross-validated sets.</span>
-        <span class="n">X_train_cv</span><span class="p">,</span> <span class="n">X_holdout_cv</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">cv_train_idx</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">cv_holdout_idx</span><span class="p">]</span>
-        <span class="n">s_train_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">cv_train_idx</span><span class="p">],</span> <span class="n">labels</span><span class="p">[</span><span class="n">cv_holdout_idx</span><span class="p">]</span>
+        <span class="n">X_train_cv</span><span class="p">,</span> <span class="n">X_holdout_cv</span><span class="p">,</span> <span class="n">s_train_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span> <span class="o">=</span> <span class="n">train_val_split</span><span class="p">(</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">cv_train_idx</span><span class="p">,</span> <span class="n">cv_holdout_idx</span>
+        <span class="p">)</span>
 
         <span class="c1"># Ensure no missing classes in training set.</span>
         <span class="n">train_cv_classes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">s_train_cv</span><span class="p">)</span>
-        <span class="n">all_classes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
-            <span class="nb">range</span><span class="p">(</span><span class="n">num_classes</span><span class="p">)</span>
-        <span class="p">)</span>  <span class="c1"># TODO: more efficient if committed to labels 0,...,num_classes, else use: set(labels)</span>
-        <span class="n">missing_class_inds</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">{}</span>
-        <span class="p">)</span>  <span class="c1"># keys = which classes are missing, values = index of holdout data from this class that we duplicated</span>
+        <span class="n">all_classes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_classes</span><span class="p">))</span>
+        <span class="c1"># dict with keys: which classes missing, values: index of holdout data from this class that is duplicated:</span>
+        <span class="n">missing_class_inds</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_cv_classes</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_classes</span><span class="p">):</span>
             <span class="n">missing_classes</span> <span class="o">=</span> <span class="n">all_classes</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">train_cv_classes</span><span class="p">)</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
@@ -1102,12 +1106,15 @@
                 <span class="sa">f</span><span class="s2">"because these classes do not have enough data for proper cross-validation: </span><span class="si">{</span><span class="n">missing_classes</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">missing_class</span> <span class="ow">in</span> <span class="n">missing_classes</span><span class="p">:</span>
-                <span class="n">holdout_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s_holdout_cv</span> <span class="o">==</span> <span class="n">missing_class</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="c1"># Duplicate one instance of missing_class from holdout data to the training data:</span>
-                <span class="n">dup_ind</span> <span class="o">=</span> <span class="n">holdout_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">s_train_cv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_train_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span><span class="p">[</span><span class="n">dup_ind</span><span class="p">])</span>
-                <span class="n">X_train_cv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X_train_cv</span><span class="p">,</span> <span class="n">X_holdout_cv</span><span class="p">[</span><span class="n">dup_ind</span><span class="p">]])</span>
-                <span class="n">missing_class_inds</span><span class="p">[</span><span class="n">missing_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">dup_ind</span>
+                <span class="n">holdout_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s_holdout_cv</span> <span class="o">==</span> <span class="n">missing_class</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">dup_idx</span> <span class="o">=</span> <span class="n">holdout_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">s_train_cv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_train_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span><span class="p">[</span><span class="n">dup_idx</span><span class="p">])</span>
+                <span class="c1"># labels are always np.array so don't have to consider .iloc above</span>
+                <span class="n">X_train_cv</span> <span class="o">=</span> <span class="n">append_extra_datapoint</span><span class="p">(</span>
+                    <span class="n">to_data</span><span class="o">=</span><span class="n">X_train_cv</span><span class="p">,</span> <span class="n">from_data</span><span class="o">=</span><span class="n">X_holdout_cv</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">dup_idx</span>
+                <span class="p">)</span>
+                <span class="n">missing_class_inds</span><span class="p">[</span><span class="n">missing_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">dup_idx</span>
 
         <span class="c1"># Fit classifier clf to training set, predict on holdout set, and update pred_probs.</span>
         <span class="n">clf_copy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_cv</span><span class="p">,</span> <span class="n">s_train_cv</span><span class="p">,</span> <span class="o">**</span><span class="n">clf_kwargs</span><span class="p">)</span>
@@ -1117,8 +1124,8 @@
         <span class="k">for</span> <span class="n">missing_class</span> <span class="ow">in</span> <span class="n">missing_class_inds</span><span class="p">:</span>
             <span class="n">dummy_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">pred_probs_cv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="n">dummy_pred</span><span class="p">[</span><span class="n">missing_class</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># predict given label with full confidence</span>
-            <span class="n">dup_ind</span> <span class="o">=</span> <span class="n">missing_class_inds</span><span class="p">[</span><span class="n">missing_class</span><span class="p">]</span>
-            <span class="n">pred_probs_cv</span><span class="p">[</span><span class="n">dup_ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">dummy_pred</span>
+            <span class="n">dup_idx</span> <span class="o">=</span> <span class="n">missing_class_inds</span><span class="p">[</span><span class="n">missing_class</span><span class="p">]</span>
+            <span class="n">pred_probs_cv</span><span class="p">[</span><span class="n">dup_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">dummy_pred</span>
 
         <span class="n">pred_probs</span><span class="p">[</span><span class="n">cv_holdout_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred_probs_cv</span>
 
