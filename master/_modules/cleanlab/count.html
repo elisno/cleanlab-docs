@@ -1000,6 +1000,7 @@
     <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">calibrate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""Estimates ``P(labels, y)``, the confident counts of the latent</span>
 <span class="sd">    joint distribution of true and noisy labels</span>
@@ -1064,6 +1065,9 @@
 <span class="sd">    clf_kwargs : dict, optional</span>
 <span class="sd">      Optional keyword arguments to pass into `clf`'s ``fit()`` method.</span>
 
+<span class="sd">    validation_func : callable, optional</span>
+<span class="sd">      Specifies how to map the validation data split in cross-validation as input for ``clf.fit()``.</span>
+<span class="sd">      For details, see the documentation of :py:meth:`CleanLearning.fit&lt;cleanlab.classification.CleanLearning.fit&gt;`</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
@@ -1116,8 +1120,16 @@
                 <span class="p">)</span>
                 <span class="n">missing_class_inds</span><span class="p">[</span><span class="n">missing_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">dup_idx</span>
 
+        <span class="c1"># Map validation data into appropriate format to pass into classifier clf</span>
+        <span class="k">if</span> <span class="n">validation_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">validation_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">validation_func</span><span class="p">):</span>
+            <span class="n">validation_kwargs</span> <span class="o">=</span> <span class="n">validation_func</span><span class="p">(</span><span class="n">X_holdout_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"validation_func must be callable function with args: X_val, y_val"</span><span class="p">)</span>
+
         <span class="c1"># Fit classifier clf to training set, predict on holdout set, and update pred_probs.</span>
-        <span class="n">clf_copy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_cv</span><span class="p">,</span> <span class="n">s_train_cv</span><span class="p">,</span> <span class="o">**</span><span class="n">clf_kwargs</span><span class="p">)</span>
+        <span class="n">clf_copy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_cv</span><span class="p">,</span> <span class="n">s_train_cv</span><span class="p">,</span> <span class="o">**</span><span class="n">clf_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">validation_kwargs</span><span class="p">)</span>
         <span class="n">pred_probs_cv</span> <span class="o">=</span> <span class="n">clf_copy</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_holdout_cv</span><span class="p">)</span>  <span class="c1"># P(labels = k|x) # [:,1]</span>
 
         <span class="c1"># Replace predictions for duplicated indices with dummy predictions:</span>
@@ -1151,6 +1163,7 @@
     <span class="n">py_method</span><span class="o">=</span><span class="s2">"cnt"</span><span class="p">,</span>
     <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""This function computes the out-of-sample predicted</span>
 <span class="sd">    probability ``P(label=k|x)`` for every example x in `X` using cross</span>
@@ -1214,6 +1227,10 @@
 <span class="sd">    clf_kwargs : dict, optional</span>
 <span class="sd">      Optional keyword arguments to pass into `clf`'s ``fit()`` method.</span>
 
+<span class="sd">    validation_func : callable, optional</span>
+<span class="sd">      Specifies how to map the validation data split in cross-validation as input for ``clf.fit()``.</span>
+<span class="sd">      For details, see the documentation of :py:meth:`CleanLearning.fit&lt;cleanlab.classification.CleanLearning.fit&gt;`</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
 <span class="sd">    tuple</span>
@@ -1228,6 +1245,7 @@
         <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
         <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
         <span class="n">clf_kwargs</span><span class="o">=</span><span class="n">clf_kwargs</span><span class="p">,</span>
+        <span class="n">validation_func</span><span class="o">=</span><span class="n">validation_func</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">py</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">,</span> <span class="n">inv_noise_matrix</span> <span class="o">=</span> <span class="n">estimate_latent</span><span class="p">(</span>
@@ -1248,6 +1266,7 @@
     <span class="n">cv_n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""This function computes the out-of-sample predicted</span>
 <span class="sd">    probability [P(label=k|x)] for every example in X using cross</span>
@@ -1280,6 +1299,10 @@
 <span class="sd">    clf_kwargs : dict, optional</span>
 <span class="sd">      Optional keyword arguments to pass into `clf`'s ``fit()`` method.</span>
 
+<span class="sd">    validation_func : callable, optional</span>
+<span class="sd">      Specifies how to map the validation data split in cross-validation as input for ``clf.fit()``.</span>
+<span class="sd">      For details, see the documentation of :py:meth:`CleanLearning.fit&lt;cleanlab.classification.CleanLearning.fit&gt;`</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    --------</span>
 <span class="sd">    pred_probs : np.array</span>
@@ -1295,6 +1318,7 @@
         <span class="n">cv_n_folds</span><span class="o">=</span><span class="n">cv_n_folds</span><span class="p">,</span>
         <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
         <span class="n">clf_kwargs</span><span class="o">=</span><span class="n">clf_kwargs</span><span class="p">,</span>
+        <span class="n">validation_func</span><span class="o">=</span><span class="n">validation_func</span><span class="p">,</span>
     <span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
 
 
@@ -1308,6 +1332,7 @@
     <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">"""Estimates the `noise_matrix` of shape ``(K, K)``. This is the</span>
 <span class="sd">    fraction of examples in every class, labeled as every other class. The</span>
@@ -1360,6 +1385,10 @@
 <span class="sd">    clf_kwargs : dict, optional</span>
 <span class="sd">      Optional keyword arguments to pass into `clf`'s ``fit()`` method.</span>
 
+<span class="sd">    validation_func : callable, optional</span>
+<span class="sd">      Specifies how to map the validation data split in cross-validation as input for ``clf.fit()``.</span>
+<span class="sd">      For details, see the documentation of :py:meth:`CleanLearning.fit&lt;cleanlab.classification.CleanLearning.fit&gt;`</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
 <span class="sd">    tuple</span>
@@ -1374,6 +1403,7 @@
         <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="n">converge_latent_estimates</span><span class="p">,</span>
         <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
         <span class="n">clf_kwargs</span><span class="o">=</span><span class="n">clf_kwargs</span><span class="p">,</span>
+        <span class="n">validation_func</span><span class="o">=</span><span class="n">validation_func</span><span class="p">,</span>
     <span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span></div>
 
 

@@ -624,6 +624,7 @@
         <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
         <span class="n">clf_final_kwargs</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Train the model `clf` with error-prone, noisy labels as if</span>
@@ -722,6 +723,22 @@
 <span class="sd">          This can be useful for training differently in the final ``fit()``</span>
 <span class="sd">          than during cross-validation.</span>
 
+<span class="sd">        validation_func : callable, optional</span>
+<span class="sd">          Optional callable function that takes two arguments, `X_val`, `y_val`, and returns a dict</span>
+<span class="sd">          of keyword arguments passed into to `clf.fit()` which may be functions of the validation</span>
+<span class="sd">          data in each cross-validation fold. Specifies how to map the validation data split in each</span>
+<span class="sd">          cross-validation fold into the appropriate format to pass into `clf`'s ``fit()`` method.</span>
+<span class="sd">          e.g. if your model's ``fit()`` method is call using `clf.fit(X, y, X_validation, y_validation)`,</span>
+<span class="sd">          then you could set `validation_func = f` where</span>
+<span class="sd">          `def f(X_val, y_val): return {"X_validation": X_val, "y_validation": y_val}`</span>
+
+<span class="sd">          Note that `validation_func` will be ignored in the final call to `clf.fit()` on the</span>
+<span class="sd">          cleaned subset of the data. This argument is only for allowing `clf` to access the</span>
+<span class="sd">          validation data in each cross-validation fold (eg. for early-stopping or hyperparameter-selection</span>
+<span class="sd">          purposes). If you want to pass in validation data even in the final training of `clf.fit()`</span>
+<span class="sd">          on the cleaned data subset, you should explicitly pass in that data yourself</span>
+<span class="sd">          (eg. via `clf_final_kwargs` or `clf_kwargs`).</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        CleanLearning</span>
@@ -777,6 +794,7 @@
                 <span class="n">noise_matrix</span><span class="o">=</span><span class="n">noise_matrix</span><span class="p">,</span>
                 <span class="n">inverse_noise_matrix</span><span class="o">=</span><span class="n">inverse_noise_matrix</span><span class="p">,</span>
                 <span class="n">clf_kwargs</span><span class="o">=</span><span class="n">clf_kwargs</span><span class="p">,</span>
+                <span class="n">validation_func</span><span class="o">=</span><span class="n">validation_func</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># set args that may not have been set if `self.find_label_issues()` wasn't called yet</span>
@@ -944,6 +962,7 @@
         <span class="n">inverse_noise_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">save_space</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Identifies potential label issues in the dataset using confident learning.</span>
@@ -1075,6 +1094,7 @@
                     <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">converge_latent_estimates</span><span class="p">,</span>
                     <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
                     <span class="n">clf_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clf_kwargs</span><span class="p">,</span>
+                    <span class="n">validation_func</span><span class="o">=</span><span class="n">validation_func</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># pred_probs is provided by user (assumed holdout probabilities)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
@@ -1105,6 +1125,7 @@
                 <span class="n">cv_n_folds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cv_n_folds</span><span class="p">,</span>
                 <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
                 <span class="n">clf_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clf_kwargs</span><span class="p">,</span>
+                <span class="n">validation_func</span><span class="o">=</span><span class="n">validation_func</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="c1"># If needed, compute the confident_joint (e.g. occurs if noise_matrix was given)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
