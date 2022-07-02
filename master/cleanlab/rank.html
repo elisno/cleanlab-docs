@@ -357,7 +357,9 @@ Except for <a class="reference internal" href="#cleanlab.rank.order_label_issues
 as potential label issues/errors, the methods in this module can be used on whichever subset
 of the dataset you choose (including the entire dataset) and provide a <cite>label quality score</cite> for
 every example. You can then do something like: <code class="docutils literal notranslate"><span class="pre">np.argsort(label_quality_score)</span></code> to obtain ranked
-indices of individual data.</p>
+indices of individual datapoints based on their quality.</p>
+<p>Note: multi-label classification is not supported by most methods in this module,
+each example must belong to a single class, e.g. format: <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">np.array([1,0,2,1,1,0...])</span></code>.</p>
 <p>CAUTION: These label quality scores are computed based on <cite>pred_probs</cite> from your model that must be out-of-sample!
 You should never provide predictions on the same examples used to train the model,
 as these will be overfit and unsuitable for finding label-errors.
@@ -569,7 +571,7 @@ the given label. This gives you an idea of how likely an example is BOTH
 its given label AND not another label, and therefore, scores its likelihood
 of being a good label or a label error.</p>
 <p>Normalized margin works better for finding class conditional label errors where
-there is another label in the class that is better than the given label.</p>
+there is another label in the set of classes that is clearly better than the given label.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -594,8 +596,8 @@ being correctly labeled. <code class="docutils literal notranslate"><span class=
 where lower scores indicate labels less likely to be correct.</p>
 <p>The self-confidence is the holdout probability that an example belongs to
 its given class label.</p>
-<p>Self-confidence works better for finding out-of-distribution (OOD) examples, weird examples, bad examples,
-multi-label, and other types of label errors.</p>
+<p>Self-confidence can work better than normalized-margin for detecting label errors due to out-of-distribution (OOD) or weird examples
+vs. label errors in which labels for random examples have been replaced by other classes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

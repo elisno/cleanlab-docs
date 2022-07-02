@@ -558,7 +558,7 @@
 <span class="sd">      Keyword arguments to pass into :py:func:`rank.get_label_quality_scores</span>
 <span class="sd">      &lt;cleanlab.rank.get_label_quality_scores&gt;`. Options include: `method`, `adjust_pred_probs`.</span>
 
-<span class="sd">    verbose : bool, default=True</span>
+<span class="sd">    verbose : bool, default=False</span>
 <span class="sd">      Controls how much output is printed. Set to ``False`` to suppress print</span>
 <span class="sd">      statements.</span>
 <span class="sd">    """</span>
@@ -865,31 +865,31 @@
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data ..."</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="p">(</span>
-                    <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
-                    <span class="ow">and</span> <span class="s2">"sample_weight"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span>
-                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span> <span class="ow">is</span> <span class="kc">None</span>
-                <span class="p">):</span>
-                    <span class="nb">print</span><span class="p">(</span>
-                        <span class="s2">"Cannot utilize sample weights for final training. To utilize must either specify noise_matrix "</span>
-                        <span class="s2">"or have previously called self.find_label_issues() instead of filter.find_label_issues()"</span>
-                    <span class="p">)</span>
-
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                     <span class="k">if</span> <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data with custom sample_weight..."</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data with custom sample_weight ..."</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
+                            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span> <span class="ow">is</span> <span class="kc">None</span>
+                        <span class="p">):</span>
+                            <span class="nb">print</span><span class="p">(</span>
+                                <span class="s2">"Cannot utilize sample weights for final training! "</span>
+                                <span class="s2">"Why this matters: during final training, sample weights help account for the amount of removed data in each class. "</span>
+                                <span class="s2">"This helps ensure the correct class prior for the learned model. "</span>
+                                <span class="s2">"To use sample weights, you need to either provide the noise_matrix or have previously called self.find_label_issues() instead of filter.find_label_issues() which computes them for you."</span>
+                            <span class="p">)</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data ..."</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">sample_weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">"sample_weight"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">[</span><span class="s2">"sample_weight"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_weight</span><span class="p">[</span><span class="n">x_mask</span><span class="p">]</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data with custom sample_weight..."</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data with custom sample_weight ..."</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="k">if</span> <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data with custom sample_weight..."</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data with custom sample_weight ..."</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data ..."</span><span class="p">)</span>
 

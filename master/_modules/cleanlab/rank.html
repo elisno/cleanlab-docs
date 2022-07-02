@@ -374,7 +374,10 @@
 <span class="sd">as potential label issues/errors, the methods in this module can be used on whichever subset</span>
 <span class="sd">of the dataset you choose (including the entire dataset) and provide a `label quality score` for</span>
 <span class="sd">every example. You can then do something like: ``np.argsort(label_quality_score)`` to obtain ranked</span>
-<span class="sd">indices of individual data.</span>
+<span class="sd">indices of individual datapoints based on their quality.</span>
+
+<span class="sd">Note: multi-label classification is not supported by most methods in this module,</span>
+<span class="sd">each example must belong to a single class, e.g. format: ``labels = np.array([1,0,2,1,1,0...])``.</span>
 
 <span class="sd">CAUTION: These label quality scores are computed based on `pred_probs` from your model that must be out-of-sample!</span>
 <span class="sd">You should never provide predictions on the same examples used to train the model,</span>
@@ -386,14 +389,16 @@
 
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">log_loss</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">NearestNeighbors</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">cleanlab.internal.validation</span> <span class="kn">import</span> <span class="n">assert_valid_inputs</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.label_quality_utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">_subtract_confident_thresholds</span><span class="p">,</span>
     <span class="n">get_normalized_entropy</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">log_loss</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">NearestNeighbors</span>
 
 
 <div class="viewcode-block" id="order_label_issues"><a class="viewcode-back" href="../../cleanlab/rank.html#cleanlab.rank.order_label_issues">[docs]</a><span class="k">def</span> <span class="nf">order_label_issues</span><span class="p">(</span>
@@ -438,7 +443,7 @@
 
 <span class="sd">    """</span>
 
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># Convert bool mask to index mask</span>
     <span class="n">label_issues_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))[</span><span class="n">label_issues_mask</span><span class="p">]</span>
@@ -531,6 +536,8 @@
 <span class="sd">    get_confidence_weighted_entropy_for_each_label</span>
 
 <span class="sd">    """</span>
+
+    <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># Available scoring functions to choose from</span>
     <span class="n">scoring_funcs</span> <span class="o">=</span> <span class="p">{</span>
@@ -656,6 +663,9 @@
 <span class="sd">            Consider using get_label_quality_scores() if you only have a single array of pred_probs.</span>
 <span class="sd">            """</span>
         <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">pred_probs</span> <span class="ow">in</span> <span class="n">pred_probs_list</span><span class="p">:</span>
+        <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># Raise ValueError if user passed custom_weights array but did not choose weight_ensemble_members_by="custom"</span>
     <span class="k">if</span> <span class="n">custom_weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">weight_ensemble_members_by</span> <span class="o">!=</span> <span class="s2">"custom"</span><span class="p">:</span>
@@ -794,8 +804,8 @@
 <span class="sd">    The self-confidence is the holdout probability that an example belongs to</span>
 <span class="sd">    its given class label.</span>
 
-<span class="sd">    Self-confidence works better for finding out-of-distribution (OOD) examples, weird examples, bad examples,</span>
-<span class="sd">    multi-label, and other types of label errors.</span>
+<span class="sd">    Self-confidence can work better than normalized-margin for detecting label errors due to out-of-distribution (OOD) or weird examples</span>
+<span class="sd">    vs. label errors in which labels for random examples have been replaced by other classes.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -835,7 +845,7 @@
 <span class="sd">    of being a good label or a label error.</span>
 
 <span class="sd">    Normalized margin works better for finding class conditional label errors where</span>
-<span class="sd">    there is another label in the class that is better than the given label.</span>
+<span class="sd">    there is another label in the set of classes that is clearly better than the given label.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

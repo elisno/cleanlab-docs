@@ -823,26 +823,19 @@
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">to_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">to_data</span><span class="p">,</span> <span class="n">from_data</span><span class="p">[</span><span class="n">index</span><span class="p">]])</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>  <span class="c1"># extract single example to add to training set</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-                <span class="n">X_extra</span> <span class="o">=</span> <span class="n">from_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
-                <span class="n">X_extra</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">from_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">X_extra</span> <span class="o">=</span> <span class="n">from_data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Data features X must support: X[i]."</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">to_data</span> <span class="o">=</span> <span class="n">to_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X_extra</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>  <span class="c1"># append for sparse matrix</span>
-                <span class="n">to_data</span> <span class="o">=</span> <span class="n">csr_vstack</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="n">X_extra</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Data features X must support: X.append(X[i])"</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)):</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_data</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)):</span>
+        <span class="n">X_extra</span> <span class="o">=</span> <span class="n">from_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="n">index</span><span class="p">]]</span>
+        <span class="n">to_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">to_data</span><span class="p">,</span> <span class="n">X_extra</span><span class="p">])</span>
         <span class="n">to_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">X_extra</span> <span class="o">=</span> <span class="n">from_data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">to_data</span> <span class="o">=</span> <span class="n">to_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X_extra</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>  <span class="c1"># special append for sparse matrix</span>
+                <span class="n">to_data</span> <span class="o">=</span> <span class="n">csr_vstack</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="n">X_extra</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Data features X must support: X.append(X[i])"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">to_data</span></div>
 
