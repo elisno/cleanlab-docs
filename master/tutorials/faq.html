@@ -632,9 +632,13 @@ div.rendered_html tbody tr:hover {
 
 </script><div class="section" id="FAQ">
 <h1>FAQ<a class="headerlink" href="#FAQ" title="Permalink to this headline">#</a></h1>
-<p>Answers to frequently asked questions about the <a class="reference external" href="https://github.com/cleanlab/cleanlab">cleanlab</a> open source package</p>
-<div class="section" id="How-do-I-format-labels-for-Cleanlab?">
-<h2>How do I format labels for Cleanlab?<a class="headerlink" href="#How-do-I-format-labels-for-Cleanlab?" title="Permalink to this headline">#</a></h2>
+<p>Answers to frequently asked questions about the <a class="reference external" href="https://github.com/cleanlab/cleanlab">cleanlab</a> open-source package.</p>
+<div class="section" id="What-data-can-cleanlab-detect-issues-in?">
+<h2>What data can cleanlab detect issues in?<a class="headerlink" href="#What-data-can-cleanlab-detect-issues-in?" title="Permalink to this headline">#</a></h2>
+<p>Currently, cleanlab can be used to detect label issues in any classification dataset. We’re working to add support for all common supervised learning tasks. If you have a particular task in mind, <a class="reference external" href="https://github.com/cleanlab/cleanlab/issues?q=is%3Aissue">let us know</a>!</p>
+</div>
+<div class="section" id="How-do-I-format-classification-labels-for-Cleanlab?">
+<h2>How do I format classification labels for Cleanlab?<a class="headerlink" href="#How-do-I-format-classification-labels-for-Cleanlab?" title="Permalink to this headline">#</a></h2>
 <p>Cleanlab only works with integer-encoded labels in the range <code class="docutils literal notranslate"><span class="pre">{0,1,</span> <span class="pre">...</span> <span class="pre">K-1}</span></code> where <code class="docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">number_of_classes</span></code>. The <code class="docutils literal notranslate"><span class="pre">labels</span></code> array should only contain integer values in the range <code class="docutils literal notranslate"><span class="pre">{0,</span> <span class="pre">K-1}</span></code> and be of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">total_number_of_data_points</span></code>.</p>
 <p><strong>Text or string labels</strong> should to be mapped to integers for eaach possible value. For example if your original data labels look like this: <code class="docutils literal notranslate"><span class="pre">["dog",</span> <span class="pre">"dog",</span> <span class="pre">"cat",</span> <span class="pre">"mouse",</span> <span class="pre">"cat"]</span></code>, you should feed them to Cleanlab like this: <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">[1,1,0,2,0]</span></code> and keep track of which integer uniquely represents which class (classes were ordered alphabetically in this example).</p>
 <p><strong>One-hot encoded labels</strong> should be integer-encoded by finding the argmax along the one-hot encoded axis. An example of what this might look like is shown below.</p>
@@ -652,6 +656,121 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="Why-isn’t-CleanLearning-working-for-my-data?">
+<h2>Why isn’t CleanLearning working for my data?<a class="headerlink" href="#Why-isn’t-CleanLearning-working-for-my-data?" title="Permalink to this headline">#</a></h2>
+<p>At this time, CleanLearning only works directly with numpy matrices or pd.DataFrames. You can still use cleanlab with other data formats though! Just separately obtain predicted probabilities from your model via cross-validation and pass them as inputs.</p>
+</div>
+<div class="section" id="How-can-I-use-different-models-for-data-cleaning-vs. final-training-in-CleanLearning?">
+<h2>How can I use different models for data cleaning vs. final training in CleanLearning?<a class="headerlink" href="#How-can-I-use-different-models-for-data-cleaning-vs. final-training-in-CleanLearning?" title="Permalink to this headline">#</a></h2>
+<p>The code below demonstrates CleanLearning with 2 different classifiers: <code class="docutils literal notranslate"><span class="pre">LogisticRegression()</span></code> and <code class="docutils literal notranslate"><span class="pre">GradientBoostingClassifier()</span></code>. A <code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code> model is used to detect label issues (via cross-validation run inside CleanLearning) and a <code class="docutils literal notranslate"><span class="pre">GradientBoostingClassifier</span></code> model is finally trained on a clean subset of the data with issues removed. This can be done with any two classifiers.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.classification</span> <span class="kn">import</span> <span class="n">CleanLearning</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>
+
+<span class="c1"># Make example data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Introduce label errors</span>
+<span class="n">true_errors</span> <span class="o">=</span> <span class="p">[</span><span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">102</span><span class="p">,</span> <span class="mi">104</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">true_errors</span><span class="p">:</span>
+    <span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+<span class="c1"># CleanLearning with 2 different classifiers: one classifier is used to detect label issues</span>
+<span class="c1"># and a different classifier is subsequently trained on the clean subset of the data.</span>
+
+<span class="n">model_to_find_errors</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>  <span class="c1"># this model will be trained many times via cross-validation</span>
+<span class="n">model_to_return</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">()</span>  <span class="c1"># this model will be trained once on clean subset of data</span>
+
+<span class="n">cl0</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">model_to_find_errors</span><span class="p">)</span>
+<span class="n">issues</span> <span class="o">=</span> <span class="n">cl0</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+<span class="n">cl</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">model_to_return</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">label_issues</span><span class="o">=</span><span class="n">issues</span><span class="p">)</span>
+<span class="n">pred_probs</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># predictions from GradientBoostingClassifier</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">cl0</span><span class="o">.</span><span class="n">clf</span><span class="p">)</span>  <span class="c1"># will be LogisticRegression()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">clf</span><span class="p">)</span>  <span class="c1"># will be GradientBoostingClassifier()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Cannot utilize sample weights for final training. To utilize must either specify noise_matrix or have previously called self.find_label_issues() instead of filter.find_label_issues()
+LogisticRegression()
+GradientBoostingClassifier()
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="How-do-I-hyperparameter-tune-only-the-final-model-trained-(and-not-the-one-finding-label-issues)-in-CleanLearning?">
+<h2>How do I hyperparameter tune only the final model trained (and not the one finding label issues) in CleanLearning?<a class="headerlink" href="#How-do-I-hyperparameter-tune-only-the-final-model-trained-(and-not-the-one-finding-label-issues)-in-CleanLearning?" title="Permalink to this headline">#</a></h2>
+<p>The code below demonstrates CleanLearning using a <code class="docutils literal notranslate"><span class="pre">GradientBoostingClassifier()</span></code> with no hyperparameter-tuning to find label issues but with hyperparameter-tuning via <code class="docutils literal notranslate"><span class="pre">RandomizedSearchCV(...)</span></code> for the final training of this model on the clean subset of the data. This is a useful trick to avoid expensive hyperparameter-tuning for every fold of cross-validation (which is needed to find label issues).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">cleanlab.classification</span> <span class="kn">import</span> <span class="n">CleanLearning</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span>
+
+<span class="c1"># Make example data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Introduce label errors</span>
+<span class="n">true_errors</span> <span class="o">=</span> <span class="p">[</span><span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">102</span><span class="p">,</span> <span class="mi">104</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">true_errors</span><span class="p">:</span>
+    <span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+<span class="c1"># CleanLearning with no hyperparameter-tuning during expensive cross-validation to find label issues</span>
+<span class="c1"># but hyperparameter-tuning for the final training of model on clean subset of the data:</span>
+
+<span class="n">model_to_find_errors</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">()</span>  <span class="c1"># this model will be trained many times via cross-validation</span>
+<span class="n">model_to_return</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">GradientBoostingClassifier</span><span class="p">(),</span>
+                    <span class="n">param_distributions</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">"learning_rate"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+                        <span class="s2">"max_depth"</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>   <span class="c1"># this model will be trained once on clean subset of data</span>
+
+<span class="n">cl0</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">model_to_find_errors</span><span class="p">)</span>
+<span class="n">issues</span> <span class="o">=</span> <span class="n">cl0</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+<span class="n">cl</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">model_to_return</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">label_issues</span><span class="o">=</span><span class="n">issues</span><span class="p">)</span>  <span class="c1"># CleanLearning for hyperparameter final training</span>
+<span class="n">pred_probs</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># predictions from hyperparameter-tuned GradientBoostingClassifier</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">cl0</span><span class="o">.</span><span class="n">clf</span><span class="p">)</span>  <span class="c1"># will be GradientBoostingClassifier()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">clf</span><span class="p">)</span>  <span class="c1"># will be RandomizedSearchCV(estimator=GradientBoostingClassifier(),...)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GradientBoostingClassifier()
+RandomizedSearchCV(estimator=GradientBoostingClassifier(),
+                   param_distributions={'learning_rate': [0.001, 0.05, 0.1, 0.2,
+                                                          0.5],
+                                        'max_depth': [3, 5, 10]})
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="What-license-is-cleanlab-open-sourced-under?">
+<h2>What license is cleanlab open-sourced under?<a class="headerlink" href="#What-license-is-cleanlab-open-sourced-under?" title="Permalink to this headline">#</a></h2>
+<p><a class="reference external" href="https://github.com/cleanlab/cleanlab/blob/master/LICENSE">AGPL-3.0 license</a></p>
+<p><strong>What does this mean?</strong> If you’re working at a company, you can use this open-source library to clean up your internal datasets. You can also use this open-source library to clean up a dataset used to train a model that is deployed in a commercial product. For non-commercial purposes, feel free to release altered versions of the source code as long as you include the same license.</p>
+<p>Please email <code class="docutils literal notranslate"><span class="pre">info@cleanlab.ai</span></code> to discuss licensing needs if you would like to offer a commercial product that utilizes any cleanlab source code.</p>
 </div>
 <div class="section" id="Can’t-find-an-answer-to-your-question?">
 <h2>Can’t find an answer to your question?<a class="headerlink" href="#Can’t-find-an-answer-to-your-question?" title="Permalink to this headline">#</a></h2>
@@ -736,7 +855,12 @@ div.rendered_html tbody tr:hover {
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">FAQ</a><ul>
-<li><a class="reference internal" href="#How-do-I-format-labels-for-Cleanlab?">How do I format labels for Cleanlab?</a></li>
+<li><a class="reference internal" href="#What-data-can-cleanlab-detect-issues-in?">What data can cleanlab detect issues in?</a></li>
+<li><a class="reference internal" href="#How-do-I-format-classification-labels-for-Cleanlab?">How do I format classification labels for Cleanlab?</a></li>
+<li><a class="reference internal" href="#Why-isn’t-CleanLearning-working-for-my-data?">Why isn’t CleanLearning working for my data?</a></li>
+<li><a class="reference internal" href="#How-can-I-use-different-models-for-data-cleaning-vs. final-training-in-CleanLearning?">How can I use different models for data cleaning vs. final training in CleanLearning?</a></li>
+<li><a class="reference internal" href="#How-do-I-hyperparameter-tune-only-the-final-model-trained-(and-not-the-one-finding-label-issues)-in-CleanLearning?">How do I hyperparameter tune only the final model trained (and not the one finding label issues) in CleanLearning?</a></li>
+<li><a class="reference internal" href="#What-license-is-cleanlab-open-sourced-under?">What license is cleanlab open-sourced under?</a></li>
 <li><a class="reference internal" href="#Can’t-find-an-answer-to-your-question?">Can’t find an answer to your question?</a></li>
 </ul>
 </li>
