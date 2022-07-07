@@ -402,13 +402,13 @@
 
 
 <div class="viewcode-block" id="order_label_issues"><a class="viewcode-back" href="../../cleanlab/rank.html#cleanlab.rank.order_label_issues">[docs]</a><span class="k">def</span> <span class="nf">order_label_issues</span><span class="p">(</span>
-    <span class="n">label_issues_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+    <span class="n">label_issues_mask</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">rank_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"self_confidence"</span><span class="p">,</span>
     <span class="n">rank_by_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">"""Sorts label issues by label quality score.</span>
 
 <span class="sd">    Default label quality score is "self_confidence".</span>
@@ -460,12 +460,12 @@
 
 
 <div class="viewcode-block" id="get_label_quality_scores"><a class="viewcode-back" href="../../cleanlab/rank.html#cleanlab.rank.get_label_quality_scores">[docs]</a><span class="k">def</span> <span class="nf">get_label_quality_scores</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"self_confidence"</span><span class="p">,</span>
     <span class="n">adjust_pred_probs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">"""Returns label quality scores for each datapoint.</span>
 
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
@@ -576,16 +576,16 @@
 
 
 <div class="viewcode-block" id="get_label_quality_ensemble_scores"><a class="viewcode-back" href="../../cleanlab/rank.html#cleanlab.rank.get_label_quality_ensemble_scores">[docs]</a><span class="k">def</span> <span class="nf">get_label_quality_ensemble_scores</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">pred_probs_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">],</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">pred_probs_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"self_confidence"</span><span class="p">,</span>
     <span class="n">adjust_pred_probs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">weight_ensemble_members_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"accuracy"</span><span class="p">,</span>
-    <span class="n">custom_weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">custom_weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">log_loss_search_T_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-4</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">,</span> <span class="mf">1e0</span><span class="p">,</span> <span class="mf">1e1</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">,</span> <span class="mf">2e2</span><span class="p">],</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">"""Returns label quality scores based on predictions from an ensemble of models.</span>
 
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
@@ -705,14 +705,13 @@
             <span class="n">pred_probs_avg_log_loss_weighted_temp</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">neg_log_loss_weights_temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pred_probs_list</span><span class="p">)]</span>
             <span class="p">)</span>
-
             <span class="c1"># evaluate log loss with this weighted average pred_probs</span>
             <span class="n">eval_log_loss</span> <span class="o">=</span> <span class="n">log_loss</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs_avg_log_loss_weighted_temp</span><span class="p">)</span>
 
             <span class="c1"># check if eval_log_loss is the best so far (lower the better)</span>
             <span class="k">if</span> <span class="n">best_eval_log_loss</span> <span class="o">&gt;</span> <span class="n">eval_log_loss</span><span class="p">:</span>
                 <span class="n">best_eval_log_loss</span> <span class="o">=</span> <span class="n">eval_log_loss</span>
-                <span class="n">pred_probs_avg_log_loss_weighted</span> <span class="o">=</span> <span class="n">pred_probs_avg_log_loss_weighted_temp</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">pred_probs_avg_log_loss_weighted</span> <span class="o">=</span> <span class="n">pred_probs_avg_log_loss_weighted_temp</span>
                 <span class="n">neg_log_loss_weights</span> <span class="o">=</span> <span class="n">neg_log_loss_weights_temp</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="c1"># Generate scores for each model's pred_probs</span>
@@ -756,6 +755,7 @@
         <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="p">(</span><span class="n">scores_ensemble</span> <span class="o">*</span> <span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">"log_loss_search"</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">neg_log_loss_weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="n">weights</span> <span class="o">=</span> <span class="n">neg_log_loss_weights</span>  <span class="c1"># Weight by exp(t * -log_loss) where t is found by searching through log_loss_search_T_values</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
@@ -793,9 +793,9 @@
 
 
 <div class="viewcode-block" id="get_self_confidence_for_each_label"><a class="viewcode-back" href="../../cleanlab/rank.html#cleanlab.rank.get_self_confidence_for_each_label">[docs]</a><span class="k">def</span> <span class="nf">get_self_confidence_for_each_label</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">"""Returns the self-confidence label-quality score for each datapoint.</span>
 
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
@@ -829,9 +829,9 @@
 
 
 <div class="viewcode-block" id="get_normalized_margin_for_each_label"><a class="viewcode-back" href="../../cleanlab/rank.html#cleanlab.rank.get_normalized_margin_for_each_label">[docs]</a><span class="k">def</span> <span class="nf">get_normalized_margin_for_each_label</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">"""Returns the "normalized margin" label-quality score for each datapoint.</span>
 
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
@@ -871,8 +871,8 @@
 
 
 <div class="viewcode-block" id="get_confidence_weighted_entropy_for_each_label"><a class="viewcode-back" href="../../cleanlab/rank.html#cleanlab.rank.get_confidence_weighted_entropy_for_each_label">[docs]</a><span class="k">def</span> <span class="nf">get_confidence_weighted_entropy_for_each_label</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">"""Returns the "confidence weighted entropy" label-quality score for each datapoint.</span>
 
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
@@ -900,7 +900,7 @@
     <span class="n">self_confidence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">self_confidence</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="n">MIN_ALLOWED</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="c1"># Divide entropy by self confidence</span>
-    <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">get_normalized_entropy</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">"pred_probs"</span><span class="p">:</span> <span class="n">pred_probs</span><span class="p">})</span> <span class="o">/</span> <span class="n">self_confidence</span>
+    <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">get_normalized_entropy</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">)</span> <span class="o">/</span> <span class="n">self_confidence</span>
 
     <span class="c1"># Rescale</span>
     <span class="n">clipped_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">label_quality_scores</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="n">MIN_ALLOWED</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -910,8 +910,8 @@
 
 
 <div class="viewcode-block" id="get_knn_distance_ood_scores"><a class="viewcode-back" href="../../cleanlab/rank.html#cleanlab.rank.get_knn_distance_ood_scores">[docs]</a><span class="k">def</span> <span class="nf">get_knn_distance_ood_scores</span><span class="p">(</span>
-    <span class="n">features</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">nbrs</span><span class="p">:</span> <span class="n">NearestNeighbors</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+    <span class="n">features</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">nbrs</span><span class="p">:</span> <span class="n">NearestNeighbors</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">"""Returns the KNN distance out-of-distribution (OOD) score for each datapoint.</span>
 
 <span class="sd">    This is a function to compute OOD scores where higher scores indicate the datapoint is more likely to be OOD.</span>
