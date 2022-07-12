@@ -533,7 +533,7 @@ for datapoint <em>i</em>, its score can either be:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">'self_confidence'</span></code>: <code class="docutils literal notranslate"><span class="pre">P[k]</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">'confidence_weighted_entropy'</span></code>: <code class="docutils literal notranslate"><span class="pre">entropy(P)</span> <span class="pre">/</span> <span class="pre">self_confidence</span></code></p></li>
 </ul>
-<p>Let <code class="docutils literal notranslate"><span class="pre">C</span> <span class="pre">=</span> <span class="pre">{0,</span> <span class="pre">1,</span> <span class="pre">...,</span> <span class="pre">K}</span></code> denote the classification task’s specified set of classes.</p>
+<p>Let <code class="docutils literal notranslate"><span class="pre">C</span> <span class="pre">=</span> <span class="pre">{0,</span> <span class="pre">1,</span> <span class="pre">...,</span> <span class="pre">K}</span></code> denote the specified set of classes for our classification task.</p>
 <p>The normalized_margin score works better for identifying class conditional label errors,
 i.e. examples for which another label in C is appropriate but the given label is not.</p>
 <p>The self_confidence score works better for identifying alternative label issues corresponding

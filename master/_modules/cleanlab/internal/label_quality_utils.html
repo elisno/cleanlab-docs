@@ -438,11 +438,8 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    pred_probs : np.array (shape (N, K))</span>
-<span class="sd">      P(label=k|x) is a matrix with K model-predicted probabilities.</span>
 <span class="sd">      Each row of this matrix corresponds to an example x and contains the model-predicted</span>
-<span class="sd">      probabilities that x belongs to each possible class.</span>
-<span class="sd">      The columns must be ordered such that these probabilities correspond to class 0,1,2,...</span>
-<span class="sd">      `pred_probs` should have been computed using 3 (or higher) fold cross-validation.</span>
+<span class="sd">      probabilities that x belongs to each possible class: P(label=k|x)</span>
 
 <span class="sd">    min_allowed_prob : float, default=1e-6</span>
 <span class="sd">      Minimum allowed probability value. Entries of `pred_probs` below this value will be clipped to this value.</span>
@@ -450,7 +447,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    entropy : np.array (float)</span>
-
+<span class="sd">      Each element is the normalized entropy of the corresponding row of ``pred_probs``.</span>
 <span class="sd">    """</span>
 
     <span class="n">num_classes</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>

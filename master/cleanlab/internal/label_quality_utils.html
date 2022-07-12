@@ -376,17 +376,14 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(shape</span> <span class="pre">(N</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code>) – P(label=k|x) is a matrix with K model-predicted probabilities.
-Each row of this matrix corresponds to an example x and contains the model-predicted
-probabilities that x belongs to each possible class.
-The columns must be ordered such that these probabilities correspond to class 0,1,2,…
-<cite>pred_probs</cite> should have been computed using 3 (or higher) fold cross-validation.</p></li>
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(shape</span> <span class="pre">(N</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code>) – Each row of this matrix corresponds to an example x and contains the model-predicted
+probabilities that x belongs to each possible class: P(label=k|x)</p></li>
 <li><p><strong>min_allowed_prob</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">1e-6</span></code>) – Minimum allowed probability value. Entries of <cite>pred_probs</cite> below this value will be clipped to this value.
 Ensures entropy remains well-behaved even when <cite>pred_probs</cite> contains zeros.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>entropy</strong></p>
+<dd class="field-even"><p><strong>entropy</strong> – Each element is the normalized entropy of the corresponding row of <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(float)</span></code></p>

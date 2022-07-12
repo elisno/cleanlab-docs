@@ -392,6 +392,7 @@
     <span class="n">csr_vstack</span><span class="p">,</span>
     <span class="n">append_extra_datapoint</span><span class="p">,</span>
     <span class="n">train_val_split</span><span class="p">,</span>
+    <span class="n">get_num_classes</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.latent_algebra</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">compute_inv_noise_matrix</span><span class="p">,</span>
@@ -629,8 +630,8 @@
 <span class="sd">        of confident joint as a baseline proxy for the label issues. This</span>
 <span class="sd">        sometimes works as well as filter.find_label_issues(confident_joint)."""</span>
 
-    <span class="c1"># [0, 1, 2, ... num_classes - 1] Assumes all classes are represented in labels</span>
-    <span class="n">unique_classes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># Assumes all classes are represented in labels: [0, 1, 2, ... num_classes - 1]</span>
+    <span class="n">unique_classes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># the avg probability of class given that the label is represented.</span>
         <span class="n">thresholds</span> <span class="o">=</span> <span class="n">get_confident_thresholds</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1032,7 +1033,8 @@
 
 <span class="sd">    labels : np.array or pd.Series</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">      Elements must be in (0, 1, ..., K-1) where K is the number of classes,</span>
+<span class="sd">      and all classes must be present at least once.</span>
 
 <span class="sd">    clf : estimator instance, optional</span>
 <span class="sd">      A classifier implementing the `sklearn estimator API</span>
@@ -1078,9 +1080,9 @@
 
     <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_to_array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-
-    <span class="c1"># Number of classes</span>
-    <span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+    <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span>
+        <span class="n">labels</span><span class="o">=</span><span class="n">labels</span>
+    <span class="p">)</span>  <span class="c1"># This method definitely only works if all classes are present.</span>
 
     <span class="c1"># Create cross-validation object for out-of-sample predicted probabilities.</span>
     <span class="c1"># CV folds preserve the fraction of noisy positive and</span>
@@ -1525,12 +1527,13 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    confident_thresholds : np.array</span>
-<span class="sd">      An array of shape ``(num_classes, )``.</span>
-<span class="sd">    """</span>
+<span class="sd">      An array of shape ``(num_classes, )``."""</span>
 
+    <span class="c1"># Assumes all classes are represented in labels: [0, 1, 2, ... num_classes - 1]</span>
+    <span class="n">unique_classes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span>
+        <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
-        <span class="c1"># [0, 1, 2, ... num_classes - 1]</span>
-        <span class="n">unique_classes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Assumes all classes are represented in labels</span>
         <span class="c1"># Compute thresholds = p(label=k | k in set of given labels)</span>
         <span class="n">k_in_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">k</span> <span class="ow">in</span> <span class="n">lst</span> <span class="k">for</span> <span class="n">lst</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">unique_classes</span><span class="p">])</span>
         <span class="c1"># The avg probability of class given that the label is represented.</span>
@@ -1539,7 +1542,7 @@
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">confident_thresholds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">[:,</span> <span class="n">k</span><span class="p">][</span><span class="n">labels</span> <span class="o">==</span> <span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">[:,</span> <span class="n">k</span><span class="p">][</span><span class="n">labels</span> <span class="o">==</span> <span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">unique_classes</span><span class="p">]</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">confident_thresholds</span></div>
 </pre></div> 

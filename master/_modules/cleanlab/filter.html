@@ -387,6 +387,7 @@
     <span class="n">round_preserving_row_totals</span><span class="p">,</span>
     <span class="n">onehot2int</span><span class="p">,</span>
     <span class="n">int2onehot</span><span class="p">,</span>
+    <span class="n">get_num_classes</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># tqdm is a module used to print time-to-complete when multiprocessing is used.</span>
@@ -586,8 +587,10 @@
         <span class="n">label_counts</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">lst</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">label_counts</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-    <span class="c1"># Number of classes labels</span>
-    <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="c1"># Number of classes</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span>
+        <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">label_matrix</span><span class="o">=</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span>
+    <span class="p">)</span>
     <span class="c1"># Boolean set to true if dataset is large</span>
     <span class="n">big_dataset</span> <span class="o">=</span> <span class="n">K</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e8</span>
     <span class="c1"># Ensure labels are of type np.array()</span>
