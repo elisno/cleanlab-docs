@@ -376,17 +376,17 @@ labels in data that was previously held-out.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_confidence_weighted_entropy_for_each_label" title="cleanlab.rank.get_confidence_weighted_entropy_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_confidence_weighted_entropy_for_each_label</span></code></a>(...)</p></td>
 <td><p>Returns the "confidence weighted entropy" label-quality score for each datapoint.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_knn_distance_ood_scores" title="cleanlab.rank.get_knn_distance_ood_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_knn_distance_ood_scores</span></code></a>(features, nbrs)</p></td>
-<td><p>Returns the KNN distance out-of-distribution (OOD) score for each datapoint.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_ensemble_scores" title="cleanlab.rank.get_label_quality_ensemble_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_ensemble_scores</span></code></a>(labels, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_ensemble_scores" title="cleanlab.rank.get_label_quality_ensemble_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_ensemble_scores</span></code></a>(labels, ...)</p></td>
 <td><p>Returns label quality scores based on predictions from an ensemble of models.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>(labels, pred_probs, *)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>(labels, pred_probs, *)</p></td>
 <td><p>Returns label quality scores for each datapoint.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_normalized_margin_for_each_label" title="cleanlab.rank.get_normalized_margin_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normalized_margin_for_each_label</span></code></a>(labels, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_normalized_margin_for_each_label" title="cleanlab.rank.get_normalized_margin_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normalized_margin_for_each_label</span></code></a>(labels, ...)</p></td>
 <td><p>Returns the "normalized margin" label-quality score for each datapoint.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_outlier_scores" title="cleanlab.rank.get_outlier_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_outlier_scores</span></code></a>([features, knn, k, t])</p></td>
+<td><p>Returns an outlier score for each example based on its feature values.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_self_confidence_for_each_label" title="cleanlab.rank.get_self_confidence_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_self_confidence_for_each_label</span></code></a>(labels, ...)</p></td>
 <td><p>Returns the self-confidence label-quality score for each datapoint.</p></td>
@@ -413,32 +413,6 @@ where lower scores indicate labels less likely to be correct.</p>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>label_quality_scores</strong> – An array of scores (between 0 and 1) for each example of its likelihood of
 being correctly labeled.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="cleanlab.rank.get_knn_distance_ood_scores">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_knn_distance_ood_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sklearn.neighbors._unsupervised.NearestNeighbors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_knn_distance_ood_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_knn_distance_ood_scores" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the KNN distance out-of-distribution (OOD) score for each datapoint.</p>
-<p>This is a function to compute OOD scores where higher scores indicate the datapoint is more likely to be OOD.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>features</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Feature matrix of shape (N, M), where N is the number of datapoints and M is the number of features.
-This is the “query set” of features for each datapoint which are used for nearest neighbor search.</p></li>
-<li><p><strong>nbrs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.neighbors.NearestNeighbors</span></code>) – Instantiated NearestNeighbors class object that’s been fitted on a dataset in the same feature space.
-Note that the distance metric and n_neighbors is specified when instantiating this class.
-See: <a class="reference external" href="https://scikit-learn.org/stable/modules/neighbors.html">https://scikit-learn.org/stable/modules/neighbors.html</a></p></li>
-<li><p><strong>k</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>) – Number of neighbors to use when calculating average distance to neighbors.
-This value k needs to be less than or equal to max_k which is the n_neighbors used when fitting instantiated NearestNeighbors class object.
-If k=None, then by default k=min(10, max_k) is used where max_k is extracted from the given nbrs.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>avg_nbrs_distances</strong> – Average distance to k-nearest neighbors for each datapoint which is used as a score for OOD detection.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
@@ -585,6 +559,46 @@ being correctly labeled. <code class="docutils literal notranslate"><span class=
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.rank.get_outlier_scores">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_outlier_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.neighbors._unsupervised.NearestNeighbors</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_outlier_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_outlier_scores" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns an outlier score for each example based on its feature values. Scores lie in [0,1] with smaller values indicating examples
+that are less typical under the dataset distribution (values near 0 indicate outliers).
+The score is based on the average distance between the example and its K nearest neighbors in the dataset (in feature space).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Feature array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">M)</span></code>, where N is the number of examples and M is the number of features used to represent each example.
+All features should be numeric. For unstructured data (eg. images, text, categorical values, …), you should provide
+vector embeddings to represent each example (e.g. extracted from some pretrained neural network).</p></li>
+<li><p><strong>knn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.neighbors.NearestNeighbors</span></code>, <em>default</em> <code class="xref py py-class docutils literal notranslate"><span class="pre">=</span> <span class="pre">None</span></code>) – <p>Instantiated <code class="docutils literal notranslate"><span class="pre">NearestNeighbors</span></code> object that’s been fitted on a dataset in the same feature space.
+Note that the distance metric and n_neighbors is specified when instantiating this class.
+You can also pass in a subclass of <code class="docutils literal notranslate"><span class="pre">sklearn.neighbors.NearestNeighbors</span></code> which allows you to use faster
+approximate neighbor libraries as long as you wrap them behind the same sklearn API.
+If you specify <code class="docutils literal notranslate"><span class="pre">knn</span></code> here and wish to find outliers in the same data you already passed into <code class="docutils literal notranslate"><span class="pre">knn.fit(features)</span></code>, you should specify <code class="docutils literal notranslate"><span class="pre">features</span> <span class="pre">=</span> <span class="pre">None</span></code> here if your <code class="docutils literal notranslate"><span class="pre">knn.kneighbors(None)</span></code>
+returns the distances to the datapoints it was <code class="docutils literal notranslate"><span class="pre">fit()</span></code> on.
+If <code class="docutils literal notranslate"><span class="pre">knn</span> <span class="pre">=</span> <span class="pre">None</span></code>, then by default <code class="docutils literal notranslate"><span class="pre">knn</span> <span class="pre">=</span> <span class="pre">sklearn.neighbors.NearestNeighbors(n_neighbors=k,</span> <span class="pre">metric="cosine").fit(features)</span></code></p>
+<p>See: <a class="reference external" href="https://scikit-learn.org/stable/modules/neighbors.html">https://scikit-learn.org/stable/modules/neighbors.html</a></p>
+</p></li>
+<li><p><strong>k</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">10</span></code>) – Number of neighbors to use when calculating outlier score (average distance to neighbors). If an existing <code class="docutils literal notranslate"><span class="pre">knn</span></code>
+object is provided, you can still specify that outlier score should use a different value of <code class="docutils literal notranslate"><span class="pre">k</span></code> than originally
+used in the <code class="docutils literal notranslate"><span class="pre">knn</span></code>, as long as your specified value of <code class="docutils literal notranslate"><span class="pre">k</span></code> is smaller than the one originally used.
+If k is larger, then by default <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">=</span> <span class="pre">n_neighbors</span></code> where <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code> is defined in the <code class="docutils literal notranslate"><span class="pre">knn</span></code>.
+If k is not provided, then by default <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">=</span> <span class="pre">10</span></code>.</p></li>
+<li><p><strong>t</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">1</span></code>) – Controls transformation of distances between examples into similarity scores that lie in [0,1]. The transformation
+applied is exp(-x*t) where x is the average distance to k-nearest neighbors. If you find your scores are all too
+close to 1, consider increasing t, although the relative scores of examples will still have the same ranking across the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>outlier_scores</strong> – Score for each example that roughly corresponds to the likelihood this example stems from the same distribution as
+the dataset features (i.e. is not an outlier).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
 </dd>
 </dl>
 </dd></dl>
