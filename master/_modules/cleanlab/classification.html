@@ -380,16 +380,17 @@
 <span class="sd">* ``clf.predict(X)``</span>
 <span class="sd">* ``clf.score(X, y, sample_weight=None)``</span>
 
-<span class="sd">where `X` contains data, `y` contains labels (with elements in 0, 1, ..., K-1,</span>
-<span class="sd">where K is the number of classes), and `sample_weight` re-weights examples in</span>
-<span class="sd">the loss function while training.</span>
+<span class="sd">where `X` contains data (i.e. features), `y` contains labels (with elements in 0, 1, ..., K-1,</span>
+<span class="sd">where K is the number of classes). The first index of `X` and of `y` should correspond to the different examples in the dataset,</span>
+<span class="sd">such that ``len(X) = len(y) = N`` (sample-size). Here `sample_weight` re-weights examples in</span>
+<span class="sd">the loss function while training (supporting `sample_weight` in your classifier is recommended but optional).</span>
 
-<span class="sd">Furthermore, the estimator should be correctly clonable via</span>
+<span class="sd">Furthermore, your estimator should be correctly clonable via</span>
 <span class="sd">`sklearn.base.clone &lt;https://scikit-learn.org/stable/modules/generated/sklearn.base.clone.html&gt;`_:</span>
 <span class="sd">cleanlab internally creates multiple instances of the</span>
 <span class="sd">estimator, and if you e.g. manually wrap a PyTorch model, you must ensure that</span>
 <span class="sd">every call to the estimator's ``__init__()`` creates an independent instance of</span>
-<span class="sd">the model.</span>
+<span class="sd">the model (for sklearn compatibility, the weights of neural network models should typically be initialized inside of ``clf.fit()``).</span>
 
 <span class="sd">Note</span>
 <span class="sd">----</span>
@@ -709,7 +710,7 @@
 <span class="sd">          :py:meth:`self.find_label_issues&lt;cleanlab.classification.CleanLearning.find_label_issues&gt;`,</span>
 <span class="sd">          e.g. as a ``np.array``, then some functionality like training with sample weights may be disabled.</span>
 
-<span class="sd">        sample_weight : array-like of shape (n_samples,), optional</span>
+<span class="sd">        sample_weight : array-like of shape (N,), optional</span>
 <span class="sd">          Array of weights that are assigned to individual samples.</span>
 <span class="sd">          If not provided, samples may still be weighted by the estimated noise in the class they are labeled as.</span>
 
@@ -1019,7 +1020,7 @@
 <span class="sd">          * *label_quality*: Numeric score that measures the quality of each label (how likely it is to be correct, with lower scores indicating potentially erroneous labels).</span>
 <span class="sd">          * *given_label*: Integer indices corresponding to the class label originally given for this example (same as `labels` input). Included here for ease of comparison against `clf` predictions, only present if "predicted_label" column is present.</span>
 <span class="sd">          * *predicted_label*: Integer indices corresponding to the class predicted by trained `clf` model. Only present if ``pred_probs`` were provided as input or computed during label-issue-finding.</span>
-<span class="sd">          * *sample_weight*: Numeric values used to weight examples during the final training of `clf` in :py:meth:`CleanLearning.fit()&lt;cleanlab.classification.CleanLearning.fit&gt;`. This column not be present after `self.find_label_issues()` but may be added after call to :py:meth:`CleanLearning.fit()&lt;cleanlab.classification.CleanLearning.fit&gt;`. For more precise definition of sample weights, see documentation of :py:meth:`CleanLearning.fit()&lt;cleanlab.classification.CleanLearning.fit&gt;`</span>
+<span class="sd">          * *sample_weight*: Numeric values used to weight examples during the final training of `clf` in :py:meth:`CleanLearning.fit()&lt;cleanlab.classification.CleanLearning.fit&gt;`. This column may not be present after `self.find_label_issues()` but may be added after call to :py:meth:`CleanLearning.fit()&lt;cleanlab.classification.CleanLearning.fit&gt;`. For more precise definition of sample weights, see documentation of :py:meth:`CleanLearning.fit()&lt;cleanlab.classification.CleanLearning.fit&gt;`</span>
 <span class="sd">        """</span>
 
         <span class="c1"># Check inputs</span>

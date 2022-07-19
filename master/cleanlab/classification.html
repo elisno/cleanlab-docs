@@ -362,15 +362,16 @@ meaning it must define four functions:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">clf.predict(X)</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">clf.score(X,</span> <span class="pre">y,</span> <span class="pre">sample_weight=None)</span></code></p></li>
 </ul>
-<p>where <cite>X</cite> contains data, <cite>y</cite> contains labels (with elements in 0, 1, …, K-1,
-where K is the number of classes), and <cite>sample_weight</cite> re-weights examples in
-the loss function while training.</p>
-<p>Furthermore, the estimator should be correctly clonable via
+<p>where <cite>X</cite> contains data (i.e. features), <cite>y</cite> contains labels (with elements in 0, 1, …, K-1,
+where K is the number of classes). The first index of <cite>X</cite> and of <cite>y</cite> should correspond to the different examples in the dataset,
+such that <code class="docutils literal notranslate"><span class="pre">len(X)</span> <span class="pre">=</span> <span class="pre">len(y)</span> <span class="pre">=</span> <span class="pre">N</span></code> (sample-size). Here <cite>sample_weight</cite> re-weights examples in
+the loss function while training (supporting <cite>sample_weight</cite> in your classifier is recommended but optional).</p>
+<p>Furthermore, your estimator should be correctly clonable via
 <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.clone.html">sklearn.base.clone</a>:
 cleanlab internally creates multiple instances of the
 estimator, and if you e.g. manually wrap a PyTorch model, you must ensure that
 every call to the estimator’s <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> creates an independent instance of
-the model.</p>
+the model (for sklearn compatibility, the weights of neural network models should typically be initialized inside of <code class="docutils literal notranslate"><span class="pre">clf.fit()</span></code>).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>There are two new notions of confidence in this package:</p>
@@ -571,7 +572,7 @@ the DataFrame may contain the following columns:</p>
 <li><p><em>label_quality</em>: Numeric score that measures the quality of each label (how likely it is to be correct, with lower scores indicating potentially erroneous labels).</p></li>
 <li><p><em>given_label</em>: Integer indices corresponding to the class label originally given for this example (same as <cite>labels</cite> input). Included here for ease of comparison against <cite>clf</cite> predictions, only present if “predicted_label” column is present.</p></li>
 <li><p><em>predicted_label</em>: Integer indices corresponding to the class predicted by trained <cite>clf</cite> model. Only present if <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> were provided as input or computed during label-issue-finding.</p></li>
-<li><p><em>sample_weight</em>: Numeric values used to weight examples during the final training of <cite>clf</cite> in <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>. This column not be present after <cite>self.find_label_issues()</cite> but may be added after call to <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>. For more precise definition of sample weights, see documentation of <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a></p></li>
+<li><p><em>sample_weight</em>: Numeric values used to weight examples during the final training of <cite>clf</cite> in <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>. This column may not be present after <cite>self.find_label_issues()</cite> but may be added after call to <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>. For more precise definition of sample weights, see documentation of <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a></p></li>
 </ul>
 </p>
 </dd>
@@ -649,7 +650,7 @@ pruned from the data before training the final <cite>clf</cite> model.</p>
 <a class="reference internal" href="#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">self.find_label_issues</span></code></a>,
 e.g. as a <code class="docutils literal notranslate"><span class="pre">np.array</span></code>, then some functionality like training with sample weights may be disabled.</p>
 </p></li>
-<li><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">array-like</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(n_samples,)</span></code>, <em>optional</em>) – Array of weights that are assigned to individual samples.
+<li><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">array-like</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(N,)</span></code>, <em>optional</em>) – Array of weights that are assigned to individual samples.
 If not provided, samples may still be weighted by the estimated noise in the class they are labeled as.</p></li>
 <li><p><strong>clf_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>optional</em>) – Optional keyword arguments to pass into <cite>clf</cite>’s <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method.</p></li>
 <li><p><strong>clf_final_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>optional</em>) – Optional extra keyword arguments to pass into the final <cite>clf</cite> <code class="docutils literal notranslate"><span class="pre">fit()</span></code> on the cleaned data
