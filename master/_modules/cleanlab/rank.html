@@ -911,7 +911,7 @@
 <div class="viewcode-block" id="get_outlier_scores"><a class="viewcode-back" href="../../cleanlab/rank.html#cleanlab.rank.get_outlier_scores">[docs]</a><span class="k">def</span> <span class="nf">get_outlier_scores</span><span class="p">(</span>
     <span class="n">features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">knn</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NearestNeighbors</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">k</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">t</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">"""Returns an outlier score for each example based on its feature values. Scores lie in [0,1] with smaller values indicating examples</span>
@@ -936,17 +936,19 @@
 
 <span class="sd">      See: https://scikit-learn.org/stable/modules/neighbors.html</span>
 
-<span class="sd">    k : int, default=10</span>
-<span class="sd">      Number of neighbors to use when calculating outlier score (average distance to neighbors). If an existing ``knn``</span>
-<span class="sd">      object is provided, you can still specify that outlier score should use a different value of ``k`` than originally</span>
-<span class="sd">      used in the ``knn``, as long as your specified value of ``k`` is smaller than the one originally used.</span>
-<span class="sd">      If k is larger, then by default ``k = n_neighbors`` where ``n_neighbors`` is defined in the ``knn``.</span>
-<span class="sd">      If k is not provided, then by default ``k = 10``.</span>
+<span class="sd">    k : int, default=None</span>
+<span class="sd">      Optional number of neighbors to use when calculating outlier score (average distance to neighbors).</span>
+<span class="sd">      If `k` is not provided, then by default ``k = knn.n_neighbors`` or ``k = 10`` if ``knn is None``.</span>
+<span class="sd">      If an existing ``knn`` object is provided, you can still specify that outlier scores should use</span>
+<span class="sd">      a different value of `k` than originally used in the ``knn``,</span>
+<span class="sd">      as long as your specified value of `k` is smaller than the value originally used in ``knn``.</span>
 
 <span class="sd">    t : int, default=1</span>
-<span class="sd">      Controls transformation of distances between examples into similarity scores that lie in [0,1]. The transformation</span>
-<span class="sd">      applied is exp(-x*t) where x is the average distance to k-nearest neighbors. If you find your scores are all too</span>
-<span class="sd">      close to 1, consider increasing t, although the relative scores of examples will still have the same ranking across the dataset.</span>
+<span class="sd">      Optional hyperparameter only for advanced users.</span>
+<span class="sd">      Controls transformation of distances between examples into similarity scores that lie in [0,1].</span>
+<span class="sd">      The transformation applied to distances `x` is `exp(-x*t)`.</span>
+<span class="sd">      If you find your scores are all too close to 1, consider increasing `t`,</span>
+<span class="sd">      although the relative scores of examples will still have the same ranking across the dataset.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -954,33 +956,32 @@
 <span class="sd">      Score for each example that roughly corresponds to the likelihood this example stems from the same distribution as</span>
 <span class="sd">      the dataset features (i.e. is not an outlier).</span>
 <span class="sd">    """</span>
-    <span class="c1"># if knn is not provided, then use default KNN as estimator</span>
-    <span class="k">if</span> <span class="n">knn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">DEFAULT_K</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">if</span> <span class="n">knn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># setup default KNN estimator</span>
         <span class="c1"># Make sure both knn and features are not None</span>
         <span class="k">if</span> <span class="n">features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Both knn and features arguments cannot be None at the same time. Not enough information to compute outlier scores."</span>
             <span class="p">)</span>
-
-        <span class="c1"># Make sure number of neighbors is less than number of example for estimator.</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">DEFAULT_K</span>  <span class="c1"># use default when knn and k are both None</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>  <span class="c1"># Ensure number of neighbors less than number of examples</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Number of nearest neighbors k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> cannot exceed the number of examples N=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span><span class="si">}</span><span class="s2"> passed into the estimator (knn)."</span>
             <span class="p">)</span>
         <span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">"cosine"</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
         <span class="n">features</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># features should be None in knn.kneighbors(features) to avoid counting duplicate data points</span>
+    <span class="k">elif</span> <span class="n">k</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">n_neighbors</span>
 
-    <span class="c1"># number of neighbors specified when fitting instantiated NearestNeighbors object</span>
-    <span class="n">max_k</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">n_neighbors</span>
-
-    <span class="c1"># if k provided is too high, use max number of nearest neighbors</span>
-    <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">max_k</span><span class="p">:</span>
-        <span class="n">k</span> <span class="o">=</span> <span class="n">max_k</span>
+    <span class="n">max_k</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">n_neighbors</span>  <span class="c1"># number of neighbors previously used in NearestNeighbors object</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">max_k</span><span class="p">:</span>  <span class="c1"># if k provided is too high, use max possible number of nearest neighbors</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"Chosen k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> cannot be greater than n_neighbors=</span><span class="si">{</span><span class="n">max_k</span><span class="si">}</span><span class="s2"> which was used when fitting "</span>
             <span class="sa">f</span><span class="s2">"NearestNeighbors object! Value of k changed to k=</span><span class="si">{</span><span class="n">max_k</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
             <span class="ne">UserWarning</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">max_k</span>
 
     <span class="c1"># Get distances to k-nearest neighbors Note that the knn object contains the specification of distance metric</span>
     <span class="c1"># and n_neighbors (k value) If our query set of features matches the training set used to fit knn, the nearest</span>
@@ -990,7 +991,7 @@
     <span class="c1"># Calculate average distance to k-nearest neighbors</span>
     <span class="n">avg_knn_distances</span> <span class="o">=</span> <span class="n">distances</span><span class="p">[:,</span> <span class="p">:</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="c1"># Global rescale outlier_scores to range 0-1 with 0 = most concerning</span>
+    <span class="c1"># Map outlier_scores to range 0-1 with 0 = most concerning</span>
     <span class="n">outlier_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">avg_knn_distances</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">outlier_scores</span></div>
 </pre></div> 
