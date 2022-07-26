@@ -671,7 +671,7 @@ div.rendered_html tbody tr:hover {
 <li><p>Does your dataset have a <em>junk</em> (or <em>clutter</em>, <em>unknown</em>, <em>other</em>) class? If you have bad data, consider creating one (c.f. Caltech-256).</p></li>
 <li><p>Consider merging :ref:<code class="docutils literal notranslate"><span class="pre">similar/overlapping</span> <span class="pre">classes&lt;indepth_overview#Workflow-3:-Use-cleanlab-to-find-dataset-level-and-class-level-issues&gt;</span></code>.</p></li>
 </ol>
-<p>Other general tips to improve model accuracy:</p>
+<p>Other general tips to improve label error detection performance:</p>
 <ol class="arabic simple">
 <li><p>Try combining (e.g. <code class="docutils literal notranslate"><span class="pre">combined_filter</span> <span class="pre">=</span> <span class="pre">filter1</span> <span class="pre">&amp;</span> <span class="pre">filter2</span></code>) any subset of the boolean masks found using <code class="docutils literal notranslate"><span class="pre">find_label_issues</span></code> for more restrictive filtering.</p></li>
 <li><p>If your <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> are obtained via a neural network, try averaging the <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> over the last K epochs of training instead of just using the final <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>. Similarly, you can try averaging <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> from several models (remember to re-normalize).</p></li>
