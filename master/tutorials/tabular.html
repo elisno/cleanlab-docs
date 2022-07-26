@@ -641,7 +641,30 @@ div.rendered_html tbody tr:hover {
 <li><p>Identify potential label errors in the data with cleanlab’s <code class="docutils literal notranslate"><span class="pre">find_label_issues</span></code> method.</p></li>
 <li><p>Train a robust version of the same logistic regression model via cleanlab’s <code class="docutils literal notranslate"><span class="pre">CleanLearning</span></code> wrapper.</p></li>
 </ul>
-<div class="section" id="1.-Install-required-dependencies">
+<div class="admonition note">
+<p class="admonition-title">Quickstart</p>
+<p>Already have an sklearn compatible <code class="docutils literal notranslate"><span class="pre">model</span></code>, tabular <code class="docutils literal notranslate"><span class="pre">data</span></code> and given <code class="docutils literal notranslate"><span class="pre">labels</span></code>? Run the code below to train your <code class="docutils literal notranslate"><span class="pre">model</span></code> and get label issues.</p>
+<div class="markdown" style="background:white;margin:16px"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.classification</span> <span class="kn">import</span> <span class="n">CleanLearning</span>
+
+<span class="n">cl</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="n">label_issues</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">get_label_issues</span><span class="p">()</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span> <span class="c1"># predictions from a version of your model</span>
+                              <span class="c1"># trained on auto-cleaned data</span>
+</pre></div>
+</div>
+</div>
+<p>Is your model/data not compatible with <code class="docutils literal notranslate"><span class="pre">CleanLearning</span></code>? You can instead run cross-validation on your model to get out-of-sample <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>. Then run the code below to get label issue indices ranked by their inferred severity.</p>
+<div class="markdown" style="background:white;margin:16px"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
+
+<span class="n">ranked_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
+    <span class="n">labels</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">,</span>
+    <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">"self_confidence"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div></div><div class="section" id="1.-Install-required-dependencies">
 <h2><strong>1. Install required dependencies</strong><a class="headerlink" href="#1.-Install-required-dependencies" title="Permalink to this headline">#</a></h2>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install all packages required for this tutorial as follows:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install sklearn
@@ -677,7 +700,7 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">"credit-g"</span><span class="p">)</span>  <span class="c1"># get the credit data from OpenML</span>
 <span class="n">X_raw</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># features (pandas DataFrame)</span>
-<span class="n">y_raw</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>  <span class="c1"># labels (pandas Series)</span>
+<span class="n">labels_raw</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>  <span class="c1"># labels (pandas Series)</span>
 </pre></div>
 </div>
 </div>
@@ -686,7 +709,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/opt/hostedtoolcache/Python/3.8.13/x64/lib/python3.8/site-packages/sklearn/datasets/_openml.py:417: UserWarning: Multiple active versions of the dataset matching the name credit-g exist. Versions may be fundamentally different, returning version 1.
+/opt/hostedtoolcache/Python/3.8.13/x64/lib/python3.8/site-packages/sklearn/datasets/_openml.py:292: UserWarning: Multiple active versions of the dataset matching the name credit-g exist. Versions may be fundamentally different, returning version 1.
   warn(
 </pre></div></div>
 </div>
@@ -706,7 +729,7 @@ div.rendered_html tbody tr:hover {
 <span class="n">X_scaled</span> <span class="o">=</span> <span class="n">X_encoded</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">X_scaled</span><span class="p">[</span><span class="n">num_features</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_encoded</span><span class="p">[</span><span class="n">num_features</span><span class="p">])</span>
 
-<span class="n">y</span> <span class="o">=</span> <span class="n">y_raw</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">"bad"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"good"</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>  <span class="c1"># encode labels as integers</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">labels_raw</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s2">"bad"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"good"</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>  <span class="c1"># encode labels as integers</span>
 </pre></div>
 </div>
 </div>
@@ -714,8 +737,8 @@ div.rendered_html tbody tr:hover {
 <p class="admonition-title">Bringing Your Own Data (BYOD)?</p>
 <p>You can easily replace the above with your own tabular dataset, and continue with the rest of the tutorial.</p>
 <div class="line-block">
-<div class="line">Your classes (and entries of <code class="docutils literal notranslate"><span class="pre">y</span></code>) should be represented as integer indices 0, 1, …, num_classes - 1.</div>
-<div class="line">For example, if your dataset has 7 examples from 3 classes, <code class="docutils literal notranslate"><span class="pre">y</span></code> might look like: <code class="docutils literal notranslate"><span class="pre">np.array([2,0,0,1,2,0,1])</span></code></div>
+<div class="line">Your classes (and entries of <code class="docutils literal notranslate"><span class="pre">labels</span></code>) should be represented as integer indices 0, 1, …, num_classes - 1.</div>
+<div class="line">For example, if your dataset has 7 examples from 3 classes, <code class="docutils literal notranslate"><span class="pre">labels</span></code> might look like: <code class="docutils literal notranslate"><span class="pre">np.array([2,0,0,1,2,0,1])</span></code></div>
 </div>
 </div>
 </div>
@@ -745,7 +768,7 @@ classifier via a simple scikit-learn wrapper:</p>
 <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
     <span class="n">clf</span><span class="p">,</span>
     <span class="n">X_scaled</span><span class="p">,</span>
-    <span class="n">y</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">,</span>
     <span class="n">cv</span><span class="o">=</span><span class="n">num_crossval_folds</span><span class="p">,</span>
     <span class="n">method</span><span class="o">=</span><span class="s2">"predict_proba"</span><span class="p">,</span>
 <span class="p">)</span>
@@ -764,7 +787,7 @@ prediction.</p>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
 
 <span class="n">ranked_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
-    <span class="n">labels</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">"self_confidence"</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">"self_confidence"</span>
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cleanlab found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ranked_label_issues</span><span class="p">)</span><span class="si">}</span><span class="s2"> potential label errors."</span><span class="p">)</span>
@@ -784,7 +807,7 @@ Cleanlab found 173 potential label errors.
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_raw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ranked_label_issues</span><span class="p">]</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">y_raw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ranked_label_issues</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_raw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ranked_label_issues</span><span class="p">]</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">labels_raw</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ranked_label_issues</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -971,9 +994,9 @@ Cleanlab found 173 potential label errors.
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">labels_train</span><span class="p">,</span> <span class="n">labels_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
     <span class="n">X_encoded</span><span class="p">,</span>
-    <span class="n">y</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">,</span>
     <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
     <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">,</span>
 <span class="p">)</span>
@@ -990,9 +1013,9 @@ Cleanlab found 173 potential label errors.
 <span class="n">X_test</span><span class="p">[</span><span class="n">num_features</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">num_features</span><span class="p">])</span>
 
 <span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">labels_train</span> <span class="o">=</span> <span class="n">labels_train</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-<span class="n">y_test</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">labels_test</span> <span class="o">=</span> <span class="n">labels_test</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1003,8 +1026,8 @@ Cleanlab found 173 potential label errors.
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 
-<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">acc_og</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">labels_train</span><span class="p">)</span>
+<span class="n">acc_og</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">labels_test</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Test accuracy of original logistic regression: </span><span class="si">{</span><span class="n">acc_og</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1034,7 +1057,7 @@ Test accuracy of original logistic regression: 0.736
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">labels_train</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1044,7 +1067,7 @@ Test accuracy of original logistic regression: 0.736
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preds</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="n">acc_cl</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+<span class="n">acc_cl</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">labels_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Test accuracy of cleanlab's logistic regression: </span><span class="si">{</span><span class="n">acc_cl</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>

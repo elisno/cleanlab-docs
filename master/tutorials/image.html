@@ -640,7 +640,20 @@ div.rendered_html tbody tr:hover {
 <li><p>Use this model to compute out-of-sample predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, via cross-validation.</p></li>
 <li><p>Compute a list of potential label errors with cleanlab’s <code class="docutils literal notranslate"><span class="pre">find_label_issues</span></code> method.</p></li>
 </ul>
-<div class="section" id="1.-Install-the-required-dependencies">
+<div class="admonition note">
+<p class="admonition-title">Quickstart</p>
+<p>Already have a <code class="docutils literal notranslate"><span class="pre">model</span></code>? Run cross-validation to get out-of-sample <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and then the code below to get label issue indices ranked by their inferred severity.</p>
+<div class="markdown" style="background:white;margin:16px"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
+
+<span class="n">ranked_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
+    <span class="n">labels</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">,</span>
+    <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">"self_confidence"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div><div class="section" id="1.-Install-the-required-dependencies">
 <h2>1. Install the required dependencies<a class="headerlink" href="#1.-Install-the-required-dependencies" title="Permalink to this headline">#</a></h2>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install all packages required for this tutorial as follows:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install matplotlib torch torchvision skorch
@@ -684,14 +697,14 @@ div.rendered_html tbody tr:hover {
 <span class="n">X</span> <span class="o">/=</span> <span class="mf">255.0</span>  <span class="c1"># Scale the features to the [0, 1] range</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>  <span class="c1"># reshape into [N, C, H, W] for PyTorch</span>
 
-<span class="n">y</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"int64"</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>  <span class="c1"># 1D array of labels</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"int64"</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>  <span class="c1"># 1D array of given labels</span>
 </pre></div>
 </div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Bringing Your Own Data (BYOD)?</p>
-<p>Assign your data’s features to variable <code class="docutils literal notranslate"><span class="pre">X</span></code> and its labels to variable <code class="docutils literal notranslate"><span class="pre">y</span></code> instead.</p>
-<p>Your classes (and entries of <code class="docutils literal notranslate"><span class="pre">y</span></code>) should be represented as integer indices 0, 1, …, num_classes - 1. For example, if your dataset has 7 examples from 3 classes, <code class="docutils literal notranslate"><span class="pre">y</span></code> might be: <code class="docutils literal notranslate"><span class="pre">np.array([2,0,0,1,2,0,1])</span></code></p>
+<p>Assign your data’s features to variable <code class="docutils literal notranslate"><span class="pre">X</span></code> and its labels to variable <code class="docutils literal notranslate"><span class="pre">labels</span></code> instead.</p>
+<p>Your classes (and entries of <code class="docutils literal notranslate"><span class="pre">labels</span></code>) should be represented as integer indices 0, 1, …, num_classes - 1. For example, if your dataset has 7 examples from 3 classes, <code class="docutils literal notranslate"><span class="pre">labels</span></code> might be: <code class="docutils literal notranslate"><span class="pre">np.array([2,0,0,1,2,0,1])</span></code></p>
 </div>
 </div>
 <div class="section" id="3.-Define-a-classification-model">
@@ -760,7 +773,7 @@ div.rendered_html tbody tr:hover {
 <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
     <span class="n">model_skorch</span><span class="p">,</span>
     <span class="n">X</span><span class="p">,</span>
-    <span class="n">y</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">,</span>
     <span class="n">cv</span><span class="o">=</span><span class="n">num_crossval_folds</span><span class="p">,</span>
     <span class="n">method</span><span class="o">=</span><span class="s2">"predict_proba"</span><span class="p">,</span>
 <span class="p">)</span>
@@ -774,40 +787,40 @@ div.rendered_html tbody tr:hover {
 <div class="highlight"><pre>
   epoch    train_loss    valid_acc    valid_loss     dur
 -------  ------------  -----------  ------------  ------
-      1        <span class="ansi-cyan-fg">0.6908</span>       <span class="ansi-green-fg">0.9136</span>        <span class="ansi-magenta-fg">0.3099</span>  3.9961
-      2        <span class="ansi-cyan-fg">0.2112</span>       <span class="ansi-green-fg">0.9412</span>        <span class="ansi-magenta-fg">0.1999</span>  3.6525
-      3        <span class="ansi-cyan-fg">0.1521</span>       <span class="ansi-green-fg">0.9514</span>        <span class="ansi-magenta-fg">0.1575</span>  3.6029
-      4        <span class="ansi-cyan-fg">0.1240</span>       <span class="ansi-green-fg">0.9593</span>        <span class="ansi-magenta-fg">0.1332</span>  3.8414
-      5        <span class="ansi-cyan-fg">0.1066</span>       <span class="ansi-green-fg">0.9634</span>        <span class="ansi-magenta-fg">0.1178</span>  4.0224
-      6        <span class="ansi-cyan-fg">0.0948</span>       <span class="ansi-green-fg">0.9661</span>        <span class="ansi-magenta-fg">0.1072</span>  3.7212
-      7        <span class="ansi-cyan-fg">0.0860</span>       <span class="ansi-green-fg">0.9683</span>        <span class="ansi-magenta-fg">0.0995</span>  4.0906
-      8        <span class="ansi-cyan-fg">0.0792</span>       <span class="ansi-green-fg">0.9703</span>        <span class="ansi-magenta-fg">0.0933</span>  4.1996
-      9        <span class="ansi-cyan-fg">0.0737</span>       <span class="ansi-green-fg">0.9724</span>        <span class="ansi-magenta-fg">0.0887</span>  4.3844
-     10        <span class="ansi-cyan-fg">0.0691</span>       <span class="ansi-green-fg">0.9736</span>        <span class="ansi-magenta-fg">0.0848</span>  4.1040
+      1        <span class="ansi-cyan-fg">0.6908</span>       <span class="ansi-green-fg">0.9136</span>        <span class="ansi-magenta-fg">0.3098</span>  5.3373
+      2        <span class="ansi-cyan-fg">0.2112</span>       <span class="ansi-green-fg">0.9411</span>        <span class="ansi-magenta-fg">0.2001</span>  5.0700
+      3        <span class="ansi-cyan-fg">0.1521</span>       <span class="ansi-green-fg">0.9516</span>        <span class="ansi-magenta-fg">0.1574</span>  5.0839
+      4        <span class="ansi-cyan-fg">0.1239</span>       <span class="ansi-green-fg">0.9595</span>        <span class="ansi-magenta-fg">0.1332</span>  5.4359
+      5        <span class="ansi-cyan-fg">0.1066</span>       <span class="ansi-green-fg">0.9631</span>        <span class="ansi-magenta-fg">0.1179</span>  5.2007
+      6        <span class="ansi-cyan-fg">0.0948</span>       <span class="ansi-green-fg">0.9660</span>        <span class="ansi-magenta-fg">0.1072</span>  5.0007
+      7        <span class="ansi-cyan-fg">0.0860</span>       <span class="ansi-green-fg">0.9683</span>        <span class="ansi-magenta-fg">0.0994</span>  5.0706
+      8        <span class="ansi-cyan-fg">0.0792</span>       <span class="ansi-green-fg">0.9704</span>        <span class="ansi-magenta-fg">0.0933</span>  4.8123
+      9        <span class="ansi-cyan-fg">0.0736</span>       <span class="ansi-green-fg">0.9725</span>        <span class="ansi-magenta-fg">0.0888</span>  4.7567
+     10        <span class="ansi-cyan-fg">0.0690</span>       <span class="ansi-green-fg">0.9738</span>        <span class="ansi-magenta-fg">0.0849</span>  4.8555
   epoch    train_loss    valid_acc    valid_loss     dur
 -------  ------------  -----------  ------------  ------
-      1        <span class="ansi-cyan-fg">0.7043</span>       <span class="ansi-green-fg">0.9249</span>        <span class="ansi-magenta-fg">0.2786</span>  3.8683
-      2        <span class="ansi-cyan-fg">0.1907</span>       <span class="ansi-green-fg">0.9465</span>        <span class="ansi-magenta-fg">0.1817</span>  4.3605
-      3        <span class="ansi-cyan-fg">0.1355</span>       <span class="ansi-green-fg">0.9561</span>        <span class="ansi-magenta-fg">0.1476</span>  3.9348
-      4        <span class="ansi-cyan-fg">0.1100</span>       <span class="ansi-green-fg">0.9616</span>        <span class="ansi-magenta-fg">0.1290</span>  3.9269
-      5        <span class="ansi-cyan-fg">0.0943</span>       <span class="ansi-green-fg">0.9644</span>        <span class="ansi-magenta-fg">0.1168</span>  3.8114
-      6        <span class="ansi-cyan-fg">0.0834</span>       <span class="ansi-green-fg">0.9685</span>        <span class="ansi-magenta-fg">0.1079</span>  3.7477
-      7        <span class="ansi-cyan-fg">0.0752</span>       <span class="ansi-green-fg">0.9701</span>        <span class="ansi-magenta-fg">0.1015</span>  3.4507
-      8        <span class="ansi-cyan-fg">0.0687</span>       <span class="ansi-green-fg">0.9711</span>        <span class="ansi-magenta-fg">0.0965</span>  3.6701
-      9        <span class="ansi-cyan-fg">0.0634</span>       <span class="ansi-green-fg">0.9724</span>        <span class="ansi-magenta-fg">0.0921</span>  3.9104
-     10        <span class="ansi-cyan-fg">0.0589</span>       <span class="ansi-green-fg">0.9734</span>        <span class="ansi-magenta-fg">0.0889</span>  3.7971
+      1        <span class="ansi-cyan-fg">0.7043</span>       <span class="ansi-green-fg">0.9249</span>        <span class="ansi-magenta-fg">0.2786</span>  5.0180
+      2        <span class="ansi-cyan-fg">0.1907</span>       <span class="ansi-green-fg">0.9464</span>        <span class="ansi-magenta-fg">0.1817</span>  5.0014
+      3        <span class="ansi-cyan-fg">0.1355</span>       <span class="ansi-green-fg">0.9560</span>        <span class="ansi-magenta-fg">0.1476</span>  4.9704
+      4        <span class="ansi-cyan-fg">0.1100</span>       <span class="ansi-green-fg">0.9619</span>        <span class="ansi-magenta-fg">0.1290</span>  4.9641
+      5        <span class="ansi-cyan-fg">0.0943</span>       <span class="ansi-green-fg">0.9642</span>        <span class="ansi-magenta-fg">0.1169</span>  4.9335
+      6        <span class="ansi-cyan-fg">0.0834</span>       <span class="ansi-green-fg">0.9686</span>        <span class="ansi-magenta-fg">0.1078</span>  5.1821
+      7        <span class="ansi-cyan-fg">0.0751</span>       <span class="ansi-green-fg">0.9701</span>        <span class="ansi-magenta-fg">0.1015</span>  5.0636
+      8        <span class="ansi-cyan-fg">0.0687</span>       <span class="ansi-green-fg">0.9711</span>        <span class="ansi-magenta-fg">0.0963</span>  5.3373
+      9        <span class="ansi-cyan-fg">0.0634</span>       <span class="ansi-green-fg">0.9721</span>        <span class="ansi-magenta-fg">0.0922</span>  5.1989
+     10        <span class="ansi-cyan-fg">0.0589</span>       <span class="ansi-green-fg">0.9732</span>        <span class="ansi-magenta-fg">0.0887</span>  4.9815
   epoch    train_loss    valid_acc    valid_loss     dur
 -------  ------------  -----------  ------------  ------
-      1        <span class="ansi-cyan-fg">0.7931</span>       <span class="ansi-green-fg">0.9115</span>        <span class="ansi-magenta-fg">0.3373</span>  3.7337
-      2        <span class="ansi-cyan-fg">0.2282</span>       <span class="ansi-green-fg">0.9487</span>        <span class="ansi-magenta-fg">0.1950</span>  3.8354
-      3        <span class="ansi-cyan-fg">0.1533</span>       <span class="ansi-green-fg">0.9589</span>        <span class="ansi-magenta-fg">0.1499</span>  3.6859
-      4        <span class="ansi-cyan-fg">0.1218</span>       <span class="ansi-green-fg">0.9642</span>        <span class="ansi-magenta-fg">0.1277</span>  3.9396
-      5        <span class="ansi-cyan-fg">0.1032</span>       <span class="ansi-green-fg">0.9680</span>        <span class="ansi-magenta-fg">0.1136</span>  4.0710
-      6        <span class="ansi-cyan-fg">0.0904</span>       <span class="ansi-green-fg">0.9704</span>        <span class="ansi-magenta-fg">0.1038</span>  4.1832
-      7        <span class="ansi-cyan-fg">0.0809</span>       <span class="ansi-green-fg">0.9731</span>        <span class="ansi-magenta-fg">0.0963</span>  4.3899
-      8        <span class="ansi-cyan-fg">0.0736</span>       <span class="ansi-green-fg">0.9745</span>        <span class="ansi-magenta-fg">0.0905</span>  3.8605
-      9        <span class="ansi-cyan-fg">0.0678</span>       <span class="ansi-green-fg">0.9762</span>        <span class="ansi-magenta-fg">0.0859</span>  4.2589
-     10        <span class="ansi-cyan-fg">0.0630</span>       <span class="ansi-green-fg">0.9766</span>        <span class="ansi-magenta-fg">0.0826</span>  4.0513
+      1        <span class="ansi-cyan-fg">0.7931</span>       <span class="ansi-green-fg">0.9115</span>        <span class="ansi-magenta-fg">0.3378</span>  4.8488
+      2        <span class="ansi-cyan-fg">0.2282</span>       <span class="ansi-green-fg">0.9490</span>        <span class="ansi-magenta-fg">0.1948</span>  5.1407
+      3        <span class="ansi-cyan-fg">0.1533</span>       <span class="ansi-green-fg">0.9592</span>        <span class="ansi-magenta-fg">0.1502</span>  5.1333
+      4        <span class="ansi-cyan-fg">0.1218</span>       <span class="ansi-green-fg">0.9642</span>        <span class="ansi-magenta-fg">0.1277</span>  5.2454
+      5        <span class="ansi-cyan-fg">0.1033</span>       <span class="ansi-green-fg">0.9680</span>        <span class="ansi-magenta-fg">0.1136</span>  5.2024
+      6        <span class="ansi-cyan-fg">0.0905</span>       <span class="ansi-green-fg">0.9700</span>        <span class="ansi-magenta-fg">0.1039</span>  5.1195
+      7        <span class="ansi-cyan-fg">0.0810</span>       <span class="ansi-green-fg">0.9730</span>        <span class="ansi-magenta-fg">0.0963</span>  5.1209
+      8        <span class="ansi-cyan-fg">0.0737</span>       <span class="ansi-green-fg">0.9742</span>        <span class="ansi-magenta-fg">0.0907</span>  5.1059
+      9        <span class="ansi-cyan-fg">0.0678</span>       <span class="ansi-green-fg">0.9763</span>        <span class="ansi-magenta-fg">0.0861</span>  5.2814
+     10        <span class="ansi-cyan-fg">0.0631</span>       <span class="ansi-green-fg">0.9772</span>        <span class="ansi-magenta-fg">0.0820</span>  5.0004
 </pre></div></div>
 </div>
 <p>An additional benefit of cross-validation is that it facilitates more reliable evaluation of our model than a single training/validation split.</p>
@@ -818,7 +831,7 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
 
 <span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">)</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cross-validated estimate of accuracy on held-out data: </span><span class="si">{</span><span class="n">acc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -828,7 +841,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Cross-validated estimate of accuracy on held-out data: 0.9752142857142857
+Cross-validated estimate of accuracy on held-out data: 0.9753714285714286
 </pre></div></div>
 </div>
 </div>
@@ -843,7 +856,7 @@ prediction.</p>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
 
 <span class="n">ranked_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
-    <span class="n">y</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">,</span>
     <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">"self_confidence"</span><span class="p">,</span>
 <span class="p">)</span>
@@ -858,10 +871,10 @@ prediction.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Cleanlab found 145 label issues.
+Cleanlab found 143 label issues.
 Top 15 most likely label errors:
- [59915 24798 19124 53216  2720 59701 50340  7010 40976 16376 23824   500
- 44484  8729 31134]
+ [59915 24798 19124 53216  2720 59701 50340  7010 16376 23824 44484   500
+  8729 31134 32018]
 </pre></div></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">ranked_label_issues</span></code> is a list of indices corresponding to examples that are worth inspecting more closely. To help visualize specific examples, we define a <code class="docutils literal notranslate"><span class="pre">plot_examples</span></code> function (can skip these details).</p>
@@ -893,7 +906,7 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_image_28_0.png" src="../_images/tutorials_image_28_0.png"/>
+<img alt="../_images/tutorials_image_29_0.png" src="../_images/tutorials_image_29_0.png"/>
 </div>
 </div>
 <p>Let’s zoom into some specific examples from the above set:</p>
@@ -910,7 +923,7 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_image_31_0.png" src="../_images/tutorials_image_31_0.png"/>
+<img alt="../_images/tutorials_image_32_0.png" src="../_images/tutorials_image_32_0.png"/>
 </div>
 </div>
 <p>Given label is <strong>4</strong> but also looks like <strong>9</strong>:</p>
@@ -926,7 +939,7 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_image_33_0.png" src="../_images/tutorials_image_33_0.png"/>
+<img alt="../_images/tutorials_image_34_0.png" src="../_images/tutorials_image_34_0.png"/>
 </div>
 </div>
 <p>A very odd looking <strong>5</strong>:</p>
@@ -942,7 +955,7 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_image_35_0.png" src="../_images/tutorials_image_35_0.png"/>
+<img alt="../_images/tutorials_image_36_0.png" src="../_images/tutorials_image_36_0.png"/>
 </div>
 </div>
 <p>Given label is <strong>3</strong> but could be a <strong>7</strong>:</p>
@@ -958,7 +971,7 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_image_37_0.png" src="../_images/tutorials_image_37_0.png"/>
+<img alt="../_images/tutorials_image_38_0.png" src="../_images/tutorials_image_38_0.png"/>
 </div>
 </div>
 <p>cleanlab has shortlisted the most likely label errors to speed up your data cleaning process. With this list, you can decide whether to fix label issues or prune some of these examples from the dataset.</p>

@@ -639,7 +639,16 @@ div.rendered_html tbody tr:hover {
 <li><p>Identify overlapping classes that you can merge to make the learning task less ambiguous.</p></li>
 <li><p>Generate an overall dataset and label quality health score to track improvements in your labels over time as you clean your datasets.</p></li>
 </ul>
-<div class="section" id="Install-dependencies-and-import-them">
+<div class="admonition note">
+<p class="admonition-title">Quickstart</p>
+<p>Already have (out-of-sample) <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> from a model trained on your dataset? Run the code below to evaluate the overall health of your dataset and its labels.</p>
+<div class="markdown" style="background:white;margin:16px"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.dataset</span> <span class="kn">import</span> <span class="n">health_summary</span>
+
+<span class="n">health_summary</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div><div class="section" id="Install-dependencies-and-import-them">
 <h2>Install dependencies and import them<a class="headerlink" href="#Install-dependencies-and-import-them" title="Permalink to this headline">#</a></h2>
 <p>You can use pip to install all packages required for this tutorial as follows:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>!pip install requests
@@ -732,6 +741,10 @@ def _load_classes_predprobs_labels(dataset_name):
 <li><p>labels (can contain label errors and various issues)</p></li>
 </ol>
 <p>For the 8 datasets, we’ve precomputed and loaded these for you. See <a class="reference external" href="https://labelerrors.com/">labelerrors.com</a> for more info about the label issues in these datasets.</p>
+<div class="admonition note">
+<p class="admonition-title">Want more interpretability?</p>
+<p>Pass in a list of class names ordered by their indices into the <code class="docutils literal notranslate"><span class="pre">class_names</span></code> argument in <code class="docutils literal notranslate"><span class="pre">cleanlab.dataset.health_summary()</span></code>.</p>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
