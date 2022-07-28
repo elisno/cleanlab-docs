@@ -394,6 +394,8 @@
     <span class="n">append_extra_datapoint</span><span class="p">,</span>
     <span class="n">train_val_split</span><span class="p">,</span>
     <span class="n">get_num_classes</span><span class="p">,</span>
+    <span class="n">is_torch_dataset</span><span class="p">,</span>
+    <span class="n">is_tensorflow_dataset</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.latent_algebra</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">compute_inv_noise_matrix</span><span class="p">,</span>
@@ -1094,35 +1096,47 @@
     <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">num_classes</span><span class="p">))</span>
 
     <span class="c1"># Split X and labels into "cv_n_folds" stratified folds.</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">cv_train_idx</span><span class="p">,</span> <span class="n">cv_holdout_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">)):</span>
-        <span class="n">clf_copy</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span>
+    <span class="c1"># CV indices only require labels: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html</span>
+    <span class="c1"># Only split based on labels because X may have various formats:</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">cv_train_idx</span><span class="p">,</span> <span class="n">cv_holdout_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">)):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">clf_copy</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span>  <span class="c1"># fresh untrained copy of the model</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"`clf` must be clonable via: sklearn.base.clone(clf). "</span>
+                <span class="s2">"You can either implement instance method `clf.get_params()` to produce a fresh untrained copy of this model, "</span>
+                <span class="s2">"or you can implement the cross-validation outside of cleanlab "</span>
+                <span class="s2">"and pass in the obtained `pred_probs` to skip cleanlab's internal cross-validation"</span>
+            <span class="p">)</span>
 
         <span class="c1"># Select the training and holdout cross-validated sets.</span>
         <span class="n">X_train_cv</span><span class="p">,</span> <span class="n">X_holdout_cv</span><span class="p">,</span> <span class="n">s_train_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span> <span class="o">=</span> <span class="n">train_val_split</span><span class="p">(</span>
             <span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">cv_train_idx</span><span class="p">,</span> <span class="n">cv_holdout_idx</span>
         <span class="p">)</span>
 
-        <span class="c1"># Ensure no missing classes in training set.</span>
-        <span class="n">train_cv_classes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">s_train_cv</span><span class="p">)</span>
-        <span class="n">all_classes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_classes</span><span class="p">))</span>
         <span class="c1"># dict with keys: which classes missing, values: index of holdout data from this class that is duplicated:</span>
         <span class="n">missing_class_inds</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_cv_classes</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_classes</span><span class="p">):</span>
-            <span class="n">missing_classes</span> <span class="o">=</span> <span class="n">all_classes</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">train_cv_classes</span><span class="p">)</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">"Duplicated some data across multiple folds to ensure training does not fail "</span>
-                <span class="sa">f</span><span class="s2">"because these classes do not have enough data for proper cross-validation: </span><span class="si">{</span><span class="n">missing_classes</span><span class="si">}</span><span class="s2">."</span>
-            <span class="p">)</span>
-            <span class="k">for</span> <span class="n">missing_class</span> <span class="ow">in</span> <span class="n">missing_classes</span><span class="p">:</span>
-                <span class="c1"># Duplicate one instance of missing_class from holdout data to the training data:</span>
-                <span class="n">holdout_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s_holdout_cv</span> <span class="o">==</span> <span class="n">missing_class</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">dup_idx</span> <span class="o">=</span> <span class="n">holdout_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">s_train_cv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_train_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span><span class="p">[</span><span class="n">dup_idx</span><span class="p">])</span>
-                <span class="c1"># labels are always np.array so don't have to consider .iloc above</span>
-                <span class="n">X_train_cv</span> <span class="o">=</span> <span class="n">append_extra_datapoint</span><span class="p">(</span>
-                    <span class="n">to_data</span><span class="o">=</span><span class="n">X_train_cv</span><span class="p">,</span> <span class="n">from_data</span><span class="o">=</span><span class="n">X_holdout_cv</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">dup_idx</span>
+        <span class="n">is_tf_or_torch_dataset</span> <span class="o">=</span> <span class="n">is_torch_dataset</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_tensorflow_dataset</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_tf_or_torch_dataset</span><span class="p">:</span>
+            <span class="c1"># Ensure no missing classes in training set.</span>
+            <span class="n">train_cv_classes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">s_train_cv</span><span class="p">)</span>
+            <span class="n">all_classes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_classes</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_cv_classes</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_classes</span><span class="p">):</span>
+                <span class="n">missing_classes</span> <span class="o">=</span> <span class="n">all_classes</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">train_cv_classes</span><span class="p">)</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">"Duplicated some data across multiple folds to ensure training does not fail "</span>
+                    <span class="sa">f</span><span class="s2">"because these classes do not have enough data for proper cross-validation: </span><span class="si">{</span><span class="n">missing_classes</span><span class="si">}</span><span class="s2">."</span>
                 <span class="p">)</span>
-                <span class="n">missing_class_inds</span><span class="p">[</span><span class="n">missing_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">dup_idx</span>
+                <span class="k">for</span> <span class="n">missing_class</span> <span class="ow">in</span> <span class="n">missing_classes</span><span class="p">:</span>
+                    <span class="c1"># Duplicate one instance of missing_class from holdout data to the training data:</span>
+                    <span class="n">holdout_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s_holdout_cv</span> <span class="o">==</span> <span class="n">missing_class</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">dup_idx</span> <span class="o">=</span> <span class="n">holdout_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">s_train_cv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_train_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span><span class="p">[</span><span class="n">dup_idx</span><span class="p">])</span>
+                    <span class="c1"># labels are always np.array so don't have to consider .iloc above</span>
+                    <span class="n">X_train_cv</span> <span class="o">=</span> <span class="n">append_extra_datapoint</span><span class="p">(</span>
+                        <span class="n">to_data</span><span class="o">=</span><span class="n">X_train_cv</span><span class="p">,</span> <span class="n">from_data</span><span class="o">=</span><span class="n">X_holdout_cv</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">dup_idx</span>
+                    <span class="p">)</span>
+                    <span class="n">missing_class_inds</span><span class="p">[</span><span class="n">missing_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">dup_idx</span>
 
         <span class="c1"># Map validation data into appropriate format to pass into classifier clf</span>
         <span class="k">if</span> <span class="n">validation_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

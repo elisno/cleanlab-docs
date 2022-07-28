@@ -593,25 +593,34 @@ pruning the data with label issues, and finally training <cite>clf</cite> on the
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – Data features (i.e. training inputs for ML), typically an array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>,
-where N is the number of examples. Sparse matrices are supported.
-If not an array or DataFrame, then <code class="docutils literal notranslate"><span class="pre">X</span></code> must support list-based indexing:
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetLike</span></code>) – <p>Data features (i.e. training inputs for ML), typically an array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>,
+where N is the number of examples.
+Supported <cite>DatasetLike</cite> types beyond <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> include:
+<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy.sparse.csr_matrix</span></code>, <code class="docutils literal notranslate"><span class="pre">torch.utils.data.Dataset</span></code>, <code class="docutils literal notranslate"><span class="pre">tensorflow.data.Dataset</span></code>,
+or any dataset object <code class="docutils literal notranslate"><span class="pre">X</span></code> that supports list-based indexing:
 <code class="docutils literal notranslate"><span class="pre">X[index_list]</span></code> to select a subset of training examples.
 The classifier that this instance was initialized with,
-<code class="docutils literal notranslate"><span class="pre">clf</span></code>, must be able to fit() and predict() data with this format.</p></li>
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
-Elements must be in the set 0, 1, …, K-1, where K is the number of classes.</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – <p>An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
+<code class="docutils literal notranslate"><span class="pre">clf</span></code>, must be able to fit() and predict() data of this format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If providing <cite>X</cite> as a <code class="docutils literal notranslate"><span class="pre">tensorflow.data.Dataset</span></code>,
+make sure <code class="docutils literal notranslate"><span class="pre">shuffle()</span></code> has been called before <code class="docutils literal notranslate"><span class="pre">batch()</span></code> (if shuffling)
+and no other order-destroying operation (eg. <code class="docutils literal notranslate"><span class="pre">repeat()</span></code>) has been applied.</p>
+</div>
+</p></li>
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">array_like</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+Elements must be in the set 0, 1, …, K-1, where K is the number of classes.
+Supported <cite>array_like</cite> types include: <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <code class="docutils literal notranslate"><span class="pre">pd.Series</span></code>, or <code class="docutils literal notranslate"><span class="pre">list</span></code>.</p></li>
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – <p>An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds
 to an example <cite>x</cite> and contains the model-predicted probabilities that
 <cite>x</cite> belongs to each possible class, for each of the K classes. The
-columns must be ordered such that these probabilities correspond to
-class 0, 1, …, K-1. <cite>pred_probs</cite> should have been computed using 3 (or
-higher) fold cross-validation.</p>
+columns must be ordered such that these probabilities correspond to class 0, 1, …, K-1.
+<cite>pred_probs</cite> should be <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">out-of-sample, eg. computed via cross-validation</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you are not sure, leave <code class="docutils literal notranslate"><span class="pre">pred_probs=None</span></code> (the default) and it
-will be computed for you using cross-validation with the model.</p>
+will be computed for you using cross-validation with the provided model.</p>
 </div>
 </p></li>
 <li><p><strong>thresholds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">array_like</span></code>, <em>optional</em>) – <p>An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">1)</span></code> or <code class="docutils literal notranslate"><span class="pre">(K,)</span></code> of per-class threshold
@@ -625,20 +634,20 @@ greater than this threshold, it is counted as having true_label =
 k. This is not used for pruning/filtering, only for estimating the
 noise rates using confident counts.</p>
 </p></li>
-<li><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the conditional probability
+<li><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the conditional probability
 matrix <code class="docutils literal notranslate"><span class="pre">P(label=k_s</span> <span class="pre">|</span> <span class="pre">true</span> <span class="pre">label=k_y)</span></code>, the
 fraction of examples in every class, labeled as every other class.
 Assumes columns of <cite>noise_matrix</cite> sum to 1.</p></li>
-<li><p><strong>inverse_noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the conditional probability
+<li><p><strong>inverse_noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the conditional probability
 matrix <code class="docutils literal notranslate"><span class="pre">P(true</span> <span class="pre">label=k_y</span> <span class="pre">|</span> <span class="pre">label=k_s)</span></code>,
 the estimated fraction observed examples in each class <code class="docutils literal notranslate"><span class="pre">k_s</span></code>
 that are mislabeled examples from every other class <code class="docutils literal notranslate"><span class="pre">k_y</span></code>,
 Assumes columns of <cite>inverse_noise_matrix</cite> sum to 1.</p></li>
-<li><p><strong>label_issues</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – <p>Specifies the label issues for each example in dataset.
+<li><p><strong>label_issues</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – <p>Specifies the label issues for each example in dataset.
 If <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>, must be formatted as the one returned by:
 <a class="reference internal" href="#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.find_label_issues</span></code></a> or
 <a class="reference internal" href="#cleanlab.classification.CleanLearning.get_label_issues" title="cleanlab.classification.CleanLearning.get_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.get_label_issues</span></code></a>.
-If <code class="docutils literal notranslate"><span class="pre">np.array</span></code>, must contain either boolean <cite>label_issues_mask</cite> as output by:
+If <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code>, must contain either boolean <cite>label_issues_mask</cite> as output by:
 default <a class="reference internal" href="filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">filter.find_label_issues</span></code></a>,
 or integer indices as output by
 <a class="reference internal" href="filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">filter.find_label_issues</span></code></a>
@@ -649,9 +658,10 @@ Examples identified to have label issues will be
 pruned from the data before training the final <cite>clf</cite> model.</p>
 <p>Caution: If you provide <cite>label_issues</cite> without having previously called
 <a class="reference internal" href="#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">self.find_label_issues</span></code></a>,
-e.g. as a <code class="docutils literal notranslate"><span class="pre">np.array</span></code>, then some functionality like training with sample weights may be disabled.</p>
+e.g. as a <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code>, then some functionality like training with sample weights may be disabled.</p>
 </p></li>
-<li><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">array-like</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(N,)</span></code>, <em>optional</em>) – Array of weights that are assigned to individual samples.
+<li><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">array_like</span></code>, <em>optional</em>) – Array of weights with shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> that are assigned to individual samples,
+assuming total number of examples in dataset is <cite>N</cite>.
 If not provided, samples may still be weighted by the estimated noise in the class they are labeled as.</p></li>
 <li><p><strong>clf_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>optional</em>) – Optional keyword arguments to pass into <cite>clf</cite>’s <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method.</p></li>
 <li><p><strong>clf_final_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>optional</em>) – Optional extra keyword arguments to pass into the final <cite>clf</cite> <code class="docutils literal notranslate"><span class="pre">fit()</span></code> on the cleaned data
@@ -661,34 +671,39 @@ but these may be overwritten by values in <cite>clf_final_kwargs</cite>.
 This can be useful for training differently in the final <code class="docutils literal notranslate"><span class="pre">fit()</span></code>
 than during cross-validation.</p></li>
 <li><p><strong>validation_func</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">callable</span></code>, <em>optional</em>) – <p>Optional callable function that takes two arguments, <cite>X_val</cite>, <cite>y_val</cite>, and returns a dict
-of keyword arguments passed into to <cite>clf.fit()</cite> which may be functions of the validation
+of keyword arguments passed into to <code class="docutils literal notranslate"><span class="pre">clf.fit()</span></code> which may be functions of the validation
 data in each cross-validation fold. Specifies how to map the validation data split in each
-cross-validation fold into the appropriate format to pass into <cite>clf</cite>’s <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method.
-e.g. if your model’s <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method is call using <cite>clf.fit(X, y, X_validation, y_validation)</cite>,
-then you could set <cite>validation_func = f</cite> where
-<cite>def f(X_val, y_val): return {“X_validation”: X_val, “y_validation”: y_val}</cite></p>
+cross-validation fold into the appropriate format to pass into <cite>clf</cite>’s <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method, assuming
+<code class="docutils literal notranslate"><span class="pre">clf.fit()</span></code> can utilize validation data if it is appropriately passed in (eg. for early-stopping).
+Eg. if your model’s <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method is called using <code class="docutils literal notranslate"><span class="pre">clf.fit(X,</span> <span class="pre">y,</span> <span class="pre">X_validation,</span> <span class="pre">y_validation)</span></code>,
+then you could set <code class="docutils literal notranslate"><span class="pre">validation_func</span> <span class="pre">=</span> <span class="pre">f</span></code> where
+<code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">f(X_val,</span> <span class="pre">y_val):</span> <span class="pre">return</span> <span class="pre">{"X_validation":</span> <span class="pre">X_val,</span> <span class="pre">"y_validation":</span> <span class="pre">y_val}</span></code></p>
 <p>Note that <cite>validation_func</cite> will be ignored in the final call to <cite>clf.fit()</cite> on the
 cleaned subset of the data. This argument is only for allowing <cite>clf</cite> to access the
 validation data in each cross-validation fold (eg. for early-stopping or hyperparameter-selection
-purposes). If you want to pass in validation data even in the final training of <cite>clf.fit()</cite>
+purposes). If you want to pass in validation data even in the final training call to <code class="docutils literal notranslate"><span class="pre">clf.fit()</span></code>
 on the cleaned data subset, you should explicitly pass in that data yourself
 (eg. via <cite>clf_final_kwargs</cite> or <cite>clf_kwargs</cite>).</p>
 </p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code>, <em>optional</em>) – Alternative argument that can be specified instead of <cite>labels</cite>. Specifying <cite>y</cite> has the same effect as specifying <cite>labels</cite>, and is offered as an alternative for compatibility with sklearn.</p></li>
+<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">array_like</span></code>, <em>optional</em>) – Alternative argument that can be specified instead of <cite>labels</cite>.
+Specifying <cite>y</cite> has the same effect as specifying <cite>labels</cite>,
+and is offered as an alternative for compatibility with sklearn.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">self</span></code> - Fitted estimator that has all the same methods as any sklearn estimator.</p>
+<dd class="field-even"><p><strong>self</strong> – Fitted estimator that has all the same methods as any sklearn estimator.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><p><a class="reference internal" href="#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a></p>
-<p>After calling <code class="docutils literal notranslate"><span class="pre">self.fit()</span></code>, this estimator also stores a few extra useful attributes, in particular
-<cite>self.label_issues_df</cite>: a <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> accessible via
-<a class="reference internal" href="#cleanlab.classification.CleanLearning.get_label_issues" title="cleanlab.classification.CleanLearning.get_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_label_issues</span></code></a>
+<p>After calling <code class="docutils literal notranslate"><span class="pre">self.fit()</span></code>, this estimator also stores extra attributes such as:</p>
+<ul class="simple">
+<li><p><em>self.label_issues_df</em>: a <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> accessible via</p></li>
+</ul>
+<p><a class="reference internal" href="#cleanlab.classification.CleanLearning.get_label_issues" title="cleanlab.classification.CleanLearning.get_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_label_issues</span></code></a>
 of similar format as the one returned by: <a class="reference internal" href="#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.find_label_issues</span></code></a>.
 See documentation of <a class="reference internal" href="#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.find_label_issues</span></code></a>
-for column descriptions.
-After calling <code class="docutils literal notranslate"><span class="pre">self.fit()</span></code>, <cite>self.label_issues_df</cite> may also contain an extra column:</p>
+for column descriptions.</p>
+<p>After calling <code class="docutils literal notranslate"><span class="pre">self.fit()</span></code>, <cite>self.label_issues_df</cite> may also contain an extra column:</p>
 <ul class="simple">
 <li><p><em>sample_weight</em>: Numeric values that were used to weight examples during
 the final training of <cite>clf</cite> in <code class="docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code>.
@@ -705,6 +720,13 @@ not just the subset of cleaned data left after pruning out the label issues.</p>
 </p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code> does not work for your data/model, you can run the same procedure yourself:
+* Utilize <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">cross-validation</span></a> to get out-of-sample <cite>pred_probs</cite> for each example.
+* Call <a class="reference internal" href="filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">filter.find_label_issues</span></code></a> with <cite>pred_probs</cite>.
+* Filter the examples with detected issues and train your model on the remaining data.</p>
+</div>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.get_label_issues">
@@ -743,7 +765,7 @@ contained subobjects that are estimators.</p>
 <dd><p>Returns a vector of predictions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p>
+<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -754,7 +776,7 @@ contained subobjects that are estimators.</p>
 <code class="docutils literal notranslate"><span class="pre">P(true</span> <span class="pre">label=k)</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p>
+<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -775,9 +797,9 @@ Uses the model’s default scoring function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> or <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">1)</span></code> of test labels.</p></li>
-<li><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> or <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">1)</span></code> used to weight each example when computing the score.</p></li>
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p></li>
+<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> or <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">1)</span></code> of test labels.</p></li>
+<li><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> or <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">1)</span></code> used to weight each example when computing the score.</p></li>
 </ul>
 </dd>
 </dl>

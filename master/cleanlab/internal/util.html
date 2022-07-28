@@ -381,44 +381,56 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.estimate_pu_f1" title="cleanlab.internal.util.estimate_pu_f1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate_pu_f1</span></code></a>(s, prob_s_eq_1)</p></td>
 <td><p>Computes Claesen's estimate of f1 in the pulearning setting.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.get_num_classes" title="cleanlab.internal.util.get_num_classes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_num_classes</span></code></a>([labels, pred_probs, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.extract_indices_tf" title="cleanlab.internal.util.extract_indices_tf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_indices_tf</span></code></a>(X, idx, allow_shuffle)</p></td>
+<td><p>Extracts subset of tensorflow dataset corresponding to examples at particular indices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.get_num_classes" title="cleanlab.internal.util.get_num_classes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_num_classes</span></code></a>([labels, pred_probs, ...])</p></td>
 <td><p>Determines the number of classes based on information considered in a canonical ordering.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.int2onehot" title="cleanlab.internal.util.int2onehot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int2onehot</span></code></a>(labels)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.int2onehot" title="cleanlab.internal.util.int2onehot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int2onehot</span></code></a>(labels)</p></td>
 <td><p>Convert list of lists to a onehot matrix for multi-labels</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.num_unique_classes" title="cleanlab.internal.util.num_unique_classes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_unique_classes</span></code></a>(labels[, multi_label])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.is_tensorflow_dataset" title="cleanlab.internal.util.is_tensorflow_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_tensorflow_dataset</span></code></a>(X)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.is_torch_dataset" title="cleanlab.internal.util.is_torch_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_torch_dataset</span></code></a>(X)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.num_unique_classes" title="cleanlab.internal.util.num_unique_classes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_unique_classes</span></code></a>(labels[, multi_label])</p></td>
 <td><p>Finds the number of unique classes for both single-labeled and multi-labeled labels.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.onehot2int" title="cleanlab.internal.util.onehot2int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onehot2int</span></code></a>(onehot_matrix)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.onehot2int" title="cleanlab.internal.util.onehot2int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onehot2int</span></code></a>(onehot_matrix)</p></td>
 <td><p>Convert a onehot matrix for multi-labels to a list of lists of ints</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.print_inverse_noise_matrix" title="cleanlab.internal.util.print_inverse_noise_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_inverse_noise_matrix</span></code></a>(inverse_noise_matrix)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.print_inverse_noise_matrix" title="cleanlab.internal.util.print_inverse_noise_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_inverse_noise_matrix</span></code></a>(inverse_noise_matrix)</p></td>
 <td><p>Pretty prints the inverse noise matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.print_joint_matrix" title="cleanlab.internal.util.print_joint_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_joint_matrix</span></code></a>(joint_matrix[, round_places])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.print_joint_matrix" title="cleanlab.internal.util.print_joint_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_joint_matrix</span></code></a>(joint_matrix[, round_places])</p></td>
 <td><p>Pretty prints the joint label noise matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.print_noise_matrix" title="cleanlab.internal.util.print_noise_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_noise_matrix</span></code></a>(noise_matrix[, round_places])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.print_noise_matrix" title="cleanlab.internal.util.print_noise_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_noise_matrix</span></code></a>(noise_matrix[, round_places])</p></td>
 <td><p>Pretty prints the noise matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.print_square_matrix" title="cleanlab.internal.util.print_square_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_square_matrix</span></code></a>(matrix[, left_name, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.print_square_matrix" title="cleanlab.internal.util.print_square_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_square_matrix</span></code></a>(matrix[, left_name, ...])</p></td>
 <td><p>Pretty prints a matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.remove_noise_from_class" title="cleanlab.internal.util.remove_noise_from_class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_noise_from_class</span></code></a>(noise_matrix, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.remove_noise_from_class" title="cleanlab.internal.util.remove_noise_from_class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_noise_from_class</span></code></a>(noise_matrix, ...)</p></td>
 <td><p>A helper function in the setting of PU learning.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.round_preserving_row_totals" title="cleanlab.internal.util.round_preserving_row_totals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round_preserving_row_totals</span></code></a>(confident_joint)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.round_preserving_row_totals" title="cleanlab.internal.util.round_preserving_row_totals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round_preserving_row_totals</span></code></a>(confident_joint)</p></td>
 <td><p>Rounds confident_joint cj to type int while preserving the totals of reach row.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.round_preserving_sum" title="cleanlab.internal.util.round_preserving_sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round_preserving_sum</span></code></a>(iterable)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.round_preserving_sum" title="cleanlab.internal.util.round_preserving_sum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round_preserving_sum</span></code></a>(iterable)</p></td>
 <td><p>Rounds an iterable of floats while retaining the original summed value.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.smart_display_dataframe" title="cleanlab.internal.util.smart_display_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smart_display_dataframe</span></code></a>(df)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.smart_display_dataframe" title="cleanlab.internal.util.smart_display_dataframe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smart_display_dataframe</span></code></a>(df)</p></td>
 <td><p>Display a pandas dataframe if in a jupyter notebook, otherwise print it to console.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.subset_X_y" title="cleanlab.internal.util.subset_X_y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subset_X_y</span></code></a>(X, labels, mask)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.subset_X_y" title="cleanlab.internal.util.subset_X_y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subset_X_y</span></code></a>(X, labels, mask)</p></td>
 <td><p>Extracts subset of features/labels where mask is True</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.subset_data" title="cleanlab.internal.util.subset_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subset_data</span></code></a>(X, mask)</p></td>
+<td><p>Extracts subset of data examples where mask (np.array) is True</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.subset_labels" title="cleanlab.internal.util.subset_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subset_labels</span></code></a>(labels, mask)</p></td>
 <td><p>Extracts subset of labels where mask is True</p></td>
@@ -426,7 +438,10 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.train_val_split" title="cleanlab.internal.util.train_val_split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">train_val_split</span></code></a>(X, labels, train_idx, ...)</p></td>
 <td><p>Splits data into training/validation sets based on given indices</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.value_counts" title="cleanlab.internal.util.value_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value_counts</span></code></a>(x)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.unshuffle_tensorflow_dataset" title="cleanlab.internal.util.unshuffle_tensorflow_dataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unshuffle_tensorflow_dataset</span></code></a>(X)</p></td>
+<td><p>Applies iterative inverse transformations to dataset to get version before ShuffleDataset was created.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.value_counts" title="cleanlab.internal.util.value_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value_counts</span></code></a>(x)</p></td>
 <td><p>Returns an np.array of shape (K, 1), with the value counts for every unique item in the labels list/array, where K is the number of unique entries in labels.</p></td>
 </tr>
 </tbody>
@@ -532,6 +547,25 @@ Alternative to scipy.sparse.vstack. Returns a sparse matrix.</p>
 </dl>
 </dd></dl>
 <dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.internal.util.extract_indices_tf">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">extract_indices_tf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_shuffle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#extract_indices_tf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.extract_indices_tf" title="Permalink to this definition">#</a></dt>
+<dd><p>Extracts subset of tensorflow dataset corresponding to examples at particular indices.</p>
+<dl>
+<dt>Args:</dt><dd><p>X : <code class="docutils literal notranslate"><span class="pre">tensorflow.data.Dataset</span></code></p>
+<dl class="simple">
+<dt>idx<span class="classifier">array_like of integer indices corresponding to examples to keep in the dataset.</span></dt><dd><p>Returns subset of examples in the dataset X that correspond to these indices.</p>
+</dd>
+<dt>allow_shuffle<span class="classifier">bool</span></dt><dd><p>Whether or not shuffling of this data is allowed (eg. must turn off shuffling for validation data).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Note: this code only works on Datasets in which:
+* <code class="docutils literal notranslate"><span class="pre">shuffle()</span></code> has been called before <code class="docutils literal notranslate"><span class="pre">batch()</span></code>,
+* no other order-destroying operation (eg. <code class="docutils literal notranslate"><span class="pre">repeat()</span></code>) has been applied.</p>
+<p>Indices are extracted from the original version of Dataset (before shuffle was called rather than in shuffled order).</p>
+</dd></dl>
+<dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.internal.util.get_num_classes">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">get_num_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#get_num_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.get_num_classes" title="Permalink to this definition">#</a></dt>
 <dd><p>Determines the number of classes based on information considered in a
@@ -549,6 +583,14 @@ All integers from 0,1,…,K-1 must be represented.</p>
 </dd>
 </dl>
 </dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.internal.util.is_tensorflow_dataset">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">is_tensorflow_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#is_tensorflow_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.is_tensorflow_dataset" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.internal.util.is_torch_dataset">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">is_torch_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#is_torch_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.is_torch_dataset" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.internal.util.num_unique_classes">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">num_unique_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#num_unique_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.num_unique_classes" title="Permalink to this definition">#</a></dt>
@@ -677,6 +719,11 @@ parameter is optional, but should be included if not obvious.</p>
 <dd><p>Extracts subset of features/labels where mask is True</p>
 </dd></dl>
 <dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.internal.util.subset_data">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">subset_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#subset_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.subset_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Extracts subset of data examples where mask (np.array) is True</p>
+</dd></dl>
+<dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.internal.util.subset_labels">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">subset_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#subset_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.subset_labels" title="Permalink to this definition">#</a></dt>
 <dd><p>Extracts subset of labels where mask is True</p>
@@ -685,6 +732,28 @@ parameter is optional, but should be included if not obvious.</p>
 <dt class="sig sig-object py" id="cleanlab.internal.util.train_val_split">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">train_val_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">holdout_idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#train_val_split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.train_val_split" title="Permalink to this definition">#</a></dt>
 <dd><p>Splits data into training/validation sets based on given indices</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.internal.util.unshuffle_tensorflow_dataset">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">unshuffle_tensorflow_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#unshuffle_tensorflow_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.unshuffle_tensorflow_dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Applies iterative inverse transformations to dataset to get version before ShuffleDataset was created.
+If no ShuffleDataset is in the transformation-history of this dataset, returns None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">a</span> <span class="pre">tensorflow</span> <span class="pre">Dataset</span> <span class="pre">that</span> <span class="pre">may</span> <span class="pre">have</span> <span class="pre">been</span> <span class="pre">created</span> <span class="pre">via</span> <span class="pre">series</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">transformations</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">one</span> <span class="pre">being</span> <span class="pre">shuffle.</span></code>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>pre_X : Dataset that was previously transformed to get ShuffleDataset (or None),
+buffer_size : int <cite>buffer_size</cite> previously used in ShuffleDataset,</p>
+<blockquote>
+<div><p>or <code class="docutils literal notranslate"><span class="pre">len(pre_X)</span></code> if buffer_size cannot be determined, or None if no ShuffleDataset found.</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple</span> <span class="pre">(pre_X</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">buffer_size)</span> <span class="pre">where</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.internal.util.value_counts">

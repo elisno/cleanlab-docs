@@ -639,31 +639,39 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        X : np.array or pd.DataFrame</span>
+<span class="sd">        X : np.ndarray or DatasetLike</span>
 <span class="sd">          Data features (i.e. training inputs for ML), typically an array of shape ``(N, ...)``,</span>
-<span class="sd">          where N is the number of examples. Sparse matrices are supported.</span>
-<span class="sd">          If not an array or DataFrame, then ``X`` must support list-based indexing:</span>
+<span class="sd">          where N is the number of examples.</span>
+<span class="sd">          Supported `DatasetLike` types beyond ``np.ndarray`` include:</span>
+<span class="sd">          ``pd.DataFrame``, ``scipy.sparse.csr_matrix``, ``torch.utils.data.Dataset``, ``tensorflow.data.Dataset``,</span>
+<span class="sd">          or any dataset object ``X`` that supports list-based indexing:</span>
 <span class="sd">          ``X[index_list]`` to select a subset of training examples.</span>
 <span class="sd">          The classifier that this instance was initialized with,</span>
-<span class="sd">          ``clf``, must be able to fit() and predict() data with this format.</span>
+<span class="sd">          ``clf``, must be able to fit() and predict() data of this format.</span>
 
-<span class="sd">        labels : np.array or pd.Series</span>
+<span class="sd">          Note</span>
+<span class="sd">          ----</span>
+<span class="sd">          If providing `X` as a ``tensorflow.data.Dataset``,</span>
+<span class="sd">          make sure ``shuffle()`` has been called before ``batch()`` (if shuffling)</span>
+<span class="sd">          and no other order-destroying operation (eg. ``repeat()``) has been applied.</span>
+
+<span class="sd">        labels : array_like</span>
 <span class="sd">          An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">          Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">          Supported `array_like` types include: ``np.ndarray``, ``pd.Series``, or ``list``.</span>
 
-<span class="sd">        pred_probs : np.array, optional</span>
+<span class="sd">        pred_probs : np.ndarray, optional</span>
 <span class="sd">          An array of shape ``(N, K)`` of model-predicted probabilities,</span>
 <span class="sd">          ``P(label=k|x)``. Each row of this matrix corresponds</span>
 <span class="sd">          to an example `x` and contains the model-predicted probabilities that</span>
 <span class="sd">          `x` belongs to each possible class, for each of the K classes. The</span>
-<span class="sd">          columns must be ordered such that these probabilities correspond to</span>
-<span class="sd">          class 0, 1, ..., K-1. `pred_probs` should have been computed using 3 (or</span>
-<span class="sd">          higher) fold cross-validation.</span>
+<span class="sd">          columns must be ordered such that these probabilities correspond to class 0, 1, ..., K-1.</span>
+<span class="sd">          `pred_probs` should be :ref:`out-of-sample, eg. computed via cross-validation &lt;pred_probs_cross_val&gt;`.</span>
 
 <span class="sd">          Note</span>
 <span class="sd">          ----</span>
 <span class="sd">          If you are not sure, leave ``pred_probs=None`` (the default) and it</span>
-<span class="sd">          will be computed for you using cross-validation with the model.</span>
+<span class="sd">          will be computed for you using cross-validation with the provided model.</span>
 
 <span class="sd">        thresholds : array_like, optional</span>
 <span class="sd">          An array of shape ``(K, 1)`` or ``(K,)`` of per-class threshold</span>
@@ -678,27 +686,27 @@
 <span class="sd">          k. This is not used for pruning/filtering, only for estimating the</span>
 <span class="sd">          noise rates using confident counts.</span>
 
-<span class="sd">        noise_matrix : np.array, optional</span>
+<span class="sd">        noise_matrix : np.ndarray, optional</span>
 <span class="sd">          An array of shape ``(K, K)`` representing the conditional probability</span>
 <span class="sd">          matrix ``P(label=k_s | true label=k_y)``, the</span>
 <span class="sd">          fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">          Assumes columns of `noise_matrix` sum to 1.</span>
 
-<span class="sd">        inverse_noise_matrix : np.array, optional</span>
+<span class="sd">        inverse_noise_matrix : np.ndarray, optional</span>
 <span class="sd">          An array of shape ``(K, K)`` representing the conditional probability</span>
 <span class="sd">          matrix ``P(true label=k_y | label=k_s)``,</span>
 <span class="sd">          the estimated fraction observed examples in each class ``k_s``</span>
 <span class="sd">          that are mislabeled examples from every other class ``k_y``,</span>
 <span class="sd">          Assumes columns of `inverse_noise_matrix` sum to 1.</span>
 
-<span class="sd">        label_issues : pd.DataFrame or np.array, optional</span>
+<span class="sd">        label_issues : pd.DataFrame or np.ndarray, optional</span>
 <span class="sd">          Specifies the label issues for each example in dataset.</span>
 <span class="sd">          If ``pd.DataFrame``, must be formatted as the one returned by:</span>
 <span class="sd">          :py:meth:`CleanLearning.find_label_issues</span>
 <span class="sd">          &lt;cleanlab.classification.CleanLearning.find_label_issues&gt;` or</span>
 <span class="sd">          :py:meth:`CleanLearning.get_label_issues</span>
 <span class="sd">          &lt;cleanlab.classification.CleanLearning.get_label_issues&gt;`.</span>
-<span class="sd">          If ``np.array``, must contain either boolean `label_issues_mask` as output by:</span>
+<span class="sd">          If ``np.ndarray``, must contain either boolean `label_issues_mask` as output by:</span>
 <span class="sd">          default :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;`,</span>
 <span class="sd">          or integer indices as output by</span>
 <span class="sd">          :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;`</span>
@@ -710,10 +718,11 @@
 
 <span class="sd">          Caution: If you provide `label_issues` without having previously called</span>
 <span class="sd">          :py:meth:`self.find_label_issues&lt;cleanlab.classification.CleanLearning.find_label_issues&gt;`,</span>
-<span class="sd">          e.g. as a ``np.array``, then some functionality like training with sample weights may be disabled.</span>
+<span class="sd">          e.g. as a ``np.ndarray``, then some functionality like training with sample weights may be disabled.</span>
 
-<span class="sd">        sample_weight : array-like of shape (N,), optional</span>
-<span class="sd">          Array of weights that are assigned to individual samples.</span>
+<span class="sd">        sample_weight : array_like, optional</span>
+<span class="sd">          Array of weights with shape ``(N,)`` that are assigned to individual samples,</span>
+<span class="sd">          assuming total number of examples in dataset is `N`.</span>
 <span class="sd">          If not provided, samples may still be weighted by the estimated noise in the class they are labeled as.</span>
 
 <span class="sd">        clf_kwargs : dict, optional</span>
@@ -729,36 +738,42 @@
 
 <span class="sd">        validation_func : callable, optional</span>
 <span class="sd">          Optional callable function that takes two arguments, `X_val`, `y_val`, and returns a dict</span>
-<span class="sd">          of keyword arguments passed into to `clf.fit()` which may be functions of the validation</span>
+<span class="sd">          of keyword arguments passed into to ``clf.fit()`` which may be functions of the validation</span>
 <span class="sd">          data in each cross-validation fold. Specifies how to map the validation data split in each</span>
-<span class="sd">          cross-validation fold into the appropriate format to pass into `clf`'s ``fit()`` method.</span>
-<span class="sd">          e.g. if your model's ``fit()`` method is call using `clf.fit(X, y, X_validation, y_validation)`,</span>
-<span class="sd">          then you could set `validation_func = f` where</span>
-<span class="sd">          `def f(X_val, y_val): return {"X_validation": X_val, "y_validation": y_val}`</span>
+<span class="sd">          cross-validation fold into the appropriate format to pass into `clf`'s ``fit()`` method, assuming</span>
+<span class="sd">          ``clf.fit()`` can utilize validation data if it is appropriately passed in (eg. for early-stopping).</span>
+<span class="sd">          Eg. if your model's ``fit()`` method is called using ``clf.fit(X, y, X_validation, y_validation)``,</span>
+<span class="sd">          then you could set ``validation_func = f`` where</span>
+<span class="sd">          ``def f(X_val, y_val): return {"X_validation": X_val, "y_validation": y_val}``</span>
 
 <span class="sd">          Note that `validation_func` will be ignored in the final call to `clf.fit()` on the</span>
 <span class="sd">          cleaned subset of the data. This argument is only for allowing `clf` to access the</span>
 <span class="sd">          validation data in each cross-validation fold (eg. for early-stopping or hyperparameter-selection</span>
-<span class="sd">          purposes). If you want to pass in validation data even in the final training of `clf.fit()`</span>
+<span class="sd">          purposes). If you want to pass in validation data even in the final training call to ``clf.fit()``</span>
 <span class="sd">          on the cleaned data subset, you should explicitly pass in that data yourself</span>
 <span class="sd">          (eg. via `clf_final_kwargs` or `clf_kwargs`).</span>
 
-<span class="sd">        y: np.array or pd.Series, optional</span>
-<span class="sd">          Alternative argument that can be specified instead of `labels`. Specifying `y` has the same effect as specifying `labels`, and is offered as an alternative for compatibility with sklearn.</span>
+<span class="sd">        y: array_like, optional</span>
+<span class="sd">          Alternative argument that can be specified instead of `labels`.</span>
+<span class="sd">          Specifying `y` has the same effect as specifying `labels`,</span>
+<span class="sd">          and is offered as an alternative for compatibility with sklearn.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        CleanLearning</span>
-<span class="sd">          ``self`` - Fitted estimator that has all the same methods as any sklearn estimator.</span>
+<span class="sd">        self : CleanLearning</span>
+<span class="sd">          Fitted estimator that has all the same methods as any sklearn estimator.</span>
 
 
-<span class="sd">          After calling ``self.fit()``, this estimator also stores a few extra useful attributes, in particular</span>
-<span class="sd">          `self.label_issues_df`: a ``pd.DataFrame`` accessible via</span>
+<span class="sd">          After calling ``self.fit()``, this estimator also stores extra attributes such as:</span>
+
+<span class="sd">          * *self.label_issues_df*: a ``pd.DataFrame`` accessible via</span>
 <span class="sd">          :py:meth:`get_label_issues</span>
 <span class="sd">          &lt;cleanlab.classification.CleanLearning.get_label_issues&gt;`</span>
 <span class="sd">          of similar format as the one returned by: :py:meth:`CleanLearning.find_label_issues&lt;cleanlab.classification.CleanLearning.find_label_issues&gt;`.</span>
 <span class="sd">          See documentation of :py:meth:`CleanLearning.find_label_issues&lt;cleanlab.classification.CleanLearning.find_label_issues&gt;`</span>
 <span class="sd">          for column descriptions.</span>
+
+
 <span class="sd">          After calling ``self.fit()``, `self.label_issues_df` may also contain an extra column:</span>
 
 <span class="sd">          * *sample_weight*: Numeric values that were used to weight examples during</span>
@@ -772,6 +787,13 @@
 <span class="sd">            In other words, examples with label issues were removed, so this weights the data proportionally</span>
 <span class="sd">            so that the classifier trains as if it had all the true labels,</span>
 <span class="sd">            not just the subset of cleaned data left after pruning out the label issues.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        If ``CleanLearning.fit()`` does not work for your data/model, you can run the same procedure yourself:</span>
+<span class="sd">        * Utilize :ref:`cross-validation &lt;pred_probs_cross_val&gt;` to get out-of-sample `pred_probs` for each example.</span>
+<span class="sd">        * Call :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` with `pred_probs`.</span>
+<span class="sd">        * Filter the examples with detected issues and train your model on the remaining data.</span>
 <span class="sd">        """</span>
 
         <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -920,7 +942,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        X : np.array</span>
+<span class="sd">        X : np.ndarray</span>
 <span class="sd">          An array of shape ``(N, ...)`` of test data."""</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -931,7 +953,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        X : np.array</span>
+<span class="sd">        X : np.ndarray</span>
 <span class="sd">          An array of shape ``(N, ...)`` of test data."""</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -942,13 +964,13 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        X : np.array</span>
+<span class="sd">        X : np.ndarray</span>
 <span class="sd">          An array of shape ``(N, ...)`` of test data.</span>
 
-<span class="sd">        y : np.array</span>
+<span class="sd">        y : np.ndarray</span>
 <span class="sd">          An array of shape ``(N,)`` or ``(N, 1)`` of test labels.</span>
 
-<span class="sd">        sample_weight : np.array, optional</span>
+<span class="sd">        sample_weight : np.ndarray, optional</span>
 <span class="sd">          An array of shape ``(N,)`` or ``(N, 1)`` used to weight each example when computing the score."""</span>
 
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">):</span>
