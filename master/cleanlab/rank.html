@@ -1,18 +1,19 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="count" href="count.html" /><link rel="prev" title="filter" href="filter.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="count" href="count.html" /><link rel="prev" title="filter" href="filter.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>rank - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +24,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +298,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -351,8 +357,8 @@
 
 <!-- End of Version Warning Banner -->
 
- <div class="section" id="module-cleanlab.rank">
-<span id="rank"></span><h1>rank<a class="headerlink" href="#module-cleanlab.rank" title="Permalink to this headline">#</a></h1>
+ <section id="module-cleanlab.rank">
+<span id="rank"></span><h1>rank<a class="headerlink" href="#module-cleanlab.rank" title="Permalink to this heading">#</a></h1>
 <p>Methods to rank/order data by cleanlab’s <cite>label quality score</cite>.
 Except for <a class="reference internal" href="#cleanlab.rank.order_label_issues" title="cleanlab.rank.order_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">order_label_issues</span></code></a>, which operates only on the subset of the data identified
 as potential label issues/errors, the methods in this module can be used on whichever subset
@@ -368,61 +374,60 @@ To obtain out-of-sample predicted probabilities for every datapoint in your data
 Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating
 labels in data that was previously held-out.</p>
 <p><strong>Functions:</strong></p>
-<div class="table-wrapper"><table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_confidence_weighted_entropy_for_each_label" title="cleanlab.rank.get_confidence_weighted_entropy_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_confidence_weighted_entropy_for_each_label</span></code></a>(...)</p></td>
-<td><p>Returns the "confidence weighted entropy" label-quality score for each datapoint.</p></td>
+<td><p>Returns the &quot;confidence weighted entropy&quot; label-quality score for each datapoint.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_ensemble_scores" title="cleanlab.rank.get_label_quality_ensemble_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_ensemble_scores</span></code></a>(labels, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_ensemble_scores" title="cleanlab.rank.get_label_quality_ensemble_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_ensemble_scores</span></code></a>(labels, ...)</p></td>
 <td><p>Returns label quality scores based on predictions from an ensemble of models.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>(labels, pred_probs, *)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>(labels, pred_probs, *)</p></td>
 <td><p>Returns label quality scores for each datapoint.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_normalized_margin_for_each_label" title="cleanlab.rank.get_normalized_margin_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normalized_margin_for_each_label</span></code></a>(labels, ...)</p></td>
-<td><p>Returns the "normalized margin" label-quality score for each datapoint.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_normalized_margin_for_each_label" title="cleanlab.rank.get_normalized_margin_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normalized_margin_for_each_label</span></code></a>(labels, ...)</p></td>
+<td><p>Returns the &quot;normalized margin&quot; label-quality score for each datapoint.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_outlier_scores" title="cleanlab.rank.get_outlier_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_outlier_scores</span></code></a>([features, knn, k, t, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_outlier_scores" title="cleanlab.rank.get_outlier_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_outlier_scores</span></code></a>([features, knn, k, t, ...])</p></td>
 <td><p>Returns an outlier score for each example based on its feature values.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_self_confidence_for_each_label" title="cleanlab.rank.get_self_confidence_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_self_confidence_for_each_label</span></code></a>(labels, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_self_confidence_for_each_label" title="cleanlab.rank.get_self_confidence_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_self_confidence_for_each_label</span></code></a>(labels, ...)</p></td>
 <td><p>Returns the self-confidence label-quality score for each datapoint.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.order_label_issues" title="cleanlab.rank.order_label_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">order_label_issues</span></code></a>(label_issues_mask, ...[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.order_label_issues" title="cleanlab.rank.order_label_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">order_label_issues</span></code></a>(label_issues_mask, ...[, ...])</p></td>
 <td><p>Sorts label issues by label quality score.</p></td>
 </tr>
 </tbody>
-</table></div>
+</table>
+</div>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.rank.get_confidence_weighted_entropy_for_each_label">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_confidence_weighted_entropy_for_each_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_confidence_weighted_entropy_for_each_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_confidence_weighted_entropy_for_each_label" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_confidence_weighted_entropy_for_each_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_confidence_weighted_entropy_for_each_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_confidence_weighted_entropy_for_each_label" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the “confidence weighted entropy” label-quality score for each datapoint.</p>
 <p>This is a function to compute label-quality scores for classification datasets,
 where lower scores indicate labels less likely to be correct.</p>
 <p>“confidence weighted entropy” is the normalized entropy divided by “self-confidence”.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Labels in the same format expected by the <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a> function.</p></li>
 <li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Predicted-probabilities in the same format expected by the <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a> function.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>label_quality_scores</strong> – An array of scores (between 0 and 1) for each example of its likelihood of
 being correctly labeled.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.rank.get_label_quality_ensemble_scores">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_label_quality_ensemble_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'self_confidence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjust_pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_ensemble_members_by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'accuracy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_loss_search_T_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.0001,</span> <span class="pre">0.001,</span> <span class="pre">0.01,</span> <span class="pre">0.1,</span> <span class="pre">1.0,</span> <span class="pre">10.0,</span> <span class="pre">100.0,</span> <span class="pre">200.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_label_quality_ensemble_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_label_quality_ensemble_scores" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_label_quality_ensemble_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'self_confidence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjust_pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_ensemble_members_by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'accuracy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_loss_search_T_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.0001,</span> <span class="pre">0.001,</span> <span class="pre">0.01,</span> <span class="pre">0.1,</span> <span class="pre">1.0,</span> <span class="pre">10.0,</span> <span class="pre">100.0,</span> <span class="pre">200.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_label_quality_ensemble_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_label_quality_ensemble_scores" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns label quality scores based on predictions from an ensemble of models.</p>
 <p>This is a function to compute label-quality scores for classification datasets,
 where lower scores indicate labels less likely to be correct.</p>
@@ -435,16 +440,16 @@ Take the average of the scores with the chosen weighting scheme determined by <c
 <li><p>0 — dirty label (given label is likely incorrect).</p></li>
 </ul>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Labels in the same format expected by the <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a> function.</p></li>
 <li><p><strong>pred_probs_list</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List[np.array]</span></code>) – Each element in this list should be an array of pred_probs in the same format
 expected by the <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a> function.
 Each element of <cite>pred_probs_list</cite> corresponds to the predictions from one model for all examples.</p></li>
-<li><p><strong>method</strong> (<code class="docutils literal notranslate"><span class="pre">{"self_confidence",</span> <span class="pre">"normalized_margin",</span> <span class="pre">"confidence_weighted_entropy"}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">"self_confidence"</span></code>) – Label quality scoring method. See <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>
+<li><p><strong>method</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;self_confidence&quot;,</span> <span class="pre">&quot;normalized_margin&quot;,</span> <span class="pre">&quot;confidence_weighted_entropy&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;self_confidence&quot;</span></code>) – Label quality scoring method. See <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>
 for scenarios on when to use each method.</p></li>
 <li><p><strong>adjust_pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>optional</em>) – <cite>adjust_pred_probs</cite> in the same format expected by the <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a> function.</p></li>
-<li><p><strong>weight_ensemble_members_by</strong> (<code class="docutils literal notranslate"><span class="pre">{"uniform",</span> <span class="pre">"accuracy",</span> <span class="pre">"log_loss_search",</span> <span class="pre">"custom"}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">"accuracy"</span></code>) – <p>Weighting scheme used to aggregate scores from each model:</p>
+<li><p><strong>weight_ensemble_members_by</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;uniform&quot;,</span> <span class="pre">&quot;accuracy&quot;,</span> <span class="pre">&quot;log_loss_search&quot;,</span> <span class="pre">&quot;custom&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;accuracy&quot;</span></code>) – <p>Weighting scheme used to aggregate scores from each model:</p>
 <ul>
 <li><p>”uniform”: Take the simple average of scores.</p></li>
 <li><p>”accuracy”: Take weighted average of scores, weighted by model accuracy.</p></li>
@@ -459,10 +464,10 @@ We will choose the value of t that leads to weights which produce the best log-l
 <li><p><strong>verbose</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – Set to <code class="docutils literal notranslate"><span class="pre">False</span></code> to suppress all print statements.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>label_quality_scores</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
@@ -471,9 +476,10 @@ We will choose the value of t that leads to weights which produce the best log-l
 <p><a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a></p>
 </div>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.rank.get_label_quality_scores">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_label_quality_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'self_confidence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjust_pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_label_quality_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_label_quality_scores" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_label_quality_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'self_confidence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjust_pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_label_quality_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_label_quality_scores" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns label quality scores for each datapoint.</p>
 <p>This is a function to compute label-quality scores for classification datasets,
 where lower scores indicate labels less likely to be correct.</p>
@@ -481,7 +487,7 @@ where lower scores indicate labels less likely to be correct.</p>
 <p>1 - clean label (given label is likely correct).
 0 - dirty label (given label is likely incorrect).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – A discrete vector of noisy labels, i.e. some labels may be erroneous.
 <em>Format requirements</em>: for dataset with K classes, labels must be in 0, 1, …, K-1.
@@ -500,7 +506,7 @@ To obtain out-of-sample predicted probabilities for every datapoint in your data
 Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating
 data that was previously held-out.</p>
 </p></li>
-<li><p><strong>method</strong> (<code class="docutils literal notranslate"><span class="pre">{"self_confidence",</span> <span class="pre">"normalized_margin",</span> <span class="pre">"confidence_weighted_entropy"}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">"self_confidence"</span></code>) – <p>Label quality scoring method.</p>
+<li><p><strong>method</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;self_confidence&quot;,</span> <span class="pre">&quot;normalized_margin&quot;,</span> <span class="pre">&quot;confidence_weighted_entropy&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;self_confidence&quot;</span></code>) – <p>Label quality scoring method.</p>
 <p>Letting <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">=</span> <span class="pre">labels[i]</span></code> and <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">=</span> <span class="pre">pred_probs[i]</span></code> denote the given label and predicted class-probabilities
 for datapoint <em>i</em>, its score can either be:</p>
 <ul>
@@ -521,10 +527,10 @@ Set this to <code class="docutils literal notranslate"><span class="pre">True</s
 See <a class="reference external" href="https://jair.org/index.php/jair/article/view/12125">Northcutt et al., 2021</a>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>label_quality_scores</strong> – Scores are between 0 and 1 where lower scores indicate labels less likely to be correct.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
@@ -533,9 +539,10 @@ See <a class="reference external" href="https://jair.org/index.php/jair/article/
 <p><a class="reference internal" href="#cleanlab.rank.get_self_confidence_for_each_label" title="cleanlab.rank.get_self_confidence_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_self_confidence_for_each_label</span></code></a>, <a class="reference internal" href="#cleanlab.rank.get_normalized_margin_for_each_label" title="cleanlab.rank.get_normalized_margin_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normalized_margin_for_each_label</span></code></a>, <a class="reference internal" href="#cleanlab.rank.get_confidence_weighted_entropy_for_each_label" title="cleanlab.rank.get_confidence_weighted_entropy_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_confidence_weighted_entropy_for_each_label</span></code></a></p>
 </div>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.rank.get_normalized_margin_for_each_label">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_normalized_margin_for_each_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_normalized_margin_for_each_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_normalized_margin_for_each_label" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_normalized_margin_for_each_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_normalized_margin_for_each_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_normalized_margin_for_each_label" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the “normalized margin” label-quality score for each datapoint.</p>
 <p>This is a function to compute label-quality scores for classification datasets,
 where lower scores indicate labels less likely to be correct.</p>
@@ -548,29 +555,30 @@ of being a good label or a label error.</p>
 <p>Normalized margin works better for finding class conditional label errors where
 there is another label in the set of classes that is clearly better than the given label.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Labels in the same format expected by the <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a> function.</p></li>
 <li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Predicted-probabilities in the same format expected by the <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a> function.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>label_quality_scores</strong> – An array of scores (between 0 and 1) for each example of its likelihood of
 being correctly labeled. <code class="docutils literal notranslate"><span class="pre">normalized_margin</span> <span class="pre">=</span> <span class="pre">prob_label</span> <span class="pre">-</span> <span class="pre">max_prob_not_label</span></code></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.rank.get_outlier_scores">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_outlier_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.neighbors._unsupervised.NearestNeighbors</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_estimator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.neighbors._unsupervised.NearestNeighbors</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_outlier_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_outlier_scores" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_outlier_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">NearestNeighbors</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_estimator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">NearestNeighbors</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_outlier_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_outlier_scores" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns an outlier score for each example based on its feature values. Scores lie in [0,1] with smaller values indicating examples
 that are less typical under the dataset distribution (values near 0 indicate outliers).
 The score is based on the average distance between the example and its K nearest neighbors in the dataset (in feature space).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>features</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Feature array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">M)</span></code>, where N is the number of examples and M is the number of features used to represent each example.
 All features should be numeric. For unstructured data (eg. images, text, categorical values, …), you should provide
@@ -581,7 +589,7 @@ You can also pass in a subclass of <code class="docutils literal notranslate"><s
 approximate neighbor libraries as long as you wrap them behind the same sklearn API.
 If you specify <code class="docutils literal notranslate"><span class="pre">knn</span></code> here and wish to find outliers in the same data you already passed into <code class="docutils literal notranslate"><span class="pre">knn.fit(features)</span></code>, you should specify <code class="docutils literal notranslate"><span class="pre">features</span> <span class="pre">=</span> <span class="pre">None</span></code> here if your <code class="docutils literal notranslate"><span class="pre">knn.kneighbors(None)</span></code>
 returns the distances to the datapoints it was <code class="docutils literal notranslate"><span class="pre">fit()</span></code> on.
-If <code class="docutils literal notranslate"><span class="pre">knn</span> <span class="pre">=</span> <span class="pre">None</span></code>, then by default <code class="docutils literal notranslate"><span class="pre">knn</span> <span class="pre">=</span> <span class="pre">sklearn.neighbors.NearestNeighbors(n_neighbors=k,</span> <span class="pre">metric="cosine").fit(features)</span></code></p>
+If <code class="docutils literal notranslate"><span class="pre">knn</span> <span class="pre">=</span> <span class="pre">None</span></code>, then by default <code class="docutils literal notranslate"><span class="pre">knn</span> <span class="pre">=</span> <span class="pre">sklearn.neighbors.NearestNeighbors(n_neighbors=k,</span> <span class="pre">metric=&quot;cosine&quot;).fit(features)</span></code></p>
 <p>See: <a class="reference external" href="https://scikit-learn.org/stable/modules/neighbors.html">https://scikit-learn.org/stable/modules/neighbors.html</a></p>
 </p></li>
 <li><p><strong>k</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>) – Optional number of neighbors to use when calculating outlier score (average distance to neighbors).
@@ -598,20 +606,21 @@ although the relative scores of examples will still have the same ranking across
 If True, this function returns a tuple <cite>(outlier_scores, knn)</cite>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>outlier_scores</strong> – Score for each example that roughly corresponds to the likelihood this example stems from the same distribution as
 the dataset features (i.e. is not an outlier).
 If <code class="docutils literal notranslate"><span class="pre">return_estimator</span> <span class="pre">=</span> <span class="pre">True</span></code>, then a tuple is returned
 whose first element is array of <cite>outlier_scores</cite> and second is a <cite>knn</cite> Estimator object.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.rank.get_self_confidence_for_each_label">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_self_confidence_for_each_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_self_confidence_for_each_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_self_confidence_for_each_label" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_self_confidence_for_each_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_self_confidence_for_each_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_self_confidence_for_each_label" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the self-confidence label-quality score for each datapoint.</p>
 <p>This is a function to compute label-quality scores for classification datasets,
 where lower scores indicate labels less likely to be correct.</p>
@@ -620,28 +629,29 @@ its given class label.</p>
 <p>Self-confidence can work better than normalized-margin for detecting label errors due to out-of-distribution (OOD) or weird examples
 vs. label errors in which labels for random examples have been replaced by other classes.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Labels in the same format expected by the <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a> function.</p></li>
 <li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Predicted-probabilities in the same format expected by the <a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a> function.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>label_quality_scores</strong> – An array of holdout probabilities that each example in <cite>pred_probs</cite> belongs to its
 label.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.rank.order_label_issues">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">order_label_issues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_issues_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'self_confidence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_by_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#order_label_issues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.order_label_issues" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">order_label_issues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_issues_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'self_confidence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_by_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/cleanlab/rank.html#order_label_issues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.order_label_issues" title="Permalink to this definition">#</a></dt>
 <dd><p>Sorts label issues by label quality score.</p>
 <p>Default label quality score is “self_confidence”.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>label_issues_mask</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – A boolean mask for the entire dataset where <code class="docutils literal notranslate"><span class="pre">True</span></code> represents a label
 issue and <code class="docutils literal notranslate"><span class="pre">False</span></code> represents an example that is accurately labeled with
@@ -654,16 +664,17 @@ the <cite>method</cite> argument of <a class="reference internal" href="#cleanla
 Accepted args include <cite>adjust_pred_probs</cite>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>label_issues_idx</strong> – Return an array of the indices of the label issues, ordered by the label-quality scoring method
 passed to <cite>rank_by</cite>.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
 </dd></dl>
-</div>
+
+</section>
  
         </article>
       </div>
@@ -737,6 +748,7 @@ passed to <cite>rank_by</cite>.</p>
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

@@ -1,18 +1,19 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Image Classification with PyTorch and Cleanlab" href="image.html" /><link rel="prev" title="cleanlab documentation" href="../index.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Image Classification with PyTorch and Cleanlab" href="image.html" /><link rel="prev" title="cleanlab documentation" href="../index.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Cleanlab 2.0: The Workflows of Data-centric AI - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +24,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +298,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -618,6 +624,7 @@ div.rendered_html tbody tr:hover {
         color:black;
     }
 </style>
+
 <script type="text/javascript">
     window.addEventListener('load', () => {
         const h1_element = document.getElementsByTagName("h1");
@@ -631,8 +638,8 @@ div.rendered_html tbody tr:hover {
         `);
     })
 
-</script><div class="section" id="Cleanlab-2.0:-The-Workflows-of-Data-centric-AI">
-<h1>Cleanlab 2.0: The Workflows of Data-centric AI<a class="headerlink" href="#Cleanlab-2.0:-The-Workflows-of-Data-centric-AI" title="Permalink to this headline">#</a></h1>
+</script><section id="Cleanlab-2.0:-The-Workflows-of-Data-centric-AI">
+<h1>Cleanlab 2.0: The Workflows of Data-centric AI<a class="headerlink" href="#Cleanlab-2.0:-The-Workflows-of-Data-centric-AI" title="Permalink to this heading">#</a></h1>
 <p>In this tutorial, you will learn how to easily incorporate the new and improved <a class="reference external" href="https://github.com/cleanlab/cleanlab">cleanlab 2.0</a> into your ML development workflows to:</p>
 <ul class="simple">
 <li><p>Automatically find label issues lurking in your data.</p></li>
@@ -644,8 +651,8 @@ div.rendered_html tbody tr:hover {
 <p>This tutorial provides an in-depth survey of many possible different ways that cleanlab can be utilized for Data-Centric AI. If you have a different use-case in mind that is not supported, please <a class="reference external" href="https://github.com/cleanlab/cleanlab/issues">tell us about it</a>!</p>
 <p><strong>cleanlab is grounded in theory and science</strong>. Learn more:</p>
 <p><a class="reference external" href="https://cleanlab.ai/research">Research Publications</a> | <a class="reference external" href="https://labelerrors.com/">Label Errors found by cleanlab</a> | <a class="reference external" href="https://github.com/cleanlab/examples">Examples using cleanlab</a></p>
-<div class="section" id="Install-dependencies-and-import-them">
-<h2>Install dependencies and import them<a class="headerlink" href="#Install-dependencies-and-import-them" title="Permalink to this headline">#</a></h2>
+<section id="Install-dependencies-and-import-them">
+<h2>Install dependencies and import them<a class="headerlink" href="#Install-dependencies-and-import-them" title="Permalink to this heading">#</a></h2>
 <p>You can use pip to install all packages required for this tutorial as follows:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>!pip install sklearn matplotlib
 !pip install cleanlab
@@ -669,9 +676,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Create-the-data-(can-skip-these-details)">
-<h2>Create the data (can skip these details)<a class="headerlink" href="#Create-the-data-(can-skip-these-details)" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="Create-the-data-(can-skip-these-details)">
+<h2>Create the data (can skip these details)<a class="headerlink" href="#Create-the-data-(can-skip-these-details)" title="Permalink to this heading">#</a></h2>
 <details><p>Below is the code used for data-generation.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.
 
@@ -732,22 +739,22 @@ def make_data(
     ps = np.bincount(s) / float(len(s))  # Prior distribution over noisy labels
 
     return {
-        "data": X_train,
-        "true_labels": y_train,  # You never get to see these perfect labels.
-        "labels": s,  # Instead, you have these labels, which have some errors.
-        "test_data": X_test,
-        "test_labels": y_test,  # Perfect labels used for "true" measure of model's performance during deployment.
-        "noisy_test_labels": s_test,  # With IID train/test split, you'd have these labels, which also have some errors.
-        "ps": ps,
-        "py_true": py_true,
-        "noise_matrix_true": noise_matrix_true,
-        "class_names": ["purple", "blue", "seafoam green", "yellow"],
+        &quot;data&quot;: X_train,
+        &quot;true_labels&quot;: y_train,  # You never get to see these perfect labels.
+        &quot;labels&quot;: s,  # Instead, you have these labels, which have some errors.
+        &quot;test_data&quot;: X_test,
+        &quot;test_labels&quot;: y_test,  # Perfect labels used for &quot;true&quot; measure of model&#39;s performance during deployment.
+        &quot;noisy_test_labels&quot;: s_test,  # With IID train/test split, you&#39;d have these labels, which also have some errors.
+        &quot;ps&quot;: ps,
+        &quot;py_true&quot;: py_true,
+        &quot;noise_matrix_true&quot;: noise_matrix_true,
+        &quot;class_names&quot;: [&quot;purple&quot;, &quot;blue&quot;, &quot;seafoam green&quot;, &quot;yellow&quot;],
     }
 
 
 data_dict = make_data()
 for key, val in data_dict.items():  # Map data_dict to variables in namespace
-    exec(key + "=val")
+    exec(key + &quot;=val&quot;)
 
 # Display dataset visually using matplotlib
 def plot_data(data, circles, title, alpha=1.0):
@@ -757,9 +764,9 @@ def plot_data(data, circles, title, alpha=1.0):
         plt.plot(
             data[i][0],
             data[i][1],
-            "o",
-            markerfacecolor="none",
-            markeredgecolor="red",
+            &quot;o&quot;,
+            markerfacecolor=&quot;none&quot;,
+            markeredgecolor=&quot;red&quot;,
             markersize=14,
             markeredgewidth=2.5,
             alpha=alpha
@@ -772,7 +779,7 @@ def plot_data(data, circles, title, alpha=1.0):
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true_errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">true_labels</span> <span class="o">!=</span> <span class="n">labels</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plot_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">circles</span><span class="o">=</span><span class="n">true_errors</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"A realistic, messy dataset with 4 classes"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plot_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">circles</span><span class="o">=</span><span class="n">true_errors</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;A realistic, messy dataset with 4 classes&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -780,14 +787,14 @@ def plot_data(data, circles, title, alpha=1.0):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_indepth_overview_8_0.png" src="../_images/tutorials_indepth_overview_8_0.png"/>
+<img alt="../_images/tutorials_indepth_overview_8_0.png" src="../_images/tutorials_indepth_overview_8_0.png" />
 </div>
 </div>
 <p>The figure above represents a toy dataset we’ll use to demonstrate various cleanlab functionality. In this data, the features <em>X</em> are 2-dimensional and examples are colored according to their <em>given</em> label above.</p>
 <p>Like <a class="reference external" href="https://labelerrors.com/">many real-world datasets</a>, the given label happens to be incorrect for some of the examples (<strong>circled in red</strong>) in this dataset!</p>
-</div>
-<div class="section" id="Workflow-1:-Use-CleanLearning()-for-everything">
-<h2><strong>Workflow 1:</strong> Use CleanLearning() for everything<a class="headerlink" href="#Workflow-1:-Use-CleanLearning()-for-everything" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="Workflow-1:-Use-CleanLearning()-for-everything">
+<h2><strong>Workflow 1:</strong> Use CleanLearning() for everything<a class="headerlink" href="#Workflow-1:-Use-CleanLearning()-for-everything" title="Permalink to this heading">#</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -810,8 +817,8 @@ def plot_data(data, circles, title, alpha=1.0):
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-08-05 16:38:17.118153: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-08-05 16:38:17.118184: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-08-08 10:24:52.762023: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-08-08 10:24:52.762067: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -820,7 +827,7 @@ def plot_data(data, circles, title, alpha=1.0):
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -833,64 +840,64 @@ def plot_data(data, circles, title, alpha=1.0):
         text-align: right;
     }
 </style>
-<div class="table-wrapper"><table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>is_label_issue</th>
-<th>label_quality</th>
-<th>given_label</th>
-<th>predicted_label</th>
-<th>sample_weight</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>False</td>
-<td>0.695174</td>
-<td>0</td>
-<td>0</td>
-<td>1.323529</td>
-</tr>
-<tr>
-<th>1</th>
-<td>False</td>
-<td>0.522929</td>
-<td>0</td>
-<td>0</td>
-<td>1.323529</td>
-</tr>
-<tr>
-<th>2</th>
-<td>True</td>
-<td>0.013722</td>
-<td>3</td>
-<td>0</td>
-<td>0.000000</td>
-</tr>
-<tr>
-<th>3</th>
-<td>False</td>
-<td>0.675606</td>
-<td>0</td>
-<td>0</td>
-<td>1.323529</td>
-</tr>
-<tr>
-<th>4</th>
-<td>False</td>
-<td>0.646438</td>
-<td>0</td>
-<td>0</td>
-<td>1.323529</td>
-</tr>
-</tbody>
-</table></div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>is_label_issue</th>
+      <th>label_quality</th>
+      <th>given_label</th>
+      <th>predicted_label</th>
+      <th>sample_weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>0.695174</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1.323529</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>False</td>
+      <td>0.522929</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1.323529</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>True</td>
+      <td>0.013722</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>False</td>
+      <td>0.675606</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1.323529</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>False</td>
+      <td>0.646438</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1.323529</td>
+    </tr>
+  </tbody>
+</table>
 </div></div>
 </div>
-<div class="section" id="Clean-Learning-=-Machine-Learning-with-cleaned-data">
-<h3>Clean Learning = Machine Learning with cleaned data<a class="headerlink" href="#Clean-Learning-=-Machine-Learning-with-cleaned-data" title="Permalink to this headline">#</a></h3>
+<section id="Clean-Learning-=-Machine-Learning-with-cleaned-data">
+<h3>Clean Learning = Machine Learning with cleaned data<a class="headerlink" href="#Clean-Learning-=-Machine-Learning-with-cleaned-data" title="Permalink to this heading">#</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -898,12 +905,12 @@ def plot_data(data, circles, title, alpha=1.0):
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># For comparison, this is how you would have trained your model normally (without Cleanlab)</span>
 <span class="n">yourFavoriteModel</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
 <span class="n">yourFavoriteModel</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy using yourFavoriteModel: </span><span class="si">{</span><span class="n">yourFavoriteModel</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy using yourFavoriteModel: </span><span class="si">{</span><span class="n">yourFavoriteModel</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="c1"># But CleanLearning can do anything yourFavoriteModel can do, but enhanced.</span>
 <span class="c1"># For example, CleanLearning gives you predictions (just like yourFavoriteModel)</span>
 <span class="c1"># but the magic is that CleanLearning was trained as if your data did not have label errors.</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy using yourFavoriteModel (+ CleanLearning): </span><span class="si">{</span><span class="n">cl</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy using yourFavoriteModel (+ CleanLearning): </span><span class="si">{</span><span class="n">cl</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -917,10 +924,10 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
 </pre></div></div>
 </div>
 <p>Note! <em>Accuracy</em> refers to the accuracy with respect to the <em>true</em> error-free labels of a test set., i.e. what we actually care about in practice because that’s what real-world model performance is based on. If you don’t have a clean test set, you can use cleanlab to make one :)</p>
-</div>
-</div>
-<div class="section" id="Workflow-2:-Use-CleanLearning-to-find_label_issues-in-one-line-of-code">
-<h2><strong>Workflow 2:</strong> Use CleanLearning to find_label_issues in one line of code<a class="headerlink" href="#Workflow-2:-Use-CleanLearning-to-find_label_issues-in-one-line-of-code" title="Permalink to this headline">#</a></h2>
+</section>
+</section>
+<section id="Workflow-2:-Use-CleanLearning-to-find_label_issues-in-one-line-of-code">
+<h2><strong>Workflow 2:</strong> Use CleanLearning to find_label_issues in one line of code<a class="headerlink" href="#Workflow-2:-Use-CleanLearning-to-find_label_issues-in-one-line-of-code" title="Permalink to this heading">#</a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -938,7 +945,7 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -951,64 +958,64 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
         text-align: right;
     }
 </style>
-<div class="table-wrapper"><table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>is_label_issue</th>
-<th>label_quality</th>
-<th>given_label</th>
-<th>predicted_label</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>False</td>
-<td>0.695174</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>1</th>
-<td>False</td>
-<td>0.522929</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>2</th>
-<td>True</td>
-<td>0.013722</td>
-<td>3</td>
-<td>0</td>
-</tr>
-<tr>
-<th>3</th>
-<td>False</td>
-<td>0.675606</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>4</th>
-<td>False</td>
-<td>0.646438</td>
-<td>0</td>
-<td>0</td>
-</tr>
-</tbody>
-</table></div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>is_label_issue</th>
+      <th>label_quality</th>
+      <th>given_label</th>
+      <th>predicted_label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>0.695174</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>False</td>
+      <td>0.522929</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>True</td>
+      <td>0.013722</td>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>False</td>
+      <td>0.675606</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>False</td>
+      <td>0.646438</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
 </div></div>
 </div>
-<div class="section" id="Visualize-the-twenty-examples-with-lowest-label-quality-to-see-if-Cleanlab-works.">
-<h3>Visualize the twenty examples with lowest label quality to see if Cleanlab works.<a class="headerlink" href="#Visualize-the-twenty-examples-with-lowest-label-quality-to-see-if-Cleanlab-works." title="Permalink to this headline">#</a></h3>
+<section id="Visualize-the-twenty-examples-with-lowest-label-quality-to-see-if-Cleanlab-works.">
+<h3>Visualize the twenty examples with lowest label quality to see if Cleanlab works.<a class="headerlink" href="#Visualize-the-twenty-examples-with-lowest-label-quality-to-see-if-Cleanlab-works." title="Permalink to this heading">#</a></h3>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lowest_quality_labels</span> <span class="o">=</span> <span class="n">issues</span><span class="p">[</span><span class="s2">"label_quality"</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="mi">20</span><span class="p">]</span>
-<span class="n">plot_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">circles</span><span class="o">=</span><span class="n">lowest_quality_labels</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"The 20 lowest label quality examples"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lowest_quality_labels</span> <span class="o">=</span> <span class="n">issues</span><span class="p">[</span><span class="s2">&quot;label_quality&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="mi">20</span><span class="p">]</span>
+<span class="n">plot_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">circles</span><span class="o">=</span><span class="n">lowest_quality_labels</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;The 20 lowest label quality examples&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1016,7 +1023,7 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_indepth_overview_18_0.png" src="../_images/tutorials_indepth_overview_18_0.png"/>
+<img alt="../_images/tutorials_indepth_overview_18_0.png" src="../_images/tutorials_indepth_overview_18_0.png" />
 </div>
 </div>
 <p>Above, the top 20 label issues circled in red are found automatically using cleanlab (no true labels given).</p>
@@ -1035,14 +1042,14 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
-<style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div class="sk-top-container" id="sk-container-id-1"><div class="sk-text-repr-fallback"><pre>CleanLearning(clf=LogisticRegression(random_state=0),
-              find_label_issues_kwargs={'min_examples_per_class': 10}, seed=0)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br/>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"/><label class="sk-toggleable__label sk-toggleable__label-arrow" for="sk-estimator-id-1">CleanLearning</label><div class="sk-toggleable__content"><pre>CleanLearning(clf=LogisticRegression(random_state=0),
-              find_label_issues_kwargs={'min_examples_per_class': 10}, seed=0)</pre></div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"/><label class="sk-toggleable__label sk-toggleable__label-arrow" for="sk-estimator-id-2">clf: LogisticRegression</label><div class="sk-toggleable__content"><pre>LogisticRegression(random_state=0)</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"/><label class="sk-toggleable__label sk-toggleable__label-arrow" for="sk-estimator-id-3">LogisticRegression</label><div class="sk-toggleable__content"><pre>LogisticRegression(random_state=0)</pre></div></div></div></div></div></div></div></div></div></div></div>
+<style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>CleanLearning(clf=LogisticRegression(random_state=0),
+              find_label_issues_kwargs={&#x27;min_examples_per_class&#x27;: 10}, seed=0)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">CleanLearning</label><div class="sk-toggleable__content"><pre>CleanLearning(clf=LogisticRegression(random_state=0),
+              find_label_issues_kwargs={&#x27;min_examples_per_class&#x27;: 10}, seed=0)</pre></div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label sk-toggleable__label-arrow">clf: LogisticRegression</label><div class="sk-toggleable__content"><pre>LogisticRegression(random_state=0)</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label sk-toggleable__label-arrow">LogisticRegression</label><div class="sk-toggleable__content"><pre>LogisticRegression(random_state=0)</pre></div></div></div></div></div></div></div></div></div></div></div>
 </div>
-</div>
-</div>
-<div class="section" id="Workflow-3:-Use-cleanlab-to-find-dataset-level-and-class-level-issues">
-<h2><strong>Workflow 3:</strong> Use cleanlab to find dataset-level and class-level issues<a class="headerlink" href="#Workflow-3:-Use-cleanlab-to-find-dataset-level-and-class-level-issues" title="Permalink to this headline">#</a></h2>
+</section>
+</section>
+<section id="Workflow-3:-Use-cleanlab-to-find-dataset-level-and-class-level-issues">
+<h2><strong>Workflow 3:</strong> Use cleanlab to find dataset-level and class-level issues<a class="headerlink" href="#Workflow-3:-Use-cleanlab-to-find-dataset-level-and-class-level-issues" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Did you notice that the yellow and seafoam green class above are overlapping?</p></li>
 <li><p>How can a model ever know (or learn) what’s ground truth inside the yellow distribution?</p></li>
@@ -1067,7 +1074,7 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1080,75 +1087,75 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
         text-align: right;
     }
 </style>
-<div class="table-wrapper"><table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>Class Name A</th>
-<th>Class Name B</th>
-<th>Class Index A</th>
-<th>Class Index B</th>
-<th>Num Overlapping Examples</th>
-<th>Joint Probability</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>seafoam green</td>
-<td>yellow</td>
-<td>2</td>
-<td>3</td>
-<td>26</td>
-<td>0.104</td>
-</tr>
-<tr>
-<th>1</th>
-<td>purple</td>
-<td>seafoam green</td>
-<td>0</td>
-<td>2</td>
-<td>23</td>
-<td>0.092</td>
-</tr>
-<tr>
-<th>2</th>
-<td>purple</td>
-<td>yellow</td>
-<td>0</td>
-<td>3</td>
-<td>10</td>
-<td>0.040</td>
-</tr>
-<tr>
-<th>3</th>
-<td>blue</td>
-<td>seafoam green</td>
-<td>1</td>
-<td>2</td>
-<td>6</td>
-<td>0.024</td>
-</tr>
-<tr>
-<th>4</th>
-<td>purple</td>
-<td>blue</td>
-<td>0</td>
-<td>1</td>
-<td>5</td>
-<td>0.020</td>
-</tr>
-<tr>
-<th>5</th>
-<td>blue</td>
-<td>yellow</td>
-<td>1</td>
-<td>3</td>
-<td>1</td>
-<td>0.004</td>
-</tr>
-</tbody>
-</table></div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Class Name A</th>
+      <th>Class Name B</th>
+      <th>Class Index A</th>
+      <th>Class Index B</th>
+      <th>Num Overlapping Examples</th>
+      <th>Joint Probability</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>seafoam green</td>
+      <td>yellow</td>
+      <td>2</td>
+      <td>3</td>
+      <td>26</td>
+      <td>0.104</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>purple</td>
+      <td>seafoam green</td>
+      <td>0</td>
+      <td>2</td>
+      <td>23</td>
+      <td>0.092</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>purple</td>
+      <td>yellow</td>
+      <td>0</td>
+      <td>3</td>
+      <td>10</td>
+      <td>0.040</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>blue</td>
+      <td>seafoam green</td>
+      <td>1</td>
+      <td>2</td>
+      <td>6</td>
+      <td>0.024</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>purple</td>
+      <td>blue</td>
+      <td>0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>0.020</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>blue</td>
+      <td>yellow</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0.004</td>
+    </tr>
+  </tbody>
+</table>
 </div></div>
 </div>
 <p>Do the results surprise you? Did you expect the purple and seafoam green to also have so much overlap?</p>
@@ -1161,8 +1168,8 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
 </li>
 <li><p><strong>Label Issues</strong>: A ton of examples (which actually belong to the purple class) have been mislabeled as “green” in our dataset.</p></li>
 </ol>
-<div class="section" id="Now,-let’s-see-what-happens-if-we-merge-classes-“seafoam-green”-and-“yellow”">
-<h3>Now, let’s see what happens if we merge classes “seafoam green” and “yellow”<a class="headerlink" href="#Now,-let’s-see-what-happens-if-we-merge-classes-“seafoam-green”-and-“yellow”" title="Permalink to this headline">#</a></h3>
+<section id="Now,-let’s-see-what-happens-if-we-merge-classes-“seafoam-green”-and-“yellow”">
+<h3>Now, let’s see what happens if we merge classes “seafoam green” and “yellow”<a class="headerlink" href="#Now,-let’s-see-what-happens-if-we-merge-classes-“seafoam-green”-and-“yellow”" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>The top two classes found automatically by <code class="docutils literal notranslate"><span class="pre">cleanlab.dataset.find_overlapping_classes()</span></code></p></li>
 </ul>
@@ -1172,7 +1179,7 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yourFavoriteModel1</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
 <span class="n">yourFavoriteModel1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[Original classes] Accuracy of yourFavoriteModel: </span><span class="si">{</span><span class="n">yourFavoriteModel1</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Original classes] Accuracy of yourFavoriteModel: </span><span class="si">{</span><span class="n">yourFavoriteModel1</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">merged_labels</span><span class="p">,</span> <span class="n">merged_test_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">test_labels</span><span class="p">)</span>
 
@@ -1183,13 +1190,13 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
 <span class="c1"># Re-run our comparison. Re-run your model on the newly labeled dataset.</span>
 <span class="n">yourFavoriteModel2</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
 <span class="n">yourFavoriteModel2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">merged_labels</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[Modified classes] Accuracy of yourFavoriteModel: </span><span class="si">{</span><span class="n">yourFavoriteModel2</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">merged_test_labels</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Modified classes] Accuracy of yourFavoriteModel: </span><span class="si">{</span><span class="n">yourFavoriteModel2</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">merged_test_labels</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="c1"># Re-run CleanLearning as well.</span>
 <span class="n">yourFavoriteModel3</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
 <span class="n">cl3</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">CleanLearning</span><span class="p">(</span><span class="n">yourFavoriteModel</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
 <span class="n">cl3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">merged_labels</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[Modified classes] Accuracy of yourFavoriteModel (+ CleanLearning): </span><span class="si">{</span><span class="n">cl3</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">merged_test_labels</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Modified classes] Accuracy of yourFavoriteModel (+ CleanLearning): </span><span class="si">{</span><span class="n">cl3</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">merged_test_labels</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1205,10 +1212,10 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
 </div>
 <p>While on one hand that’s a huge improvement, it’s important to remember that choosing among three classes is an easier task than choosing among four classes, so it’s not fair to directly compare these numbers.</p>
 <p>Instead, the big takeaway is… if you get to choose your classes, combining overlapping classes can make the learning task easier for your model. But if you have lots of classes, how do you know which ones to merge?? That’s when you use <code class="docutils literal notranslate"><span class="pre">cleanlab.dataset.find_overlapping_classes</span></code>.</p>
-</div>
-</div>
-<div class="section" id="Workflow-4:-Clean-your-test-set-too-if-you’re-doing-ML-with-noisy-labels!">
-<h2><strong>Workflow 4:</strong> Clean your test set too if you’re doing ML with noisy labels!<a class="headerlink" href="#Workflow-4:-Clean-your-test-set-too-if-you’re-doing-ML-with-noisy-labels!" title="Permalink to this headline">#</a></h2>
+</section>
+</section>
+<section id="Workflow-4:-Clean-your-test-set-too-if-you’re-doing-ML-with-noisy-labels!">
+<h2><strong>Workflow 4:</strong> Clean your test set too if you’re doing ML with noisy labels!<a class="headerlink" href="#Workflow-4:-Clean-your-test-set-too-if-you’re-doing-ML-with-noisy-labels!" title="Permalink to this heading">#</a></h2>
 <p>If your test and training data were randomly split (IID), then be aware that your test labels are likely noisy too! It is thus important to fix label issues in them before we can trust measures like test accuracy.</p>
 <ul class="simple">
 <li><p>More about what can go wrong if you don’t use a clean test set <a class="reference external" href="https://arxiv.org/abs/2103.14749">in this paper</a>.</p></li>
@@ -1232,16 +1239,16 @@ Accuracy using yourFavoriteModel (+ CleanLearning): 86%
     <span class="n">labels</span><span class="o">=</span><span class="n">noisy_test_labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">my_test_pred_probs</span><span class="p">)</span>
 
 <span class="c1"># You should inspect issues_test and fix issues to ensure high-quality test data labels.</span>
-<span class="n">corrected_test_labels</span> <span class="o">=</span> <span class="n">test_labels</span>  <span class="c1"># Here we'll pretend you have done this perfectly :)</span>
+<span class="n">corrected_test_labels</span> <span class="o">=</span> <span class="n">test_labels</span>  <span class="c1"># Here we&#39;ll pretend you have done this perfectly :)</span>
 
 <span class="c1"># Fit more robust version of model on noisily labeled training data</span>
 <span class="n">cl</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">yourFavoriteModel</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
 <span class="n">cl_test_preds</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Noisy Test Accuracy (on given test labels) using yourFavoriteModel: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">noisy_test_labels</span><span class="p">,</span> <span class="n">my_test_preds</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">" Noisy Test Accuracy (on given test labels) using yourFavoriteModel (+ CleanLearning): </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">noisy_test_labels</span><span class="p">,</span> <span class="n">cl_test_preds</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Actual Test Accuracy (on corrected test labels) using yourFavoriteModel: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">corrected_test_labels</span><span class="p">,</span> <span class="n">my_test_preds</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Actual Test Accuracy (on corrected test labels) using yourFavoriteModel (+ CleanLearning): </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">corrected_test_labels</span><span class="p">,</span> <span class="n">cl_test_preds</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Noisy Test Accuracy (on given test labels) using yourFavoriteModel: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">noisy_test_labels</span><span class="p">,</span> <span class="n">my_test_preds</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Noisy Test Accuracy (on given test labels) using yourFavoriteModel (+ CleanLearning): </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">noisy_test_labels</span><span class="p">,</span> <span class="n">cl_test_preds</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Actual Test Accuracy (on corrected test labels) using yourFavoriteModel: </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">corrected_test_labels</span><span class="p">,</span> <span class="n">my_test_preds</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Actual Test Accuracy (on corrected test labels) using yourFavoriteModel (+ CleanLearning): </span><span class="si">{</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">corrected_test_labels</span><span class="p">,</span> <span class="n">cl_test_preds</span><span class="p">)</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1256,9 +1263,9 @@ Actual Test Accuracy (on corrected test labels) using yourFavoriteModel: 83%
 Actual Test Accuracy (on corrected test labels) using yourFavoriteModel (+ CleanLearning): 86%
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Workflow-5:-One-score-to-rule-them-all-–-use-cleanlab’s-overall-dataset-health-score">
-<h2><strong>Workflow 5:</strong> One score to rule them all – use cleanlab’s overall dataset health score<a class="headerlink" href="#Workflow-5:-One-score-to-rule-them-all-–-use-cleanlab’s-overall-dataset-health-score" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="Workflow-5:-One-score-to-rule-them-all-–-use-cleanlab’s-overall-dataset-health-score">
+<h2><strong>Workflow 5:</strong> One score to rule them all – use cleanlab’s overall dataset health score<a class="headerlink" href="#Workflow-5:-One-score-to-rule-them-all-–-use-cleanlab’s-overall-dataset-health-score" title="Permalink to this heading">#</a></h2>
 <p>This score can be fairly compared across datasets or across versions of a dataset to track overall dataset quality (a.k.a. <em>dataset health</em>) over time.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
@@ -1281,26 +1288,26 @@ Actual Test Accuracy (on corrected test labels) using yourFavoriteModel (+ Clean
  ** The overall label health score for this dataset is: 0.72.
 </pre></div></div>
 </div>
-<div class="section" id="How-accurate-is-this-dataset-health-score?">
-<h3>How accurate is this dataset health score?<a class="headerlink" href="#How-accurate-is-this-dataset-health-score?" title="Permalink to this headline">#</a></h3>
+<section id="How-accurate-is-this-dataset-health-score?">
+<h3>How accurate is this dataset health score?<a class="headerlink" href="#How-accurate-is-this-dataset-health-score?" title="Permalink to this heading">#</a></h3>
 <p>Because we know the true labels (we created this toy dataset), we can compare with ground truth.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">label_acc</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">labels</span> <span class="o">!=</span> <span class="n">true_labels</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Percentage of label issues guessed by cleanlab </span><span class="si">{</span><span class="mi">1</span> <span class="o">-</span> <span class="n">health</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Percentage of (ground truth) label errors): </span><span class="si">{</span><span class="n">label_acc</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Percentage of label issues guessed by cleanlab </span><span class="si">{</span><span class="mi">1</span> <span class="o">-</span> <span class="n">health</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Percentage of (ground truth) label errors): </span><span class="si">{</span><span class="n">label_acc</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">label_acc</span><span class="p">)</span> <span class="o">-</span> <span class="n">health</span>
 
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Question: cleanlab seems to be overestimating."</span>
-    <span class="sa">f</span><span class="s2">" How do we account for this </span><span class="si">{</span><span class="n">offset</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2"> difference?"</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Question: cleanlab seems to be overestimating.&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot; How do we account for this </span><span class="si">{</span><span class="n">offset</span><span class="si">:</span><span class="s2">.0%</span><span class="si">}</span><span class="s2"> difference?&quot;</span>
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span>
-    <span class="s2">"Answer: Data points that fall in between two overlapping distributions are often "</span>
-    <span class="s2">"impossible to label and are counted as issues."</span>
+    <span class="s2">&quot;Answer: Data points that fall in between two overlapping distributions are often &quot;</span>
+    <span class="s2">&quot;impossible to label and are counted as issues.&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1317,10 +1324,10 @@ Question: cleanlab seems to be overestimating. How do we account for this 8% dif
 Answer: Data points that fall in between two overlapping distributions are often impossible to label and are counted as issues.
 </pre></div></div>
 </div>
-</div>
-</div>
-<div class="section" id="Workflow(s)-6:-Use-count,-rank,-filter-modules-directly">
-<h2><strong>Workflow(s) 6:</strong> Use count, rank, filter modules directly<a class="headerlink" href="#Workflow(s)-6:-Use-count,-rank,-filter-modules-directly" title="Permalink to this headline">#</a></h2>
+</section>
+</section>
+<section id="Workflow(s)-6:-Use-count,-rank,-filter-modules-directly">
+<h2><strong>Workflow(s) 6:</strong> Use count, rank, filter modules directly<a class="headerlink" href="#Workflow(s)-6:-Use-count,-rank,-filter-modules-directly" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Using these modules directly is intended for more experienced cleanlab users. But once you understand how they work, you can create numerous powerful workflows.</p></li>
 <li><p>For these workflows, you <strong>always</strong> need two things:</p>
@@ -1337,7 +1344,7 @@ Answer: Data points that fall in between two overlapping distributions are often
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_probs</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">estimate_cv_predicted_probabilities</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">clf</span><span class="o">=</span><span class="n">yourFavoriteModel</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span>
 <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"pred_probs is a </span><span class="si">{</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> matrix of predicted probabilities"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pred_probs is a </span><span class="si">{</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> matrix of predicted probabilities&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1349,8 +1356,8 @@ Answer: Data points that fall in between two overlapping distributions are often
 pred_probs is a (250, 4) matrix of predicted probabilities
 </pre></div></div>
 </div>
-<div class="section" id="Workflow-6.1-(count):-Fully-characterize-label-noise-(noise-matrix,-joint,-prior-of-true-labels,-…)">
-<h3><strong>Workflow 6.1 (count)</strong>: Fully characterize label noise (noise matrix, joint, prior of true labels, …)<a class="headerlink" href="#Workflow-6.1-(count):-Fully-characterize-label-noise-(noise-matrix,-joint,-prior-of-true-labels,-…)" title="Permalink to this headline">#</a></h3>
+<section id="Workflow-6.1-(count):-Fully-characterize-label-noise-(noise-matrix,-joint,-prior-of-true-labels,-…)">
+<h3><strong>Workflow 6.1 (count)</strong>: Fully characterize label noise (noise matrix, joint, prior of true labels, …)<a class="headerlink" href="#Workflow-6.1-(count):-Fully-characterize-label-noise-(noise-matrix,-joint,-prior-of-true-labels,-…)" title="Permalink to this heading">#</a></h3>
 <p>Now that we have <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and <code class="docutils literal notranslate"><span class="pre">labels</span></code>, advanced users can compute everything in <code class="docutils literal notranslate"><span class="pre">cleanlab.count</span></code>.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">py:</span> <span class="pre">prob(true_label=k)</span></code></p>
@@ -1380,8 +1387,8 @@ pred_probs is a (250, 4) matrix of predicted probabilities
 </li>
 </ul>
 <p>These five tools fully characterize class-conditional label noise in a dataset.</p>
-<div class="section" id="Use-cleanlab-to-estimate-and-visualize-the-joint-distribution-of-label-noise-and-noise-matrix-of-label-flipping-rates:">
-<h4>Use cleanlab to estimate and visualize the joint distribution of label noise and noise matrix of label flipping rates:<a class="headerlink" href="#Use-cleanlab-to-estimate-and-visualize-the-joint-distribution-of-label-noise-and-noise-matrix-of-label-flipping-rates:" title="Permalink to this headline">#</a></h4>
+<section id="Use-cleanlab-to-estimate-and-visualize-the-joint-distribution-of-label-noise-and-noise-matrix-of-label-flipping-rates:">
+<h4>Use cleanlab to estimate and visualize the joint distribution of label noise and noise matrix of label flipping rates:<a class="headerlink" href="#Use-cleanlab-to-estimate-and-visualize-the-joint-distribution-of-label-noise-and-noise-matrix-of-label-flipping-rates:" title="Permalink to this heading">#</a></h4>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
@@ -1446,10 +1453,10 @@ s=3 |   0.02    0.02    0.22    0.61
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="Workflow-6.2-(filter):-Find-label-issues-for-any-dataset-and-any-model-in-one-line-of-code">
-<h3><strong>Workflow 6.2 (filter):</strong> Find label issues for any dataset and any model in one line of code<a class="headerlink" href="#Workflow-6.2-(filter):-Find-label-issues-for-any-dataset-and-any-model-in-one-line-of-code" title="Permalink to this headline">#</a></h3>
+</section>
+</section>
+<section id="Workflow-6.2-(filter):-Find-label-issues-for-any-dataset-and-any-model-in-one-line-of-code">
+<h3><strong>Workflow 6.2 (filter):</strong> Find label issues for any dataset and any model in one line of code<a class="headerlink" href="#Workflow-6.2-(filter):-Find-label-issues-for-any-dataset-and-any-model-in-one-line-of-code" title="Permalink to this heading">#</a></h3>
 <p>Features of <code class="docutils literal notranslate"><span class="pre">cleanlab.filter.find_label_issues</span></code>:</p>
 <ul class="simple">
 <li><p>Versatility – Choose from several <a class="reference external" href="https://arxiv.org/abs/1911.00068">state-of-the-art</a> label-issue detection algorithms using <code class="docutils literal notranslate"><span class="pre">filter_by=</span></code>.</p></li>
@@ -1464,17 +1471,17 @@ s=3 |   0.02    0.02    0.22    0.61
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get out of sample predicted probabilities via cross-validation.</span>
 <span class="c1"># Here we demonstrate the use of sklearn cross_val_predict as another option to get cross-validated predicted probabilities</span>
 <span class="n">cv_pred_probs</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
-    <span class="n">estimator</span><span class="o">=</span><span class="n">yourFavoriteModel</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"predict_proba"</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">yourFavoriteModel</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;predict_proba&quot;</span>
 <span class="p">)</span>
 
 <span class="c1"># Find label issues</span>
 <span class="n">label_issues_indices</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span>
     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="o">=</span><span class="n">cv_pred_probs</span><span class="p">,</span>
-    <span class="n">filter_by</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span> <span class="c1"># 5 available filter_by options</span>
-    <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">"self_confidence"</span><span class="p">,</span>  <span class="c1"># 3 available label quality scoring options for rank ordering</span>
+    <span class="n">filter_by</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="c1"># 5 available filter_by options</span>
+    <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>  <span class="c1"># 3 available label quality scoring options for rank ordering</span>
     <span class="n">rank_by_kwargs</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">"adjust_pred_probs"</span><span class="p">:</span> <span class="kc">True</span>  <span class="c1"># adjust predicted probabilities (see docstring for more details)</span>
+        <span class="s2">&quot;adjust_pred_probs&quot;</span><span class="p">:</span> <span class="kc">True</span>  <span class="c1"># adjust predicted probabilities (see docstring for more details)</span>
     <span class="p">},</span>
 <span class="p">)</span>
 
@@ -1496,13 +1503,13 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
        188, 163, 150, 190, 169, 151, 168,  54])
 </pre></div></div>
 </div>
-<div class="section" id="Again,-we-can-visualize-the-twenty-examples-with-lowest-label-quality-to-see-if-Cleanlab-works.">
-<h4>Again, we can visualize the twenty examples with lowest label quality to see if Cleanlab works.<a class="headerlink" href="#Again,-we-can-visualize-the-twenty-examples-with-lowest-label-quality-to-see-if-Cleanlab-works." title="Permalink to this headline">#</a></h4>
+<section id="Again,-we-can-visualize-the-twenty-examples-with-lowest-label-quality-to-see-if-Cleanlab-works.">
+<h4>Again, we can visualize the twenty examples with lowest label quality to see if Cleanlab works.<a class="headerlink" href="#Again,-we-can-visualize-the-twenty-examples-with-lowest-label-quality-to-see-if-Cleanlab-works." title="Permalink to this heading">#</a></h4>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">circles</span><span class="o">=</span><span class="n">label_issues_indices</span><span class="p">[:</span><span class="mi">20</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Top 20 label issues found by cleanlab.filter.find_label_issues()"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">circles</span><span class="o">=</span><span class="n">label_issues_indices</span><span class="p">[:</span><span class="mi">20</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Top 20 label issues found by cleanlab.filter.find_label_issues()&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1510,13 +1517,13 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_indepth_overview_42_0.png" src="../_images/tutorials_indepth_overview_42_0.png"/>
+<img alt="../_images/tutorials_indepth_overview_42_0.png" src="../_images/tutorials_indepth_overview_42_0.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="Workflow-6.2-supports-lots-of-methods-to-find_label_issues()-via-the-filter_by-parameter.">
-<h3>Workflow 6.2 supports lots of methods to <code class="docutils literal notranslate"><span class="pre">find_label_issues()</span></code> via the <code class="docutils literal notranslate"><span class="pre">filter_by</span></code> parameter.<a class="headerlink" href="#Workflow-6.2-supports-lots-of-methods-to-find_label_issues()-via-the-filter_by-parameter." title="Permalink to this headline">#</a></h3>
+</section>
+</section>
+<section id="Workflow-6.2-supports-lots-of-methods-to-find_label_issues()-via-the-filter_by-parameter.">
+<h3>Workflow 6.2 supports lots of methods to <code class="docutils literal notranslate"><span class="pre">find_label_issues()</span></code> via the <code class="docutils literal notranslate"><span class="pre">filter_by</span></code> parameter.<a class="headerlink" href="#Workflow-6.2-supports-lots-of-methods-to-find_label_issues()-via-the-filter_by-parameter." title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Here, we evaluate precision/recall/f1/accuracy of detecting true label issues for each method.</p></li>
 </ul>
@@ -1532,7 +1539,7 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
 <span class="c1"># Get cross-validated predicted probabilities</span>
 <span class="c1"># Here we demonstrate the use of sklearn cross_val_predict as another option to get cross-validated predicted probabilities</span>
 <span class="n">cv_pred_probs</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
-    <span class="n">estimator</span><span class="o">=</span><span class="n">yourFavoriteModel</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"predict_proba"</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">yourFavoriteModel</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;predict_proba&quot;</span>
 <span class="p">)</span>
 
 <span class="c1"># Ground truth label issues to use for evaluating different filter_by options</span>
@@ -1540,11 +1547,11 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
 
 <span class="c1"># Find label issues with different filter_by options</span>
 <span class="n">filter_by_list</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">"prune_by_noise_rate"</span><span class="p">,</span>
-    <span class="s2">"prune_by_class"</span><span class="p">,</span>
-    <span class="s2">"both"</span><span class="p">,</span>
-    <span class="s2">"confident_learning"</span><span class="p">,</span>
-    <span class="s2">"predicted_neq_given"</span><span class="p">,</span>
+    <span class="s2">&quot;prune_by_noise_rate&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;prune_by_class&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;both&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;confident_learning&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;predicted_neq_given&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1564,17 +1571,17 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
     <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">true_label_issues</span><span class="p">,</span> <span class="n">label_issues</span><span class="p">)</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">"filter_by algorithm"</span><span class="p">:</span> <span class="n">filter_by</span><span class="p">,</span>
-        <span class="s2">"precision"</span><span class="p">:</span> <span class="n">precision</span><span class="p">,</span>
-        <span class="s2">"recall"</span><span class="p">:</span> <span class="n">recall</span><span class="p">,</span>
-        <span class="s2">"f1"</span><span class="p">:</span> <span class="n">f1</span><span class="p">,</span>
-        <span class="s2">"accuracy"</span><span class="p">:</span> <span class="n">acc</span>
+        <span class="s2">&quot;filter_by algorithm&quot;</span><span class="p">:</span> <span class="n">filter_by</span><span class="p">,</span>
+        <span class="s2">&quot;precision&quot;</span><span class="p">:</span> <span class="n">precision</span><span class="p">,</span>
+        <span class="s2">&quot;recall&quot;</span><span class="p">:</span> <span class="n">recall</span><span class="p">,</span>
+        <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="n">f1</span><span class="p">,</span>
+        <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span> <span class="n">acc</span>
     <span class="p">}</span>
 
     <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
 <span class="c1"># summary of results</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">'f1'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;f1&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1584,7 +1591,7 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1597,65 +1604,65 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
         text-align: right;
     }
 </style>
-<div class="table-wrapper"><table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>filter_by algorithm</th>
-<th>precision</th>
-<th>recall</th>
-<th>f1</th>
-<th>accuracy</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>prune_by_noise_rate</td>
-<td>0.718750</td>
-<td>0.92</td>
-<td>0.807018</td>
-<td>0.912</td>
-</tr>
-<tr>
-<th>2</th>
-<td>both</td>
-<td>0.733333</td>
-<td>0.88</td>
-<td>0.800000</td>
-<td>0.912</td>
-</tr>
-<tr>
-<th>3</th>
-<td>confident_learning</td>
-<td>0.721311</td>
-<td>0.88</td>
-<td>0.792793</td>
-<td>0.908</td>
-</tr>
-<tr>
-<th>1</th>
-<td>prune_by_class</td>
-<td>0.676923</td>
-<td>0.88</td>
-<td>0.765217</td>
-<td>0.892</td>
-</tr>
-<tr>
-<th>4</th>
-<td>predicted_neq_given</td>
-<td>0.567901</td>
-<td>0.92</td>
-<td>0.702290</td>
-<td>0.844</td>
-</tr>
-</tbody>
-</table></div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>filter_by algorithm</th>
+      <th>precision</th>
+      <th>recall</th>
+      <th>f1</th>
+      <th>accuracy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>prune_by_noise_rate</td>
+      <td>0.718750</td>
+      <td>0.92</td>
+      <td>0.807018</td>
+      <td>0.912</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>both</td>
+      <td>0.733333</td>
+      <td>0.88</td>
+      <td>0.800000</td>
+      <td>0.912</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>confident_learning</td>
+      <td>0.721311</td>
+      <td>0.88</td>
+      <td>0.792793</td>
+      <td>0.908</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>prune_by_class</td>
+      <td>0.676923</td>
+      <td>0.88</td>
+      <td>0.765217</td>
+      <td>0.892</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>predicted_neq_given</td>
+      <td>0.567901</td>
+      <td>0.92</td>
+      <td>0.702290</td>
+      <td>0.844</td>
+    </tr>
+  </tbody>
+</table>
 </div></div>
 </div>
-</div>
-<div class="section" id="Workflow-6.3-(rank):-Automatically-rank-every-example-by-a-unique-label-quality-score.-Find-errors-using-cleanlab.count.num_label_issues-as-a-threshold.">
-<h3><strong>Workflow 6.3 (rank):</strong> Automatically rank every example by a unique label quality score. Find errors using <code class="docutils literal notranslate"><span class="pre">cleanlab.count.num_label_issues</span></code> as a threshold.<a class="headerlink" href="#Workflow-6.3-(rank):-Automatically-rank-every-example-by-a-unique-label-quality-score.-Find-errors-using-cleanlab.count.num_label_issues-as-a-threshold." title="Permalink to this headline">#</a></h3>
+</section>
+<section id="Workflow-6.3-(rank):-Automatically-rank-every-example-by-a-unique-label-quality-score.-Find-errors-using-cleanlab.count.num_label_issues-as-a-threshold.">
+<h3><strong>Workflow 6.3 (rank):</strong> Automatically rank every example by a unique label quality score. Find errors using <code class="docutils literal notranslate"><span class="pre">cleanlab.count.num_label_issues</span></code> as a threshold.<a class="headerlink" href="#Workflow-6.3-(rank):-Automatically-rank-every-example-by-a-unique-label-quality-score.-Find-errors-using-cleanlab.count.num_label_issues-as-a-threshold." title="Permalink to this heading">#</a></h3>
 <p>cleanlab can analyze every label in a dataset and provide a numerical score gauging its overall quality. Low-quality labels indicate examples that should be more closely inspected, perhaps because their given label is incorrect, or simply because they represent an ambiguous edge-case that’s worth a second look.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
@@ -1671,7 +1678,7 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
 <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">rank</span><span class="o">.</span><span class="n">get_label_quality_scores</span><span class="p">(</span>
     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="o">=</span><span class="n">cv_pred_probs</span><span class="p">,</span>
-    <span class="n">method</span><span class="o">=</span><span class="s2">"self_confidence"</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;self_confidence&quot;</span>
 <span class="p">)</span>
 
 <span class="c1"># Rank-order by label quality scores and get the top estimated number of label issues</span>
@@ -1697,13 +1704,13 @@ array([ 99,   8,  64, 107,  10,  16,  51,  63, 121, 213, 212, 218, 117,
        249, 185, 187, 135, 182, 226,  74, 201, 203])
 </pre></div></div>
 </div>
-<div class="section" id="Again,-we-can-visualize-the-label-issues-found-to-see-if-Cleanlab-works.">
-<h4>Again, we can visualize the label issues found to see if Cleanlab works.<a class="headerlink" href="#Again,-we-can-visualize-the-label-issues-found-to-see-if-Cleanlab-works." title="Permalink to this headline">#</a></h4>
+<section id="Again,-we-can-visualize-the-label-issues-found-to-see-if-Cleanlab-works.">
+<h4>Again, we can visualize the label issues found to see if Cleanlab works.<a class="headerlink" href="#Again,-we-can-visualize-the-label-issues-found-to-see-if-Cleanlab-works." title="Permalink to this heading">#</a></h4>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">circles</span><span class="o">=</span><span class="n">label_issues_indices</span><span class="p">[:</span><span class="mi">20</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Top 20 label issues using cleanlab.rank with cleanlab.count.num_label_issues()"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">circles</span><span class="o">=</span><span class="n">label_issues_indices</span><span class="p">[:</span><span class="mi">20</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Top 20 label issues using cleanlab.rank with cleanlab.count.num_label_issues()&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1711,22 +1718,22 @@ array([ 99,   8,  64, 107,  10,  16,  51,  63, 121, 213, 212, 218, 117,
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_indepth_overview_48_0.png" src="../_images/tutorials_indepth_overview_48_0.png"/>
+<img alt="../_images/tutorials_indepth_overview_48_0.png" src="../_images/tutorials_indepth_overview_48_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="Not-sure-when-to-use-Workflow-6.2-or-6.3-to-find-label-issues?">
-<h4>Not sure when to use Workflow 6.2 or 6.3 to find label issues?<a class="headerlink" href="#Not-sure-when-to-use-Workflow-6.2-or-6.3-to-find-label-issues?" title="Permalink to this headline">#</a></h4>
+</section>
+<section id="Not-sure-when-to-use-Workflow-6.2-or-6.3-to-find-label-issues?">
+<h4>Not sure when to use Workflow 6.2 or 6.3 to find label issues?<a class="headerlink" href="#Not-sure-when-to-use-Workflow-6.2-or-6.3-to-find-label-issues?" title="Permalink to this heading">#</a></h4>
 <ul class="simple">
 <li><p>Workflow 6.2 is the easiest to use as its just one line of code.</p></li>
 <li><p>Workflow 6.3 is modular and extensible. As we add more label and data quality scoring functions in <code class="docutils literal notranslate"><span class="pre">cleanlab.rank</span></code>, Workflow 6.3 will always work.</p></li>
 <li><p>Workflow 6.3 is also for users who have a custom way to rank their data by label quality, and they just need to know what the cut-off is, found via <code class="docutils literal notranslate"><span class="pre">cleanlab.count.num_label_issues</span></code>.</p></li>
 </ul>
-</div>
-</div>
-</div>
-<div class="section" id="Workflow-7:-Ensembling-label-quality-scores-from-multiple-predictors">
-<h2><strong>Workflow 7:</strong> Ensembling label quality scores from multiple predictors<a class="headerlink" href="#Workflow-7:-Ensembling-label-quality-scores-from-multiple-predictors" title="Permalink to this headline">#</a></h2>
+</section>
+</section>
+</section>
+<section id="Workflow-7:-Ensembling-label-quality-scores-from-multiple-predictors">
+<h2><strong>Workflow 7:</strong> Ensembling label quality scores from multiple predictors<a class="headerlink" href="#Workflow-7:-Ensembling-label-quality-scores-from-multiple-predictors" title="Permalink to this heading">#</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
@@ -1734,7 +1741,7 @@ array([ 99,   8,  64, 107,  10,  16,  51,  63, 121, 213, 212, 218, 117,
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span><span class="p">,</span> <span class="n">RandomForestClassifier</span>
 
 <span class="c1"># 3 models in ensemble</span>
-<span class="n">model1</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">penalty</span><span class="o">=</span><span class="s2">"l2"</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
+<span class="n">model1</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">penalty</span><span class="o">=</span><span class="s2">&quot;l2&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
 <span class="n">model2</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
 <span class="n">model3</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span>
     <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span>
@@ -1742,13 +1749,13 @@ array([ 99,   8,  64, 107,  10,  16,  51,  63, 121, 213, 212, 218, 117,
 
 <span class="c1"># Get cross-validated predicted probabilities from each model</span>
 <span class="n">cv_pred_probs_1</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
-    <span class="n">estimator</span><span class="o">=</span><span class="n">model1</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"predict_proba"</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">model1</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;predict_proba&quot;</span>
 <span class="p">)</span>
 <span class="n">cv_pred_probs_2</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
-    <span class="n">estimator</span><span class="o">=</span><span class="n">model2</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"predict_proba"</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">model2</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;predict_proba&quot;</span>
 <span class="p">)</span>
 <span class="n">cv_pred_probs_3</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
-    <span class="n">estimator</span><span class="o">=</span><span class="n">model3</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"predict_proba"</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">model3</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;predict_proba&quot;</span>
 <span class="p">)</span>
 
 <span class="c1"># List of predicted probabilities from each model</span>
@@ -1770,8 +1777,8 @@ array([ 99,   8,  64, 107,  10,  16,  51,  63, 121, 213, 212, 218, 117,
 </div>
 </div>
 <p>While ensembling different models’ label quality scores (<code class="docutils literal notranslate"><span class="pre">label_quality_scores_best</span></code>) will often be superior to getting label quality scores from a single ensemble predictor (<code class="docutils literal notranslate"><span class="pre">label_quality_scores_better</span></code>), both approaches produce significantly better label quality scores than just using the predictions from a single model.</p>
-</div>
-</div>
+</section>
+</section>
  
         </article>
       </div>
@@ -1900,6 +1907,7 @@ array([ 99,   8,  64, 107,  10,  16,  51,  63, 121, 213, 212, 218, 117,
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

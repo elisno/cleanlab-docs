@@ -1,18 +1,18 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>cleanlab.experimental.cifar_cnn - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +23,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +297,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -368,13 +373,13 @@
 <span class="c1"># You should have received a copy of the GNU Affero General Public License</span>
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">A PyTorch CNN which can be used for finding label issues in CIFAR-10 and CleanLearning with co-teaching.</span>
 
 <span class="sd">Code adapted from: https://github.com/bhanML/Co-teaching/blob/master/model.py</span>
 
 <span class="sd">You must have PyTorch installed: https://pytorch.org/get-started/locally/</span>
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
@@ -386,7 +391,7 @@
 
 
 <div class="viewcode-block" id="CNN"><a class="viewcode-back" href="../../../cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN">[docs]</a><span class="k">class</span> <span class="nc">CNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">"""A CNN architecture shown to be a good baseline for a CIFAR-10 benchmark.</span>
+    <span class="sd">&quot;&quot;&quot;A CNN architecture shown to be a good baseline for a CIFAR-10 benchmark.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -398,7 +403,7 @@
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
 <span class="sd">    forward</span>
-<span class="sd">      forward pass in PyTorch"""</span>
+<span class="sd">      forward pass in PyTorch&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_channel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_outputs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">top_bn</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dropout_rate</span> <span class="o">=</span> <span class="n">dropout_rate</span>
@@ -515,6 +520,7 @@
 </div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/scripts/furo.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>

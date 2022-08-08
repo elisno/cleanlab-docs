@@ -1,18 +1,18 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>cleanlab.experimental.coteaching - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +23,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +297,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -369,14 +374,14 @@
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
 
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Implements the co-teaching algorithm for training neural networks on noisily-labeled data (Han et al., 2018).</span>
 <span class="sd">This module requires PyTorch (https://pytorch.org/get-started/locally/).</span>
 <span class="sd">Example using this algorithm with cleanlab to achieve state of the art on CIFAR-10</span>
 <span class="sd">for learning with noisy labels is provided within: https://github.com/cleanlab/examples/</span>
 
 <span class="sd">``cifar_cnn.py`` provides an example model that can be trained via this algorithm.</span>
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># Significant code was adapted from the following GitHub:</span>
 <span class="c1"># https://github.com/bhanML/Co-teaching/blob/master/loss.py</span>
@@ -397,7 +402,7 @@
     <span class="n">forget_rate</span><span class="p">,</span>
     <span class="n">class_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Co-Teaching Loss function.</span>
+    <span class="sd">&quot;&quot;&quot;Co-Teaching Loss function.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -416,7 +421,7 @@
 
 <span class="sd">    class_weights : Tensor array, shape (Number of classes x 1), Default: None</span>
 <span class="sd">      A np.torch.tensor list of length number of classes with weights</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">loss_1</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">y_1</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">class_weights</span><span class="p">)</span>
     <span class="n">ind_1_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">loss_1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
@@ -442,7 +447,7 @@
 
 
 <div class="viewcode-block" id="initialize_lr_scheduler"><a class="viewcode-back" href="../../../cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.initialize_lr_scheduler">[docs]</a><span class="k">def</span> <span class="nf">initialize_lr_scheduler</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">epoch_decay_start</span><span class="o">=</span><span class="mi">80</span><span class="p">):</span>
-    <span class="sd">"""Scheduler to adjust learning rate and betas for Adam Optimizer"""</span>
+    <span class="sd">&quot;&quot;&quot;Scheduler to adjust learning rate and betas for Adam Optimizer&quot;&quot;&quot;</span>
     <span class="n">mom1</span> <span class="o">=</span> <span class="mf">0.9</span>
     <span class="n">mom2</span> <span class="o">=</span> <span class="mf">0.9</span>  <span class="c1"># Original author had this set to 0.1</span>
     <span class="n">alpha_plan</span> <span class="o">=</span> <span class="p">[</span><span class="n">lr</span><span class="p">]</span> <span class="o">*</span> <span class="n">epochs</span>
@@ -454,14 +459,14 @@
 
 
 <div class="viewcode-block" id="adjust_learning_rate"><a class="viewcode-back" href="../../../cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.adjust_learning_rate">[docs]</a><span class="k">def</span> <span class="nf">adjust_learning_rate</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">alpha_plan</span><span class="p">,</span> <span class="n">beta1_plan</span><span class="p">):</span>
-    <span class="sd">"""Scheduler to adjust learning rate and betas for Adam Optimizer"""</span>
+    <span class="sd">&quot;&quot;&quot;Scheduler to adjust learning rate and betas for Adam Optimizer&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">param_group</span> <span class="ow">in</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">:</span>
-        <span class="n">param_group</span><span class="p">[</span><span class="s2">"lr"</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha_plan</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span>
-        <span class="n">param_group</span><span class="p">[</span><span class="s2">"betas"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta1_plan</span><span class="p">[</span><span class="n">epoch</span><span class="p">],</span> <span class="mf">0.999</span><span class="p">)</span>  <span class="c1"># Only change beta1</span></div>
+        <span class="n">param_group</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha_plan</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span>
+        <span class="n">param_group</span><span class="p">[</span><span class="s2">&quot;betas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta1_plan</span><span class="p">[</span><span class="n">epoch</span><span class="p">],</span> <span class="mf">0.999</span><span class="p">)</span>  <span class="c1"># Only change beta1</span></div>
 
 
 <div class="viewcode-block" id="forget_rate_scheduler"><a class="viewcode-back" href="../../../cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.forget_rate_scheduler">[docs]</a><span class="k">def</span> <span class="nf">forget_rate_scheduler</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">forget_rate</span><span class="p">,</span> <span class="n">num_gradual</span><span class="p">,</span> <span class="n">exponent</span><span class="p">):</span>
-    <span class="sd">"""Tells Co-Teaching what fraction of examples to forget at each epoch."""</span>
+    <span class="sd">&quot;&quot;&quot;Tells Co-Teaching what fraction of examples to forget at each epoch.&quot;&quot;&quot;</span>
     <span class="c1"># define how many things to forget at each rate schedule</span>
     <span class="n">forget_rate_schedule</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">epochs</span><span class="p">)</span> <span class="o">*</span> <span class="n">forget_rate</span>
     <span class="n">forget_rate_schedule</span><span class="p">[:</span><span class="n">num_gradual</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">forget_rate</span><span class="o">**</span><span class="n">exponent</span><span class="p">,</span> <span class="n">num_gradual</span><span class="p">)</span>
@@ -481,7 +486,7 @@
     <span class="n">class_weights</span><span class="p">,</span>
     <span class="n">accuracy</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""PyTorch training function.</span>
+    <span class="sd">&quot;&quot;&quot;PyTorch training function.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -501,7 +506,7 @@
 <span class="sd">      A np.torch.tensor list of length number of classes with weights</span>
 <span class="sd">    accuracy : function</span>
 <span class="sd">        A function of the form accuracy(output, target, topk=(1,)) for</span>
-<span class="sd">        computing top1 and top5 accuracy given output and true targets."""</span>
+<span class="sd">        computing top1 and top5 accuracy given output and true targets.&quot;&quot;&quot;</span>
 
     <span class="n">train_total</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">train_correct</span> <span class="o">=</span> <span class="mi">0</span>
@@ -520,7 +525,7 @@
             <span class="c1"># If you update the weights based on the gradient from one example</span>
             <span class="c1"># if that example is noisy, you will add tons of noise to your net</span>
             <span class="c1"># and accuracy will actually go down with each epoch.</span>
-            <span class="c1"># To avoid this, do not train on the last batch if it's small.</span>
+            <span class="c1"># To avoid this, do not train on the last batch if it&#39;s small.</span>
             <span class="k">continue</span>
 
         <span class="n">images</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">images</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
@@ -550,8 +555,8 @@
         <span class="n">optimizer2</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">print_freq</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="s2">"Epoch [</span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2">], Iter [</span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2">] Training Accuracy1: </span><span class="si">%.4F</span><span class="s2">, "</span>
-                <span class="s2">"Training Accuracy2: </span><span class="si">%.4f</span><span class="s2">, Loss1: </span><span class="si">%.4f</span><span class="s2">, Loss2: </span><span class="si">%.4f</span><span class="s2"> "</span>
+                <span class="s2">&quot;Epoch [</span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2">], Iter [</span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2">] Training Accuracy1: </span><span class="si">%.4F</span><span class="s2">, &quot;</span>
+                <span class="s2">&quot;Training Accuracy2: </span><span class="si">%.4f</span><span class="s2">, Loss1: </span><span class="si">%.4f</span><span class="s2">, Loss2: </span><span class="si">%.4f</span><span class="s2"> &quot;</span>
                 <span class="o">%</span> <span class="p">(</span>
                     <span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                     <span class="n">args</span><span class="o">.</span><span class="n">epochs</span><span class="p">,</span>
@@ -571,8 +576,8 @@
 
 <span class="c1"># Evaluate the Model</span>
 <div class="viewcode-block" id="evaluate"><a class="viewcode-back" href="../../../cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.evaluate">[docs]</a><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">test_loader</span><span class="p">,</span> <span class="n">model1</span><span class="p">,</span> <span class="n">model2</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Evaluating Co-Teaching Model"</span><span class="p">)</span>
-    <span class="n">model1</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># Change model to 'eval' mode.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Evaluating Co-Teaching Model&quot;</span><span class="p">)</span>
+    <span class="n">model1</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># Change model to &#39;eval&#39; mode.</span>
     <span class="n">correct1</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">total1</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
@@ -583,7 +588,7 @@
         <span class="n">total1</span> <span class="o">+=</span> <span class="n">labels</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">correct1</span> <span class="o">+=</span> <span class="p">(</span><span class="n">pred1</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span> <span class="o">==</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-    <span class="n">model2</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># Change model to 'eval' mode</span>
+    <span class="n">model2</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># Change model to &#39;eval&#39; mode</span>
     <span class="n">correct2</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">total2</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
@@ -652,6 +657,7 @@
 </div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/scripts/furo.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>

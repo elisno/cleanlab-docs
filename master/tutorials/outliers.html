@@ -1,18 +1,19 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="FAQ" href="faq.html" /><link rel="prev" title="Computing Out-of-Sample Predicted Probabilities with Cross-Validation" href="pred_probs_cross_val.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="FAQ" href="faq.html" /><link rel="prev" title="Computing Out-of-Sample Predicted Probabilities with Cross-Validation" href="pred_probs_cross_val.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Detecting Outliers with Cleanlab and PyTorch Image Models (timm) - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +24,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +298,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -618,6 +624,7 @@ div.rendered_html tbody tr:hover {
         color:black;
     }
 </style>
+
 <script type="text/javascript">
     window.addEventListener('load', () => {
         const h1_element = document.getElementsByTagName("h1");
@@ -631,8 +638,8 @@ div.rendered_html tbody tr:hover {
         `);
     })
 
-</script><div class="section" id="Detecting-Outliers-with-Cleanlab-and-PyTorch-Image-Models-(timm)">
-<h1>Detecting Outliers with Cleanlab and PyTorch Image Models (timm)<a class="headerlink" href="#Detecting-Outliers-with-Cleanlab-and-PyTorch-Image-Models-(timm)" title="Permalink to this headline">#</a></h1>
+</script><section id="Detecting-Outliers-with-Cleanlab-and-PyTorch-Image-Models-(timm)">
+<h1>Detecting Outliers with Cleanlab and PyTorch Image Models (timm)<a class="headerlink" href="#Detecting-Outliers-with-Cleanlab-and-PyTorch-Image-Models-(timm)" title="Permalink to this heading">#</a></h1>
 <p>This 5-minute tutorial shows how to detect outliers in image data using Cleanlab and PyTorch. We use the <strong>cifar10</strong> dataset where each image belongs to 1 of 10 classes: <code class="docutils literal notranslate"><span class="pre">[airplane,</span> <span class="pre">automobile,</span> <span class="pre">bird,</span> <span class="pre">cat,</span> <span class="pre">deer,</span> <span class="pre">dog,</span> <span class="pre">frog,</span> <span class="pre">horse,</span> <span class="pre">ship,</span> <span class="pre">truck]</span></code>. You can easily replace the image dataset + neural network used here with any other Pytorch dataset + neural network (e.g. to instead detect outliers in text data).</p>
 <p><strong>Overview of what we’ll do in this tutorial:</strong></p>
 <ul class="simple">
@@ -656,8 +663,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</div><div class="section" id="1.-Install-the-required-dependencies">
-<h2>1. Install the required dependencies<a class="headerlink" href="#1.-Install-the-required-dependencies" title="Permalink to this headline">#</a></h2>
+</div><section id="1.-Install-the-required-dependencies">
+<h2>1. Install the required dependencies<a class="headerlink" href="#1.-Install-the-required-dependencies" title="Permalink to this heading">#</a></h2>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install all packages required for this tutorial as follows:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install matplotlib sklearn torch torchvision timm
 <span class="o">!</span>pip install cleanlab
@@ -695,13 +702,13 @@ div.rendered_html tbody tr:hover {
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="s2">"Lazy modules are a new feature.*"</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;Lazy modules are a new feature.*&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="2.-Pre-process-the-Cifar10-dataset">
-<h2>2. Pre-process the Cifar10 dataset<a class="headerlink" href="#2.-Pre-process-the-Cifar10-dataset" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="2.-Pre-process-the-Cifar10-dataset">
+<h2>2. Pre-process the Cifar10 dataset<a class="headerlink" href="#2.-Pre-process-the-Cifar10-dataset" title="Permalink to this heading">#</a></h2>
 <p>After loading the data and processing the images, we manually remove some classes from the training dataset thereby making images from these classes outliers in the test set. For this example we’ve chosen to remove all classes that are not an animal, such that images from the following classes are considered out-of-distribution: <code class="docutils literal notranslate"><span class="pre">[airplane,</span> <span class="pre">automobile,</span> <span class="pre">ship,</span> <span class="pre">truck]</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
@@ -711,9 +718,9 @@ div.rendered_html tbody tr:hover {
 <span class="n">transform_normalize</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
     <span class="p">[</span><span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),])</span>
 
-<span class="n">train_data</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                         <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform_normalize</span><span class="p">)</span>
-<span class="n">test_data</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">'./data'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                        <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform_normalize</span><span class="p">)</span>
 
 <span class="c1"># Remove non-animal images from the training dataset</span>
@@ -726,8 +733,8 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">train_data</span>  <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Subset</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_idxs</span><span class="p">)</span>  <span class="c1"># select subset of animal images for train_data</span>
 <span class="n">test_data</span>  <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Subset</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">)</span>  <span class="c1"># select subset of all images for test_data</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'train_data length: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_data</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'test_data length: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_data</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;train_data length: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_data</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;test_data length: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_data</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -743,7 +750,7 @@ Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to ./data/ci
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "85a714aaf17345e6bac4183f0db642db"}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "aef1ed11acf047f48568fb3df69eecc6"}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -756,22 +763,22 @@ train_data length: 5000
 test_data length: 1000
 </pre></div></div>
 </div>
-<div class="section" id="Visualize-some-of-the-training-and-test-examples">
-<h3>Visualize some of the training and test examples<a class="headerlink" href="#Visualize-some-of-the-training-and-test-examples" title="Permalink to this headline">#</a></h3>
+<section id="Visualize-some-of-the-training-and-test-examples">
+<h3>Visualize some of the training and test examples<a class="headerlink" href="#Visualize-some-of-the-training-and-test-examples" title="Permalink to this heading">#</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">txt_classes</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">'airplane'</span><span class="p">,</span>
-              <span class="mi">1</span><span class="p">:</span> <span class="s1">'automobile'</span><span class="p">,</span>
-              <span class="mi">2</span><span class="p">:</span> <span class="s1">'bird'</span><span class="p">,</span>
-              <span class="mi">3</span><span class="p">:</span> <span class="s1">'cat'</span><span class="p">,</span>
-              <span class="mi">4</span><span class="p">:</span> <span class="s1">'deer'</span><span class="p">,</span>
-              <span class="mi">5</span><span class="p">:</span> <span class="s1">'dog'</span><span class="p">,</span>
-              <span class="mi">6</span><span class="p">:</span> <span class="s1">'frog'</span><span class="p">,</span>
-              <span class="mi">7</span><span class="p">:</span> <span class="s1">'horse'</span><span class="p">,</span>
-              <span class="mi">8</span><span class="p">:</span><span class="s1">'ship'</span><span class="p">,</span>
-              <span class="mi">9</span><span class="p">:</span><span class="s1">'truck'</span><span class="p">}</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">txt_classes</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;airplane&#39;</span><span class="p">,</span>
+              <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;automobile&#39;</span><span class="p">,</span>
+              <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;bird&#39;</span><span class="p">,</span>
+              <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span>
+              <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;deer&#39;</span><span class="p">,</span>
+              <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span>
+              <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;frog&#39;</span><span class="p">,</span>
+              <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;horse&#39;</span><span class="p">,</span>
+              <span class="mi">8</span><span class="p">:</span><span class="s1">&#39;ship&#39;</span><span class="p">,</span>
+              <span class="mi">9</span><span class="p">:</span><span class="s1">&#39;truck&#39;</span><span class="p">}</span>
 
 <span class="k">def</span> <span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
 <span class="c1">#     img = img / 2 + 0.5     # unnormalize</span>
@@ -779,7 +786,7 @@ test_data length: 1000
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">npimg</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">plot_images</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
         <span class="n">X</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
@@ -802,7 +809,7 @@ test_data length: 1000
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_11_0.png" src="../_images/tutorials_outliers_11_0.png"/>
+<img alt="../_images/tutorials_outliers_11_0.png" src="../_images/tutorials_outliers_11_0.png" />
 </div>
 </div>
 <p>The test set on the other hand still visibily contains the non-animal images from classes like <code class="docutils literal notranslate"><span class="pre">[ship,</span> <span class="pre">airplane,</span> <span class="pre">automobile,</span> <span class="pre">truck]</span></code>. If we consider <code class="docutils literal notranslate"><span class="pre">train_data</span></code> to be representative of the typical data distribution, then these non-animal images in <code class="docutils literal notranslate"><span class="pre">test_data</span></code> become outliers.</p>
@@ -818,13 +825,13 @@ test_data length: 1000
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_13_0.png" src="../_images/tutorials_outliers_13_0.png"/>
+<img alt="../_images/tutorials_outliers_13_0.png" src="../_images/tutorials_outliers_13_0.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="3.-Represent-each-image-as-feature-embeddings">
-<h2>3. Represent each image as feature embeddings<a class="headerlink" href="#3.-Represent-each-image-as-feature-embeddings" title="Permalink to this headline">#</a></h2>
+</section>
+</section>
+<section id="3.-Represent-each-image-as-feature-embeddings">
+<h2>3. Represent each image as feature embeddings<a class="headerlink" href="#3.-Represent-each-image-as-feature-embeddings" title="Permalink to this heading">#</a></h2>
 <p>We construct a neural network and pass images through the network to generate vector embeddings via its hidden layer representation. Here we import a <code class="docutils literal notranslate"><span class="pre">resnet50</span></code> network from <a class="reference external" href="https://timm.fast.ai/">timm</a>, where this model has been pretrained on a large corpus of other images.</p>
 <p>Note that cleanlab’s outlier detection can be applied to feature embeddings generated from any model (or to the raw data features if they are already numeric vectors). Outlier detection works best with moderately-dimensional feature vectors, in which values along each dimension are of a similar scale.</p>
 <div class="nbinput nblast docutils container">
@@ -850,7 +857,7 @@ test_data length: 1000
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download neural network from timm</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span><span class="s1">'resnet50'</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># this is a pytorch network</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">timm</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span><span class="s1">&#39;resnet50&#39;</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># this is a pytorch network</span>
 <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># eval mode disables training-time operators (like batch normalization)</span>
 
 <span class="c1"># Create dataloaders efficiently streaming images through the network</span>
@@ -860,11 +867,11 @@ test_data length: 1000
 
 <span class="c1"># Generate feature embeddings of the training data using the model</span>
 <span class="n">train_feature_embeddings</span> <span class="o">=</span> <span class="n">embed_images</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">trainloader</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Train embeddings pooled shape: </span><span class="si">{</span><span class="n">train_feature_embeddings</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Train embeddings pooled shape: </span><span class="si">{</span><span class="n">train_feature_embeddings</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
 <span class="c1"># Generate feature embeddings of the test data using the model</span>
 <span class="n">test_feature_embeddings</span> <span class="o">=</span> <span class="n">embed_images</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">testloader</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Test embeddings pooled shape: </span><span class="si">{</span><span class="n">test_feature_embeddings</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Test embeddings pooled shape: </span><span class="si">{</span><span class="n">test_feature_embeddings</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -873,7 +880,7 @@ test_data length: 1000
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Downloading: "https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-rsb-weights/resnet50_a1_0-14fe96d1.pth" to /home/runner/.cache/torch/hub/checkpoints/resnet50_a1_0-14fe96d1.pth
+Downloading: &#34;https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-rsb-weights/resnet50_a1_0-14fe96d1.pth&#34; to /home/runner/.cache/torch/hub/checkpoints/resnet50_a1_0-14fe96d1.pth
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -885,11 +892,11 @@ Train embeddings pooled shape: (5000, 2048)
 Test embeddings pooled shape: (1000, 2048)
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="4.-Use-cleanlab-to-find-outliers-in-the-dataset">
-<h2>4. Use cleanlab to find outliers in the dataset<a class="headerlink" href="#4.-Use-cleanlab-to-find-outliers-in-the-dataset" title="Permalink to this headline">#</a></h2>
-<div class="section" id="Scoring-outliers-in-training-data">
-<h3>Scoring outliers in training data<a class="headerlink" href="#Scoring-outliers-in-training-data" title="Permalink to this headline">#</a></h3>
+</section>
+<section id="4.-Use-cleanlab-to-find-outliers-in-the-dataset">
+<h2>4. Use cleanlab to find outliers in the dataset<a class="headerlink" href="#4.-Use-cleanlab-to-find-outliers-in-the-dataset" title="Permalink to this heading">#</a></h2>
+<section id="Scoring-outliers-in-training-data">
+<h3>Scoring outliers in training data<a class="headerlink" href="#Scoring-outliers-in-training-data" title="Permalink to this heading">#</a></h3>
 <p>Calling cleanlab’s <code class="docutils literal notranslate"><span class="pre">get_outlier_score()</span></code> on <code class="docutils literal notranslate"><span class="pre">train_feature_embeddings</span></code> will find any naturally occuring outliers in <code class="docutils literal notranslate"><span class="pre">train_data</span></code>. These examples are atypical images that look strange or different from the majority of examples in the dataset. In our case, these correspond to odd-looking images of animals that do not resemble typical animals depicted in <strong>cifar10</strong>. This method produces a score in [0,1] for each example, where lower values correspond to more atypical examples (more likely
 out-of-distribution).</p>
 <div class="nbinput docutils container">
@@ -910,7 +917,7 @@ out-of-distribution).</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_18_0.png" src="../_images/tutorials_outliers_18_0.png"/>
+<img alt="../_images/tutorials_outliers_18_0.png" src="../_images/tutorials_outliers_18_0.png" />
 </div>
 </div>
 <p>For fun, let’s see what <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> considers the least likely outliers in the training data! These examples look very homogeneous as each one is highly similar to many other training images.</p>
@@ -929,12 +936,12 @@ out-of-distribution).</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_20_0.png" src="../_images/tutorials_outliers_20_0.png"/>
+<img alt="../_images/tutorials_outliers_20_0.png" src="../_images/tutorials_outliers_20_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="Scoring-outliers-in-additional-test-data">
-<h3>Scoring outliers in additional test data<a class="headerlink" href="#Scoring-outliers-in-additional-test-data" title="Permalink to this headline">#</a></h3>
+</section>
+<section id="Scoring-outliers-in-additional-test-data">
+<h3>Scoring outliers in additional test data<a class="headerlink" href="#Scoring-outliers-in-additional-test-data" title="Permalink to this heading">#</a></h3>
 <p>Now suppose we want to find outlier images in our additional test data, in particular images unlikely to stem from the same distribution as the training data. We can again use <code class="docutils literal notranslate"><span class="pre">get_outlier_scores()</span></code> this time passing in the previously-fitted estimator <code class="docutils literal notranslate"><span class="pre">knn</span></code> used to measure similarity between training examples.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
@@ -959,13 +966,13 @@ out-of-distribution).</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_23_0.png" src="../_images/tutorials_outliers_23_0.png"/>
+<img alt="../_images/tutorials_outliers_23_0.png" src="../_images/tutorials_outliers_23_0.png" />
 </div>
 </div>
 <p>Notice how almost all outliers identified in <code class="docutils literal notranslate"><span class="pre">test_data</span></code> belong to (non-animal) classes not present in the training data. These non-animal images have very different feature embeddings than the training images which are all animals.</p>
-</div>
-<div class="section" id="Evaluating-out-of-distribution-detection-performance">
-<h3>Evaluating out of distribution detection performance<a class="headerlink" href="#Evaluating-out-of-distribution-detection-performance" title="Permalink to this headline">#</a></h3>
+</section>
+<section id="Evaluating-out-of-distribution-detection-performance">
+<h3>Evaluating out of distribution detection performance<a class="headerlink" href="#Evaluating-out-of-distribution-detection-performance" title="Permalink to this heading">#</a></h3>
 <p>Since we have access to ground-truth labels here (which is not necessary for outlier detection with cleanlab), we can evaluate our outlier scores for out-of-distribution detection, in which the goal is to find test images whose label does not correspond to any of the classes in the training data. We plot the precision/recall achieved by our outlier scores for the test data (which is a mix of animal and non-animal images).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
@@ -978,9 +985,9 @@ out-of-distribution).</p>
 <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">precision_recall_curve</span><span class="p">(</span><span class="n">not_outlier</span><span class="p">,</span> <span class="n">test_outlier_scores</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">recall</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Recall"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Precision"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Out-of-Distribution Detection Performance"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Recall&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Precision&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Out-of-Distribution Detection Performance&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -989,12 +996,12 @@ out-of-distribution).</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_26_0.png" src="../_images/tutorials_outliers_26_0.png"/>
+<img alt="../_images/tutorials_outliers_26_0.png" src="../_images/tutorials_outliers_26_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="Deciding-which-test-examples-are-outliers">
-<h3>Deciding which test examples are outliers<a class="headerlink" href="#Deciding-which-test-examples-are-outliers" title="Permalink to this headline">#</a></h3>
+</section>
+<section id="Deciding-which-test-examples-are-outliers">
+<h3>Deciding which test examples are outliers<a class="headerlink" href="#Deciding-which-test-examples-are-outliers" title="Permalink to this heading">#</a></h3>
 <p>Given outlier scores, how do we determine how many of the top-ranked examples in <code class="docutils literal notranslate"><span class="pre">test_data</span></code> should be marked as outliers?</p>
 <p>Inevitably this has some true positive / false positive trade-off, so let’s suppose we want to ensure around at most 5% false positives. We can use the 5-th percentile of the distribution of <code class="docutils literal notranslate"><span class="pre">train_outlier_scores</span></code> (assuming the training data are in-distribution examples without outliers) as a hard score threshold below which to consider a test example an outlier.</p>
 <p>Let’s compute the 5th percentile of the training outlier score distribution (shown as red line).</p>
@@ -1009,11 +1016,11 @@ out-of-distribution).</p>
 <span class="n">plt_range</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">train_outlier_scores</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">test_outlier_scores</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span> \
              <span class="nb">max</span><span class="p">(</span><span class="n">train_outlier_scores</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span><span class="n">test_outlier_scores</span><span class="o">.</span><span class="n">max</span><span class="p">())]</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">train_outlier_scores</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">plt_range</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'train_outlier_scores distribution'</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">'Frequency'</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fifth_percentile</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;train_outlier_scores distribution&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fifth_percentile</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">test_outlier_scores</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">plt_range</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'test_outlier_scores distribution'</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">'Frequency'</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fifth_percentile</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;test_outlier_scores distribution&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fifth_percentile</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1023,7 +1030,7 @@ out-of-distribution).</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_28_0.png" src="../_images/tutorials_outliers_28_0.png"/>
+<img alt="../_images/tutorials_outliers_28_0.png" src="../_images/tutorials_outliers_28_0.png" />
 </div>
 </div>
 <p>All test examples whose <code class="docutils literal notranslate"><span class="pre">test_outlier_scores</span></code> fall left of the red line will be marked as an outlier.</p>
@@ -1032,7 +1039,7 @@ out-of-distribution).</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize 15 images with outlier scores right along the cuttoff (i.e. those images we've identified as outliers that we're least sure about)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualize 15 images with outlier scores right along the cuttoff (i.e. those images we&#39;ve identified as outliers that we&#39;re least sure about)</span>
 <span class="n">sorted_idxs</span> <span class="o">=</span> <span class="n">test_outlier_scores</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
 <span class="n">outlier_scores</span> <span class="o">=</span> <span class="n">test_outlier_scores</span><span class="p">[</span><span class="n">sorted_idxs</span><span class="p">]</span>
 <span class="n">outlier_indices</span> <span class="o">=</span> <span class="n">sorted_idxs</span><span class="p">[</span><span class="n">outlier_scores</span> <span class="o">&lt;</span> <span class="n">fifth_percentile</span><span class="p">]</span>  <span class="c1"># Images in test data flagged as outliers</span>
@@ -1046,20 +1053,20 @@ out-of-distribution).</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_30_0.png" src="../_images/tutorials_outliers_30_0.png"/>
+<img alt="../_images/tutorials_outliers_30_0.png" src="../_images/tutorials_outliers_30_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="How-does-cleanlab-detect-outliers?">
-<h3>How does cleanlab detect outliers?<a class="headerlink" href="#How-does-cleanlab-detect-outliers?" title="Permalink to this headline">#</a></h3>
+</section>
+<section id="How-does-cleanlab-detect-outliers?">
+<h3>How does cleanlab detect outliers?<a class="headerlink" href="#How-does-cleanlab-detect-outliers?" title="Permalink to this heading">#</a></h3>
 <p>Outlier scores are defined relative to the average distance (computed over feature values) between each example and its K nearest neighbors in the training data. Such scores have been found to be particularly effective for out-of-distribution detection, see this paper for more details:</p>
 <p><a class="reference external" href="https://arxiv.org/abs/2207.03061">Back to the Basics: Revisiting Out-of-Distribution Detection Baselines</a></p>
 <p>Internally, <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> uses the <code class="docutils literal notranslate"><span class="pre">sklearn.neighbors.NearestNeighbor</span></code> class (with <em>cosine</em> distance) to find the K nearest neighbors, but you can easily use another KNN estimator with <code class="docutils literal notranslate"><span class="pre">get_outlier_scores()</span></code>. Note that this class by default utilizes the <em>minkowski</em> distance, but we recommend using <em>cosine</em> distance between neural net representations of data.</p>
 </div><script type="application/vnd.jupyter.widget-state+json">
-{"state": {"81e9ff0528e74f7c89f58faf2f77b26f": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "ba8effcac74c4ed899894932961fac2b": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "eb0c574c897143faa9819d9698e6ee12": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_81e9ff0528e74f7c89f58faf2f77b26f", "max": 170498071.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_ba8effcac74c4ed899894932961fac2b", "value": 170498071.0}}, "4a6b8c7fd41946fa8a43edfe07a79af7": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "718eb06fa9524bd39001de158ffc2c6d": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "2af630a2a1924a24a5bac12be52b3f07": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_4a6b8c7fd41946fa8a43edfe07a79af7", "placeholder": "\u200b", "style": "IPY_MODEL_718eb06fa9524bd39001de158ffc2c6d", "value": ""}}, "4eff8f26528c4145beb0a629a3e0921c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "54101de86ad249baa19f0a54a94e33f4": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "9b0b092bd3994a7c8178f21e5141f455": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_4eff8f26528c4145beb0a629a3e0921c", "placeholder": "\u200b", "style": "IPY_MODEL_54101de86ad249baa19f0a54a94e33f4", "value": " 170499072/? [00:04&lt;00:00, 45943876.69it/s]"}}, "e08ad17ee83f4b9c8164150352a07899": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "85a714aaf17345e6bac4183f0db642db": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_2af630a2a1924a24a5bac12be52b3f07", "IPY_MODEL_eb0c574c897143faa9819d9698e6ee12", "IPY_MODEL_9b0b092bd3994a7c8178f21e5141f455"], "layout": "IPY_MODEL_e08ad17ee83f4b9c8164150352a07899"}}}, "version_major": 2, "version_minor": 0}
-</script></div>
-</div>
-
+{"state": {"47c82c03e7c04a0bb0c3208f289bc0da": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "3bf6a3f5d2f2489986fc867d3068dcc2": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "52d122f11669454fb6c99e95385a947c": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_47c82c03e7c04a0bb0c3208f289bc0da", "max": 170498071.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_3bf6a3f5d2f2489986fc867d3068dcc2", "value": 170498071.0}}, "4fb883695c0642539af760566ceae4af": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "46d6a332b1884eee817dd7700b586a81": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "e4dfbbb951b74a2caeec546271f438fa": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_4fb883695c0642539af760566ceae4af", "placeholder": "\u200b", "style": "IPY_MODEL_46d6a332b1884eee817dd7700b586a81", "value": ""}}, "2079f44e20d743f6b36d7eed6b8db047": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "12459e8db9cf4cba99da48fde438ad05": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "d25d7088d56e42f38d8c99968c054adc": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_2079f44e20d743f6b36d7eed6b8db047", "placeholder": "\u200b", "style": "IPY_MODEL_12459e8db9cf4cba99da48fde438ad05", "value": " 170499072/? [00:02&lt;00:00, 64088530.88it/s]"}}, "34143e37ff094a65843ddb00cb601483": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "aef1ed11acf047f48568fb3df69eecc6": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_e4dfbbb951b74a2caeec546271f438fa", "IPY_MODEL_52d122f11669454fb6c99e95385a947c", "IPY_MODEL_d25d7088d56e42f38d8c99968c054adc"], "layout": "IPY_MODEL_34143e37ff094a65843ddb00cb601483"}}}, "version_major": 2, "version_minor": 0}
+</script></section>
+</section>
+</section>
  
         </article>
       </div>
@@ -1165,6 +1172,7 @@ out-of-distribution).</p>
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

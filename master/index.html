@@ -1,18 +1,19 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Cleanlab 2.0: The Workflows of Data-centric AI" href="tutorials/indepth_overview.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Cleanlab 2.0: The Workflows of Data-centric AI" href="tutorials/indepth_overview.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>cleanlab</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +24,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -133,7 +138,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -293,7 +298,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -301,7 +307,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -351,17 +357,17 @@
 
 <!-- End of Version Warning Banner -->
 
- <div class="section" id="cleanlab-documentation">
-<h1>cleanlab documentation<a class="headerlink" href="#cleanlab-documentation" title="Permalink to this headline">#</a></h1>
+ <section id="cleanlab-documentation">
+<h1>cleanlab documentation<a class="headerlink" href="#cleanlab-documentation" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://github.com/cleanlab/cleanlab">cleanlab</a> <strong>automatically finds and fixes label issues in your ML datasets.</strong></p>
 <div class="line-block">
 <div class="line">This reduces manual work needed to fix data errors and helps train reliable ML models on noisy real-world datasets. cleanlab has already found thousands of <a class="reference external" href="https://labelerrors.com">label errors</a> in ImageNet, MNIST, and other popular ML benchmarking datasets, so let’s get started with yours!</div>
 </div>
-</div>
-<div class="section" id="quickstart">
-<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">#</a></h1>
-<div class="section" id="install-cleanlab">
-<h2>1. Install <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code><a class="headerlink" href="#install-cleanlab" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading">#</a></h1>
+<section id="install-cleanlab">
+<h2>1. Install <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code><a class="headerlink" href="#install-cleanlab" title="Permalink to this heading">#</a></h2>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">pip</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">conda</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">source</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install cleanlab
 </pre></div>
@@ -373,9 +379,9 @@
 </pre></div>
 </div>
 </div></div>
-</div>
-<div class="section" id="find-label-errors-in-your-data">
-<h2>2. Find label errors in your data<a class="headerlink" href="#find-label-errors-in-your-data" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="find-label-errors-in-your-data">
+<h2>2. Find label errors in your data<a class="headerlink" href="#find-label-errors-in-your-data" title="Permalink to this heading">#</a></h2>
 <p>cleanlab’s <a class="reference internal" href="cleanlab/filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_label_issues</span></code></a> function tells you which examples in your dataset are likely mislabeled. At a minimum, it expects two inputs — your data’s given labels, <cite>labels</cite>, and predicted probabilities, <cite>pred_probs</cite>, from some trained classification model. These must be out-of-sample predictions where the data points were held out from the model during training, which can be <a class="reference internal" href="tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">obtained via cross-validation</span></a>.</p>
 <p>Setting <cite>return_indices_ranked_by</cite> in this function instructs cleanlab to return the indices of potential mislabeled examples, ordered by the likelihood of their given label being incorrect. This is estimated via a <em>label quality score</em>, which for example can be specified as <code class="docutils literal notranslate"><span class="pre">'self_confidence'</span></code> (predicted probability the given label).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
@@ -383,7 +389,7 @@
 <span class="n">ordered_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
-    <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s1">'self_confidence'</span><span class="p">,</span>
+    <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s1">&#39;self_confidence&#39;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -391,9 +397,9 @@
 <p class="admonition-title">Important</p>
 <p>The predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, from your model <strong>must be out-of-sample</strong>! You should never provide predictions on the same data points used to train the model as these predictions are overfit and  unsuitable for finding label errors. To compute out-of-sample predicted probabilities for your entire dataset, you can use <a class="reference internal" href="tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">cross-validation</span></a>.</p>
 </div>
-</div>
-<div class="section" id="train-robust-models-with-noisy-labels">
-<h2>3. Train robust models with noisy labels<a class="headerlink" href="#train-robust-models-with-noisy-labels" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="train-robust-models-with-noisy-labels">
+<h2>3. Train robust models with noisy labels<a class="headerlink" href="#train-robust-models-with-noisy-labels" title="Permalink to this heading">#</a></h2>
 <p>cleanlab’s <a class="reference internal" href="cleanlab/classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> class adapts any existing (<a class="reference external" href="https://scikit-learn.org/">scikit-learn</a> <a class="reference external" href="https://scikit-learn.org/stable/developers/develop.html">compatible</a>) classification model, <cite>clf</cite>, to a more reliable one by allowing it to train directly on partially mislabeled datasets.</p>
 <p>When the <a class="reference internal" href="cleanlab/classification.html#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">.fit()</span></code></a> method is called, it automatically removes any examples identified as “noisy” in the provided dataset and returns a model trained only on the clean data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
@@ -404,9 +410,9 @@
 <span class="n">cl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="dataset-curation-fix-dataset-level-issues">
-<h2>4. Dataset curation: fix dataset-level issues<a class="headerlink" href="#dataset-curation-fix-dataset-level-issues" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="dataset-curation-fix-dataset-level-issues">
+<h2>4. Dataset curation: fix dataset-level issues<a class="headerlink" href="#dataset-curation-fix-dataset-level-issues" title="Permalink to this heading">#</a></h2>
 <p>cleanlab’s <a class="reference internal" href="cleanlab/dataset.html#module-cleanlab.dataset" title="cleanlab.dataset"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataset</span></code></a> module helps you deal with dataset-level issues by  <span class="xref std std-ref">finding overlapping classes</span> (classes to merge), <span class="xref std std-ref">rank class-level label quality</span> (classes to keep/delete), and <span class="xref std std-ref">measure overall dataset health</span> (to track dataset quality as you make adjustments).</p>
 <p>The example below shows how to view all dataset-level issues in one line of code with <a class="reference internal" href="cleanlab/dataset.html#cleanlab.dataset.health_summary" title="cleanlab.dataset.health_summary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dataset.health_summary()</span></code></a>. Check out the dataset tutorial for more examples.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.dataset</span> <span class="kn">import</span> <span class="n">health_summary</span>
@@ -424,8 +430,8 @@
 </div>
 <div class="toctree-wrapper compound">
 </div>
-</div>
-</div>
+</section>
+</section>
  
         </article>
       </div>
@@ -480,33 +486,8 @@
 
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            Contents
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">cleanlab documentation</a></li>
-<li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
-<li><a class="reference internal" href="#install-cleanlab">1. Install <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code></a></li>
-<li><a class="reference internal" href="#find-label-errors-in-your-data">2. Find label errors in your data</a></li>
-<li><a class="reference internal" href="#train-robust-models-with-noisy-labels">3. Train robust models with noisy labels</a></li>
-<li><a class="reference internal" href="#dataset-curation-fix-dataset-level-issues">4. Dataset curation: fix dataset-level issues</a><ul>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>
@@ -514,6 +495,7 @@
 </div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/furo.js"></script>
     <script src="_static/clipboard.min.js"></script>

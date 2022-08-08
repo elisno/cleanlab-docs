@@ -1,18 +1,18 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>cleanlab.classification - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +23,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +297,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -368,7 +373,7 @@
 <span class="c1"># You should have received a copy of the GNU Affero General Public License</span>
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">cleanlab can be used for multiclass (or multi-label) learning with noisy labels for any dataset and model.</span>
 
 <span class="sd">The :py:class:`CleanLearning &lt;cleanlab.classification.CleanLearning&gt;` class wraps an instance of an</span>
@@ -390,7 +395,7 @@
 <span class="sd">`sklearn.base.clone &lt;https://scikit-learn.org/stable/modules/generated/sklearn.base.clone.html&gt;`_:</span>
 <span class="sd">cleanlab internally creates multiple instances of the</span>
 <span class="sd">estimator, and if you e.g. manually wrap a PyTorch model, you must ensure that</span>
-<span class="sd">every call to the estimator's ``__init__()`` creates an independent instance of</span>
+<span class="sd">every call to the estimator&#39;s ``__init__()`` creates an independent instance of</span>
 <span class="sd">the model (for sklearn compatibility, the weights of neural network models should typically be initialized inside of ``clf.fit()``).</span>
 
 <span class="sd">Note</span>
@@ -419,7 +424,7 @@
 <span class="sd">models using `skorch &lt;https://skorch.readthedocs.io/&gt;`_ and adapt Keras models</span>
 <span class="sd">using `SciKeras &lt;https://www.adriangb.com/scikeras/&gt;`_.</span>
 
-<span class="sd">If an open-source adapter doesn't already exist, you can manually wrap the</span>
+<span class="sd">If an open-source adapter doesn&#39;t already exist, you can manually wrap the</span>
 <span class="sd">model to be sklearn-compatible. This is made easy by inheriting from</span>
 <span class="sd">`sklearn.base.BaseEstimator</span>
 <span class="sd">&lt;https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html&gt;`_:</span>
@@ -464,7 +469,7 @@
 <span class="sd">classifications that would be obtained if the *true labels* had instead been provided</span>
 <span class="sd">to the classifier during training. `labels` denotes the noisy labels instead of</span>
 <span class="sd">the :math:`\\tilde{y}` used in confident learning paper.</span>
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span> <span class="k">as</span> <span class="n">LogReg</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
@@ -500,7 +505,7 @@
 
 
 <div class="viewcode-block" id="CleanLearning"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning">[docs]</a><span class="k">class</span> <span class="nc">CleanLearning</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>  <span class="c1"># Inherits sklearn classifier</span>
-    <span class="sd">"""</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    CleanLearning = Machine Learning with cleaned data (even when training on messy, error-ridden data).</span>
 
 <span class="sd">    Automated and robust learning with noisy labels using any dataset and any model. This class</span>
@@ -563,7 +568,7 @@
 <span class="sd">    verbose : bool, default=False</span>
 <span class="sd">      Controls how much output is printed. Set to ``False`` to suppress print</span>
 <span class="sd">      statements.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -581,15 +586,15 @@
 
         <span class="k">if</span> <span class="n">clf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Use logistic regression if no classifier is provided.</span>
-            <span class="n">clf</span> <span class="o">=</span> <span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">"lbfgs"</span><span class="p">)</span>
+            <span class="n">clf</span> <span class="o">=</span> <span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;lbfgs&quot;</span><span class="p">)</span>
 
         <span class="c1"># Make sure the given classifier has the appropriate methods defined.</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="s2">"fit"</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The classifier (clf) must define a .fit() method."</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="s2">"predict_proba"</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The classifier (clf) must define a .predict_proba() method."</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="s2">"predict"</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"The classifier (clf) must define a .predict() method."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="s2">&quot;fit&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The classifier (clf) must define a .fit() method.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="s2">&quot;predict_proba&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The classifier (clf) must define a .predict_proba() method.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="s2">&quot;predict&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The classifier (clf) must define a .predict() method.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
@@ -630,7 +635,7 @@
         <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">"""</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Train the model `clf` with error-prone, noisy labels as if</span>
 <span class="sd">        the model had been instead trained on a dataset with the correct labels.</span>
 <span class="sd">        `fit` achieves this by first training `clf` via cross-validation on the noisy data,</span>
@@ -726,7 +731,7 @@
 <span class="sd">          If not provided, samples may still be weighted by the estimated noise in the class they are labeled as.</span>
 
 <span class="sd">        clf_kwargs : dict, optional</span>
-<span class="sd">          Optional keyword arguments to pass into `clf`'s ``fit()`` method.</span>
+<span class="sd">          Optional keyword arguments to pass into `clf`&#39;s ``fit()`` method.</span>
 
 <span class="sd">        clf_final_kwargs : dict, optional</span>
 <span class="sd">          Optional extra keyword arguments to pass into the final `clf` ``fit()`` on the cleaned data</span>
@@ -740,11 +745,11 @@
 <span class="sd">          Optional callable function that takes two arguments, `X_val`, `y_val`, and returns a dict</span>
 <span class="sd">          of keyword arguments passed into to ``clf.fit()`` which may be functions of the validation</span>
 <span class="sd">          data in each cross-validation fold. Specifies how to map the validation data split in each</span>
-<span class="sd">          cross-validation fold into the appropriate format to pass into `clf`'s ``fit()`` method, assuming</span>
+<span class="sd">          cross-validation fold into the appropriate format to pass into `clf`&#39;s ``fit()`` method, assuming</span>
 <span class="sd">          ``clf.fit()`` can utilize validation data if it is appropriately passed in (eg. for early-stopping).</span>
-<span class="sd">          Eg. if your model's ``fit()`` method is called using ``clf.fit(X, y, X_validation, y_validation)``,</span>
+<span class="sd">          Eg. if your model&#39;s ``fit()`` method is called using ``clf.fit(X, y, X_validation, y_validation)``,</span>
 <span class="sd">          then you could set ``validation_func = f`` where</span>
-<span class="sd">          ``def f(X_val, y_val): return {"X_validation": X_val, "y_validation": y_val}``</span>
+<span class="sd">          ``def f(X_val, y_val): return {&quot;X_validation&quot;: X_val, &quot;y_validation&quot;: y_val}``</span>
 
 <span class="sd">          Note that `validation_func` will be ignored in the final call to `clf.fit()` on the</span>
 <span class="sd">          cleaned subset of the data. This argument is only for allowing `clf` to access the</span>
@@ -794,33 +799,33 @@
 <span class="sd">        * Utilize :ref:`cross-validation &lt;pred_probs_cross_val&gt;` to get out-of-sample `pred_probs` for each example.</span>
 <span class="sd">        * Call :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` with `pred_probs`.</span>
 <span class="sd">        * Filter the examples with detected issues and train your model on the remaining data.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"You must specify either `labels` or `y`, but not both."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You must specify either `labels` or `y`, but not both.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">labels</span> <span class="o">=</span> <span class="n">y</span>
         <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"You must specify `labels`."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You must specify `labels`.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">clf_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">clf_final_kwargs</span><span class="p">}</span>
 
-        <span class="k">if</span> <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="n">clf_kwargs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;sample_weight&quot;</span> <span class="ow">in</span> <span class="n">clf_kwargs</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"sample_weight should be provided directly in fit() or in clf_final_kwargs rather than in clf_kwargs"</span>
+                <span class="s2">&quot;sample_weight should be provided directly in fit() or in clf_final_kwargs rather than in clf_kwargs&quot;</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">sample_weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">"sample_weight"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;sample_weight&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">"sample_weight must be a supported fit() argument for your model in order to be specified here"</span>
+                    <span class="s2">&quot;sample_weight must be a supported fit() argument for your model in order to be specified here&quot;</span>
                 <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">label_issues</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="s2">"If you already ran self.find_label_issues() and don't want to recompute, you "</span>
-                    <span class="s2">"should pass the label_issues in as a parameter to this function next time."</span>
+                    <span class="s2">&quot;If you already ran self.find_label_issues() and don&#39;t want to recompute, you &quot;</span>
+                    <span class="s2">&quot;should pass the label_issues in as a parameter to this function next time.&quot;</span>
                 <span class="p">)</span>
             <span class="n">label_issues</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span>
                 <span class="n">X</span><span class="p">,</span>
@@ -833,7 +838,7 @@
                 <span class="n">validation_func</span><span class="o">=</span><span class="n">validation_func</span><span class="p">,</span>
             <span class="p">)</span>
 
-        <span class="k">else</span><span class="p">:</span>  <span class="c1"># set args that may not have been set if `self.find_label_issues()` wasn't called yet</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># set args that may not have been set if `self.find_label_issues()` wasn&#39;t called yet</span>
             <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -842,43 +847,43 @@
                     <span class="n">label_matrix</span> <span class="o">=</span> <span class="n">inverse_noise_matrix</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">label_matrix</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">"Using provided label_issues instead of finding label issues."</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using provided label_issues instead of finding label issues.&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span>
-                        <span class="s2">"These will overwrite self.label_issues_df and will be returned by "</span>
-                        <span class="s2">"`self.get_label_issues()`. "</span>
+                        <span class="s2">&quot;These will overwrite self.label_issues_df and will be returned by &quot;</span>
+                        <span class="s2">&quot;`self.get_label_issues()`. &quot;</span>
                     <span class="p">)</span>
 
         <span class="c1"># label_issues always overwrites self.label_issues_df. Ensure it is properly formatted:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_label_issues_arg</span><span class="p">(</span><span class="n">label_issues</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">"label_quality"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="n">pred_probs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;label_quality&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="n">pred_probs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">"Computing label quality scores based on given pred_probs ..."</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span><span class="p">[</span><span class="s2">"label_quality"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_label_quality_scores</span><span class="p">(</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing label quality scores based on given pred_probs ...&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span><span class="p">[</span><span class="s2">&quot;label_quality&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_label_quality_scores</span><span class="p">(</span>
                 <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">label_quality_scores_kwargs</span>
             <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span><span class="p">[</span><span class="s2">"is_label_issue"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span><span class="p">[</span><span class="s2">&quot;is_label_issue&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">x_mask</span> <span class="o">=</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span>
         <span class="n">x_cleaned</span><span class="p">,</span> <span class="n">labels_cleaned</span> <span class="o">=</span> <span class="n">subset_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">x_mask</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Pruning </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span><span class="p">)</span><span class="si">}</span><span class="s2"> examples with label issues ..."</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Remaining clean data has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_cleaned</span><span class="p">)</span><span class="si">}</span><span class="s2"> examples."</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pruning </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span><span class="p">)</span><span class="si">}</span><span class="s2"> examples with label issues ...&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Remaining clean data has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_cleaned</span><span class="p">)</span><span class="si">}</span><span class="s2"> examples.&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">sample_weight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Check if sample_weight in args of clf.fit()</span>
             <span class="k">if</span> <span class="p">(</span>
-                <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
-                <span class="ow">and</span> <span class="s2">"sample_weight"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span>
+                <span class="s2">&quot;sample_weight&quot;</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
+                <span class="ow">and</span> <span class="s2">&quot;sample_weight&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span>
                 <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="p">):</span>
                 <span class="c1"># Re-weight examples in the loss function for the final fitting</span>
-                <span class="c1"># such that the "apparent" original number of examples in each class</span>
+                <span class="c1"># such that the &quot;apparent&quot; original number of examples in each class</span>
                 <span class="c1"># is preserved, even though the pruned sets may differ.</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span>
-                        <span class="s2">"Assigning sample weights for final training based on estimated label quality."</span>
+                        <span class="s2">&quot;Assigning sample weights for final training based on estimated label quality.&quot;</span>
                     <span class="p">)</span>
                 <span class="n">sample_weight_auto</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">labels_cleaned</span><span class="p">))</span>
                 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">):</span>
@@ -892,75 +897,75 @@
                 <span class="p">)</span>  <span class="c1"># pad pruned examples with zeros, length of original dataset</span>
                 <span class="n">sample_weight_expanded</span><span class="p">[</span><span class="n">x_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_weight_auto</span>
                 <span class="c1"># Store the sample weight for every example in the original, unfiltered dataset</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span><span class="p">[</span><span class="s2">"sample_weight"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_weight_expanded</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span><span class="p">[</span><span class="s2">&quot;sample_weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_weight_expanded</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">sample_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span><span class="p">[</span>
-                    <span class="s2">"sample_weight"</span>
+                    <span class="s2">&quot;sample_weight&quot;</span>
                 <span class="p">]</span>  <span class="c1"># pointer to here to avoid duplication</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">[</span><span class="s2">"sample_weight"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_weight_auto</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">[</span><span class="s2">&quot;sample_weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_weight_auto</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data ..."</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fitting final model on the clean data ...&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data with custom sample_weight ..."</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;sample_weight&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fitting final model on the clean data with custom sample_weight ...&quot;</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">if</span> <span class="p">(</span>
-                            <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
+                            <span class="s2">&quot;sample_weight&quot;</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
                             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span> <span class="ow">is</span> <span class="kc">None</span>
                         <span class="p">):</span>
                             <span class="nb">print</span><span class="p">(</span>
-                                <span class="s2">"Cannot utilize sample weights for final training! "</span>
-                                <span class="s2">"Why this matters: during final training, sample weights help account for the amount of removed data in each class. "</span>
-                                <span class="s2">"This helps ensure the correct class prior for the learned model. "</span>
-                                <span class="s2">"To use sample weights, you need to either provide the noise_matrix or have previously called self.find_label_issues() instead of filter.find_label_issues() which computes them for you."</span>
+                                <span class="s2">&quot;Cannot utilize sample weights for final training! &quot;</span>
+                                <span class="s2">&quot;Why this matters: during final training, sample weights help account for the amount of removed data in each class. &quot;</span>
+                                <span class="s2">&quot;This helps ensure the correct class prior for the learned model. &quot;</span>
+                                <span class="s2">&quot;To use sample weights, you need to either provide the noise_matrix or have previously called self.find_label_issues() instead of filter.find_label_issues() which computes them for you.&quot;</span>
                             <span class="p">)</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data ..."</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fitting final model on the clean data ...&quot;</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">sample_weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">"sample_weight"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">[</span><span class="s2">"sample_weight"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_weight</span><span class="p">[</span><span class="n">x_mask</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">sample_weight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;sample_weight&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">[</span><span class="s2">&quot;sample_weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_weight</span><span class="p">[</span><span class="n">x_mask</span><span class="p">]</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data with custom sample_weight ..."</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fitting final model on the clean data with custom sample_weight ...&quot;</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data with custom sample_weight ..."</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;sample_weight&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fitting final model on the clean data with custom sample_weight ...&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">"Fitting final model on the clean data ..."</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fitting final model on the clean data ...&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_cleaned</span><span class="p">,</span> <span class="n">labels_cleaned</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="s2">"Label issues stored in label_issues_df DataFrame accessible via: self.get_label_issues(). "</span>
-                <span class="s2">"Call self.save_space() to delete this potentially large DataFrame attribute."</span>
+                <span class="s2">&quot;Label issues stored in label_issues_df DataFrame accessible via: self.get_label_issues(). &quot;</span>
+                <span class="s2">&quot;Call self.save_space() to delete this potentially large DataFrame attribute.&quot;</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="CleanLearning.predict"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">"""Returns a vector of predictions.</span>
+        <span class="sd">&quot;&quot;&quot;Returns a vector of predictions.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        X : np.ndarray</span>
-<span class="sd">          An array of shape ``(N, ...)`` of test data."""</span>
+<span class="sd">          An array of shape ``(N, ...)`` of test data.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CleanLearning.predict_proba"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.predict_proba">[docs]</a>    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">"""Returns a vector of predicted probabilities for each example in X,</span>
+        <span class="sd">&quot;&quot;&quot;Returns a vector of predicted probabilities for each example in X,</span>
 <span class="sd">        ``P(true label=k)``.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        X : np.ndarray</span>
-<span class="sd">          An array of shape ``(N, ...)`` of test data."""</span>
+<span class="sd">          An array of shape ``(N, ...)`` of test data.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CleanLearning.score"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.score">[docs]</a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">"""Returns the `clf`'s score on a test set `X` with labels `y`.</span>
-<span class="sd">        Uses the model's default scoring function.</span>
+        <span class="sd">&quot;&quot;&quot;Returns the `clf`&#39;s score on a test set `X` with labels `y`.</span>
+<span class="sd">        Uses the model&#39;s default scoring function.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -971,12 +976,12 @@
 <span class="sd">          An array of shape ``(N,)`` or ``(N, 1)`` of test labels.</span>
 
 <span class="sd">        sample_weight : np.ndarray, optional</span>
-<span class="sd">          An array of shape ``(N,)`` or ``(N, 1)`` used to weight each example when computing the score."""</span>
+<span class="sd">          An array of shape ``(N,)`` or ``(N, 1)`` used to weight each example when computing the score.&quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">):</span>
 
             <span class="c1"># Check if sample_weight in clf.score()</span>
-            <span class="k">if</span> <span class="s2">"sample_weight"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;sample_weight&quot;</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
@@ -1000,7 +1005,7 @@
         <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
         <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">"""</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Identifies potential label issues in the dataset using confident learning.</span>
 
 <span class="sd">        Runs cross-validation to get out-of-sample pred_probs from `clf`</span>
@@ -1052,19 +1057,19 @@
 
 <span class="sd">          * *is_label_issue*: boolean mask for the entire dataset where ``True`` represents a label issue and ``False`` represents an example that is accurately labeled with high confidence. This column is equivalent to `label_issues_mask` output from :py:func:`filter.find_label_issues&lt;cleanlab.filter.find_label_issues&gt;`.</span>
 <span class="sd">          * *label_quality*: Numeric score that measures the quality of each label (how likely it is to be correct, with lower scores indicating potentially erroneous labels).</span>
-<span class="sd">          * *given_label*: Integer indices corresponding to the class label originally given for this example (same as `labels` input). Included here for ease of comparison against `clf` predictions, only present if "predicted_label" column is present.</span>
+<span class="sd">          * *given_label*: Integer indices corresponding to the class label originally given for this example (same as `labels` input). Included here for ease of comparison against `clf` predictions, only present if &quot;predicted_label&quot; column is present.</span>
 <span class="sd">          * *predicted_label*: Integer indices corresponding to the class predicted by trained `clf` model. Only present if ``pred_probs`` were provided as input or computed during label-issue-finding.</span>
 <span class="sd">          * *sample_weight*: Numeric values used to weight examples during the final training of `clf` in :py:meth:`CleanLearning.fit()&lt;cleanlab.classification.CleanLearning.fit&gt;`. This column may not be present after `self.find_label_issues()` but may be added after call to :py:meth:`CleanLearning.fit()&lt;cleanlab.classification.CleanLearning.fit&gt;`. For more precise definition of sample weights, see documentation of :py:meth:`CleanLearning.fit()&lt;cleanlab.classification.CleanLearning.fit&gt;`</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Check inputs</span>
         <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Trace(noise_matrix) is </span><span class="si">{}</span><span class="s2">, but must exceed 1."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Trace(noise_matrix) is </span><span class="si">{}</span><span class="s2">, but must exceed 1.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">inverse_noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">inverse_noise_matrix</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">inverse_noise_matrix</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Trace(inverse_noise_matrix) is </span><span class="si">{}</span><span class="s2">. Must exceed 1."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Trace(inverse_noise_matrix) is </span><span class="si">{}</span><span class="s2">. Must exceed 1.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">label_matrix</span> <span class="o">=</span> <span class="n">noise_matrix</span>
@@ -1073,10 +1078,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">label_matrix</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cv_n_folds</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"Need more data from each class for cross-validation. "</span>
-                <span class="s2">"Try decreasing cv_n_folds (eg. to 2 or 3) in CleanLearning()"</span>
+                <span class="s2">&quot;Need more data from each class for cross-validation. &quot;</span>
+                <span class="s2">&quot;Try decreasing cv_n_folds (eg. to 2 or 3) in CleanLearning()&quot;</span>
             <span class="p">)</span>
-        <span class="c1"># 'ps' is p(labels=k)</span>
+        <span class="c1"># &#39;ps&#39; is p(labels=k)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">clf_kwargs</span> <span class="o">=</span> <span class="n">clf_kwargs</span>
@@ -1093,7 +1098,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">noise_matrix</span>
             <span class="k">if</span> <span class="n">inverse_noise_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">"Computing label noise estimates from provided noise matrix ..."</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing label noise estimates from provided noise matrix ...&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">py</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span> <span class="o">=</span> <span class="n">compute_py_inv_noise_matrix</span><span class="p">(</span>
                     <span class="n">ps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">,</span>
                     <span class="n">noise_matrix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span><span class="p">,</span>
@@ -1102,7 +1107,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span> <span class="o">=</span> <span class="n">inverse_noise_matrix</span>
             <span class="k">if</span> <span class="n">noise_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">"Computing label noise estimates from provided inverse noise matrix ..."</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing label noise estimates from provided inverse noise matrix ...&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span> <span class="o">=</span> <span class="n">compute_noise_matrix_from_inverse</span><span class="p">(</span>
                     <span class="n">ps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">,</span>
                     <span class="n">inverse_noise_matrix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inverse_noise_matrix</span><span class="p">,</span>
@@ -1112,8 +1117,8 @@
             <span class="k">if</span> <span class="n">pred_probs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span>
-                        <span class="s2">"Computing out of sample predicted probabilities via "</span>
-                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cv_n_folds</span><span class="si">}</span><span class="s2">-fold cross validation. May take a while ..."</span>
+                        <span class="s2">&quot;Computing out of sample predicted probabilities via &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cv_n_folds</span><span class="si">}</span><span class="s2">-fold cross validation. May take a while ...&quot;</span>
                     <span class="p">)</span>
                 <span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">py</span><span class="p">,</span>
@@ -1134,7 +1139,7 @@
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># pred_probs is provided by user (assumed holdout probabilities)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">"Computing label noise estimates from provided pred_probs ..."</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing label noise estimates from provided pred_probs ...&quot;</span><span class="p">)</span>
                 <span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">py</span><span class="p">,</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">noise_matrix</span><span class="p">,</span>
@@ -1150,8 +1155,8 @@
         <span class="k">if</span> <span class="n">pred_probs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="s2">"Computing out of sample predicted probabilities via "</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cv_n_folds</span><span class="si">}</span><span class="s2">-fold cross validation. May take a while ..."</span>
+                    <span class="s2">&quot;Computing out of sample predicted probabilities via &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cv_n_folds</span><span class="si">}</span><span class="s2">-fold cross validation. May take a while ...&quot;</span>
                 <span class="p">)</span>
 
             <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">estimate_cv_predicted_probabilities</span><span class="p">(</span>
@@ -1184,7 +1189,7 @@
 
         <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_to_array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"Using predicted probabilities to identify label issues ..."</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using predicted probabilities to identify label issues ...&quot;</span><span class="p">)</span>
         <span class="n">label_issues_mask</span> <span class="o">=</span> <span class="nb">filter</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span>
             <span class="n">labels</span><span class="p">,</span>
             <span class="n">pred_probs</span><span class="p">,</span>
@@ -1194,34 +1199,34 @@
             <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">label_quality_scores_kwargs</span>
         <span class="p">)</span>
         <span class="n">label_issues_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-            <span class="p">{</span><span class="s2">"is_label_issue"</span><span class="p">:</span> <span class="n">label_issues_mask</span><span class="p">,</span> <span class="s2">"label_quality"</span><span class="p">:</span> <span class="n">label_quality_scores</span><span class="p">}</span>
+            <span class="p">{</span><span class="s2">&quot;is_label_issue&quot;</span><span class="p">:</span> <span class="n">label_issues_mask</span><span class="p">,</span> <span class="s2">&quot;label_quality&quot;</span><span class="p">:</span> <span class="n">label_quality_scores</span><span class="p">}</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Identified </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">label_issues_mask</span><span class="p">)</span><span class="si">}</span><span class="s2"> examples with label issues."</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Identified </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">label_issues_mask</span><span class="p">)</span><span class="si">}</span><span class="s2"> examples with label issues.&quot;</span><span class="p">)</span>
 
         <span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">label_issues_df</span><span class="p">[</span><span class="s2">"given_label"</span><span class="p">]</span> <span class="o">=</span> <span class="n">compress_int_array</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
-        <span class="n">label_issues_df</span><span class="p">[</span><span class="s2">"predicted_label"</span><span class="p">]</span> <span class="o">=</span> <span class="n">compress_int_array</span><span class="p">(</span><span class="n">predicted_labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
+        <span class="n">label_issues_df</span><span class="p">[</span><span class="s2">&quot;given_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compress_int_array</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
+        <span class="n">label_issues_df</span><span class="p">[</span><span class="s2">&quot;predicted_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">compress_int_array</span><span class="p">(</span><span class="n">predicted_labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">save_space</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="s2">"Overwriting previously identified label issues stored at self.label_issues_df. "</span>
-                    <span class="s2">"self.get_label_issues() will now return the newly identified label issues. "</span>
+                    <span class="s2">&quot;Overwriting previously identified label issues stored at self.label_issues_df. &quot;</span>
+                    <span class="s2">&quot;self.get_label_issues() will now return the newly identified label issues. &quot;</span>
                 <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span> <span class="o">=</span> <span class="n">label_issues_df</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span> <span class="o">=</span> <span class="n">label_issues_df</span><span class="p">[</span>
-                <span class="s2">"is_label_issue"</span>
+                <span class="s2">&quot;is_label_issue&quot;</span>
             <span class="p">]</span>  <span class="c1"># pointer to here to avoid duplication</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>  <span class="c1"># pragma: no cover</span>
-                <span class="s2">"Not storing label_issues as attributes since save_space was specified."</span>
+                <span class="s2">&quot;Not storing label_issues as attributes since save_space was specified.&quot;</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">label_issues_df</span></div>
 
 <div class="viewcode-block" id="CleanLearning.get_label_issues"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.get_label_issues">[docs]</a>    <span class="k">def</span> <span class="nf">get_label_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">"""</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Accessor. Returns `label_issues_df` attribute if previously already computed.</span>
 <span class="sd">        This ``pd.DataFrame`` describes the label issues identified for each example</span>
 <span class="sd">        (each row corresponds to an example).</span>
@@ -1231,25 +1236,25 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        pd.DataFrame</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">"Label issues have not yet been computed. Run `self.find_label_issues()` or `self.fit()` first."</span>
+                <span class="s2">&quot;Label issues have not yet been computed. Run `self.find_label_issues()` or `self.fit()` first.&quot;</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span></div>
 
 <div class="viewcode-block" id="CleanLearning.save_space"><a class="viewcode-back" href="../../cleanlab/classification.html#cleanlab.classification.CleanLearning.save_space">[docs]</a>    <span class="k">def</span> <span class="nf">save_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">"""</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clears non-sklearn attributes of this estimator to save space (in-place).</span>
 <span class="sd">        This includes the DataFrame attribute that stored label issues which may be large for big datasets.</span>
 <span class="sd">        You may want to call this method before deploying this model (i.e. if you just care about producing predictions).</span>
 <span class="sd">        After calling this method, certain non-prediction-related attributes/functionality will no longer be available</span>
 <span class="sd">        (e.g. you cannot call ``self.fit()`` anymore).</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"self.label_issues_df is already empty"</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;self.label_issues_df is already empty&quot;</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_df</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample_weight</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label_issues_mask</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1267,10 +1272,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">clf_kwargs</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clf_final_kwargs</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"Deleted non-sklearn attributes such as label_issues_df to save space."</span><span class="p">)</span></div>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Deleted non-sklearn attributes such as label_issues_df to save space.&quot;</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_process_label_issues_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">find_label_issues_kwargs</span><span class="p">):</span>
-        <span class="sd">"""</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Private helper function that is used to modify the arguments to passed to</span>
 <span class="sd">        filter.find_label_issues via the CleanLearning.find_label_issues class. Because</span>
 <span class="sd">        this is a classification task, some default parameters change and some errors should</span>
@@ -1278,64 +1283,64 @@
 <span class="sd">        handles those parameters inside of find_label_issues_kwargs and throws an error if you pass</span>
 <span class="sd">        in a kwargs argument to filter.find_label_issues that is not supported by the</span>
 <span class="sd">        CleanLearning.find_label_issues() function.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Defaults for CleanLearning.find_label_issues() vs filter.find_label_issues()</span>
-        <span class="n">DEFAULT_FIND_LABEL_ISSUES_KWARGS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"min_examples_per_class"</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
+        <span class="n">DEFAULT_FIND_LABEL_ISSUES_KWARGS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;min_examples_per_class&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
         <span class="n">find_label_issues_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">DEFAULT_FIND_LABEL_ISSUES_KWARGS</span><span class="p">,</span> <span class="o">**</span><span class="n">find_label_issues_kwargs</span><span class="p">}</span>
         <span class="c1"># Todo: support multi_label classification in the future and remove multi_label from list</span>
-        <span class="n">unsupported_kwargs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"return_indices_ranked_by"</span><span class="p">,</span> <span class="s2">"multi_label"</span><span class="p">]</span>
+        <span class="n">unsupported_kwargs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;return_indices_ranked_by&quot;</span><span class="p">,</span> <span class="s2">&quot;multi_label&quot;</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">unsupported_kwarg</span> <span class="ow">in</span> <span class="n">unsupported_kwargs</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">unsupported_kwarg</span> <span class="ow">in</span> <span class="n">find_label_issues_kwargs</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">"These kwargs of `find_label_issues()` are not supported "</span>
-                    <span class="sa">f</span><span class="s2">"for `CleanLearning`: </span><span class="si">{</span><span class="n">unsupported_kwargs</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="s2">&quot;These kwargs of `find_label_issues()` are not supported &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;for `CleanLearning`: </span><span class="si">{</span><span class="n">unsupported_kwargs</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
         <span class="c1"># CleanLearning will use this to compute the noise_matrix and inverse_noise_matrix</span>
-        <span class="k">if</span> <span class="s2">"confident_joint"</span> <span class="ow">in</span> <span class="n">find_label_issues_kwargs</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span> <span class="o">=</span> <span class="n">find_label_issues_kwargs</span><span class="p">[</span><span class="s2">"confident_joint"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;confident_joint&quot;</span> <span class="ow">in</span> <span class="n">find_label_issues_kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">confident_joint</span> <span class="o">=</span> <span class="n">find_label_issues_kwargs</span><span class="p">[</span><span class="s2">&quot;confident_joint&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">find_label_issues_kwargs</span> <span class="o">=</span> <span class="n">find_label_issues_kwargs</span>
 
     <span class="k">def</span> <span class="nf">_process_label_issues_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_issues</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
-        <span class="sd">"""</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper method to get the label_issues input arg into a formatted DataFrame.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_to_array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label_issues</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s2">"is_label_issue"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;is_label_issue&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">"DataFrame label_issues must contain column: 'is_label_issue'. "</span>
-                    <span class="s2">"See CleanLearning.fit() documentation for label_issues column descriptions."</span>
+                    <span class="s2">&quot;DataFrame label_issues must contain column: &#39;is_label_issue&#39;. &quot;</span>
+                    <span class="s2">&quot;See CleanLearning.fit() documentation for label_issues column descriptions.&quot;</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_issues</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"label_issues and labels must have same length"</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">"given_label"</span> <span class="ow">in</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span>
-                <span class="n">label_issues</span><span class="p">[</span><span class="s2">"given_label"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">!=</span> <span class="n">labels</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;label_issues and labels must have same length&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;given_label&quot;</span> <span class="ow">in</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span>
+                <span class="n">label_issues</span><span class="p">[</span><span class="s2">&quot;given_label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">!=</span> <span class="n">labels</span>
             <span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"labels must match label_issues['given_label']"</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;labels must match label_issues[&#39;given_label&#39;]&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">label_issues</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label_issues</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">in</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"bool"</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"int"</span><span class="p">)]:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"If label_issues is numpy.array, dtype must be 'bool' or 'int'."</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"bool"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">in</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;bool&quot;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If label_issues is numpy.array, dtype must be &#39;bool&#39; or &#39;int&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">"If label_issues is boolean numpy.array, must have same shape as labels"</span>
+                    <span class="s2">&quot;If label_issues is boolean numpy.array, must have same shape as labels&quot;</span>
                 <span class="p">)</span>
-            <span class="k">if</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">"int"</span><span class="p">):</span>  <span class="c1"># convert to boolean mask</span>
+            <span class="k">if</span> <span class="n">label_issues</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">):</span>  <span class="c1"># convert to boolean mask</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">label_issues</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_issues</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="s2">"If label_issues.dtype is 'int', must contain unique integer indices "</span>
-                        <span class="s2">"corresponding to examples with label issues such as output by: "</span>
-                        <span class="s2">"filter.find_label_issues(..., return_indices_ranked_by=...)"</span>
+                        <span class="s2">&quot;If label_issues.dtype is &#39;int&#39;, must contain unique integer indices &quot;</span>
+                        <span class="s2">&quot;corresponding to examples with label issues such as output by: &quot;</span>
+                        <span class="s2">&quot;filter.find_label_issues(..., return_indices_ranked_by=...)&quot;</span>
                     <span class="p">)</span>
                 <span class="n">issue_indices</span> <span class="o">=</span> <span class="n">label_issues</span>
                 <span class="n">label_issues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">issue_indices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">label_issues</span><span class="p">[</span><span class="n">issue_indices</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"is_label_issue"</span><span class="p">:</span> <span class="n">label_issues</span><span class="p">})</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;is_label_issue&quot;</span><span class="p">:</span> <span class="n">label_issues</span><span class="p">})</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"label_issues must be either pandas.DataFrame or numpy.array"</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;label_issues must be either pandas.DataFrame or numpy.array&quot;</span><span class="p">)</span></div>
 </pre></div> 
         </article>
       </div>
@@ -1391,6 +1396,7 @@
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     <script src="../../_static/clipboard.min.js"></script>

@@ -1,18 +1,19 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="filter" href="filter.html" /><link rel="prev" title="FAQ" href="../tutorials/faq.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="filter" href="filter.html" /><link rel="prev" title="FAQ" href="../tutorials/faq.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>classification - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +24,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +298,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -351,8 +357,8 @@
 
 <!-- End of Version Warning Banner -->
 
- <div class="section" id="module-cleanlab.classification">
-<span id="classification"></span><h1>classification<a class="headerlink" href="#module-cleanlab.classification" title="Permalink to this headline">#</a></h1>
+ <section id="module-cleanlab.classification">
+<span id="classification"></span><h1>classification<a class="headerlink" href="#module-cleanlab.classification" title="Permalink to this heading">#</a></h1>
 <p>cleanlab can be used for multiclass (or multi-label) learning with noisy labels for any dataset and model.</p>
 <p>The <a class="reference internal" href="#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> class wraps an instance of an
 sklearn classifier. The wrapped classifier must adhere to the <a class="reference external" href="https://scikit-learn.org/stable/developers/develop.html#rolling-your-own-estimator">sklearn estimator API</a>,
@@ -435,31 +441,29 @@ and PU learning.</p>
 matrix <cite>X</cite>, and a discrete vector of noisy labels <cite>labels</cite>, confident learning estimates the
 classifications that would be obtained if the <em>true labels</em> had instead been provided
 to the classifier during training. <cite>labels</cite> denotes the noisy labels instead of
-the <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>y</mi><mo>~</mo></mover></mrow><annotation encoding="application/x-tex">\tilde{y}</annotation></semantics></math></span><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span><span style="top:-3.35em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1944em;"><span class="mord">~</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span></span></span></span></span> used in confident learning paper.</p>
+the <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>y</mi><mo>~</mo></mover></mrow><annotation encoding="application/x-tex">\tilde{y}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span><span style="top:-3.35em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1944em;"><span class="mord">~</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span></span></span></span></span> used in confident learning paper.</p>
 </div>
 <p><strong>Classes:</strong></p>
-<div class="table-wrapper"><table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CleanLearning</span></code></a>([clf, seed, cv_n_folds, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CleanLearning</span></code></a>([clf, seed, cv_n_folds, ...])</p></td>
 <td><p>CleanLearning = Machine Learning with cleaned data (even when training on messy, error-ridden data).</p></td>
 </tr>
 </tbody>
-</table></div>
+</table>
+</div>
 <dl class="py class">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cleanlab.classification.</span></span><span class="sig-name descname"><span class="pre">CleanLearning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cv_n_folds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">converge_latent_estimates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulearning</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">find_label_issues_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_quality_scores_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code></p>
 <p>CleanLearning = Machine Learning with cleaned data (even when training on messy, error-ridden data).</p>
 <p>Automated and robust learning with noisy labels using any dataset and any model. This class
 trains a model <cite>clf</cite> with error-prone, noisy labels as if the model had been instead trained
 on a dataset with perfect labels. It achieves this by cleaning out the error and providing
 cleaned data while training.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>clf</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">estimator</span> <span class="pre">instance</span></code>, <em>optional</em>) – <p>A classifier implementing the <a class="reference external" href="https://scikit-learn.org/stable/developers/develop.html#rolling-your-own-estimator">sklearn estimator API</a>,
 defining the following functions:</p>
@@ -498,16 +502,13 @@ statements.</p></li>
 </dd>
 </dl>
 <p><strong>Methods:</strong></p>
-<div class="table-wrapper"><table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_label_issues</span></code></a>([X, labels, pred_probs, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_label_issues</span></code></a>([X, labels, pred_probs, ...])</p></td>
 <td><p>Identifies potential label issues in the dataset using confident learning.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[, labels, pred_probs, thresholds, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[, labels, pred_probs, thresholds, ...])</p></td>
 <td><p>Train the model <cite>clf</cite> with error-prone, noisy labels as if the model had been instead trained on a dataset with the correct labels.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.get_label_issues" title="cleanlab.classification.CleanLearning.get_label_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_issues</span></code></a>()</p></td>
@@ -516,23 +517,24 @@ statements.</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.get_params" title="cleanlab.classification.CleanLearning.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</p></td>
 <td><p>Get parameters for this estimator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.predict" title="cleanlab.classification.CleanLearning.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.predict" title="cleanlab.classification.CleanLearning.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Returns a vector of predictions.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.predict_proba" title="cleanlab.classification.CleanLearning.predict_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_proba</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.predict_proba" title="cleanlab.classification.CleanLearning.predict_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_proba</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Returns a vector of predicted probabilities for each example in X, <code class="docutils literal notranslate"><span class="pre">P(true</span> <span class="pre">label=k)</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.save_space" title="cleanlab.classification.CleanLearning.save_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_space</span></code></a>()</p></td>
 <td><p>Clears non-sklearn attributes of this estimator to save space (in-place).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.score" title="cleanlab.classification.CleanLearning.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X, y[, sample_weight])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.score" title="cleanlab.classification.CleanLearning.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X, y[, sample_weight])</p></td>
 <td><p>Returns the <cite>clf</cite>'s score on a test set <cite>X</cite> with labels <cite>y</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.set_params" title="cleanlab.classification.CleanLearning.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</p></td>
 <td><p>Set the parameters of this estimator.</p></td>
 </tr>
 </tbody>
-</table></div>
+</table>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.find_label_issues">
 <span class="sig-name descname"><span class="pre">find_label_issues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresholds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inverse_noise_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning.find_label_issues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning.find_label_issues" title="Permalink to this definition">#</a></dt>
@@ -554,14 +556,14 @@ previously-computed label issues from this <a class="reference internal" href="#
 <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>
 and they share mostly the same parameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>save_space</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>optional</em>) – If True, then returned <cite>label_issues_df</cite> will not be stored as attribute.
 This means some other methods like <cite>self.get_label_issues()</cite> will no longer work.</p>
 </dd>
 </dl>
 <p>For info about the <strong>other parameters</strong>, see the docstring of <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p>pandas DataFrame of label issues for each example.
 Unless <cite>save_space</cite> argument is specified, same DataFrame is also stored as
 <cite>self.label_issues_df</cite> attribute accessible via
@@ -577,11 +579,12 @@ the DataFrame may contain the following columns:</p>
 </ul>
 </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresholds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inverse_noise_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_issues</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf_final_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning.fit" title="Permalink to this definition">#</a></dt>
@@ -591,7 +594,7 @@ the model had been instead trained on a dataset with the correct labels.
 using the resulting predicted probabilities to identify label issues,
 pruning the data with label issues, and finally training <cite>clf</cite> on the remaining clean data.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetLike</span></code>) – <p>Data features (i.e. training inputs for ML), typically an array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>,
 where N is the number of examples.
@@ -677,7 +680,7 @@ cross-validation fold into the appropriate format to pass into <cite>clf</cite>�
 <code class="docutils literal notranslate"><span class="pre">clf.fit()</span></code> can utilize validation data if it is appropriately passed in (eg. for early-stopping).
 Eg. if your model’s <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method is called using <code class="docutils literal notranslate"><span class="pre">clf.fit(X,</span> <span class="pre">y,</span> <span class="pre">X_validation,</span> <span class="pre">y_validation)</span></code>,
 then you could set <code class="docutils literal notranslate"><span class="pre">validation_func</span> <span class="pre">=</span> <span class="pre">f</span></code> where
-<code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">f(X_val,</span> <span class="pre">y_val):</span> <span class="pre">return</span> <span class="pre">{"X_validation":</span> <span class="pre">X_val,</span> <span class="pre">"y_validation":</span> <span class="pre">y_val}</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">f(X_val,</span> <span class="pre">y_val):</span> <span class="pre">return</span> <span class="pre">{&quot;X_validation&quot;:</span> <span class="pre">X_val,</span> <span class="pre">&quot;y_validation&quot;:</span> <span class="pre">y_val}</span></code></p>
 <p>Note that <cite>validation_func</cite> will be ignored in the final call to <cite>clf.fit()</cite> on the
 cleaned subset of the data. This argument is only for allowing <cite>clf</cite> to access the
 validation data in each cross-validation fold (eg. for early-stopping or hyperparameter-selection
@@ -690,10 +693,10 @@ Specifying <cite>y</cite> has the same effect as specifying <cite>labels</cite>,
 and is offered as an alternative for compatibility with sklearn.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>self</strong> – Fitted estimator that has all the same methods as any sklearn estimator.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p><a class="reference internal" href="#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a></p>
 <p>After calling <code class="docutils literal notranslate"><span class="pre">self.fit()</span></code>, this estimator also stores extra attributes such as:</p>
 <ul class="simple">
@@ -728,6 +731,7 @@ not just the subset of cleaned data left after pruning out the label issues.</p>
 * Filter the examples with detected issues and train your model on the remaining data.</p>
 </div>
 </dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.get_label_issues">
 <span class="sig-name descname"><span class="pre">get_label_issues</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning.get_label_issues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning.get_label_issues" title="Permalink to this definition">#</a></dt>
@@ -737,49 +741,53 @@ This <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</
 For column definitions, see the documentation of
 <a class="reference internal" href="#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.find_label_issues</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.get_params">
 <span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cleanlab.classification.CleanLearning.get_params" title="Permalink to this definition">#</a></dt>
 <dd><p>Get parameters for this estimator.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>deep</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – If True, will return the parameters for this estimator and
 contained subobjects that are estimators.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>params</strong> – Parameter names mapped to their values.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.predict">
 <span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning.predict" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a vector of predictions.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.predict_proba">
 <span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning.predict_proba" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a vector of predicted probabilities for each example in X,
 <code class="docutils literal notranslate"><span class="pre">P(true</span> <span class="pre">label=k)</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.save_space">
 <span class="sig-name descname"><span class="pre">save_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning.save_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning.save_space" title="Permalink to this definition">#</a></dt>
@@ -789,13 +797,14 @@ You may want to call this method before deploying this model (i.e. if you just c
 After calling this method, certain non-prediction-related attributes/functionality will no longer be available
 (e.g. you cannot call <code class="docutils literal notranslate"><span class="pre">self.fit()</span></code> anymore).</p>
 </dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.score">
 <span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning.score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning.score" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns the <cite>clf</cite>’s score on a test set <cite>X</cite> with labels <cite>y</cite>.
 Uses the model’s default scoring function.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p></li>
 <li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> or <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">1)</span></code> of test labels.</p></li>
@@ -804,6 +813,7 @@ Uses the model’s default scoring function.</p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.set_params">
 <span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cleanlab.classification.CleanLearning.set_params" title="Permalink to this definition">#</a></dt>
@@ -813,19 +823,21 @@ Uses the model’s default scoring function.</p>
 parameters of the form <code class="docutils literal notranslate"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s
 possible to update each component of a nested object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>**params</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – Estimator parameters.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>self</strong> – Estimator instance.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">estimator</span> <span class="pre">instance</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 </dd></dl>
-</div>
+
+</section>
  
         </article>
       </div>
@@ -899,6 +911,7 @@ possible to update each component of a nested object.</p>
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

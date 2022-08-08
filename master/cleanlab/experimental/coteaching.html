@@ -1,18 +1,19 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="cifar_cnn" href="cifar_cnn.html" /><link rel="prev" title="mnist_pytorch" href="mnist_pytorch.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="cifar_cnn" href="cifar_cnn.html" /><link rel="prev" title="mnist_pytorch" href="mnist_pytorch.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>coteaching - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +24,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +298,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -351,65 +357,67 @@
 
 <!-- End of Version Warning Banner -->
 
- <div class="section" id="module-cleanlab.experimental.coteaching">
-<span id="coteaching"></span><h1>coteaching<a class="headerlink" href="#module-cleanlab.experimental.coteaching" title="Permalink to this headline">#</a></h1>
+ <section id="module-cleanlab.experimental.coteaching">
+<span id="coteaching"></span><h1>coteaching<a class="headerlink" href="#module-cleanlab.experimental.coteaching" title="Permalink to this heading">#</a></h1>
 <p>Implements the co-teaching algorithm for training neural networks on noisily-labeled data (Han et al., 2018).
 This module requires PyTorch (<a class="reference external" href="https://pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a>).
 Example using this algorithm with cleanlab to achieve state of the art on CIFAR-10
 for learning with noisy labels is provided within: <a class="reference external" href="https://github.com/cleanlab/examples/">https://github.com/cleanlab/examples/</a></p>
 <p><code class="docutils literal notranslate"><span class="pre">cifar_cnn.py</span></code> provides an example model that can be trained via this algorithm.</p>
 <p><strong>Functions:</strong></p>
-<div class="table-wrapper"><table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.adjust_learning_rate" title="cleanlab.experimental.coteaching.adjust_learning_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_learning_rate</span></code></a>(optimizer, epoch, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.adjust_learning_rate" title="cleanlab.experimental.coteaching.adjust_learning_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_learning_rate</span></code></a>(optimizer, epoch, ...)</p></td>
 <td><p>Scheduler to adjust learning rate and betas for Adam Optimizer</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.evaluate" title="cleanlab.experimental.coteaching.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate</span></code></a>(test_loader, model1, model2)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.evaluate" title="cleanlab.experimental.coteaching.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate</span></code></a>(test_loader, model1, model2)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.forget_rate_scheduler" title="cleanlab.experimental.coteaching.forget_rate_scheduler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forget_rate_scheduler</span></code></a>(epochs, forget_rate, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.forget_rate_scheduler" title="cleanlab.experimental.coteaching.forget_rate_scheduler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forget_rate_scheduler</span></code></a>(epochs, forget_rate, ...)</p></td>
 <td><p>Tells Co-Teaching what fraction of examples to forget at each epoch.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.initialize_lr_scheduler" title="cleanlab.experimental.coteaching.initialize_lr_scheduler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_lr_scheduler</span></code></a>([lr, epochs, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.initialize_lr_scheduler" title="cleanlab.experimental.coteaching.initialize_lr_scheduler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_lr_scheduler</span></code></a>([lr, epochs, ...])</p></td>
 <td><p>Scheduler to adjust learning rate and betas for Adam Optimizer</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.loss_coteaching" title="cleanlab.experimental.coteaching.loss_coteaching"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loss_coteaching</span></code></a>(y_1, y_2, t, forget_rate[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.loss_coteaching" title="cleanlab.experimental.coteaching.loss_coteaching"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loss_coteaching</span></code></a>(y_1, y_2, t, forget_rate[, ...])</p></td>
 <td><p>Co-Teaching Loss function.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.train" title="cleanlab.experimental.coteaching.train"><code class="xref py py-obj docutils literal notranslate"><span class="pre">train</span></code></a>(train_loader, epoch, model1, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.coteaching.train" title="cleanlab.experimental.coteaching.train"><code class="xref py py-obj docutils literal notranslate"><span class="pre">train</span></code></a>(train_loader, epoch, model1, ...)</p></td>
 <td><p>PyTorch training function.</p></td>
 </tr>
 </tbody>
-</table></div>
+</table>
+</div>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.experimental.coteaching.adjust_learning_rate">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.experimental.coteaching.</span></span><span class="sig-name descname"><span class="pre">adjust_learning_rate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_plan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta1_plan</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/coteaching.html#adjust_learning_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.coteaching.adjust_learning_rate" title="Permalink to this definition">#</a></dt>
 <dd><p>Scheduler to adjust learning rate and betas for Adam Optimizer</p>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.experimental.coteaching.evaluate">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.experimental.coteaching.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/coteaching.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.coteaching.evaluate" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.experimental.coteaching.forget_rate_scheduler">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.experimental.coteaching.</span></span><span class="sig-name descname"><span class="pre">forget_rate_scheduler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forget_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_gradual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exponent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/coteaching.html#forget_rate_scheduler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.coteaching.forget_rate_scheduler" title="Permalink to this definition">#</a></dt>
 <dd><p>Tells Co-Teaching what fraction of examples to forget at each epoch.</p>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.experimental.coteaching.initialize_lr_scheduler">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.experimental.coteaching.</span></span><span class="sig-name descname"><span class="pre">initialize_lr_scheduler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">250</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch_decay_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/coteaching.html#initialize_lr_scheduler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.coteaching.initialize_lr_scheduler" title="Permalink to this definition">#</a></dt>
 <dd><p>Scheduler to adjust learning rate and betas for Adam Optimizer</p>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.experimental.coteaching.loss_coteaching">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.experimental.coteaching.</span></span><span class="sig-name descname"><span class="pre">loss_coteaching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forget_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/coteaching.html#loss_coteaching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.coteaching.loss_coteaching" title="Permalink to this definition">#</a></dt>
 <dd><p>Co-Teaching Loss function.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y_1</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span> <span class="pre">array</span></code>) – Output logits from model 1</p></li>
 <li><p><strong>y_2</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tensor</span> <span class="pre">array</span></code>) – Output logits from model 2</p></li>
@@ -421,12 +429,13 @@ Just use rate_schedule[epoch] for this value</p></li>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.experimental.coteaching.train">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.experimental.coteaching.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forget_rate_schedule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accuracy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/coteaching.html#train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.coteaching.train" title="Permalink to this definition">#</a></dt>
 <dd><p>PyTorch training function.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>train_loader</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code>) – </p></li>
 <li><p><strong>epoch</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
@@ -443,7 +452,8 @@ computing top1 and top5 accuracy given output and true targets.</p></li>
 </dd>
 </dl>
 </dd></dl>
-</div>
+
+</section>
  
         </article>
       </div>
@@ -517,6 +527,7 @@ computing top1 and top5 accuracy given output and true targets.</p></li>
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     <script src="../../_static/clipboard.min.js"></script>

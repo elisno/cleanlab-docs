@@ -1,18 +1,19 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="benchmarking" href="benchmarking/index.html" /><link rel="prev" title="count" href="count.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="benchmarking" href="benchmarking/index.html" /><link rel="prev" title="count" href="count.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>dataset - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +24,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +298,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -351,30 +357,28 @@
 
 <!-- End of Version Warning Banner -->
 
- <div class="section" id="module-cleanlab.dataset">
-<span id="dataset"></span><h1>dataset<a class="headerlink" href="#module-cleanlab.dataset" title="Permalink to this headline">#</a></h1>
+ <section id="module-cleanlab.dataset">
+<span id="dataset"></span><h1>dataset<a class="headerlink" href="#module-cleanlab.dataset" title="Permalink to this heading">#</a></h1>
 <p>Provides dataset-level and class-level overviews of issues in your dataset. If your task allows you to modify the classes in your dataset, this module can help you determine which classes to remove (see <a class="reference internal" href="#cleanlab.dataset.rank_classes_by_label_quality" title="cleanlab.dataset.rank_classes_by_label_quality"><code class="xref py py-func docutils literal notranslate"><span class="pre">rank_classes_by_label_quality</span></code></a>) and which classes to merge (see <a class="reference internal" href="#cleanlab.dataset.find_overlapping_classes" title="cleanlab.dataset.find_overlapping_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_overlapping_classes</span></code></a>).</p>
 <p><strong>Functions:</strong></p>
-<div class="table-wrapper"><table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.dataset.find_overlapping_classes" title="cleanlab.dataset.find_overlapping_classes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_overlapping_classes</span></code></a>([labels, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.dataset.find_overlapping_classes" title="cleanlab.dataset.find_overlapping_classes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_overlapping_classes</span></code></a>([labels, ...])</p></td>
 <td><p>Returns the pairs of classes that are often mislabeled as one another.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.dataset.health_summary" title="cleanlab.dataset.health_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">health_summary</span></code></a>([labels, pred_probs, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.dataset.health_summary" title="cleanlab.dataset.health_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">health_summary</span></code></a>([labels, pred_probs, ...])</p></td>
 <td><p>Prints a health summary of your datasets including useful statistics like:</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.dataset.overall_label_health_score" title="cleanlab.dataset.overall_label_health_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">overall_label_health_score</span></code></a>([labels, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.dataset.overall_label_health_score" title="cleanlab.dataset.overall_label_health_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">overall_label_health_score</span></code></a>([labels, ...])</p></td>
 <td><p>Returns a single score between 0 and 1 measuring the overall quality of all labels in a dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.dataset.rank_classes_by_label_quality" title="cleanlab.dataset.rank_classes_by_label_quality"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rank_classes_by_label_quality</span></code></a>([labels, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.dataset.rank_classes_by_label_quality" title="cleanlab.dataset.rank_classes_by_label_quality"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rank_classes_by_label_quality</span></code></a>([labels, ...])</p></td>
 <td><p>Returns a Pandas DataFrame with all classes and three overall class label quality scores (details about each score are listed in the Returns parameter).</p></td>
 </tr>
 </tbody>
-</table></div>
+</table>
+</div>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.dataset.find_overlapping_classes">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.dataset.</span></span><span class="sig-name descname"><span class="pre">find_overlapping_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asymmetric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_examples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confident_joint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/dataset.html#find_overlapping_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.dataset.find_overlapping_classes" title="Permalink to this definition">#</a></dt>
@@ -400,7 +404,7 @@ issues via the approach published in <a class="reference external" href="https:/
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The joint distribution of noisy and true labels is asymmetric, and therefore the joint
-probability <code class="docutils literal notranslate"><span class="pre">p(given="vehicle",</span> <span class="pre">true="truck")</span> <span class="pre">!=</span> <span class="pre">p(true="truck",</span> <span class="pre">given="vehicle")</span></code>.
+probability <code class="docutils literal notranslate"><span class="pre">p(given=&quot;vehicle&quot;,</span> <span class="pre">true=&quot;truck&quot;)</span> <span class="pre">!=</span> <span class="pre">p(true=&quot;truck&quot;,</span> <span class="pre">given=&quot;vehicle&quot;)</span></code>.
 This is intuitive. Images of trucks (true label) are much more likely to be labeled as a car
 (given label) than images of cars (true label) being frequently mislabeled as truck (given
 label). cleanlab takes these differences into account for you automatically via the joint
@@ -411,12 +415,12 @@ as these summarize characteristics of the predictive model rather than the data 
 Instead, this method works even if the model that generated <cite>pred_probs</cite> tends to be more confident in some classes than others.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in the set 0, 1, …, K-1, where K is the number of classes.
 All the classes (0, 1, …, and K-1) MUST be present in <code class="docutils literal notranslate"><span class="pre">labels</span></code>, such that
-<code class="docutils literal notranslate"><span class="pre">len(set(labels))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1]</span></code> for standard multi-class classification with single-labeled data (e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span>  <span class="pre">[1,0,2,1,1,0...]</span></code>).
+<code class="docutils literal notranslate"><span class="pre">len(set(labels))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1]</span></code> for standard multi-class classification with single-labeled data (e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span>&#160; <span class="pre">[1,0,2,1,1,0...]</span></code>).
 For multi-label classification where each example can belong to multiple classes(e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">[[1,2],[1],[0],..]</span></code>),
 your labels should instead satisfy: <code class="docutils literal notranslate"><span class="pre">len(set(k</span> <span class="pre">for</span> <span class="pre">l</span> <span class="pre">in</span> <span class="pre">labels</span> <span class="pre">for</span> <span class="pre">k</span> <span class="pre">in</span> <span class="pre">l))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1])</span></code>.</p></li>
 <li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
@@ -454,7 +458,7 @@ The multi-label setting supports classification tasks where an example has 1 or 
 Example of a multi-labeled <cite>labels</cite> input: <code class="docutils literal notranslate"><span class="pre">[[0,1],</span> <span class="pre">[1],</span> <span class="pre">[0,2],</span> <span class="pre">[0,1,2],</span> <span class="pre">[0],</span> <span class="pre">[1],</span> <span class="pre">...]</span></code>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><p>A Pandas DataFrame with columns “Class Index A”, “Class Index B”,
 “Num Overlapping Examples”, “Joint Probability” and a description of each below.
 Each row corresponds to a pair of classes.</p>
@@ -467,11 +471,12 @@ Each row corresponds to a pair of classes.</p>
 <p>By default, the DataFrame is ordered by “Joint Probability” descending.</p>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.dataset.health_summary">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.dataset.</span></span><span class="sig-name descname"><span class="pre">health_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asymmetric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_examples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confident_joint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/dataset.html#health_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.dataset.health_summary" title="Permalink to this definition">#</a></dt>
@@ -490,21 +495,22 @@ Each row corresponds to a pair of classes.</p>
 <p>Only provide <strong>exactly one of the above input options</strong>, do not provide a combination.</p>
 <p><strong>Parameters</strong>: For parameter info, see the docstring of <a class="reference internal" href="#cleanlab.dataset.find_overlapping_classes" title="cleanlab.dataset.find_overlapping_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_overlapping_classes</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p>A dictionary containing keys (see the corresponding functions’ documentation to understand the values):</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">"overall_label_health_score"</span></code>, corresponding to <a class="reference internal" href="#cleanlab.dataset.overall_label_health_score" title="cleanlab.dataset.overall_label_health_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">overall_label_health_score</span></code></a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">"joint"</span></code>, corresponding to <a class="reference internal" href="count.html#cleanlab.count.estimate_joint" title="cleanlab.count.estimate_joint"><code class="xref py py-func docutils literal notranslate"><span class="pre">estimate_joint</span></code></a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">"classes_by_label_quality"</span></code>, corresponding to <a class="reference internal" href="#cleanlab.dataset.rank_classes_by_label_quality" title="cleanlab.dataset.rank_classes_by_label_quality"><code class="xref py py-func docutils literal notranslate"><span class="pre">rank_classes_by_label_quality</span></code></a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">"overlapping_classes"</span></code>, corresponding to <a class="reference internal" href="#cleanlab.dataset.find_overlapping_classes" title="cleanlab.dataset.find_overlapping_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_overlapping_classes</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;overall_label_health_score&quot;</span></code>, corresponding to <a class="reference internal" href="#cleanlab.dataset.overall_label_health_score" title="cleanlab.dataset.overall_label_health_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">overall_label_health_score</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;joint&quot;</span></code>, corresponding to <a class="reference internal" href="count.html#cleanlab.count.estimate_joint" title="cleanlab.count.estimate_joint"><code class="xref py py-func docutils literal notranslate"><span class="pre">estimate_joint</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;classes_by_label_quality&quot;</span></code>, corresponding to <a class="reference internal" href="#cleanlab.dataset.rank_classes_by_label_quality" title="cleanlab.dataset.rank_classes_by_label_quality"><code class="xref py py-func docutils literal notranslate"><span class="pre">rank_classes_by_label_quality</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;overlapping_classes&quot;</span></code>, corresponding to <a class="reference internal" href="#cleanlab.dataset.find_overlapping_classes" title="cleanlab.dataset.find_overlapping_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_overlapping_classes</span></code></a></p></li>
 </ul>
 </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.dataset.overall_label_health_score">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.dataset.</span></span><span class="sig-name descname"><span class="pre">overall_label_health_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_examples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confident_joint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/dataset.html#overall_label_health_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.dataset.overall_label_health_score" title="Permalink to this definition">#</a></dt>
@@ -522,15 +528,16 @@ score implies a higher quality dataset.</p>
 <p>Only provide <strong>exactly one of the above input options</strong>, do not provide a combination.</p>
 <p><strong>Parameters</strong>: For parameter info, see the docstring of <a class="reference internal" href="#cleanlab.dataset.find_overlapping_classes" title="cleanlab.dataset.find_overlapping_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_overlapping_classes</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>health_score</strong> – A score between 0 and 1, where 1 implies all labels in the dataset are estimated to be correct.
 A score of 0.5 implies that half of the dataset’s labels are estimated to have issues.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.dataset.rank_classes_by_label_quality">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.dataset.</span></span><span class="sig-name descname"><span class="pre">rank_classes_by_label_quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_examples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confident_joint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/dataset.html#rank_classes_by_label_quality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.dataset.rank_classes_by_label_quality" title="Permalink to this definition">#</a></dt>
@@ -548,7 +555,7 @@ ranking across the classes.</p>
 <p>Only provide <strong>exactly one of the above input options</strong>, do not provide a combination.</p>
 <p><strong>Parameters</strong>: For parameter info, see the docstring of <a class="reference internal" href="#cleanlab.dataset.find_overlapping_classes" title="cleanlab.dataset.find_overlapping_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_overlapping_classes</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p>A Pandas DataFrame with cols “Class Index”, “Label Issues”, “Inverse Label Issues”,
 “Label Issues”, “Inverse Label Noise”, “Label Quality Score”,
 with a description of each of these columns below.
@@ -567,12 +574,13 @@ perfect quality. Columns:</p>
 <p>By default, the DataFrame is ordered by “Label Quality Score”, ascending.</p>
 </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
 </dd>
 </dl>
 </dd></dl>
-</div>
+
+</section>
  
         </article>
       </div>
@@ -646,6 +654,7 @@ perfect quality. Columns:</p>
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

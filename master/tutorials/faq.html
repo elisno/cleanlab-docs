@@ -1,18 +1,19 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="classification" href="../cleanlab/classification.html" /><link rel="prev" title="Detecting Outliers with Cleanlab and PyTorch Image Models (timm)" href="outliers.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="classification" href="../cleanlab/classification.html" /><link rel="prev" title="Detecting Outliers with Cleanlab and PyTorch Image Models (timm)" href="outliers.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>FAQ - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +24,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +298,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -618,6 +624,7 @@ div.rendered_html tbody tr:hover {
         color:black;
     }
 </style>
+
 <script type="text/javascript">
     window.addEventListener('load', () => {
         const h1_element = document.getElementsByTagName("h1");
@@ -631,18 +638,18 @@ div.rendered_html tbody tr:hover {
         `);
     })
 
-</script><div class="section" id="FAQ">
-<h1>FAQ<a class="headerlink" href="#FAQ" title="Permalink to this headline">#</a></h1>
+</script><section id="FAQ">
+<h1>FAQ<a class="headerlink" href="#FAQ" title="Permalink to this heading">#</a></h1>
 <p>Answers to frequently asked questions about the <a class="reference external" href="https://github.com/cleanlab/cleanlab">cleanlab</a> open-source package.</p>
-<div class="section" id="What-data-can-cleanlab-detect-issues-in?">
-<h2>What data can cleanlab detect issues in?<a class="headerlink" href="#What-data-can-cleanlab-detect-issues-in?" title="Permalink to this headline">#</a></h2>
+<section id="What-data-can-cleanlab-detect-issues-in?">
+<h2>What data can cleanlab detect issues in?<a class="headerlink" href="#What-data-can-cleanlab-detect-issues-in?" title="Permalink to this heading">#</a></h2>
 <p>Currently, cleanlab can be used to detect label issues in any classification dataset. We’re working to add support for all common supervised learning tasks. If you have a particular task in mind, <a class="reference external" href="https://github.com/cleanlab/cleanlab/issues?q=is%3Aissue">let us know</a>!</p>
-</div>
-<div class="section" id="How-do-I-format-classification-labels-for-Cleanlab?">
-<h2>How do I format classification labels for Cleanlab?<a class="headerlink" href="#How-do-I-format-classification-labels-for-Cleanlab?" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="How-do-I-format-classification-labels-for-Cleanlab?">
+<h2>How do I format classification labels for Cleanlab?<a class="headerlink" href="#How-do-I-format-classification-labels-for-Cleanlab?" title="Permalink to this heading">#</a></h2>
 <p>Cleanlab only works with integer-encoded labels in the range <code class="docutils literal notranslate"><span class="pre">{0,1,</span> <span class="pre">...</span> <span class="pre">K-1}</span></code> where <code class="docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">number_of_classes</span></code>. The <code class="docutils literal notranslate"><span class="pre">labels</span></code> array should only contain integer values in the range <code class="docutils literal notranslate"><span class="pre">{0,</span> <span class="pre">K-1}</span></code> and be of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> where <code class="docutils literal notranslate"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">total_number_of_data_points</span></code>. Do not pass in <code class="docutils literal notranslate"><span class="pre">labels</span></code> where some classes are entirely missing or are extremely rare, as cleanlab may not perform as expected. It is better to remove such classes entirely from the dataset first (also dropping the corresponding
 dimensions from <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and then renormalizing it).</p>
-<p><strong>Text or string labels</strong> should to be mapped to integers for each possible value. For example if your original data labels look like this: <code class="docutils literal notranslate"><span class="pre">["dog",</span> <span class="pre">"dog",</span> <span class="pre">"cat",</span> <span class="pre">"mouse",</span> <span class="pre">"cat"]</span></code>, you should feed them to Cleanlab like this: <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">[1,1,0,2,0]</span></code> and keep track of which integer uniquely represents which class (classes were ordered alphabetically in this example).</p>
+<p><strong>Text or string labels</strong> should to be mapped to integers for each possible value. For example if your original data labels look like this: <code class="docutils literal notranslate"><span class="pre">[&quot;dog&quot;,</span> <span class="pre">&quot;dog&quot;,</span> <span class="pre">&quot;cat&quot;,</span> <span class="pre">&quot;mouse&quot;,</span> <span class="pre">&quot;cat&quot;]</span></code>, you should feed them to Cleanlab like this: <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">[1,1,0,2,0]</span></code> and keep track of which integer uniquely represents which class (classes were ordered alphabetically in this example).</p>
 <p><strong>One-hot encoded labels</strong> should be integer-encoded by finding the argmax along the one-hot encoded axis. An example of what this might look like is shown below.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -658,9 +665,9 @@ dimensions from <code class="docutils literal notranslate"><span class="pre">pre
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Why-isn’t-CleanLearning-working-for-me?">
-<h2>Why isn’t CleanLearning working for me?<a class="headerlink" href="#Why-isn’t-CleanLearning-working-for-me?" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="Why-isn’t-CleanLearning-working-for-me?">
+<h2>Why isn’t CleanLearning working for me?<a class="headerlink" href="#Why-isn’t-CleanLearning-working-for-me?" title="Permalink to this heading">#</a></h2>
 <p>At this time, CleanLearning only works with data formatted as numpy matrices or pd.DataFrames, and with models that are compatible with the <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> API (check out <a class="reference external" href="https://github.com/skorch-dev/skorch">skorch</a> for Pytorch compatibility and <a class="reference external" href="https://github.com/adriangb/scikeras">scikeras</a> for Tensorflow/Keras compatibility). You can still use cleanlab with other data formats though! Just separately obtain predicted probabilities (<code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>) from your model via cross-validation and
 pass them as inputs.</p>
 <p>If CleanLearning is running successfully but not improving predictive accuracy of your model, here are some tips:</p>
@@ -677,9 +684,9 @@ pass them as inputs.</p>
 <li><p>Try creating more restrictive new filters by combining their intersections (e.g. <code class="docutils literal notranslate"><span class="pre">combined_boolean_mask</span> <span class="pre">=</span> <span class="pre">mask1</span> <span class="pre">&amp;</span> <span class="pre">mask2</span></code> where <code class="docutils literal notranslate"><span class="pre">mask1</span></code> and <code class="docutils literal notranslate"><span class="pre">mask2</span></code> are the boolean masks created by running <code class="docutils literal notranslate"><span class="pre">find_label_issues</span></code> with different values of the <code class="docutils literal notranslate"><span class="pre">filter_by</span></code> argument).</p></li>
 <li><p>If your <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> are obtained via a neural network, try averaging the <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> over the last K epochs of training instead of just using the final <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>. Similarly, you can try averaging <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> from several models (remember to re-normalize) or using <code class="docutils literal notranslate"><span class="pre">cleanlab.rank.get_label_quality_ensemble_scores</span></code>.</p></li>
 </ol>
-</div>
-<div class="section" id="How-can-I-use-different-models-for-data-cleaning-vs. final-training-in-CleanLearning?">
-<h2>How can I use different models for data cleaning vs. final training in CleanLearning?<a class="headerlink" href="#How-can-I-use-different-models-for-data-cleaning-vs. final-training-in-CleanLearning?" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="How-can-I-use-different-models-for-data-cleaning-vs. final-training-in-CleanLearning?">
+<h2>How can I use different models for data cleaning vs. final training in CleanLearning?<a class="headerlink" href="#How-can-I-use-different-models-for-data-cleaning-vs. final-training-in-CleanLearning?" title="Permalink to this heading">#</a></h2>
 <p>The code below demonstrates CleanLearning with 2 different classifiers: <code class="docutils literal notranslate"><span class="pre">LogisticRegression()</span></code> and <code class="docutils literal notranslate"><span class="pre">GradientBoostingClassifier()</span></code>. A <code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code> model is used to detect label issues (via cross-validation run inside CleanLearning) and a <code class="docutils literal notranslate"><span class="pre">GradientBoostingClassifier</span></code> model is finally trained on a clean subset of the data with issues removed. This can be done with any two classifiers.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -721,8 +728,8 @@ pass them as inputs.</p>
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-08-05 16:33:13.191718: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-08-05 16:33:13.191750: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-08-08 10:19:55.283509: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-08-08 10:19:55.283549: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -734,9 +741,9 @@ LogisticRegression()
 GradientBoostingClassifier()
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="How-do-I-hyperparameter-tune-only-the-final-model-trained-(and-not-the-one-finding-label-issues)-in-CleanLearning?">
-<h2>How do I hyperparameter tune only the final model trained (and not the one finding label issues) in CleanLearning?<a class="headerlink" href="#How-do-I-hyperparameter-tune-only-the-final-model-trained-(and-not-the-one-finding-label-issues)-in-CleanLearning?" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="How-do-I-hyperparameter-tune-only-the-final-model-trained-(and-not-the-one-finding-label-issues)-in-CleanLearning?">
+<h2>How do I hyperparameter tune only the final model trained (and not the one finding label issues) in CleanLearning?<a class="headerlink" href="#How-do-I-hyperparameter-tune-only-the-final-model-trained-(and-not-the-one-finding-label-issues)-in-CleanLearning?" title="Permalink to this heading">#</a></h2>
 <p>The code below demonstrates CleanLearning using a <code class="docutils literal notranslate"><span class="pre">GradientBoostingClassifier()</span></code> with no hyperparameter-tuning to find label issues but with hyperparameter-tuning via <code class="docutils literal notranslate"><span class="pre">RandomizedSearchCV(...)</span></code> for the final training of this model on the clean subset of the data. This is a useful trick to avoid expensive hyperparameter-tuning for every fold of cross-validation (which is needed to find label issues).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
@@ -762,8 +769,8 @@ GradientBoostingClassifier()
 <span class="n">model_to_find_errors</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">()</span>  <span class="c1"># this model will be trained many times via cross-validation</span>
 <span class="n">model_to_return</span> <span class="o">=</span> <span class="n">RandomizedSearchCV</span><span class="p">(</span><span class="n">GradientBoostingClassifier</span><span class="p">(),</span>
                     <span class="n">param_distributions</span> <span class="o">=</span> <span class="p">{</span>
-                        <span class="s2">"learning_rate"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
-                        <span class="s2">"max_depth"</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+                        <span class="s2">&quot;learning_rate&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+                        <span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
                     <span class="p">}</span>
                 <span class="p">)</span>   <span class="c1"># this model will be trained once on clean subset of data</span>
 
@@ -785,24 +792,24 @@ GradientBoostingClassifier()
 <div class="highlight"><pre>
 GradientBoostingClassifier()
 RandomizedSearchCV(estimator=GradientBoostingClassifier(),
-                   param_distributions={'learning_rate': [0.001, 0.05, 0.1, 0.2,
+                   param_distributions={&#39;learning_rate&#39;: [0.001, 0.05, 0.1, 0.2,
                                                           0.5],
-                                        'max_depth': [3, 5, 10]})
+                                        &#39;max_depth&#39;: [3, 5, 10]})
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="What-license-is-cleanlab-open-sourced-under?">
-<h2>What license is cleanlab open-sourced under?<a class="headerlink" href="#What-license-is-cleanlab-open-sourced-under?" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="What-license-is-cleanlab-open-sourced-under?">
+<h2>What license is cleanlab open-sourced under?<a class="headerlink" href="#What-license-is-cleanlab-open-sourced-under?" title="Permalink to this heading">#</a></h2>
 <p><a class="reference external" href="https://github.com/cleanlab/cleanlab/blob/master/LICENSE">AGPL-3.0 license</a></p>
 <p><strong>What does this mean?</strong> If you’re working at a company, you can use this open-source library to clean up your internal datasets. You can also use this open-source library to clean up a dataset used to train a model that is deployed in a commercial product. For non-commercial purposes, feel free to release altered versions of the source code as long as you include the same license.</p>
-<p>Please email <code class="docutils literal notranslate"><span class="pre">info@cleanlab.ai</span></code> to discuss licensing needs if you would like to offer a commercial product that utilizes any cleanlab source code.</p>
-</div>
-<div class="section" id="Can’t-find-an-answer-to-your-question?">
-<h2>Can’t find an answer to your question?<a class="headerlink" href="#Can’t-find-an-answer-to-your-question?" title="Permalink to this headline">#</a></h2>
+<p>Please email <code class="docutils literal notranslate"><span class="pre">info&#64;cleanlab.ai</span></code> to discuss licensing needs if you would like to offer a commercial product that utilizes any cleanlab source code.</p>
+</section>
+<section id="Can’t-find-an-answer-to-your-question?">
+<h2>Can’t find an answer to your question?<a class="headerlink" href="#Can’t-find-an-answer-to-your-question?" title="Permalink to this heading">#</a></h2>
 <p>If your question is not addressed in these tutorials, please refer to the: <a class="reference external" href="https://github.com/cleanlab/cleanlab/issues?q=is%3Aissue">Cleanlab Github issues</a>, <a class="reference external" href="https://github.com/cleanlab/examples">Cleanlab Code Examples</a> or our <a class="reference external" href="https://cleanlab.ai/slack">Slack Community</a>.</p>
 <p>If your question is not addressed anywhere, please open a <a class="reference external" href="https://github.com/cleanlab/cleanlab/issues/new/choose">new Github issue</a>. Our developers may also provide personalized assistance in our <a class="reference external" href="https://cleanlab.ai/slack">Slack Community</a>.</p>
-</div>
-</div>
+</section>
+</section>
  
         </article>
       </div>
@@ -901,6 +908,7 @@ RandomizedSearchCV(estimator=GradientBoostingClassifier(),
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

@@ -1,18 +1,18 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>cleanlab.rank - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +23,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +297,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -369,8 +374,8 @@
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
 
-<span class="sd">"""</span>
-<span class="sd">Methods to rank/order data by cleanlab's `label quality score`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Methods to rank/order data by cleanlab&#39;s `label quality score`.</span>
 <span class="sd">Except for :py:func:`order_label_issues &lt;cleanlab.rank.order_label_issues&gt;`, which operates only on the subset of the data identified</span>
 <span class="sd">as potential label issues/errors, the methods in this module can be used on whichever subset</span>
 <span class="sd">of the dataset you choose (including the entire dataset) and provide a `label quality score` for</span>
@@ -386,7 +391,7 @@
 <span class="sd">To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use :ref:`cross-validation &lt;pred_probs_cross_val&gt;`.</span>
 <span class="sd">Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating</span>
 <span class="sd">labels in data that was previously held-out.</span>
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">log_loss</span>
@@ -406,12 +411,12 @@
     <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">rank_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"self_confidence"</span><span class="p">,</span>
+    <span class="n">rank_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>
     <span class="n">rank_by_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">"""Sorts label issues by label quality score.</span>
+    <span class="sd">&quot;&quot;&quot;Sorts label issues by label quality score.</span>
 
-<span class="sd">    Default label quality score is "self_confidence".</span>
+<span class="sd">    Default label quality score is &quot;self_confidence&quot;.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -441,7 +446,7 @@
 <span class="sd">      Return an array of the indices of the label issues, ordered by the label-quality scoring method</span>
 <span class="sd">      passed to `rank_by`.</span>
 
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -463,10 +468,10 @@
     <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"self_confidence"</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>
     <span class="n">adjust_pred_probs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">"""Returns label quality scores for each datapoint.</span>
+    <span class="sd">&quot;&quot;&quot;Returns label quality scores for each datapoint.</span>
 
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
 <span class="sd">    where lower scores indicate labels less likely to be correct.</span>
@@ -499,15 +504,15 @@
 <span class="sd">      Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating</span>
 <span class="sd">      data that was previously held-out.</span>
 
-<span class="sd">    method : {"self_confidence", "normalized_margin", "confidence_weighted_entropy"}, default="self_confidence"</span>
+<span class="sd">    method : {&quot;self_confidence&quot;, &quot;normalized_margin&quot;, &quot;confidence_weighted_entropy&quot;}, default=&quot;self_confidence&quot;</span>
 <span class="sd">      Label quality scoring method.</span>
 
 <span class="sd">      Letting ``k = labels[i]`` and ``P = pred_probs[i]`` denote the given label and predicted class-probabilities</span>
 <span class="sd">      for datapoint *i*, its score can either be:</span>
 
-<span class="sd">      - ``'normalized_margin'``: ``P[k] - max_{k' != k}[ P[k'] ]``</span>
-<span class="sd">      - ``'self_confidence'``: ``P[k]``</span>
-<span class="sd">      - ``'confidence_weighted_entropy'``: ``entropy(P) / self_confidence``</span>
+<span class="sd">      - ``&#39;normalized_margin&#39;``: ``P[k] - max_{k&#39; != k}[ P[k&#39;] ]``</span>
+<span class="sd">      - ``&#39;self_confidence&#39;``: ``P[k]``</span>
+<span class="sd">      - ``&#39;confidence_weighted_entropy&#39;``: ``entropy(P) / self_confidence``</span>
 
 <span class="sd">      Let ``C = {0, 1, ..., K-1}`` denote the specified set of classes for our classification task.</span>
 
@@ -535,15 +540,15 @@
 <span class="sd">    get_normalized_margin_for_each_label</span>
 <span class="sd">    get_confidence_weighted_entropy_for_each_label</span>
 
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># Available scoring functions to choose from</span>
     <span class="n">scoring_funcs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">"self_confidence"</span><span class="p">:</span> <span class="n">get_self_confidence_for_each_label</span><span class="p">,</span>
-        <span class="s2">"normalized_margin"</span><span class="p">:</span> <span class="n">get_normalized_margin_for_each_label</span><span class="p">,</span>
-        <span class="s2">"confidence_weighted_entropy"</span><span class="p">:</span> <span class="n">get_confidence_weighted_entropy_for_each_label</span><span class="p">,</span>
+        <span class="s2">&quot;self_confidence&quot;</span><span class="p">:</span> <span class="n">get_self_confidence_for_each_label</span><span class="p">,</span>
+        <span class="s2">&quot;normalized_margin&quot;</span><span class="p">:</span> <span class="n">get_normalized_margin_for_each_label</span><span class="p">,</span>
+        <span class="s2">&quot;confidence_weighted_entropy&quot;</span><span class="p">:</span> <span class="n">get_confidence_weighted_entropy_for_each_label</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="c1"># Select scoring function</span>
@@ -551,23 +556,23 @@
         <span class="n">scoring_func</span> <span class="o">=</span> <span class="n">scoring_funcs</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"""</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> is not a valid scoring method for rank_by!</span>
 <span class="s2">            Please choose a valid rank_by: self_confidence, normalized_margin, confidence_weighted_entropy</span>
-<span class="s2">            """</span>
+<span class="s2">            &quot;&quot;&quot;</span>
         <span class="p">)</span>
 
     <span class="c1"># Adjust predicted probabilities</span>
     <span class="k">if</span> <span class="n">adjust_pred_probs</span><span class="p">:</span>
 
         <span class="c1"># Check if adjust_pred_probs is supported for the chosen method</span>
-        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"confidence_weighted_entropy"</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"adjust_pred_probs is not currently supported for </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;confidence_weighted_entropy&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;adjust_pred_probs is not currently supported for </span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">_subtract_confident_thresholds</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
 
     <span class="c1"># Pass keyword arguments for scoring function</span>
-    <span class="nb">input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"labels"</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s2">"pred_probs"</span><span class="p">:</span> <span class="n">pred_probs</span><span class="p">}</span>
+    <span class="nb">input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span> <span class="s2">&quot;pred_probs&quot;</span><span class="p">:</span> <span class="n">pred_probs</span><span class="p">}</span>
 
     <span class="c1"># Calculate scores</span>
     <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">scoring_func</span><span class="p">(</span><span class="o">**</span><span class="nb">input</span><span class="p">)</span>
@@ -579,14 +584,14 @@
     <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">pred_probs_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"self_confidence"</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>
     <span class="n">adjust_pred_probs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">weight_ensemble_members_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"accuracy"</span><span class="p">,</span>
+    <span class="n">weight_ensemble_members_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">,</span>
     <span class="n">custom_weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">log_loss_search_T_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-4</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">,</span> <span class="mf">1e0</span><span class="p">,</span> <span class="mf">1e1</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">,</span> <span class="mf">2e2</span><span class="p">],</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">"""Returns label quality scores based on predictions from an ensemble of models.</span>
+    <span class="sd">&quot;&quot;&quot;Returns label quality scores based on predictions from an ensemble of models.</span>
 
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
 <span class="sd">    where lower scores indicate labels less likely to be correct.</span>
@@ -611,27 +616,27 @@
 <span class="sd">      expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 <span class="sd">      Each element of `pred_probs_list` corresponds to the predictions from one model for all examples.</span>
 
-<span class="sd">    method : {"self_confidence", "normalized_margin", "confidence_weighted_entropy"}, default="self_confidence"</span>
+<span class="sd">    method : {&quot;self_confidence&quot;, &quot;normalized_margin&quot;, &quot;confidence_weighted_entropy&quot;}, default=&quot;self_confidence&quot;</span>
 <span class="sd">      Label quality scoring method. See :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;`</span>
 <span class="sd">      for scenarios on when to use each method.</span>
 
 <span class="sd">    adjust_pred_probs : bool, optional</span>
 <span class="sd">      `adjust_pred_probs` in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;` function.</span>
 
-<span class="sd">    weight_ensemble_members_by : {"uniform", "accuracy", "log_loss_search", "custom"}, default="accuracy"</span>
+<span class="sd">    weight_ensemble_members_by : {&quot;uniform&quot;, &quot;accuracy&quot;, &quot;log_loss_search&quot;, &quot;custom&quot;}, default=&quot;accuracy&quot;</span>
 <span class="sd">      Weighting scheme used to aggregate scores from each model:</span>
 
-<span class="sd">      - "uniform": Take the simple average of scores.</span>
-<span class="sd">      - "accuracy": Take weighted average of scores, weighted by model accuracy.</span>
-<span class="sd">      - "log_loss_search": Take weighted average of scores, weighted by exp(t * -log_loss) where t is selected from log_loss_search_T_values parameter and log_loss is the log-loss between a model's pred_probs and the given labels.</span>
-<span class="sd">      - "custom": Take weighted average of scores using custom weights that the user passes to the custom_weights parameter.</span>
+<span class="sd">      - &quot;uniform&quot;: Take the simple average of scores.</span>
+<span class="sd">      - &quot;accuracy&quot;: Take weighted average of scores, weighted by model accuracy.</span>
+<span class="sd">      - &quot;log_loss_search&quot;: Take weighted average of scores, weighted by exp(t * -log_loss) where t is selected from log_loss_search_T_values parameter and log_loss is the log-loss between a model&#39;s pred_probs and the given labels.</span>
+<span class="sd">      - &quot;custom&quot;: Take weighted average of scores using custom weights that the user passes to the custom_weights parameter.</span>
 
 <span class="sd">    custom_weights : np.array, default=None</span>
-<span class="sd">      Weights used to aggregate scores from each model if weight_ensemble_members_by="custom".</span>
+<span class="sd">      Weights used to aggregate scores from each model if weight_ensemble_members_by=&quot;custom&quot;.</span>
 <span class="sd">      Length of this array must match the number of models: len(pred_probs_list).</span>
 
 <span class="sd">    log_loss_search_T_values : List, default=[1e-4, 1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 2e2]</span>
-<span class="sd">      List of t values considered if weight_ensemble_members_by="log_loss_search".</span>
+<span class="sd">      List of t values considered if weight_ensemble_members_by=&quot;log_loss_search&quot;.</span>
 <span class="sd">      We will choose the value of t that leads to weights which produce the best log-loss when used to form a weighted average of pred_probs from the models.</span>
 
 <span class="sd">    verbose : bool, default=True</span>
@@ -645,43 +650,43 @@
 <span class="sd">    --------</span>
 <span class="sd">    get_label_quality_scores</span>
 
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">MIN_ALLOWED</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># lower-bound clipping threshold to prevents 0 in logs and division</span>
 
     <span class="c1"># Check pred_probs_list for errors</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
         <span class="n">pred_probs_list</span><span class="p">,</span> <span class="nb">list</span>
-    <span class="p">),</span> <span class="sa">f</span><span class="s2">"pred_probs_list needs to be a list. Provided pred_probs_list is a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">pred_probs_list</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+    <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;pred_probs_list needs to be a list. Provided pred_probs_list is a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">pred_probs_list</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
 
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_probs_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"pred_probs_list is empty."</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_probs_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;pred_probs_list is empty.&quot;</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_probs_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="sd">"""</span>
+            <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            pred_probs_list only has one element.</span>
 <span class="sd">            Consider using get_label_quality_scores() if you only have a single array of pred_probs.</span>
-<span class="sd">            """</span>
+<span class="sd">            &quot;&quot;&quot;</span>
         <span class="p">)</span>
 
     <span class="k">for</span> <span class="n">pred_probs</span> <span class="ow">in</span> <span class="n">pred_probs_list</span><span class="p">:</span>
         <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="c1"># Raise ValueError if user passed custom_weights array but did not choose weight_ensemble_members_by="custom"</span>
-    <span class="k">if</span> <span class="n">custom_weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">weight_ensemble_members_by</span> <span class="o">!=</span> <span class="s2">"custom"</span><span class="p">:</span>
+    <span class="c1"># Raise ValueError if user passed custom_weights array but did not choose weight_ensemble_members_by=&quot;custom&quot;</span>
+    <span class="k">if</span> <span class="n">custom_weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">weight_ensemble_members_by</span> <span class="o">!=</span> <span class="s2">&quot;custom&quot;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"""</span>
-<span class="s2">            custom_weights provided but weight_ensemble_members_by is not "custom"!</span>
-<span class="s2">            """</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            custom_weights provided but weight_ensemble_members_by is not &quot;custom&quot;!</span>
+<span class="s2">            &quot;&quot;&quot;</span>
         <span class="p">)</span>
 
-    <span class="c1"># This weighting scheme performs search of t in log_loss_search_T_values for "best" log loss</span>
-    <span class="k">if</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">"log_loss_search"</span><span class="p">:</span>
+    <span class="c1"># This weighting scheme performs search of t in log_loss_search_T_values for &quot;best&quot; log loss</span>
+    <span class="k">if</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">&quot;log_loss_search&quot;</span><span class="p">:</span>
 
         <span class="c1"># Initialize variables for log loss search</span>
         <span class="n">pred_probs_avg_log_loss_weighted</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">neg_log_loss_weights</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">best_eval_log_loss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)</span>
+        <span class="n">best_eval_log_loss</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">log_loss_search_T_values</span><span class="p">:</span>
 
@@ -713,7 +718,7 @@
                 <span class="n">pred_probs_avg_log_loss_weighted</span> <span class="o">=</span> <span class="n">pred_probs_avg_log_loss_weighted_temp</span>
                 <span class="n">neg_log_loss_weights</span> <span class="o">=</span> <span class="n">neg_log_loss_weights_temp</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="c1"># Generate scores for each model's pred_probs</span>
+    <span class="c1"># Generate scores for each model&#39;s pred_probs</span>
     <span class="n">scores_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">accuracy_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">pred_probs</span> <span class="ow">in</span> <span class="n">pred_probs_list</span><span class="p">:</span>
@@ -728,64 +733,64 @@
         <span class="n">scores_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
 
         <span class="c1"># Only compute if weighting by accuracy</span>
-        <span class="k">if</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">"accuracy"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span>
             <span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
             <span class="n">accuracy_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Weighting scheme for ensemble: </span><span class="si">{</span><span class="n">weight_ensemble_members_by</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Weighting scheme for ensemble: </span><span class="si">{</span><span class="n">weight_ensemble_members_by</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Transform list of scores into an array of shape (N, M) where M is the number of models in the ensemble</span>
     <span class="n">scores_ensemble</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">scores_list</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
     <span class="c1"># Aggregate scores with chosen weighting scheme</span>
-    <span class="k">if</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">"uniform"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">&quot;uniform&quot;</span><span class="p">:</span>
         <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">scores_ensemble</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Uniform weights (simple average)</span>
 
-    <span class="k">elif</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">"accuracy"</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span>
         <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracy_list</span><span class="p">)</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">accuracy_list</span><span class="p">)</span>  <span class="c1"># Weight by relative accuracy</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"Ensemble members will be weighted by their relative accuracy"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ensemble members will be weighted by their relative accuracy&quot;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">acc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">accuracy_list</span><span class="p">):</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Model </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> accuracy : </span><span class="si">{</span><span class="n">acc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Model </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> weight   : </span><span class="si">{</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Model </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> accuracy : </span><span class="si">{</span><span class="n">acc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Model </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> weight   : </span><span class="si">{</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># Aggregate scores with weighted average</span>
         <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="p">(</span><span class="n">scores_ensemble</span> <span class="o">*</span> <span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">"log_loss_search"</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">&quot;log_loss_search&quot;</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">neg_log_loss_weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="n">weights</span> <span class="o">=</span> <span class="n">neg_log_loss_weights</span>  <span class="c1"># Weight by exp(t * -log_loss) where t is found by searching through log_loss_search_T_values</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="s2">"Ensemble members will be weighted by log-loss between their predicted probabilities and given labels"</span>
+                <span class="s2">&quot;Ensemble members will be weighted by log-loss between their predicted probabilities and given labels&quot;</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Model </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> weight   : </span><span class="si">{</span><span class="n">weight</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Model </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> weight   : </span><span class="si">{</span><span class="n">weight</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># Aggregate scores with weighted average</span>
         <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="p">(</span><span class="n">scores_ensemble</span> <span class="o">*</span> <span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">"custom"</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">weight_ensemble_members_by</span> <span class="o">==</span> <span class="s2">&quot;custom&quot;</span><span class="p">:</span>
 
         <span class="c1"># Check custom_weights for errors</span>
         <span class="k">assert</span> <span class="p">(</span>
             <span class="n">custom_weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="p">),</span> <span class="s2">"custom_weights is None! Please pass a valid custom_weights."</span>
+        <span class="p">),</span> <span class="s2">&quot;custom_weights is None! Please pass a valid custom_weights.&quot;</span>
 
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">custom_weights</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
             <span class="n">pred_probs_list</span>
-        <span class="p">),</span> <span class="s2">"Length of custom_weights array must match the number of models: len(pred_probs_list)."</span>
+        <span class="p">),</span> <span class="s2">&quot;Length of custom_weights array must match the number of models: len(pred_probs_list).&quot;</span>
 
         <span class="c1"># Aggregate scores with custom weights</span>
         <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="p">(</span><span class="n">scores_ensemble</span> <span class="o">*</span> <span class="n">custom_weights</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"""</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">            </span><span class="si">{</span><span class="n">weight_ensemble_members_by</span><span class="si">}</span><span class="s2"> is not a valid weighting method for weight_ensemble_members_by!</span>
 <span class="s2">            Please choose a valid weight_ensemble_members_by: uniform, accuracy, custom</span>
-<span class="s2">            """</span>
+<span class="s2">            &quot;&quot;&quot;</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">label_quality_scores</span></div>
@@ -795,7 +800,7 @@
     <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">"""Returns the self-confidence label-quality score for each datapoint.</span>
+    <span class="sd">&quot;&quot;&quot;Returns the self-confidence label-quality score for each datapoint.</span>
 
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
 <span class="sd">    where lower scores indicate labels less likely to be correct.</span>
@@ -820,7 +825,7 @@
 <span class="sd">      An array of holdout probabilities that each example in `pred_probs` belongs to its</span>
 <span class="sd">      label.</span>
 
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># np.mean is used so that this works for multi-labels (list of lists)</span>
     <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">l</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">)])</span>
@@ -831,7 +836,7 @@
     <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">"""Returns the "normalized margin" label-quality score for each datapoint.</span>
+    <span class="sd">&quot;&quot;&quot;Returns the &quot;normalized margin&quot; label-quality score for each datapoint.</span>
 
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
 <span class="sd">    where lower scores indicate labels less likely to be correct.</span>
@@ -859,7 +864,7 @@
 <span class="sd">    label_quality_scores : np.array</span>
 <span class="sd">      An array of scores (between 0 and 1) for each example of its likelihood of</span>
 <span class="sd">      being correctly labeled. ``normalized_margin = prob_label - max_prob_not_label``</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">self_confidence</span> <span class="o">=</span> <span class="n">get_self_confidence_for_each_label</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
     <span class="n">max_prob_not_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
@@ -872,12 +877,12 @@
 <div class="viewcode-block" id="get_confidence_weighted_entropy_for_each_label"><a class="viewcode-back" href="../../cleanlab/rank.html#cleanlab.rank.get_confidence_weighted_entropy_for_each_label">[docs]</a><span class="k">def</span> <span class="nf">get_confidence_weighted_entropy_for_each_label</span><span class="p">(</span>
     <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">"""Returns the "confidence weighted entropy" label-quality score for each datapoint.</span>
+    <span class="sd">&quot;&quot;&quot;Returns the &quot;confidence weighted entropy&quot; label-quality score for each datapoint.</span>
 
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
 <span class="sd">    where lower scores indicate labels less likely to be correct.</span>
 
-<span class="sd">    "confidence weighted entropy" is the normalized entropy divided by "self-confidence".</span>
+<span class="sd">    &quot;confidence weighted entropy&quot; is the normalized entropy divided by &quot;self-confidence&quot;.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -892,7 +897,7 @@
 <span class="sd">    label_quality_scores : np.array</span>
 <span class="sd">      An array of scores (between 0 and 1) for each example of its likelihood of</span>
 <span class="sd">      being correctly labeled.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">MIN_ALLOWED</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># lower-bound clipping threshold to prevents 0 in logs and division</span>
     <span class="n">self_confidence</span> <span class="o">=</span> <span class="n">get_self_confidence_for_each_label</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
@@ -915,7 +920,7 @@
     <span class="n">t</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">return_estimator</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">NearestNeighbors</span><span class="p">]]:</span>
-    <span class="sd">"""Returns an outlier score for each example based on its feature values. Scores lie in [0,1] with smaller values indicating examples</span>
+    <span class="sd">&quot;&quot;&quot;Returns an outlier score for each example based on its feature values. Scores lie in [0,1] with smaller values indicating examples</span>
 <span class="sd">    that are less typical under the dataset distribution (values near 0 indicate outliers).</span>
 <span class="sd">    The score is based on the average distance between the example and its K nearest neighbors in the dataset (in feature space).</span>
 
@@ -927,13 +932,13 @@
 <span class="sd">      vector embeddings to represent each example (e.g. extracted from some pretrained neural network).</span>
 
 <span class="sd">    knn : sklearn.neighbors.NearestNeighbors, default = None</span>
-<span class="sd">      Instantiated ``NearestNeighbors`` object that's been fitted on a dataset in the same feature space.</span>
+<span class="sd">      Instantiated ``NearestNeighbors`` object that&#39;s been fitted on a dataset in the same feature space.</span>
 <span class="sd">      Note that the distance metric and n_neighbors is specified when instantiating this class.</span>
 <span class="sd">      You can also pass in a subclass of ``sklearn.neighbors.NearestNeighbors`` which allows you to use faster</span>
 <span class="sd">      approximate neighbor libraries as long as you wrap them behind the same sklearn API.</span>
 <span class="sd">      If you specify ``knn`` here and wish to find outliers in the same data you already passed into ``knn.fit(features)``, you should specify ``features = None`` here if your ``knn.kneighbors(None)``</span>
 <span class="sd">      returns the distances to the datapoints it was ``fit()`` on.</span>
-<span class="sd">      If ``knn = None``, then by default ``knn = sklearn.neighbors.NearestNeighbors(n_neighbors=k, metric="cosine").fit(features)``</span>
+<span class="sd">      If ``knn = None``, then by default ``knn = sklearn.neighbors.NearestNeighbors(n_neighbors=k, metric=&quot;cosine&quot;).fit(features)``</span>
 
 <span class="sd">      See: https://scikit-learn.org/stable/modules/neighbors.html</span>
 
@@ -961,21 +966,21 @@
 <span class="sd">      the dataset features (i.e. is not an outlier).</span>
 <span class="sd">      If ``return_estimator = True``, then a tuple is returned</span>
 <span class="sd">      whose first element is array of `outlier_scores` and second is a `knn` Estimator object.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">DEFAULT_K</span> <span class="o">=</span> <span class="mi">10</span>
     <span class="k">if</span> <span class="n">knn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># setup default KNN estimator</span>
         <span class="c1"># Make sure both knn and features are not None</span>
         <span class="k">if</span> <span class="n">features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Both knn and features arguments cannot be None at the same time. Not enough information to compute outlier scores."</span>
+                <span class="sa">f</span><span class="s2">&quot;Both knn and features arguments cannot be None at the same time. Not enough information to compute outlier scores.&quot;</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">k</span> <span class="o">=</span> <span class="n">DEFAULT_K</span>  <span class="c1"># use default when knn and k are both None</span>
         <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>  <span class="c1"># Ensure number of neighbors less than number of examples</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Number of nearest neighbors k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> cannot exceed the number of examples N=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span><span class="si">}</span><span class="s2"> passed into the estimator (knn)."</span>
+                <span class="sa">f</span><span class="s2">&quot;Number of nearest neighbors k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> cannot exceed the number of examples N=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span><span class="si">}</span><span class="s2"> passed into the estimator (knn).&quot;</span>
             <span class="p">)</span>
-        <span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">"cosine"</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+        <span class="n">knn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;cosine&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
         <span class="n">features</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># features should be None in knn.kneighbors(features) to avoid counting duplicate data points</span>
     <span class="k">elif</span> <span class="n">k</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">k</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">n_neighbors</span>
@@ -983,8 +988,8 @@
     <span class="n">max_k</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">n_neighbors</span>  <span class="c1"># number of neighbors previously used in NearestNeighbors object</span>
     <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">max_k</span><span class="p">:</span>  <span class="c1"># if k provided is too high, use max possible number of nearest neighbors</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Chosen k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> cannot be greater than n_neighbors=</span><span class="si">{</span><span class="n">max_k</span><span class="si">}</span><span class="s2"> which was used when fitting "</span>
-            <span class="sa">f</span><span class="s2">"NearestNeighbors object! Value of k changed to k=</span><span class="si">{</span><span class="n">max_k</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Chosen k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> cannot be greater than n_neighbors=</span><span class="si">{</span><span class="n">max_k</span><span class="si">}</span><span class="s2"> which was used when fitting &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;NearestNeighbors object! Value of k changed to k=</span><span class="si">{</span><span class="n">max_k</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
             <span class="ne">UserWarning</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">k</span> <span class="o">=</span> <span class="n">max_k</span>
@@ -1058,6 +1063,7 @@
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     <script src="../../_static/clipboard.min.js"></script>

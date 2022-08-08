@@ -1,18 +1,18 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>cleanlab.count - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +23,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +297,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -368,14 +373,14 @@
 <span class="c1"># You should have received a copy of the GNU Affero General Public License</span>
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Methods for estimating latent structures used for confident learning, including:</span>
 
 <span class="sd">* Latent prior of the unobserved, error-less labels: `py`: ``p(y)``</span>
 <span class="sd">* Latent noisy channel (noise matrix) characterizing the flipping rates: `nm`: ``P(given label | true label)``</span>
 <span class="sd">* Latent inverse noise matrix characterizing the flipping process: `inv`: ``P(true label | given label)``</span>
 <span class="sd">* Latent `confident_joint`, an un-normalized matrix that counts the confident subset of label errors under the joint distribution for true/given label</span>
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span> <span class="k">as</span> <span class="n">LogReg</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">StratifiedKFold</span>
@@ -413,7 +418,7 @@
     <span class="n">pred_probs</span><span class="p">,</span>
     <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Estimates the number of label issues in the `labels` of a dataset.</span>
+    <span class="sd">&quot;&quot;&quot;Estimates the number of label issues in the `labels` of a dataset.</span>
 
 <span class="sd">    This method is **more accurate** than ``sum(find_label_issues())`` because its computed using only</span>
 <span class="sd">    the trace of the confident joint, ignoring all off-diagonals (which are used by `find_label_issues` and are harder to</span>
@@ -421,7 +426,7 @@
 <span class="sd">    are more constrained, and therefore easier to compute).</span>
 
 <span class="sd">    TL;DR: use this method to get the most accurate estimate of number of label issues when you</span>
-<span class="sd">    don't need the indices of the label issues.</span>
+<span class="sd">    don&#39;t need the indices of the label issues.</span>
 
 <span class="sd">    You can use this method to label issues by using `num_label_issues` as the cutoff threshold</span>
 <span class="sd">    used with ranking/scoring functions from :py:mod:`cleanlab.rank` with `num_label_issues`. There</span>
@@ -455,7 +460,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    int</span>
 <span class="sd">      An estimate of the number of label issues.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">confident_joint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">confident_joint</span> <span class="o">=</span> <span class="n">compute_confident_joint</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
@@ -468,7 +473,7 @@
 
 
 <div class="viewcode-block" id="calibrate_confident_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.calibrate_confident_joint">[docs]</a><span class="k">def</span> <span class="nf">calibrate_confident_joint</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">"""Calibrates any confident joint estimate ``P(label=i, true_label=j)`` such that</span>
+    <span class="sd">&quot;&quot;&quot;Calibrates any confident joint estimate ``P(label=i, true_label=j)`` such that</span>
 <span class="sd">    ``np.sum(cj) == len(labels)`` and ``np.sum(cj, axis = 1) == np.bincount(labels)``.</span>
 
 <span class="sd">    In other words, this function forces the confident joint to have the</span>
@@ -510,7 +515,7 @@
 <span class="sd">    calibrated_cj : np.array</span>
 <span class="sd">      An array of shape ``(K, K)`` of type float representing a valid</span>
 <span class="sd">      estimate of the joint *counts* of noisy and true labels.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
         <span class="n">label_counts</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">lst</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">])</span>
@@ -526,7 +531,7 @@
 
 
 <div class="viewcode-block" id="estimate_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_joint">[docs]</a><span class="k">def</span> <span class="nf">estimate_joint</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">"""</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Estimates the joint distribution of label noise ``P(label=i, true_label=j)`` guaranteed to:</span>
 
 <span class="sd">    * Sum to 1</span>
@@ -569,7 +574,7 @@
 <span class="sd">    confident_joint : np.array</span>
 <span class="sd">      An array of shape ``(K, K)`` representing an</span>
 <span class="sd">      estimate of the true joint of noisy and true labels.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">confident_joint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">calibrated_cj</span> <span class="o">=</span> <span class="n">compute_confident_joint</span><span class="p">(</span>
@@ -592,7 +597,7 @@
     <span class="n">calibrate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">return_indices_of_off_diagonals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Computes the confident joint for multi_labeled data. Thus,</span>
+    <span class="sd">&quot;&quot;&quot;Computes the confident joint for multi_labeled data. Thus,</span>
 <span class="sd">    input `labels` is a list of lists (or list of iterable).</span>
 <span class="sd">    This is intended as a helper function. You should probably</span>
 <span class="sd">    be using `compute_confident_joint(multi_label=True)` instead.</span>
@@ -619,7 +624,7 @@
 <span class="sd">        `pred_probs` must be out-of-sample (ideally should have been computed using 3+ fold cross-validation).</span>
 
 <span class="sd">    thresholds : iterable (list or np.array) of shape (K, 1)  or (K,)</span>
-<span class="sd">        P(label^=k|label=k). If an example has a predicted probability "greater" than</span>
+<span class="sd">        P(label^=k|label=k). If an example has a predicted probability &quot;greater&quot; than</span>
 <span class="sd">        this threshold, it is counted as having true_label = k. This is</span>
 <span class="sd">        not used for filtering/pruning, only for estimating the noise rates using</span>
 <span class="sd">        confident counts. This value should be between 0 and 1. Default is None.</span>
@@ -631,7 +636,7 @@
 <span class="sd">    return_indices_of_off_diagonals: bool, default = False</span>
 <span class="sd">        If true returns indices of examples that were counted in off-diagonals</span>
 <span class="sd">        of confident joint as a baseline proxy for the label issues. This</span>
-<span class="sd">        sometimes works as well as filter.find_label_issues(confident_joint)."""</span>
+<span class="sd">        sometimes works as well as filter.find_label_issues(confident_joint).&quot;&quot;&quot;</span>
 
     <span class="c1"># Assumes all classes are represented in labels: [0, 1, 2, ... num_classes - 1]</span>
     <span class="n">unique_classes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">))</span>
@@ -676,7 +681,7 @@
     <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">return_indices_of_off_diagonals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Estimates ``P(labels,y)``, the confident counts of the latent</span>
+    <span class="sd">&quot;&quot;&quot;Estimates ``P(labels,y)``, the confident counts of the latent</span>
 <span class="sd">    joint distribution of true and noisy labels</span>
 <span class="sd">    using observed labels and predicted probabilities pred_probs.</span>
 
@@ -764,7 +769,7 @@
 
 <span class="sd">    The following is a vectorized (but non-parallelized) implementation of the</span>
 <span class="sd">    confident joint, again slow, using for-loops/simplified for understanding.</span>
-<span class="sd">    This implementation is 100% accurate, it's just not optimized for speed.</span>
+<span class="sd">    This implementation is 100% accurate, it&#39;s just not optimized for speed.</span>
 
 <span class="sd">    .. code:: python</span>
 
@@ -777,7 +782,7 @@
 <span class="sd">                confident_joint[s_label][np.argmax(confident_bins)] += 1</span>
 <span class="sd">            elif num_confident_bins &gt; 1:</span>
 <span class="sd">                confident_joint[s_label][np.argmax(row)] += 1</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_compute_confident_joint_multi_label</span><span class="p">(</span>
@@ -837,10 +842,10 @@
     <span class="n">confident_joint</span><span class="p">,</span>
     <span class="n">labels</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">py_method</span><span class="o">=</span><span class="s2">"cnt"</span><span class="p">,</span>
+    <span class="n">py_method</span><span class="o">=</span><span class="s2">&quot;cnt&quot;</span><span class="p">,</span>
     <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Computes the latent prior ``p(y)``, the noise matrix ``P(labels|y)`` and the</span>
+    <span class="sd">&quot;&quot;&quot;Computes the latent prior ``p(y)``, the noise matrix ``P(labels|y)`` and the</span>
 <span class="sd">    inverse noise matrix ``P(y|labels)`` from the `confident_joint` ``count(labels, y)``. The</span>
 <span class="sd">    `confident_joint` can be estimated by `compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;`</span>
 <span class="sd">    by counting confident examples.</span>
@@ -858,9 +863,9 @@
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
-<span class="sd">    py_method : {"cnt", "eqn", "marginal", "marginal_ps"}, default="cnt"</span>
-<span class="sd">      `py` is shorthand for the "class proportions (a.k.a prior) of the true labels".</span>
-<span class="sd">      This method defines how to compute the latent prior ``p(true_label=k)``. Default is ``"cnt"``,</span>
+<span class="sd">    py_method : {&quot;cnt&quot;, &quot;eqn&quot;, &quot;marginal&quot;, &quot;marginal_ps&quot;}, default=&quot;cnt&quot;</span>
+<span class="sd">      `py` is shorthand for the &quot;class proportions (a.k.a prior) of the true labels&quot;.</span>
+<span class="sd">      This method defines how to compute the latent prior ``p(true_label=k)``. Default is ``&quot;cnt&quot;``,</span>
 <span class="sd">      which works well even when the noise matrices are estimated poorly by using</span>
 <span class="sd">      the matrix diagonals instead of all the probabilities.</span>
 
@@ -872,9 +877,9 @@
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
 <span class="sd">    tuple</span>
-<span class="sd">      A tuple containing (py, noise_matrix, inv_noise_matrix)."""</span>
+<span class="sd">      A tuple containing (py, noise_matrix, inv_noise_matrix).&quot;&quot;&quot;</span>
 
-    <span class="c1"># 'ps' is p(labels=k)</span>
+    <span class="c1"># &#39;ps&#39; is p(labels=k)</span>
     <span class="n">ps</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
     <span class="c1"># Number of training examples confidently counted from each noisy class</span>
     <span class="n">labels_class_counts</span> <span class="o">=</span> <span class="n">confident_joint</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
@@ -914,10 +919,10 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">py_method</span><span class="o">=</span><span class="s2">"cnt"</span><span class="p">,</span>
+    <span class="n">py_method</span><span class="o">=</span><span class="s2">&quot;cnt&quot;</span><span class="p">,</span>
     <span class="n">calibrate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Computes the confident counts</span>
+    <span class="sd">&quot;&quot;&quot;Computes the confident counts</span>
 <span class="sd">    estimate of latent variables `py` and the noise rates</span>
 <span class="sd">    using observed labels and predicted probabilities, `pred_probs`.</span>
 
@@ -965,8 +970,8 @@
 <span class="sd">      independently, but they are related mathematically with closed form</span>
 <span class="sd">      equivalences. This will iteratively make them mathematically consistent.</span>
 
-<span class="sd">    py_method : {"cnt", "eqn", "marginal", "marginal_ps"}, default="cnt"</span>
-<span class="sd">      How to compute the latent prior ``p(true_label=k)``. Default is ``"cnt"`` as it often</span>
+<span class="sd">    py_method : {&quot;cnt&quot;, &quot;eqn&quot;, &quot;marginal&quot;, &quot;marginal_ps&quot;}, default=&quot;cnt&quot;</span>
+<span class="sd">      How to compute the latent prior ``p(true_label=k)``. Default is ``&quot;cnt&quot;`` as it often</span>
 <span class="sd">      works well even when the noise matrices are estimated poorly by using</span>
 <span class="sd">      the matrix diagonals instead of all the probabilities.</span>
 
@@ -977,7 +982,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
 <span class="sd">    tuple</span>
-<span class="sd">        A tuple of (py, noise_matrix, inverse_noise_matrix, confident_joint)."""</span>
+<span class="sd">        A tuple of (py, noise_matrix, inverse_noise_matrix, confident_joint).&quot;&quot;&quot;</span>
 
     <span class="n">confident_joint</span> <span class="o">=</span> <span class="n">compute_confident_joint</span><span class="p">(</span>
         <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
@@ -998,7 +1003,7 @@
 <div class="viewcode-block" id="estimate_confident_joint_and_cv_pred_proba"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_confident_joint_and_cv_pred_proba">[docs]</a><span class="k">def</span> <span class="nf">estimate_confident_joint_and_cv_pred_proba</span><span class="p">(</span>
     <span class="n">X</span><span class="p">,</span>
     <span class="n">labels</span><span class="p">,</span>
-    <span class="n">clf</span><span class="o">=</span><span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">"lbfgs"</span><span class="p">),</span>
+    <span class="n">clf</span><span class="o">=</span><span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;lbfgs&quot;</span><span class="p">),</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">cv_n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1007,7 +1012,7 @@
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
     <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Estimates ``P(labels, y)``, the confident counts of the latent</span>
+    <span class="sd">&quot;&quot;&quot;Estimates ``P(labels, y)``, the confident counts of the latent</span>
 <span class="sd">    joint distribution of true and noisy labels</span>
 <span class="sd">    using observed `labels` and predicted probabilities `pred_probs`.</span>
 
@@ -1069,7 +1074,7 @@
 <span class="sd">        ``np.sum(cj) == len(labels)`` and ``np.sum(cj, axis = 1) == np.bincount(labels)``.</span>
 
 <span class="sd">    clf_kwargs : dict, optional</span>
-<span class="sd">      Optional keyword arguments to pass into `clf`'s ``fit()`` method.</span>
+<span class="sd">      Optional keyword arguments to pass into `clf`&#39;s ``fit()`` method.</span>
 
 <span class="sd">    validation_func : callable, optional</span>
 <span class="sd">      Specifies how to map the validation data split in cross-validation as input for ``clf.fit()``.</span>
@@ -1079,7 +1084,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    tuple</span>
 <span class="sd">      Tuple of two numpy arrays in the form:</span>
-<span class="sd">      (joint counts matrix, predicted probability matrix)"""</span>
+<span class="sd">      (joint counts matrix, predicted probability matrix)&quot;&quot;&quot;</span>
 
     <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_to_array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
@@ -1095,7 +1100,7 @@
     <span class="c1"># Initialize pred_probs array</span>
     <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">num_classes</span><span class="p">))</span>
 
-    <span class="c1"># Split X and labels into "cv_n_folds" stratified folds.</span>
+    <span class="c1"># Split X and labels into &quot;cv_n_folds&quot; stratified folds.</span>
     <span class="c1"># CV indices only require labels: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html</span>
     <span class="c1"># Only split based on labels because X may have various formats:</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">cv_train_idx</span><span class="p">,</span> <span class="n">cv_holdout_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">)):</span>
@@ -1103,10 +1108,10 @@
             <span class="n">clf_copy</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">clf</span><span class="p">)</span>  <span class="c1"># fresh untrained copy of the model</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"`clf` must be clonable via: sklearn.base.clone(clf). "</span>
-                <span class="s2">"You can either implement instance method `clf.get_params()` to produce a fresh untrained copy of this model, "</span>
-                <span class="s2">"or you can implement the cross-validation outside of cleanlab "</span>
-                <span class="s2">"and pass in the obtained `pred_probs` to skip cleanlab's internal cross-validation"</span>
+                <span class="s2">&quot;`clf` must be clonable via: sklearn.base.clone(clf). &quot;</span>
+                <span class="s2">&quot;You can either implement instance method `clf.get_params()` to produce a fresh untrained copy of this model, &quot;</span>
+                <span class="s2">&quot;or you can implement the cross-validation outside of cleanlab &quot;</span>
+                <span class="s2">&quot;and pass in the obtained `pred_probs` to skip cleanlab&#39;s internal cross-validation&quot;</span>
             <span class="p">)</span>
 
         <span class="c1"># Select the training and holdout cross-validated sets.</span>
@@ -1124,15 +1129,15 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_cv_classes</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_classes</span><span class="p">):</span>
                 <span class="n">missing_classes</span> <span class="o">=</span> <span class="n">all_classes</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">train_cv_classes</span><span class="p">)</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="s2">"Duplicated some data across multiple folds to ensure training does not fail "</span>
-                    <span class="sa">f</span><span class="s2">"because these classes do not have enough data for proper cross-validation: </span><span class="si">{</span><span class="n">missing_classes</span><span class="si">}</span><span class="s2">."</span>
+                    <span class="s2">&quot;Duplicated some data across multiple folds to ensure training does not fail &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;because these classes do not have enough data for proper cross-validation: </span><span class="si">{</span><span class="n">missing_classes</span><span class="si">}</span><span class="s2">.&quot;</span>
                 <span class="p">)</span>
                 <span class="k">for</span> <span class="n">missing_class</span> <span class="ow">in</span> <span class="n">missing_classes</span><span class="p">:</span>
                     <span class="c1"># Duplicate one instance of missing_class from holdout data to the training data:</span>
                     <span class="n">holdout_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s_holdout_cv</span> <span class="o">==</span> <span class="n">missing_class</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">dup_idx</span> <span class="o">=</span> <span class="n">holdout_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">s_train_cv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_train_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span><span class="p">[</span><span class="n">dup_idx</span><span class="p">])</span>
-                    <span class="c1"># labels are always np.array so don't have to consider .iloc above</span>
+                    <span class="c1"># labels are always np.array so don&#39;t have to consider .iloc above</span>
                     <span class="n">X_train_cv</span> <span class="o">=</span> <span class="n">append_extra_datapoint</span><span class="p">(</span>
                         <span class="n">to_data</span><span class="o">=</span><span class="n">X_train_cv</span><span class="p">,</span> <span class="n">from_data</span><span class="o">=</span><span class="n">X_holdout_cv</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">dup_idx</span>
                     <span class="p">)</span>
@@ -1144,7 +1149,7 @@
         <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">validation_func</span><span class="p">):</span>
             <span class="n">validation_kwargs</span> <span class="o">=</span> <span class="n">validation_func</span><span class="p">(</span><span class="n">X_holdout_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"validation_func must be callable function with args: X_val, y_val"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;validation_func must be callable function with args: X_val, y_val&quot;</span><span class="p">)</span>
 
         <span class="c1"># Fit classifier clf to training set, predict on holdout set, and update pred_probs.</span>
         <span class="n">clf_copy</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_cv</span><span class="p">,</span> <span class="n">s_train_cv</span><span class="p">,</span> <span class="o">**</span><span class="n">clf_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">validation_kwargs</span><span class="p">)</span>
@@ -1173,17 +1178,17 @@
 <div class="viewcode-block" id="estimate_py_noise_matrices_and_cv_pred_proba"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_py_noise_matrices_and_cv_pred_proba">[docs]</a><span class="k">def</span> <span class="nf">estimate_py_noise_matrices_and_cv_pred_proba</span><span class="p">(</span>
     <span class="n">X</span><span class="p">,</span>
     <span class="n">labels</span><span class="p">,</span>
-    <span class="n">clf</span><span class="o">=</span><span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">"lbfgs"</span><span class="p">),</span>
+    <span class="n">clf</span><span class="o">=</span><span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;lbfgs&quot;</span><span class="p">),</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">cv_n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">py_method</span><span class="o">=</span><span class="s2">"cnt"</span><span class="p">,</span>
+    <span class="n">py_method</span><span class="o">=</span><span class="s2">&quot;cnt&quot;</span><span class="p">,</span>
     <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
     <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""This function computes the out-of-sample predicted</span>
+    <span class="sd">&quot;&quot;&quot;This function computes the out-of-sample predicted</span>
 <span class="sd">    probability ``P(label=k|x)`` for every example x in `X` using cross</span>
 <span class="sd">    validation while also computing the confident counts noise</span>
 <span class="sd">    rates within each cross-validated subset and returning</span>
@@ -1233,8 +1238,8 @@
 <span class="sd">      independently, but they are related mathematically with closed form</span>
 <span class="sd">      equivalences. This will iteratively make them mathematically consistent.</span>
 
-<span class="sd">    py_method : {"cnt", "eqn", "marginal", "marginal_ps"}, default="cnt"</span>
-<span class="sd">      How to compute the latent prior ``p(true_label=k)``. Default is ``"cnt"`` as it often</span>
+<span class="sd">    py_method : {&quot;cnt&quot;, &quot;eqn&quot;, &quot;marginal&quot;, &quot;marginal_ps&quot;}, default=&quot;cnt&quot;</span>
+<span class="sd">      How to compute the latent prior ``p(true_label=k)``. Default is ``&quot;cnt&quot;`` as it often</span>
 <span class="sd">      works well even when the noise matrices are estimated poorly by using</span>
 <span class="sd">      the matrix diagonals instead of all the probabilities.</span>
 
@@ -1243,7 +1248,7 @@
 <span class="sd">      the cross-validated folds. If ``None``, uses ``np.random`` current random state.</span>
 
 <span class="sd">    clf_kwargs : dict, optional</span>
-<span class="sd">      Optional keyword arguments to pass into `clf`'s ``fit()`` method.</span>
+<span class="sd">      Optional keyword arguments to pass into `clf`&#39;s ``fit()`` method.</span>
 
 <span class="sd">    validation_func : callable, optional</span>
 <span class="sd">      Specifies how to map the validation data split in cross-validation as input for ``clf.fit()``.</span>
@@ -1253,7 +1258,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    tuple</span>
 <span class="sd">      A tuple of five arrays (py, noise_matrix, inverse_noise_matrix, confident joint, predicted probability matrix).</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">confident_joint</span><span class="p">,</span> <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">estimate_confident_joint_and_cv_pred_proba</span><span class="p">(</span>
         <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
@@ -1279,14 +1284,14 @@
 <div class="viewcode-block" id="estimate_cv_predicted_probabilities"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_cv_predicted_probabilities">[docs]</a><span class="k">def</span> <span class="nf">estimate_cv_predicted_probabilities</span><span class="p">(</span>
     <span class="n">X</span><span class="p">,</span>
     <span class="n">labels</span><span class="p">,</span>
-    <span class="n">clf</span><span class="o">=</span><span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">"lbfgs"</span><span class="p">),</span>
+    <span class="n">clf</span><span class="o">=</span><span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;lbfgs&quot;</span><span class="p">),</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">cv_n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
     <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""This function computes the out-of-sample predicted</span>
+    <span class="sd">&quot;&quot;&quot;This function computes the out-of-sample predicted</span>
 <span class="sd">    probability [P(label=k|x)] for every example in X using cross</span>
 <span class="sd">    validation. Output is a np.array of shape (N, K) where N is</span>
 <span class="sd">    the number of training examples and K is the number of classes.</span>
@@ -1315,7 +1320,7 @@
 <span class="sd">      the cross-validated folds. If ``None``, uses ``np.random`` current random state.</span>
 
 <span class="sd">    clf_kwargs : dict, optional</span>
-<span class="sd">      Optional keyword arguments to pass into `clf`'s ``fit()`` method.</span>
+<span class="sd">      Optional keyword arguments to pass into `clf`&#39;s ``fit()`` method.</span>
 
 <span class="sd">    validation_func : callable, optional</span>
 <span class="sd">      Specifies how to map the validation data split in cross-validation as input for ``clf.fit()``.</span>
@@ -1327,7 +1332,7 @@
 <span class="sd">      An array of shape ``(N, K)`` representing ``P(label=k|x)``, the model-predicted probabilities.</span>
 <span class="sd">      Each row of this matrix corresponds to an example `x` and contains the model-predicted</span>
 <span class="sd">      probabilities that `x` belongs to each possible class.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">estimate_py_noise_matrices_and_cv_pred_proba</span><span class="p">(</span>
         <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
@@ -1343,7 +1348,7 @@
 <div class="viewcode-block" id="estimate_noise_matrices"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_noise_matrices">[docs]</a><span class="k">def</span> <span class="nf">estimate_noise_matrices</span><span class="p">(</span>
     <span class="n">X</span><span class="p">,</span>
     <span class="n">labels</span><span class="p">,</span>
-    <span class="n">clf</span><span class="o">=</span><span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">"lbfgs"</span><span class="p">),</span>
+    <span class="n">clf</span><span class="o">=</span><span class="n">LogReg</span><span class="p">(</span><span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;lbfgs&quot;</span><span class="p">),</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">cv_n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1352,7 +1357,7 @@
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
     <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Estimates the `noise_matrix` of shape ``(K, K)``. This is the</span>
+    <span class="sd">&quot;&quot;&quot;Estimates the `noise_matrix` of shape ``(K, K)``. This is the</span>
 <span class="sd">    fraction of examples in every class, labeled as every other class. The</span>
 <span class="sd">    `noise_matrix` is a conditional probability matrix for ``P(label=k_s|true_label=k_y)``.</span>
 
@@ -1401,7 +1406,7 @@
 <span class="sd">        the cross-validated folds. If None, uses np.random current random state.</span>
 
 <span class="sd">    clf_kwargs : dict, optional</span>
-<span class="sd">      Optional keyword arguments to pass into `clf`'s ``fit()`` method.</span>
+<span class="sd">      Optional keyword arguments to pass into `clf`&#39;s ``fit()`` method.</span>
 
 <span class="sd">    validation_func : callable, optional</span>
 <span class="sd">      Specifies how to map the validation data split in cross-validation as input for ``clf.fit()``.</span>
@@ -1410,7 +1415,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
 <span class="sd">    tuple</span>
-<span class="sd">      A tuple containing (noise_matrix, inv_noise_matrix)."""</span>
+<span class="sd">      A tuple containing (noise_matrix, inv_noise_matrix).&quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">estimate_py_noise_matrices_and_cv_pred_proba</span><span class="p">(</span>
         <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
@@ -1434,7 +1439,7 @@
     <span class="n">inv_noise_matrix_iterations</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">noise_matrix_iterations</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">"""Updates py := P(true_label=k) and both `noise_matrix` and `inverse_noise_matrix`</span>
+    <span class="sd">&quot;&quot;&quot;Updates py := P(true_label=k) and both `noise_matrix` and `inverse_noise_matrix`</span>
 <span class="sd">    to be numerically consistent with each other, by iteratively updating their estimates based on</span>
 <span class="sd">    the mathematical relationships between them.</span>
 
@@ -1487,7 +1492,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
 <span class="sd">        Three np.arrays of the form (py, noise_matrix, inverse_noise_matrix) all</span>
-<span class="sd">        having numerical agreement in terms of their mathematical relations."""</span>
+<span class="sd">        having numerical agreement in terms of their mathematical relations.&quot;&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">noise_matrix_iterations</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">inv_noise_matrix_iterations</span><span class="p">):</span>
@@ -1505,9 +1510,9 @@
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">"""Returns expected (average) "self-confidence" for each class.</span>
+    <span class="sd">&quot;&quot;&quot;Returns expected (average) &quot;self-confidence&quot; for each class.</span>
 
-<span class="sd">    The confident class threshold for a class j is the expected (average) "self-confidence" for class j.</span>
+<span class="sd">    The confident class threshold for a class j is the expected (average) &quot;self-confidence&quot; for class j.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1542,7 +1547,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    confident_thresholds : np.array</span>
-<span class="sd">      An array of shape ``(K, )`` where K is the number of classes."""</span>
+<span class="sd">      An array of shape ``(K, )`` where K is the number of classes.&quot;&quot;&quot;</span>
 
     <span class="c1"># Assumes all classes are represented in labels: [0, 1, 2, ... num_classes - 1]</span>
     <span class="n">unique_classes</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span>
@@ -1615,6 +1620,7 @@
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     <script src="../../_static/clipboard.min.js"></script>

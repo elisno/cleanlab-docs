@@ -1,18 +1,18 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>cleanlab.internal.latent_algebra - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -23,24 +23,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -293,7 +297,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -385,7 +390,7 @@
 
 
 <div class="viewcode-block" id="compute_ps_py_inv_noise_matrix"><a class="viewcode-back" href="../../../cleanlab/internal/latent_algebra.html#cleanlab.internal.latent_algebra.compute_ps_py_inv_noise_matrix">[docs]</a><span class="k">def</span> <span class="nf">compute_ps_py_inv_noise_matrix</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">):</span>
-    <span class="sd">"""Compute ps := P(labels=k), py := P(true_labels=k), and the inverse noise matrix.</span>
+    <span class="sd">&quot;&quot;&quot;Compute ps := P(labels=k), py := P(true_labels=k), and the inverse noise matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -396,9 +401,9 @@
 <span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
-<span class="sd">        Assumes columns of noise_matrix sum to 1."""</span>
+<span class="sd">        Assumes columns of noise_matrix sum to 1.&quot;&quot;&quot;</span>
 
-    <span class="c1"># 'ps' is p(labels=k)</span>
+    <span class="c1"># &#39;ps&#39; is p(labels=k)</span>
     <span class="n">ps</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
 
     <span class="n">py</span><span class="p">,</span> <span class="n">inverse_noise_matrix</span> <span class="o">=</span> <span class="n">compute_py_inv_noise_matrix</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">)</span>
@@ -406,7 +411,7 @@
 
 
 <div class="viewcode-block" id="compute_py_inv_noise_matrix"><a class="viewcode-back" href="../../../cleanlab/internal/latent_algebra.html#cleanlab.internal.latent_algebra.compute_py_inv_noise_matrix">[docs]</a><span class="k">def</span> <span class="nf">compute_py_inv_noise_matrix</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">):</span>
-    <span class="sd">"""Compute py := P(true_label=k), and the inverse noise matrix.</span>
+    <span class="sd">&quot;&quot;&quot;Compute py := P(true_label=k), and the inverse noise matrix.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -416,9 +421,9 @@
 <span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
-<span class="sd">        Assumes columns of noise_matrix sum to 1."""</span>
+<span class="sd">        Assumes columns of noise_matrix sum to 1.&quot;&quot;&quot;</span>
 
-    <span class="c1"># 'py' is p(true_labels=k) = noise_matrix^(-1) * p(labels=k)</span>
+    <span class="c1"># &#39;py&#39; is p(true_labels=k) = noise_matrix^(-1) * p(labels=k)</span>
     <span class="c1"># because in *vector computation*: P(label=k|true_label=k) * p(true_label=k) = P(label=k)</span>
     <span class="c1"># The pseudo-inverse is used when noise_matrix is not invertible.</span>
     <span class="n">py</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span>
@@ -432,7 +437,7 @@
 
 
 <div class="viewcode-block" id="compute_inv_noise_matrix"><a class="viewcode-back" href="../../../cleanlab/internal/latent_algebra.html#cleanlab.internal.latent_algebra.compute_inv_noise_matrix">[docs]</a><span class="k">def</span> <span class="nf">compute_inv_noise_matrix</span><span class="p">(</span><span class="n">py</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ps</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">"""Compute the inverse noise matrix if py := P(true_label=k) is given.</span>
+    <span class="sd">&quot;&quot;&quot;Compute the inverse noise matrix if py := P(true_label=k) is given.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -458,7 +463,7 @@
 <span class="sd">        # Number of classes</span>
 <span class="sd">        K = len(py)</span>
 
-<span class="sd">        # 'ps' is p(labels=k) = noise_matrix * p(true_labels=k)</span>
+<span class="sd">        # &#39;ps&#39; is p(labels=k) = noise_matrix * p(true_labels=k)</span>
 <span class="sd">        # because in *vector computation*: P(label=k|true_label=k) * p(true_label=k) = P(label=k)</span>
 <span class="sd">        if ps is None:</span>
 <span class="sd">            ps = noise_matrix.dot(py)</span>
@@ -472,7 +477,7 @@
 <span class="sd">                # P(true_label|label) = P(label|y) * P(true_label) / P(labels)</span>
 <span class="sd">                inverse_noise_matrix[k_y][k_s] = noise_matrix[k_s][k_y] * \</span>
 <span class="sd">                                                 py[k_y] / ps[k_s]</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">joint</span> <span class="o">=</span> <span class="n">noise_matrix</span> <span class="o">*</span> <span class="n">py</span>
     <span class="n">ps</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">ps</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ps</span>
@@ -483,7 +488,7 @@
 
 
 <div class="viewcode-block" id="compute_noise_matrix_from_inverse"><a class="viewcode-back" href="../../../cleanlab/internal/latent_algebra.html#cleanlab.internal.latent_algebra.compute_noise_matrix_from_inverse">[docs]</a><span class="k">def</span> <span class="nf">compute_noise_matrix_from_inverse</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span> <span class="n">inverse_noise_matrix</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">py</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">"""Compute the noise matrix P(label=k_s|true_label=k_y).</span>
+    <span class="sd">&quot;&quot;&quot;Compute the noise matrix P(label=k_s|true_label=k_y).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -518,7 +523,7 @@
 <span class="sd">        # Number of classes labels</span>
 <span class="sd">        K = len(ps)</span>
 
-<span class="sd">        # 'py' is p(true_label=k) = inverse_noise_matrix * p(true_label=k)</span>
+<span class="sd">        # &#39;py&#39; is p(true_label=k) = inverse_noise_matrix * p(true_label=k)</span>
 <span class="sd">        # because in *vector computation*: P(true_label=k|label=k) * p(label=k) = P(true_label=k)</span>
 <span class="sd">        if py is None:</span>
 <span class="sd">            py = inverse_noise_matrix.dot(ps)</span>
@@ -533,7 +538,7 @@
 <span class="sd">                noise_matrix[k_s][k_y] = inverse_noise_matrix[k_y][k_s] * \</span>
 <span class="sd">                                         ps[k_s] / py[k_y]</span>
 
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">joint</span> <span class="o">=</span> <span class="p">(</span><span class="n">inverse_noise_matrix</span> <span class="o">*</span> <span class="n">ps</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
     <span class="n">py</span> <span class="o">=</span> <span class="n">joint</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">py</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">py</span>
@@ -544,12 +549,12 @@
 
 
 <div class="viewcode-block" id="compute_py"><a class="viewcode-back" href="../../../cleanlab/internal/latent_algebra.html#cleanlab.internal.latent_algebra.compute_py">[docs]</a><span class="k">def</span> <span class="nf">compute_py</span><span class="p">(</span>
-    <span class="n">ps</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">,</span> <span class="n">inverse_noise_matrix</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">py_method</span><span class="o">=</span><span class="s2">"cnt"</span><span class="p">,</span> <span class="n">true_labels_class_counts</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">ps</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">,</span> <span class="n">inverse_noise_matrix</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">py_method</span><span class="o">=</span><span class="s2">&quot;cnt&quot;</span><span class="p">,</span> <span class="n">true_labels_class_counts</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
-    <span class="sd">"""Compute py := P(true_labels=k) from ps := P(labels=k), noise_matrix, and the</span>
+    <span class="sd">&quot;&quot;&quot;Compute py := P(true_labels=k) from ps := P(labels=k), noise_matrix, and the</span>
 <span class="sd">    inverse noise matrix.</span>
 
-<span class="sd">    This method is ** ROBUST ** when py_method = 'cnt'</span>
+<span class="sd">    This method is ** ROBUST ** when py_method = &#39;cnt&#39;</span>
 <span class="sd">    It may work well even when the noise matrices are estimated</span>
 <span class="sd">    poorly by using the diagonals of the matrices</span>
 <span class="sd">    instead of all the probabilities in the entire matrix.</span>
@@ -571,8 +576,8 @@
 <span class="sd">        inverse_noise_matrix will be computed from pred_probs and labels.</span>
 <span class="sd">        Assumes columns of inverse_noise_matrix sum to 1.</span>
 
-<span class="sd">    py_method : str (Options: ["cnt", "eqn", "marginal", "marginal_ps"])</span>
-<span class="sd">        How to compute the latent prior p(true_label=k). Default is "cnt" as it often</span>
+<span class="sd">    py_method : str (Options: [&quot;cnt&quot;, &quot;eqn&quot;, &quot;marginal&quot;, &quot;marginal_ps&quot;])</span>
+<span class="sd">        How to compute the latent prior p(true_label=k). Default is &quot;cnt&quot; as it often</span>
 <span class="sd">        works well even when the noise matrices are estimated poorly by using</span>
 <span class="sd">        the matrix diagonals instead of all the probabilities.</span>
 
@@ -582,36 +587,36 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    py : np.array (shape (K, ) or (1, K))</span>
-<span class="sd">        The fraction (prior probability) of each TRUE class label, P(true_label = k)."""</span>
+<span class="sd">        The fraction (prior probability) of each TRUE class label, P(true_label = k).&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ps</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="s2">"Input parameter np.array ps has shape "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span>
-        <span class="n">w</span> <span class="o">+=</span> <span class="s2">", but shape should be (K, ) or (1, K)"</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="s2">&quot;Input parameter np.array ps has shape &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span>
+        <span class="n">w</span> <span class="o">+=</span> <span class="s2">&quot;, but shape should be (K, ) or (1, K)&quot;</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">"marginal"</span> <span class="ow">and</span> <span class="n">true_labels_class_counts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">&quot;marginal&quot;</span> <span class="ow">and</span> <span class="n">true_labels_class_counts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="s1">'py_method == "marginal" requires true_labels_class_counts, '</span>
-            <span class="s2">"but true_labels_class_counts is None. "</span>
+            <span class="s1">&#39;py_method == &quot;marginal&quot; requires true_labels_class_counts, &#39;</span>
+            <span class="s2">&quot;but true_labels_class_counts is None. &quot;</span>
         <span class="p">)</span>
-        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">" Provide parameter true_labels_class_counts."</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; Provide parameter true_labels_class_counts.&quot;</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">"cnt"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">&quot;cnt&quot;</span><span class="p">:</span>
         <span class="c1"># Computing py this way avoids dividing by zero noise rates.</span>
         <span class="c1"># More robust bc error est_p(true_label|labels) / est_p(labels|y) ~ p(true_label|labels) / p(labels|y)</span>
         <span class="n">py</span> <span class="o">=</span> <span class="n">inverse_noise_matrix</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span> <span class="o">/</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span> <span class="o">*</span> <span class="n">ps</span>
         <span class="c1"># Equivalently,</span>
         <span class="c1"># py = (true_labels_class_counts / labels_class_counts) * ps</span>
-    <span class="k">elif</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">"eqn"</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">&quot;eqn&quot;</span><span class="p">:</span>
         <span class="n">py</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">"marginal"</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">&quot;marginal&quot;</span><span class="p">:</span>
         <span class="n">py</span> <span class="o">=</span> <span class="n">true_labels_class_counts</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">true_labels_class_counts</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">"marginal_ps"</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">py_method</span> <span class="o">==</span> <span class="s2">&quot;marginal_ps&quot;</span><span class="p">:</span>
         <span class="n">py</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">inverse_noise_matrix</span><span class="p">,</span> <span class="n">ps</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">err</span> <span class="o">=</span> <span class="s2">"py_method </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py_method</span><span class="p">)</span>
-        <span class="n">err</span> <span class="o">+=</span> <span class="s2">" should be in [cnt, eqn, marginal, marginal_ps]"</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;py_method </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py_method</span><span class="p">)</span>
+        <span class="n">err</span> <span class="o">+=</span> <span class="s2">&quot; should be in [cnt, eqn, marginal, marginal_ps]&quot;</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
 
     <span class="c1"># Clip py (0,1), s.t. no class should have prob 0, hence 1e-5</span>
@@ -620,7 +625,7 @@
 
 
 <div class="viewcode-block" id="compute_pyx"><a class="viewcode-back" href="../../../cleanlab/internal/latent_algebra.html#cleanlab.internal.latent_algebra.compute_pyx">[docs]</a><span class="k">def</span> <span class="nf">compute_pyx</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">,</span> <span class="n">inverse_noise_matrix</span><span class="p">):</span>
-    <span class="sd">"""Compute pyx := P(true_label=k|x) from pred_probs := P(label=k|x), and the noise_matrix and</span>
+    <span class="sd">&quot;&quot;&quot;Compute pyx := P(true_label=k|x) from pred_probs := P(label=k|x), and the noise_matrix and</span>
 <span class="sd">    inverse noise matrix.</span>
 
 <span class="sd">    This method is ROBUST - meaning it works well even when the</span>
@@ -655,19 +660,19 @@
 <span class="sd">        Each row of this matrix corresponds to an example `x` and contains the model-predicted</span>
 <span class="sd">        probabilities that `x` belongs to each possible class.</span>
 <span class="sd">        The columns must be ordered such that these probabilities correspond to class 0,1,2,...</span>
-<span class="sd">        `pred_probs` should have been computed using 3 (or higher) fold cross-validation."""</span>
+<span class="sd">        `pred_probs` should have been computed using 3 (or higher) fold cross-validation.&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">"Input parameter np.array 'pred_probs' has shape "</span>
+            <span class="s2">&quot;Input parameter np.array &#39;pred_probs&#39; has shape &quot;</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">))</span>
-            <span class="o">+</span> <span class="s2">", but shape should be (N, K)"</span>
+            <span class="o">+</span> <span class="s2">&quot;, but shape should be (N, K)&quot;</span>
         <span class="p">)</span>
 
     <span class="n">pyx</span> <span class="o">=</span> <span class="n">pred_probs</span> <span class="o">*</span> <span class="n">inverse_noise_matrix</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span> <span class="o">/</span> <span class="n">noise_matrix</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
     <span class="c1"># Make sure valid probabilities that sum to 1.0</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span>
-        <span class="n">func1d</span><span class="o">=</span><span class="n">clip_values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arr</span><span class="o">=</span><span class="n">pyx</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">"low"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">"high"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">"new_sum"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span>
+        <span class="n">func1d</span><span class="o">=</span><span class="n">clip_values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arr</span><span class="o">=</span><span class="n">pyx</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;low&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;new_sum&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span>
     <span class="p">)</span></div>
 </pre></div> 
         </article>
@@ -724,6 +729,7 @@
 </div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/scripts/furo.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
