@@ -394,13 +394,13 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    noise_matrix : np.array</span>
+<span class="sd">    noise_matrix : np.ndarray</span>
 <span class="sd">      An array of shape ``(K, K)`` representing the conditional probability</span>
 <span class="sd">      matrix ``P(label=k_s|true_label=k_y)`` containing the fraction of</span>
 <span class="sd">      examples in every class, labeled as every other class. Assumes columns of</span>
 <span class="sd">      `noise_matrix` sum to 1.</span>
 
-<span class="sd">    py : np.array</span>
+<span class="sd">    py : np.ndarray</span>
 <span class="sd">      An array of shape ``(K,)`` representing the fraction (prior probability)</span>
 <span class="sd">      of each true class label, ``P(true_label = k)``.</span>
 
@@ -474,11 +474,11 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    true_labels : np.array</span>
+<span class="sd">    true_labels : np.ndarray</span>
 <span class="sd">      An array of shape ``(N,)`` representing perfect labels, without any</span>
 <span class="sd">      noise. Contains K distinct natural number classes, 0, 1, ..., K-1.</span>
 
-<span class="sd">    noise_matrix : np.array</span>
+<span class="sd">    noise_matrix : np.ndarray</span>
 <span class="sd">      An array of shape ``(K, K)`` representing the conditional probability</span>
 <span class="sd">      matrix ``P(label=k_s|true_label=k_y)`` containing the fraction of</span>
 <span class="sd">      examples in every class, labeled as every other class. Assumes columns of</span>
@@ -486,7 +486,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    labels : np.array</span>
+<span class="sd">    labels : np.ndarray</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels.</span>
 
 <span class="sd">    Examples</span>
@@ -496,7 +496,7 @@
 
 <span class="sd">        # Generate labels</span>
 <span class="sd">        count_joint = (noise_matrix * py * len(y)).round().astype(int)</span>
-<span class="sd">        labels = np.array(y)</span>
+<span class="sd">        labels = np.ndarray(y)</span>
 <span class="sd">        for k_s in range(K):</span>
 <span class="sd">            for k_y in range(K):</span>
 <span class="sd">                if k_s != k_y:</span>
@@ -579,17 +579,17 @@
 <span class="sd">      Minimum probability of any entry in the trace of the return matrix.</span>
 
 <span class="sd">    max_noise_rate : float</span>
-<span class="sd">      Maximum noise_rate (non-diagonal entry) in the returned np.array.</span>
+<span class="sd">      Maximum noise_rate (non-diagonal entry) in the returned np.ndarray.</span>
 
 <span class="sd">    min_noise_rate : float</span>
-<span class="sd">      Minimum noise_rate (non-diagonal entry) in the returned np.array.</span>
+<span class="sd">      Minimum noise_rate (non-diagonal entry) in the returned np.ndarray.</span>
 
 <span class="sd">    valid_noise_matrix : bool, default=True</span>
 <span class="sd">      If ``True``, returns a matrix having all necessary conditions for</span>
 <span class="sd">      learning with noisy labels. In particular, ``p(true_label=k)p(label=k) &lt; p(true_label=k,label=k)``</span>
 <span class="sd">      is satisfied. This requires that ``trace &gt; 1``.</span>
 
-<span class="sd">    py : np.array</span>
+<span class="sd">    py : np.ndarray</span>
 <span class="sd">      An array of shape ``(K,)`` representing the fraction (prior probability) of each true class label, ``P(true_label = k)``.</span>
 <span class="sd">      This argument is **required** when ``valid_noise_matrix=True``.</span>
 
@@ -609,7 +609,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    noise_matrix : np.array or None</span>
+<span class="sd">    noise_matrix : np.ndarray or None</span>
 <span class="sd">      An array of shape ``(K, K)`` representing the noise matrix ``P(label=k_s|true_label=k_y)`` with `trace`</span>
 <span class="sd">      equal to ``np.sum(np.diagonal(noise_matrix))``. This a conditional probability matrix and a</span>
 <span class="sd">      left stochastic matrix. Returns ``None`` if `max_iter` is exceeded.</span>

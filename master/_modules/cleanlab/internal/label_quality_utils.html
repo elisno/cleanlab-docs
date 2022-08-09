@@ -392,10 +392,10 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels : np.array</span>
+<span class="sd">    labels : np.ndarray</span>
 <span class="sd">      Labels in the same format expected by the `cleanlab.count.get_confident_thresholds()` method.</span>
 
-<span class="sd">    pred_probs : np.array (shape (N, K))</span>
+<span class="sd">    pred_probs : np.ndarray (shape (N, K))</span>
 <span class="sd">      Predicted-probabilities in the same format expected by the `cleanlab.count.get_confident_thresholds()` method.</span>
 
 <span class="sd">    multi_label : bool, optional</span>
@@ -410,7 +410,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    pred_probs_adj : np.array (float)</span>
+<span class="sd">    pred_probs_adj : np.ndarray (float)</span>
 <span class="sd">      Adjusted pred_probs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -443,7 +443,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    pred_probs : np.array (shape (N, K))</span>
+<span class="sd">    pred_probs : np.ndarray (shape (N, K))</span>
 <span class="sd">      Each row of this matrix corresponds to an example x and contains the model-predicted</span>
 <span class="sd">      probabilities that x belongs to each possible class: P(label=k|x)</span>
 
@@ -452,7 +452,7 @@
 <span class="sd">      Ensures entropy remains well-behaved even when `pred_probs` contains zeros.</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    entropy : np.array (float)</span>
+<span class="sd">    entropy : np.ndarray (float)</span>
 <span class="sd">      Each element is the normalized entropy of the corresponding row of ``pred_probs``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 

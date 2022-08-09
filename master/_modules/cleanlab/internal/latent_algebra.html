@@ -394,11 +394,11 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels : np.array</span>
+<span class="sd">    labels : np.ndarray</span>
 <span class="sd">          A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">          *Format requirements*: for dataset with K classes, labels must be in {0,1,...,K-1}.</span>
 
-<span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">        Assumes columns of noise_matrix sum to 1.&quot;&quot;&quot;</span>
@@ -415,10 +415,10 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ps : np.array (shape (K, ) or (1, K))</span>
+<span class="sd">    ps : np.ndarray (shape (K, ) or (1, K))</span>
 <span class="sd">        The fraction (prior probability) of each observed, NOISY class P(labels = k).</span>
 
-<span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">        Assumes columns of noise_matrix sum to 1.&quot;&quot;&quot;</span>
@@ -441,15 +441,15 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    py : np.array (shape (K, 1))</span>
+<span class="sd">    py : np.ndarray (shape (K, 1))</span>
 <span class="sd">        The fraction (prior probability) of each TRUE class label, P(true_label = k)</span>
 
-<span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">        Assumes columns of noise_matrix sum to 1.</span>
 
-<span class="sd">    ps : np.array (shape (K, 1))</span>
+<span class="sd">    ps : np.ndarray (shape (K, 1))</span>
 <span class="sd">        The fraction (prior probability) of each NOISY given label, P(labels = k).</span>
 <span class="sd">        ps is easily computable from py and should only be provided if it has</span>
 <span class="sd">        already been precomputed, to increase code efficiency.</span>
@@ -492,24 +492,24 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    py : np.array (shape (K, 1))</span>
+<span class="sd">    py : np.ndarray (shape (K, 1))</span>
 <span class="sd">        The fraction (prior probability) of each TRUE class label, P(true_label = k)</span>
 
-<span class="sd">    inverse_noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    inverse_noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(true_label=k_y|label=k_s) representing</span>
 <span class="sd">        the estimated fraction observed examples in each class k_s, that are</span>
 <span class="sd">        mislabeled examples from every other class k_y. If None, the</span>
 <span class="sd">        inverse_noise_matrix will be computed from pred_probs and labels.</span>
 <span class="sd">        Assumes columns of inverse_noise_matrix sum to 1.</span>
 
-<span class="sd">    ps : np.array (shape (K, 1))</span>
+<span class="sd">    ps : np.ndarray (shape (K, 1))</span>
 <span class="sd">        The fraction (prior probability) of each observed NOISY label, P(labels = k).</span>
 <span class="sd">        ps is easily computable from py and should only be provided if it has</span>
 <span class="sd">        already been precomputed, to increase code efficiency.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">        Columns of noise_matrix sum to 1.</span>
@@ -561,15 +561,15 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ps : np.array (shape (K, ) or (1, K))</span>
+<span class="sd">    ps : np.ndarray (shape (K, ) or (1, K))</span>
 <span class="sd">        The fraction (prior probability) of each observed, noisy label, P(labels = k)</span>
 
-<span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">        Assumes columns of noise_matrix sum to 1.</span>
 
-<span class="sd">    inverse_noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    inverse_noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(true_label=k_y|label=k_s) representing</span>
 <span class="sd">        the estimated fraction observed examples in each class k_s, that are</span>
 <span class="sd">        mislabeled examples from every other class k_y. If None, the</span>
@@ -581,16 +581,16 @@
 <span class="sd">        works well even when the noise matrices are estimated poorly by using</span>
 <span class="sd">        the matrix diagonals instead of all the probabilities.</span>
 
-<span class="sd">    true_labels_class_counts : np.array (shape (K, ) or (1, K))</span>
+<span class="sd">    true_labels_class_counts : np.ndarray (shape (K, ) or (1, K))</span>
 <span class="sd">        The marginal counts of the confident joint (like cj.sum(axis = 0))</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    py : np.array (shape (K, ) or (1, K))</span>
+<span class="sd">    py : np.ndarray (shape (K, ) or (1, K))</span>
 <span class="sd">        The fraction (prior probability) of each TRUE class label, P(true_label = k).&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ps</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="s2">&quot;Input parameter np.array ps has shape &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="s2">&quot;Input parameter np.ndarray ps has shape &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span>
         <span class="n">w</span> <span class="o">+=</span> <span class="s2">&quot;, but shape should be (K, ) or (1, K)&quot;</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
 
@@ -634,19 +634,19 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    pred_probs : np.array (shape (N, K))</span>
+<span class="sd">    pred_probs : np.ndarray (shape (N, K))</span>
 <span class="sd">        P(label=k|x) is a matrix with K model-predicted probabilities.</span>
 <span class="sd">        Each row of this matrix corresponds to an example `x` and contains the model-predicted</span>
 <span class="sd">        probabilities that `x` belongs to each possible class.</span>
 <span class="sd">        The columns must be ordered such that these probabilities correspond to class 0,1,2,...</span>
 <span class="sd">        `pred_probs` should have been computed using 3 (or higher) fold cross-validation.</span>
 
-<span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">        Assumes columns of noise_matrix sum to 1.</span>
 
-<span class="sd">    inverse_noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    inverse_noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(true_label=k_y|label=k_s) representing</span>
 <span class="sd">        the estimated fraction observed examples in each class k_s, that are</span>
 <span class="sd">        mislabeled examples from every other class k_y. If None, the</span>
@@ -655,7 +655,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    pyx : np.array (shape (N, K))</span>
+<span class="sd">    pyx : np.ndarray (shape (N, K))</span>
 <span class="sd">        P(true_label=k|x) is a matrix with K model-predicted probabilities.</span>
 <span class="sd">        Each row of this matrix corresponds to an example `x` and contains the model-predicted</span>
 <span class="sd">        probabilities that `x` belongs to each possible class.</span>
@@ -664,7 +664,7 @@
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Input parameter np.array &#39;pred_probs&#39; has shape &quot;</span>
+            <span class="s2">&quot;Input parameter np.ndarray &#39;pred_probs&#39; has shape &quot;</span>
             <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">))</span>
             <span class="o">+</span> <span class="s2">&quot;, but shape should be (N, K)&quot;</span>
         <span class="p">)</span>

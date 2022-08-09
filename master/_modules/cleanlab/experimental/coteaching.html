@@ -412,7 +412,7 @@
 <span class="sd">    y_2 : Tensor array</span>
 <span class="sd">      Output logits from model 2</span>
 
-<span class="sd">    t : np.array</span>
+<span class="sd">    t : np.ndarray</span>
 <span class="sd">      List of Noisy Labels (t means targets)</span>
 
 <span class="sd">    forget_rate : float</span>
@@ -500,7 +500,7 @@
 <span class="sd">    optimizer2 : PyTorch torch.optim.Adam</span>
 <span class="sd">    args : parser.parse_args() object</span>
 <span class="sd">        Must contain num_iter_per_epoch, print_freq, and epochs</span>
-<span class="sd">    forget_rate_schedule : np.array of length number of epochs</span>
+<span class="sd">    forget_rate_schedule : np.ndarray of length number of epochs</span>
 <span class="sd">        Tells Co-Teaching loss what fraction of examples to forget about.</span>
 <span class="sd">    class_weights : Tensor array, shape (Number of classes x 1), Default: None</span>
 <span class="sd">      A np.torch.tensor list of length number of classes with weights</span>

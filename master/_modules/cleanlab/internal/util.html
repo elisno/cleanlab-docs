@@ -391,7 +391,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">        Assumes columns of noise_matrix sum to 1.</span>
@@ -426,7 +426,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
+<span class="sd">    noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix containing the fraction of</span>
 <span class="sd">        examples in every class, labeled as every other class.</span>
 <span class="sd">        Diagonal terms are not noise rates, but are consistency P(label=k|true_label=k)</span>
@@ -437,7 +437,7 @@
 <span class="sd">        into proper range [0,1)&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">noise_rate</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mf">0.9999</span><span class="p">)</span>
 
-    <span class="c1"># Vectorize clip_noise_rate_range for efficiency with np.arrays.</span>
+    <span class="c1"># Vectorize clip_noise_rate_range for efficiency with np.ndarrays.</span>
     <span class="n">vectorized_clip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">clip_noise_rate_range</span><span class="p">)</span>
 
     <span class="c1"># Preserve because diagonal entries are not noise rates.</span>
@@ -461,7 +461,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x : np.array</span>
+<span class="sd">    x : np.ndarray</span>
 <span class="sd">        An array / list of values to be clipped.</span>
 
 <span class="sd">    low : float</span>
@@ -475,14 +475,16 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    x : np.array</span>
+<span class="sd">    x : np.ndarray</span>
 <span class="sd">        A list of clipped values, summing to the same sum as x.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">clip_range</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">high</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Clip a into range [low,high]&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">low</span><span class="p">),</span> <span class="n">high</span><span class="p">)</span>
 
-    <span class="n">vectorized_clip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">clip_range</span><span class="p">)</span>  <span class="c1"># Vectorize clip_range for efficiency with np.arrays</span>
+    <span class="n">vectorized_clip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span>
+        <span class="n">clip_range</span>
+    <span class="p">)</span>  <span class="c1"># Vectorize clip_range for efficiency with np.ndarrays</span>
     <span class="n">prev_sum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">new_sum</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">new_sum</span>  <span class="c1"># Store previous sum</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">vectorized_clip</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Clip all values (efficiently)</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">prev_sum</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Re-normalized values to sum to previous sum</span>
@@ -490,7 +492,7 @@
 
 
 <div class="viewcode-block" id="value_counts"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.value_counts">[docs]</a><span class="k">def</span> <span class="nf">value_counts</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns an np.array of shape (K, 1), with the</span>
+    <span class="sd">&quot;&quot;&quot;Returns an np.ndarray of shape (K, 1), with the</span>
 <span class="sd">    value counts for every unique item in the labels list/array,</span>
 <span class="sd">    where K is the number of unique entries in labels.</span>
 
@@ -512,7 +514,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x : list or np.array (one dimensional)</span>
+<span class="sd">    x : list or np.ndarray (one dimensional)</span>
 <span class="sd">        A list of discrete objects, like lists or strings, for</span>
 <span class="sd">        example, class labels &#39;y&#39; when training a classifier.</span>
 <span class="sd">        e.g. [&quot;dog&quot;,&quot;dog&quot;,&quot;cat&quot;] or [1,2,0,1,1,0,2]&quot;&quot;&quot;</span>
@@ -535,12 +537,12 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    -----------</span>
-<span class="sd">    iterable : list&lt;float&gt; or np.array&lt;float&gt;</span>
+<span class="sd">    iterable : list&lt;float&gt; or np.ndarray&lt;float&gt;</span>
 <span class="sd">        An iterable of floats</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    list&lt;int&gt; or np.array&lt;int&gt;</span>
+<span class="sd">    list&lt;int&gt; or np.ndarray&lt;int&gt;</span>
 <span class="sd">        The iterable rounded to int, preserving sum.&quot;&quot;&quot;</span>
 
     <span class="n">floats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
@@ -563,16 +565,16 @@
 <div class="viewcode-block" id="round_preserving_row_totals"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.round_preserving_row_totals">[docs]</a><span class="k">def</span> <span class="nf">round_preserving_row_totals</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Rounds confident_joint cj to type int</span>
 <span class="sd">    while preserving the totals of reach row.</span>
-<span class="sd">    Assumes that cj is a 2D np.array of type float.</span>
+<span class="sd">    Assumes that cj is a 2D np.ndarray of type float.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    confident_joint : 2D np.array&lt;float&gt; of shape (K, K)</span>
+<span class="sd">    confident_joint : 2D np.ndarray&lt;float&gt; of shape (K, K)</span>
 <span class="sd">        See compute_confident_joint docstring for details.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    confident_joint : 2D np.array&lt;int&gt; of shape (K,K)</span>
+<span class="sd">    confident_joint : 2D np.ndarray&lt;int&gt; of shape (K,K)</span>
 <span class="sd">        Rounded to int while preserving row totals.&quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span>
@@ -602,7 +604,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    onehot_matrix: 2D np.array of 0s and 1s</span>
+<span class="sd">    onehot_matrix: 2D np.ndarray of 0s and 1s</span>
 <span class="sd">      A one hot encoded matrix representation of multi-labels.</span>
 
 <span class="sd">    Returns</span>
@@ -619,10 +621,10 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    s : iterable (list or np.array)</span>
+<span class="sd">    s : iterable (list or np.ndarray)</span>
 <span class="sd">      Binary label (whether each element is labeled or not) in pu learning.</span>
 
-<span class="sd">    prob_s_eq_1 : iterable (list or np.array)</span>
+<span class="sd">    prob_s_eq_1 : iterable (list or np.ndarray)</span>
 <span class="sd">      The probability, for each example, whether it has label=1 P(label=1|x)</span>
 
 <span class="sd">    Output (float)</span>
@@ -649,17 +651,17 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    true : np.array 1d</span>
+<span class="sd">    true : np.ndarray 1d</span>
 <span class="sd">      Contains labels.</span>
 <span class="sd">      Assumes true and pred contains the same set of distinct labels.</span>
 
-<span class="sd">    pred : np.array 1d</span>
+<span class="sd">    pred : np.ndarray 1d</span>
 <span class="sd">      A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      *Format requirements*: for dataset with K classes, labels must be in {0,1,...,K-1}.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    confusion_matrix : np.array (2D)</span>
+<span class="sd">    confusion_matrix : np.ndarray (2D)</span>
 <span class="sd">      matrix of confusion counts with true on rows and pred on columns.&quot;&quot;&quot;</span>
 
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">true</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
@@ -689,7 +691,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    matrix : np.array</span>
+<span class="sd">    matrix : np.ndarray</span>
 <span class="sd">        the matrix to be printed</span>
 <span class="sd">    left_name : str</span>
 <span class="sd">        the name of the variable on the left of the matrix</span>
@@ -751,7 +753,7 @@
 
 
 <div class="viewcode-block" id="compress_int_array"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.compress_int_array">[docs]</a><span class="k">def</span> <span class="nf">compress_int_array</span><span class="p">(</span><span class="n">int_array</span><span class="p">,</span> <span class="n">num_possible_values</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compresses dtype of np.array&lt;int&gt; if num_possible_values is small enough.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Compresses dtype of np.ndarray&lt;int&gt; if num_possible_values is small enough.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">compressed_type</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">num_possible_values</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int16&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>
@@ -770,7 +772,7 @@
     <span class="n">labels_train</span><span class="p">,</span> <span class="n">labels_holdout</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">labels</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span>
         <span class="n">labels</span><span class="p">[</span><span class="n">holdout_idx</span><span class="p">],</span>
-    <span class="p">)</span>  <span class="c1"># labels are always np.array</span>
+    <span class="p">)</span>  <span class="c1"># labels are always np.ndarray</span>
     <span class="n">split_completed</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)):</span>
         <span class="n">X_train</span><span class="p">,</span> <span class="n">X_holdout</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">holdout_idx</span><span class="p">]</span>
@@ -823,11 +825,11 @@
         <span class="k">try</span><span class="p">:</span>  <span class="c1"># filtering labels as if it is list</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">l</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="k">if</span> <span class="n">mask</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;labels must be 1D np.array, list, or pd.Series.&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;labels must be 1D np.ndarray, list, or pd.Series.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="subset_data"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.subset_data">[docs]</a><span class="k">def</span> <span class="nf">subset_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extracts subset of data examples where mask (np.array) is True&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Extracts subset of data examples where mask (np.ndarray) is True&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">torch</span>
 

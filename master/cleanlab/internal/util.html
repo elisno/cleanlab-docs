@@ -373,7 +373,7 @@
 <td><p>Clip all values in p to range [low,high].</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.compress_int_array" title="cleanlab.internal.util.compress_int_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compress_int_array</span></code></a>(int_array, ...)</p></td>
-<td><p>Compresses dtype of np.array&lt;int&gt; if num_possible_values is small enough.</p></td>
+<td><p>Compresses dtype of np.ndarray&lt;int&gt; if num_possible_values is small enough.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.confusion_matrix" title="cleanlab.internal.util.confusion_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">confusion_matrix</span></code></a>(true, pred)</p></td>
 <td><p>Implements a confusion matrix for true labels and predicted labels.</p></td>
@@ -433,7 +433,7 @@
 <td><p>Extracts subset of features/labels where mask is True</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.subset_data" title="cleanlab.internal.util.subset_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subset_data</span></code></a>(X, mask)</p></td>
-<td><p>Extracts subset of data examples where mask (np.array) is True</p></td>
+<td><p>Extracts subset of data examples where mask (np.ndarray) is True</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.util.subset_labels" title="cleanlab.internal.util.subset_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subset_labels</span></code></a>(labels, mask)</p></td>
 <td><p>Extracts subset of labels where mask is True</p></td>
@@ -445,7 +445,7 @@
 <td><p>Applies iterative inverse transformations to dataset to get version before ShuffleDataset was created.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.util.value_counts" title="cleanlab.internal.util.value_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value_counts</span></code></a>(x)</p></td>
-<td><p>Returns an np.array of shape (K, 1), with the value counts for every unique item in the labels list/array, where K is the number of unique entries in labels.</p></td>
+<td><p>Returns an np.ndarray of shape (K, 1), with the value counts for every unique item in the labels list/array, where K is the number of unique entries in labels.</p></td>
 </tr>
 </tbody>
 </table>
@@ -467,7 +467,7 @@ noise rates.</p>
 <p>ASSUMES noise_matrix columns sum to 1.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(K</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K)</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">number</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">classes</span></code>) – A conditional probability matrix containing the fraction of
+<dd class="field-odd"><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(K</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K)</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">number</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">classes</span></code>) – A conditional probability matrix containing the fraction of
 examples in every class, labeled as every other class.
 Diagonal terms are not noise rates, but are consistency P(label=k|true_label=k)
 Assumes columns of noise_matrix sum to 1</p>
@@ -483,7 +483,7 @@ Preserves sum of x.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array / list of values to be clipped.</p></li>
+<li><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array / list of values to be clipped.</p></li>
 <li><p><strong>low</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – values in x greater than ‘low’ are clipped to this value</p></li>
 <li><p><strong>high</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – values in x greater than ‘high’ are clipped to this value</p></li>
 <li><p><strong>new_sum</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – normalizes x after clipping to sum to new_sum</p></li>
@@ -493,7 +493,7 @@ Preserves sum of x.</p>
 <dd class="field-even"><p><strong>x</strong> – A list of clipped values, summing to the same sum as x.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -501,7 +501,7 @@ Preserves sum of x.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.internal.util.compress_int_array">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">compress_int_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">int_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_possible_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#compress_int_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.compress_int_array" title="Permalink to this definition">#</a></dt>
-<dd><p>Compresses dtype of np.array&lt;int&gt; if num_possible_values is small enough.</p>
+<dd><p>Compresses dtype of np.ndarray&lt;int&gt; if num_possible_values is small enough.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -518,9 +518,9 @@ and have the same distinct set of class labels represented.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>true</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">1d</span></code>) – Contains labels.
+<li><p><strong>true</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span> <span class="pre">1d</span></code>) – Contains labels.
 Assumes true and pred contains the same set of distinct labels.</p></li>
-<li><p><strong>pred</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">1d</span></code>) – A discrete vector of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>pred</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span> <span class="pre">1d</span></code>) – A discrete vector of noisy labels, i.e. some labels may be erroneous.
 <em>Format requirements</em>: for dataset with K classes, labels must be in {0,1,…,K-1}.</p></li>
 </ul>
 </dd>
@@ -528,7 +528,7 @@ Assumes true and pred contains the same set of distinct labels.</p></li>
 <dd class="field-even"><p><strong>confusion_matrix</strong> – matrix of confusion counts with true on rows and pred on columns.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(2D)</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span> <span class="pre">(2D)</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -547,8 +547,8 @@ Alternative to scipy.sparse.vstack. Returns a sparse matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span> <span class="pre">(list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.array)</span></code>) – Binary label (whether each element is labeled or not) in pu learning.</p></li>
-<li><p><strong>prob_s_eq_1</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span> <span class="pre">(list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.array)</span></code>) – The probability, for each example, whether it has label=1 P(label=1|x)</p></li>
+<li><p><strong>s</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span> <span class="pre">(list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray)</span></code>) – Binary label (whether each element is labeled or not) in pu learning.</p></li>
+<li><p><strong>prob_s_eq_1</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span> <span class="pre">(list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray)</span></code>) – The probability, for each example, whether it has label=1 P(label=1|x)</p></li>
 <li><p><strong>(</strong><strong>float</strong><strong>)</strong> (<em>Output</em>) – </p></li>
 <li><p><strong>------</strong> – </p></li>
 <li><p><strong>setting.</strong> (<em>Claesen's estimate for f1 in the pulearning</em>) – </p></li>
@@ -624,7 +624,7 @@ like this: [1, [1,2], [0], [0, 1], 2, 1]</p>
 <dd><p>Convert a onehot matrix for multi-labels to a list of lists of ints</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>onehot_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">2D</span> <span class="pre">np.array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">0s</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">1s</span></code>) – A one hot encoded matrix representation of multi-labels.</p>
+<dd class="field-odd"><p><strong>onehot_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">2D</span> <span class="pre">np.ndarray</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">0s</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">1s</span></code>) – A one hot encoded matrix representation of multi-labels.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>labels</strong> – e.g. [[0,1], [3], [1,2,3], [1], [2]]
@@ -661,7 +661,7 @@ All integers from 0,1,…,K-1 must be represented.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – the matrix to be printed</p></li>
+<li><p><strong>matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – the matrix to be printed</p></li>
 <li><p><strong>left_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – the name of the variable on the left of the matrix</p></li>
 <li><p><strong>top_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – the name of the variable on the top of the matrix</p></li>
 <li><p><strong>title</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Prints this string above the printed square matrix.</p></li>
@@ -683,7 +683,7 @@ class of choosing, denoted by class_without_noise.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(K</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K)</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">number</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">classes</span></code>) – A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing
+<li><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(K</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K)</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">number</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">classes</span></code>) – A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing
 the fraction of examples in every class, labeled as every other class.
 Assumes columns of noise_matrix sum to 1.</p></li>
 <li><p><strong>class_without_noise</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Integer value of the class that has no noise. Traditionally,
@@ -698,16 +698,16 @@ this is 1 (positive) for PU learning.</p></li>
 <span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">round_preserving_row_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confident_joint</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#round_preserving_row_totals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.round_preserving_row_totals" title="Permalink to this definition">#</a></dt>
 <dd><p>Rounds confident_joint cj to type int
 while preserving the totals of reach row.
-Assumes that cj is a 2D np.array of type float.</p>
+Assumes that cj is a 2D np.ndarray of type float.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">2D</span> <span class="pre">np.array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(K</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K)</span></code>) – See compute_confident_joint docstring for details.</p>
+<dd class="field-odd"><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">2D</span> <span class="pre">np.ndarray</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(K</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K)</span></code>) – See compute_confident_joint docstring for details.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>confident_joint</strong> – Rounded to int while preserving row totals.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">2D</span> <span class="pre">np.array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(K,K)</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">2D</span> <span class="pre">np.ndarray</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(K,K)</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -722,13 +722,13 @@ parameter is optional, but should be included if not obvious.</p>
 <a class="reference external" href="https://github.com/cgdeboer/iteround">https://github.com/cgdeboer/iteround</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An iterable of floats</p>
+<dd class="field-odd"><p><strong>iterable</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An iterable of floats</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The iterable rounded to int, preserving sum.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -748,7 +748,7 @@ parameter is optional, but should be included if not obvious.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.internal.util.subset_data">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">subset_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#subset_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.subset_data" title="Permalink to this definition">#</a></dt>
-<dd><p>Extracts subset of data examples where mask (np.array) is True</p>
+<dd><p>Extracts subset of data examples where mask (np.ndarray) is True</p>
 </dd></dl>
 
 <dl class="py function">
@@ -789,7 +789,7 @@ buffer_size : int <cite>buffer_size</cite> previously used in ShuffleDataset,</p
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.internal.util.value_counts">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.internal.util.</span></span><span class="sig-name descname"><span class="pre">value_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/util.html#value_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.util.value_counts" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns an np.array of shape (K, 1), with the
+<dd><p>Returns an np.ndarray of shape (K, 1), with the
 value counts for every unique item in the labels list/array,
 where K is the number of unique entries in labels.</p>
 <p>Why this matters? Here is an example:</p>
@@ -806,7 +806,7 @@ where K is the number of unique entries in labels.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span> <span class="pre">(one</span> <span class="pre">dimensional)</span></code>) – A list of discrete objects, like lists or strings, for
+<dd class="field-odd"><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span> <span class="pre">(one</span> <span class="pre">dimensional)</span></code>) – A list of discrete objects, like lists or strings, for
 example, class labels ‘y’ when training a classifier.
 e.g. [“dog”,”dog”,”cat”] or [1,2,0,1,1,0,2]</p>
 </dd>

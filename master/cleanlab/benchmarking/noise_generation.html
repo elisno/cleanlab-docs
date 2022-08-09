@@ -416,12 +416,12 @@ K classes for learning with noisy labels.</p></li>
 <li><p><strong>trace</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Sum of diagonal entries of array of random probabilities returned.</p></li>
 <li><p><strong>max_trace_prob</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Maximum probability of any entry in the trace of the return matrix.</p></li>
 <li><p><strong>min_trace_prob</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Minimum probability of any entry in the trace of the return matrix.</p></li>
-<li><p><strong>max_noise_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Maximum noise_rate (non-diagonal entry) in the returned np.array.</p></li>
-<li><p><strong>min_noise_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Minimum noise_rate (non-diagonal entry) in the returned np.array.</p></li>
+<li><p><strong>max_noise_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Maximum noise_rate (non-diagonal entry) in the returned np.ndarray.</p></li>
+<li><p><strong>min_noise_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Minimum noise_rate (non-diagonal entry) in the returned np.ndarray.</p></li>
 <li><p><strong>valid_noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, returns a matrix having all necessary conditions for
 learning with noisy labels. In particular, <code class="docutils literal notranslate"><span class="pre">p(true_label=k)p(label=k)</span> <span class="pre">&lt;</span> <span class="pre">p(true_label=k,label=k)</span></code>
 is satisfied. This requires that <code class="docutils literal notranslate"><span class="pre">trace</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>.</p></li>
-<li><p><strong>py</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,)</span></code> representing the fraction (prior probability) of each true class label, <code class="docutils literal notranslate"><span class="pre">P(true_label</span> <span class="pre">=</span> <span class="pre">k)</span></code>.
+<li><p><strong>py</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,)</span></code> representing the fraction (prior probability) of each true class label, <code class="docutils literal notranslate"><span class="pre">P(true_label</span> <span class="pre">=</span> <span class="pre">k)</span></code>.
 This argument is <strong>required</strong> when <code class="docutils literal notranslate"><span class="pre">valid_noise_matrix=True</span></code>.</p></li>
 <li><p><strong>frac_zero_noise_rates</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The fraction of the <code class="docutils literal notranslate"><span class="pre">n*(n-1)</span></code> noise rates
 that will be set to 0. Note that if you set a high trace, it may be
@@ -439,7 +439,7 @@ equal to <code class="docutils literal notranslate"><span class="pre">np.sum(np.
 left stochastic matrix. Returns <code class="docutils literal notranslate"><span class="pre">None</span></code> if <cite>max_iter</cite> is exceeded.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -455,9 +455,9 @@ it explains as Python pseudocode what is happening in this function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>true_labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> representing perfect labels, without any
+<li><p><strong>true_labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> representing perfect labels, without any
 noise. Contains K distinct natural number classes, 0, 1, …, K-1.</p></li>
-<li><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the conditional probability
+<li><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the conditional probability
 matrix <code class="docutils literal notranslate"><span class="pre">P(label=k_s|true_label=k_y)</span></code> containing the fraction of
 examples in every class, labeled as every other class. Assumes columns of
 <cite>noise_matrix</cite> sum to 1.</p></li>
@@ -467,13 +467,13 @@ examples in every class, labeled as every other class. Assumes columns of
 <dd class="field-even"><p><strong>labels</strong> – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate labels</span>
 <span class="n">count_joint</span> <span class="o">=</span> <span class="p">(</span><span class="n">noise_matrix</span> <span class="o">*</span> <span class="n">py</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">k_s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">k_y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">k_s</span> <span class="o">!=</span> <span class="n">k_y</span><span class="p">:</span>
@@ -498,11 +498,11 @@ better than random performance, on average, for the amount of noise in
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the conditional probability
+<li><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the conditional probability
 matrix <code class="docutils literal notranslate"><span class="pre">P(label=k_s|true_label=k_y)</span></code> containing the fraction of
 examples in every class, labeled as every other class. Assumes columns of
 <cite>noise_matrix</cite> sum to 1.</p></li>
-<li><p><strong>py</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,)</span></code> representing the fraction (prior probability)
+<li><p><strong>py</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,)</span></code> representing the fraction (prior probability)
 of each true class label, <code class="docutils literal notranslate"><span class="pre">P(true_label</span> <span class="pre">=</span> <span class="pre">k)</span></code>.</p></li>
 </ul>
 </dd>
