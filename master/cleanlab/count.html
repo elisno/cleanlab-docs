@@ -419,12 +419,12 @@ of the actual joint of noisy and true labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the confident joint, the matrix used for identifying label issues, which
+<li><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the confident joint, the matrix used for identifying label issues, which
 estimates a confident subset of the joint distribution of the noisy and true labels, <code class="docutils literal notranslate"><span class="pre">P_{noisy</span> <span class="pre">label,</span> <span class="pre">true</span> <span class="pre">label}</span></code>.
 Entry <code class="docutils literal notranslate"><span class="pre">(j,</span> <span class="pre">k)</span></code> in the matrix is the number of examples confidently counted into the pair of <code class="docutils literal notranslate"><span class="pre">(noisy</span> <span class="pre">label=j,</span> <span class="pre">true</span> <span class="pre">label=k)</span></code> classes.
 The <cite>confident_joint</cite> can be computed using <a class="reference internal" href="#cleanlab.count.compute_confident_joint" title="cleanlab.count.compute_confident_joint"><code class="xref py py-func docutils literal notranslate"><span class="pre">count.compute_confident_joint</span></code></a>.
 If not provided, it is computed from the given (noisy) <cite>labels</cite> and <cite>pred_probs</cite>.</p></li>
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – A discrete vector of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – A discrete vector of noisy labels, i.e. some labels may be erroneous.
 <em>Format requirements</em>: for dataset with K classes, labels must be in 0, 1, …, K-1.
 All the classes (0, 1, …, and K-1) MUST be present in <code class="docutils literal notranslate"><span class="pre">labels</span></code>, such that:
 <code class="docutils literal notranslate"><span class="pre">len(set(labels))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1]</span></code> for standard multi-class classification with single-labeled data (e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span>&#160; <span class="pre">[1,0,2,1,1,0...]</span></code>).
@@ -445,7 +445,7 @@ to the number of total labels.</p></li>
 estimate of the joint <em>counts</em> of noisy and true labels.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -469,12 +469,12 @@ conditions, the estimate is within 1 percent of the truth.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in the set 0, 1, …, K-1, where K is the number of classes.
 <code class="docutils literal notranslate"><span class="pre">len(set(labels))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1]</span></code> for standard multi-class classification with single-labeled data (e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span>&#160; <span class="pre">[1,0,2,1,1,0...]</span></code>).
 For multi-label classification where each example can belong to multiple classes(e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">[[1,2],[1],[0],..]</span></code>),
 your labels should instead satisfy: <code class="docutils literal notranslate"><span class="pre">len(set(k</span> <span class="pre">for</span> <span class="pre">l</span> <span class="pre">in</span> <span class="pre">labels</span> <span class="pre">for</span> <span class="pre">k</span> <span class="pre">in</span> <span class="pre">l))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1])</span></code>.</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds
 to an example <cite>x</cite> and contains the model-predicted probabilities that
 <cite>x</cite> belongs to each possible class, for each of the K classes. The
@@ -560,13 +560,13 @@ but we implement (1) as a commented out function at the end of this file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – <p>Input feature matrix of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>, where N is the number of
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – <p>Input feature matrix of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>, where N is the number of
 examples. The classifier that this instance was initialized with,</p>
 <blockquote>
 <div><p><code class="docutils literal notranslate"><span class="pre">clf</span></code>, must be able to fit() and predict() data with this format.</p>
 </div></blockquote>
 </p></li>
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">pd.Series</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in (0, 1, …, K-1) where K is the number of classes,
 and all classes must be present at least once.</p></li>
 <li><p><strong>clf</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">estimator</span> <span class="pre">instance</span></code>, <em>optional</em>) – A classifier implementing the <a class="reference external" href="https://scikit-learn.org/stable/developers/develop.html#rolling-your-own-estimator">sklearn estimator API</a>.</p></li>
@@ -607,15 +607,15 @@ For details, see the documentation of <a class="reference internal" href="classi
 <span class="sig-prename descclassname"><span class="pre">cleanlab.count.</span></span><span class="sig-name descname"><span class="pre">estimate_cv_predicted_probabilities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">LogisticRegression()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cv_n_folds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clf_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/count.html#estimate_cv_predicted_probabilities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.count.estimate_cv_predicted_probabilities" title="Permalink to this definition">#</a></dt>
 <dd><p>This function computes the out-of-sample predicted
 probability [P(label=k|x)] for every example in X using cross
-validation. Output is a np.ndarray of shape (N, K) where N is
+validation. Output is a np.array of shape (N, K) where N is
 the number of training examples and K is the number of classes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Input feature matrix of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>, where N is the number of
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Input feature matrix of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>, where N is the number of
 examples. The classifier that this instance was initialized with,
 <cite>clf</cite>, must be able to handle data with this shape.</p></li>
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in the set 0, 1, …, K-1, where K is the number of classes.</p></li>
 <li><p><strong>clf</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">estimator</span> <span class="pre">instance</span></code>, <em>optional</em>) – <p>A classifier implementing the <a class="reference external" href="https://scikit-learn.org/stable/developers/develop.html#rolling-your-own-estimator">sklearn estimator API</a>.</p>
 </p></li>
@@ -634,7 +634,7 @@ Each row of this matrix corresponds to an example <cite>x</cite> and contains th
 probabilities that <cite>x</cite> belongs to each possible class.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -650,20 +650,20 @@ probabilities that <cite>x</cite> belongs to each possible class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in the set 0, 1, …, K-1, where K is the number of classes.
 All the classes (0, 1, …, and K-1) MUST be present in <code class="docutils literal notranslate"><span class="pre">labels</span></code>, such that:
 <code class="docutils literal notranslate"><span class="pre">len(set(labels))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1]</span></code> for standard multi-class classification with single-labeled data (e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span>&#160; <span class="pre">[1,0,2,1,1,0...]</span></code>).
 For multi-label classification where each example can belong to multiple classes(e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">[[1,2],[1],[0],..]</span></code>),
 your labels should instead satisfy: <code class="docutils literal notranslate"><span class="pre">len(set(k</span> <span class="pre">for</span> <span class="pre">l</span> <span class="pre">in</span> <span class="pre">labels</span> <span class="pre">for</span> <span class="pre">k</span> <span class="pre">in</span> <span class="pre">l))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1])</span></code>.</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds
 to an example <cite>x</cite> and contains the model-predicted probabilities that
 <cite>x</cite> belongs to each possible class, for each of the K classes. The
 columns must be ordered such that these probabilities correspond to
 class 0, 1, …, K-1. <cite>pred_probs</cite> should have been computed using 3 (or
 higher) fold cross-validation.</p></li>
-<li><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the confident joint, the matrix used for identifying label issues, which
+<li><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the confident joint, the matrix used for identifying label issues, which
 estimates a confident subset of the joint distribution of the noisy and true labels, <code class="docutils literal notranslate"><span class="pre">P_{noisy</span> <span class="pre">label,</span> <span class="pre">true</span> <span class="pre">label}</span></code>.
 Entry <code class="docutils literal notranslate"><span class="pre">(j,</span> <span class="pre">k)</span></code> in the matrix is the number of examples confidently counted into the pair of <code class="docutils literal notranslate"><span class="pre">(noisy</span> <span class="pre">label=j,</span> <span class="pre">true</span> <span class="pre">label=k)</span></code> classes.
 The <cite>confident_joint</cite> can be computed using <a class="reference internal" href="#cleanlab.count.compute_confident_joint" title="cleanlab.count.compute_confident_joint"><code class="xref py py-func docutils literal notranslate"><span class="pre">count.compute_confident_joint</span></code></a>.
@@ -679,7 +679,7 @@ Example of a multi-labeled <cite>labels</cite> input: <code class="docutils lite
 estimate of the true joint of noisy and true labels.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -694,12 +694,12 @@ by counting confident examples.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the confident joint, the matrix used for identifying label issues, which
+<li><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the confident joint, the matrix used for identifying label issues, which
 estimates a confident subset of the joint distribution of the noisy and true labels, <code class="docutils literal notranslate"><span class="pre">P_{noisy</span> <span class="pre">label,</span> <span class="pre">true</span> <span class="pre">label}</span></code>.
 Entry <code class="docutils literal notranslate"><span class="pre">(j,</span> <span class="pre">k)</span></code> in the matrix is the number of examples confidently counted into the pair of <code class="docutils literal notranslate"><span class="pre">(noisy</span> <span class="pre">label=j,</span> <span class="pre">true</span> <span class="pre">label=k)</span></code> classes.
 The <cite>confident_joint</cite> can be computed using <a class="reference internal" href="#cleanlab.count.compute_confident_joint" title="cleanlab.count.compute_confident_joint"><code class="xref py py-func docutils literal notranslate"><span class="pre">count.compute_confident_joint</span></code></a>.
 If not provided, it is computed from the given (noisy) <cite>labels</cite> and <cite>pred_probs</cite>.</p></li>
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in the set 0, 1, …, K-1, where K is the number of classes.</p></li>
 <li><p><strong>py_method</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;cnt&quot;,</span> <span class="pre">&quot;eqn&quot;,</span> <span class="pre">&quot;marginal&quot;,</span> <span class="pre">&quot;marginal_ps&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;cnt&quot;</span></code>) – <cite>py</cite> is shorthand for the “class proportions (a.k.a prior) of the true labels”.
 This method defines how to compute the latent prior <code class="docutils literal notranslate"><span class="pre">p(true_label=k)</span></code>. Default is <code class="docutils literal notranslate"><span class="pre">&quot;cnt&quot;</span></code>,
@@ -730,10 +730,10 @@ conditions, estimates are within one percent of the actual noise rates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Input feature matrix of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>, where N is the number of
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Input feature matrix of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>, where N is the number of
 examples. The classifier that this instance was initialized with,
 <cite>clf</cite>, must be able to handle data with this shape.</p></li>
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in the set 0, 1, …, K-1, where K is the number of classes.</p></li>
 <li><p><strong>clf</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">estimator</span> <span class="pre">instance</span></code>, <em>optional</em>) – <p>A classifier implementing the <a class="reference external" href="https://scikit-learn.org/stable/developers/develop.html#rolling-your-own-estimator">sklearn estimator API</a>.</p>
 </p></li>
@@ -786,9 +786,9 @@ conditions, estimates are within one percent of the actual noise rates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in the set 0, 1, …, K-1, where K is the number of classes.</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds
 to an example <cite>x</cite> and contains the model-predicted probabilities that
 <cite>x</cite> belongs to each possible class, for each of the K classes. The
@@ -841,10 +841,10 @@ conditions, estimates are within one percent of the actual noise rates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Input feature matrix of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>, where N is the number of
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Input feature matrix of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code>, where N is the number of
 examples. The classifier that this instance was initialized with,
 <cite>clf</cite>, must be able to handle data with this shape.</p></li>
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in the set 0, 1, …, K-1, where K is the number of classes.</p></li>
 <li><p><strong>clf</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">estimator</span> <span class="pre">instance</span></code>, <em>optional</em>) – <p>A classifier implementing the <a class="reference external" href="https://scikit-learn.org/stable/developers/develop.html#rolling-your-own-estimator">sklearn estimator API</a>.</p>
 </p></li>
@@ -891,13 +891,13 @@ For details, see the documentation of <a class="reference internal" href="classi
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in the set 0, 1, …, K-1, where K is the number of classes.
 All the classes (0, 1, …, and K-1) MUST be present in <code class="docutils literal notranslate"><span class="pre">labels</span></code>, such that:
 <code class="docutils literal notranslate"><span class="pre">len(set(labels))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1]</span></code> for standard multi-class classification with single-labeled data (e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span>&#160; <span class="pre">[1,0,2,1,1,0...]</span></code>).
 For multi-label classification where each example can belong to multiple classes(e.g. <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">[[1,2],[1],[0],..]</span></code>),
 your labels should instead satisfy: <code class="docutils literal notranslate"><span class="pre">len(set(k</span> <span class="pre">for</span> <span class="pre">l</span> <span class="pre">in</span> <span class="pre">labels</span> <span class="pre">for</span> <span class="pre">k</span> <span class="pre">in</span> <span class="pre">l))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1])</span></code>.</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds
 to an example <cite>x</cite> and contains the model-predicted probabilities that
 <cite>x</cite> belongs to each possible class, for each of the K classes. The
@@ -919,7 +919,7 @@ to the number of total labels.</p></li>
 <dd class="field-even"><p><strong>confident_thresholds</strong> – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">)</span></code> where K is the number of classes.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -946,16 +946,16 @@ are two cases when you should use this approach instead of <a class="reference i
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels, i.e. some labels may be erroneous.
 Elements must be in the set 0, 1, …, K-1, where K is the number of classes.</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds
 to an example <cite>x</cite> and contains the model-predicted probabilities that
 <cite>x</cite> belongs to each possible class, for each of the K classes. The
 columns must be ordered such that these probabilities correspond to
 class 0, 1, …, K-1. <cite>pred_probs</cite> should have been computed using 3 (or
 higher) fold cross-validation.</p></li>
-<li><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the confident joint, the matrix used for identifying label issues, which
+<li><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the confident joint, the matrix used for identifying label issues, which
 estimates a confident subset of the joint distribution of the noisy and true labels, <code class="docutils literal notranslate"><span class="pre">P_{noisy</span> <span class="pre">label,</span> <span class="pre">true</span> <span class="pre">label}</span></code>.
 Entry <code class="docutils literal notranslate"><span class="pre">(j,</span> <span class="pre">k)</span></code> in the matrix is the number of examples confidently counted into the pair of <code class="docutils literal notranslate"><span class="pre">(noisy</span> <span class="pre">label=j,</span> <span class="pre">true</span> <span class="pre">label=k)</span></code> classes.
 The <cite>confident_joint</cite> can be computed using <a class="reference internal" href="#cleanlab.count.compute_confident_joint" title="cleanlab.count.compute_confident_joint"><code class="xref py py-func docutils literal notranslate"><span class="pre">count.compute_confident_joint</span></code></a>.

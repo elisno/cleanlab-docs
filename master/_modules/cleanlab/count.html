@@ -436,11 +436,11 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : np.array</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
-<span class="sd">    pred_probs : np.ndarray</span>
+<span class="sd">    pred_probs : np.array</span>
 <span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
 <span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
 <span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
@@ -449,7 +449,7 @@
 <span class="sd">      class 0, 1, ..., K-1. `pred_probs` should have been computed using 3 (or</span>
 <span class="sd">      higher) fold cross-validation.</span>
 
-<span class="sd">    confident_joint : np.ndarray, optional</span>
+<span class="sd">    confident_joint : np.array, optional</span>
 <span class="sd">      An array of shape ``(K, K)`` representing the confident joint, the matrix used for identifying label issues, which</span>
 <span class="sd">      estimates a confident subset of the joint distribution of the noisy and true labels, ``P_{noisy label, true label}``.</span>
 <span class="sd">      Entry ``(j, k)`` in the matrix is the number of examples confidently counted into the pair of ``(noisy label=j, true label=k)`` classes.</span>
@@ -485,14 +485,14 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    confident_joint : np.ndarray</span>
+<span class="sd">    confident_joint : np.array</span>
 <span class="sd">      An array of shape ``(K, K)`` representing the confident joint, the matrix used for identifying label issues, which</span>
 <span class="sd">      estimates a confident subset of the joint distribution of the noisy and true labels, ``P_{noisy label, true label}``.</span>
 <span class="sd">      Entry ``(j, k)`` in the matrix is the number of examples confidently counted into the pair of ``(noisy label=j, true label=k)`` classes.</span>
 <span class="sd">      The `confident_joint` can be computed using :py:func:`count.compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;`.</span>
 <span class="sd">      If not provided, it is computed from the given (noisy) `labels` and `pred_probs`.</span>
 
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : np.array</span>
 <span class="sd">      A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      *Format requirements*: for dataset with K classes, labels must be in 0, 1, ..., K-1.</span>
 <span class="sd">      All the classes (0, 1, ..., and K-1) MUST be present in ``labels``, such that:</span>
@@ -512,7 +512,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    calibrated_cj : np.ndarray</span>
+<span class="sd">    calibrated_cj : np.array</span>
 <span class="sd">      An array of shape ``(K, K)`` of type float representing a valid</span>
 <span class="sd">      estimate of the joint *counts* of noisy and true labels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -539,7 +539,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : np.array</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 <span class="sd">      All the classes (0, 1, ..., and K-1) MUST be present in ``labels``, such that:</span>
@@ -547,7 +547,7 @@
 <span class="sd">      For multi-label classification where each example can belong to multiple classes(e.g. ``labels = [[1,2],[1],[0],..]``),</span>
 <span class="sd">      your labels should instead satisfy: ``len(set(k for l in labels for k in l)) == pred_probs.shape[1])``.</span>
 
-<span class="sd">    pred_probs : np.ndarray</span>
+<span class="sd">    pred_probs : np.array</span>
 <span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
 <span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
 <span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
@@ -556,7 +556,7 @@
 <span class="sd">      class 0, 1, ..., K-1. `pred_probs` should have been computed using 3 (or</span>
 <span class="sd">      higher) fold cross-validation.</span>
 
-<span class="sd">    confident_joint : np.ndarray, optional</span>
+<span class="sd">    confident_joint : np.array, optional</span>
 <span class="sd">      An array of shape ``(K, K)`` representing the confident joint, the matrix used for identifying label issues, which</span>
 <span class="sd">      estimates a confident subset of the joint distribution of the noisy and true labels, ``P_{noisy label, true label}``.</span>
 <span class="sd">      Entry ``(j, k)`` in the matrix is the number of examples confidently counted into the pair of ``(noisy label=j, true label=k)`` classes.</span>
@@ -571,7 +571,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    confident_joint : np.ndarray</span>
+<span class="sd">    confident_joint : np.array</span>
 <span class="sd">      An array of shape ``(K, K)`` representing an</span>
 <span class="sd">      estimate of the true joint of noisy and true labels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -614,16 +614,16 @@
 <span class="sd">    labels : list of list/iterable (length N)</span>
 <span class="sd">        These are multiclass labels. Each list in the list contains</span>
 <span class="sd">        all the labels for that example. This method will fail if labels</span>
-<span class="sd">        is not a list of lists (or a list of np.ndarrays or iterable).</span>
+<span class="sd">        is not a list of lists (or a list of np.arrays or iterable).</span>
 
-<span class="sd">    pred_probs : np.ndarray (shape (N, K))</span>
+<span class="sd">    pred_probs : np.array (shape (N, K))</span>
 <span class="sd">        P(label=k|x) is a matrix with K model-predicted probabilities.</span>
 <span class="sd">        Each row of this matrix corresponds to an example `x` and contains the model-predicted</span>
 <span class="sd">        probabilities that `x` belongs to each possible class.</span>
 <span class="sd">        The columns must be ordered such that these probabilities correspond to class 0, 1, 2,..., K-1.</span>
 <span class="sd">        `pred_probs` must be out-of-sample (ideally should have been computed using 3+ fold cross-validation).</span>
 
-<span class="sd">    thresholds : iterable (list or np.ndarray) of shape (K, 1)  or (K,)</span>
+<span class="sd">    thresholds : iterable (list or np.array) of shape (K, 1)  or (K,)</span>
 <span class="sd">        P(label^=k|label=k). If an example has a predicted probability &quot;greater&quot; than</span>
 <span class="sd">        this threshold, it is counted as having true_label = k. This is</span>
 <span class="sd">        not used for filtering/pruning, only for estimating the noise rates using</span>
@@ -643,13 +643,13 @@
     <span class="k">if</span> <span class="n">thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># the avg probability of class given that the label is represented.</span>
         <span class="n">thresholds</span> <span class="o">=</span> <span class="n">get_confident_thresholds</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="c1"># Create mask for every example if for each class, prob &gt;= threshold</span>
+    <span class="c1"># N x K matrix. Create mask for every example if for each class, prob &gt;= threshold</span>
     <span class="n">pred_probs_bool</span> <span class="o">=</span> <span class="n">pred_probs</span> <span class="o">&gt;=</span> <span class="n">thresholds</span>
 
     <span class="c1"># Compute confident joint</span>
-    <span class="c1"># (no need to avoid collisions for multi-label, double counting is okay!)</span>
+    <span class="c1"># K x N matrix. (no need to avoid collisions for multi-label, double counting is okay!)</span>
     <span class="n">k_in_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">k</span> <span class="ow">in</span> <span class="n">lst</span> <span class="k">for</span> <span class="n">lst</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">unique_classes</span><span class="p">])</span>
-    <span class="c1"># Get # of examples with given label k where prob &gt;= threshold for each (true) label k</span>
+    <span class="c1"># K x K matrix. Num examples with given label k where prob &gt;= threshold for each (true) label k</span>
     <span class="n">confident_joint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pred_probs_bool</span><span class="p">[</span><span class="n">k_in_l</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">unique_classes</span><span class="p">])</span>
     <span class="c1"># Guarantee at least one correctly labeled example is represented in every class</span>
     <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">confident_joint</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
@@ -702,14 +702,14 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : np.array</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 <span class="sd">      ``len(set(labels)) == pred_probs.shape[1]`` for standard multi-class classification with single-labeled data (e.g. ``labels =  [1,0,2,1,1,0...]``).</span>
 <span class="sd">      For multi-label classification where each example can belong to multiple classes(e.g. ``labels = [[1,2],[1],[0],..]``),</span>
 <span class="sd">      your labels should instead satisfy: ``len(set(k for l in labels for k in l)) == pred_probs.shape[1])``.</span>
 
-<span class="sd">    pred_probs : np.ndarray, optional</span>
+<span class="sd">    pred_probs : np.array, optional</span>
 <span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
 <span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
 <span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
@@ -852,14 +852,14 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    confident_joint : np.ndarray</span>
+<span class="sd">    confident_joint : np.array</span>
 <span class="sd">      An array of shape ``(K, K)`` representing the confident joint, the matrix used for identifying label issues, which</span>
 <span class="sd">      estimates a confident subset of the joint distribution of the noisy and true labels, ``P_{noisy label, true label}``.</span>
 <span class="sd">      Entry ``(j, k)`` in the matrix is the number of examples confidently counted into the pair of ``(noisy label=j, true label=k)`` classes.</span>
 <span class="sd">      The `confident_joint` can be computed using :py:func:`count.compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;`.</span>
 <span class="sd">      If not provided, it is computed from the given (noisy) `labels` and `pred_probs`.</span>
 
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : np.array</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
@@ -939,11 +939,11 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : np.array</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
-<span class="sd">    pred_probs : np.ndarray</span>
+<span class="sd">    pred_probs : np.array</span>
 <span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
 <span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
 <span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
@@ -1034,12 +1034,12 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    X : np.ndarray or pd.DataFrame</span>
+<span class="sd">    X : np.array or pd.DataFrame</span>
 <span class="sd">      Input feature matrix of shape ``(N, ...)``, where N is the number of</span>
 <span class="sd">      examples. The classifier that this instance was initialized with,</span>
 <span class="sd">          ``clf``, must be able to fit() and predict() data with this format.</span>
 
-<span class="sd">    labels : np.ndarray or pd.Series</span>
+<span class="sd">    labels : np.array or pd.Series</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in (0, 1, ..., K-1) where K is the number of classes,</span>
 <span class="sd">      and all classes must be present at least once.</span>
@@ -1137,7 +1137,7 @@
                     <span class="n">holdout_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s_holdout_cv</span> <span class="o">==</span> <span class="n">missing_class</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">dup_idx</span> <span class="o">=</span> <span class="n">holdout_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">s_train_cv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_train_cv</span><span class="p">,</span> <span class="n">s_holdout_cv</span><span class="p">[</span><span class="n">dup_idx</span><span class="p">])</span>
-                    <span class="c1"># labels are always np.ndarray so don&#39;t have to consider .iloc above</span>
+                    <span class="c1"># labels are always np.array so don&#39;t have to consider .iloc above</span>
                     <span class="n">X_train_cv</span> <span class="o">=</span> <span class="n">append_extra_datapoint</span><span class="p">(</span>
                         <span class="n">to_data</span><span class="o">=</span><span class="n">X_train_cv</span><span class="p">,</span> <span class="n">from_data</span><span class="o">=</span><span class="n">X_holdout_cv</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">dup_idx</span>
                     <span class="p">)</span>
@@ -1203,12 +1203,12 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    X : np.ndarray</span>
+<span class="sd">    X : np.array</span>
 <span class="sd">      Input feature matrix of shape ``(N, ...)``, where N is the number of</span>
 <span class="sd">      examples. The classifier that this instance was initialized with,</span>
 <span class="sd">      `clf`, must be able to handle data with this shape.</span>
 
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : np.array</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
@@ -1293,17 +1293,17 @@
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;This function computes the out-of-sample predicted</span>
 <span class="sd">    probability [P(label=k|x)] for every example in X using cross</span>
-<span class="sd">    validation. Output is a np.ndarray of shape (N, K) where N is</span>
+<span class="sd">    validation. Output is a np.array of shape (N, K) where N is</span>
 <span class="sd">    the number of training examples and K is the number of classes.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    X : np.ndarray</span>
+<span class="sd">    X : np.array</span>
 <span class="sd">      Input feature matrix of shape ``(N, ...)``, where N is the number of</span>
 <span class="sd">      examples. The classifier that this instance was initialized with,</span>
 <span class="sd">      `clf`, must be able to handle data with this shape.</span>
 
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : np.array</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
@@ -1328,7 +1328,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    --------</span>
-<span class="sd">    pred_probs : np.ndarray</span>
+<span class="sd">    pred_probs : np.array</span>
 <span class="sd">      An array of shape ``(N, K)`` representing ``P(label=k|x)``, the model-predicted probabilities.</span>
 <span class="sd">      Each row of this matrix corresponds to an example `x` and contains the model-predicted</span>
 <span class="sd">      probabilities that `x` belongs to each possible class.</span>
@@ -1366,12 +1366,12 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    X : np.ndarray</span>
+<span class="sd">    X : np.array</span>
 <span class="sd">      Input feature matrix of shape ``(N, ...)``, where N is the number of</span>
 <span class="sd">      examples. The classifier that this instance was initialized with,</span>
 <span class="sd">      `clf`, must be able to handle data with this shape.</span>
 
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : np.array</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
@@ -1465,18 +1465,18 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ps : np.ndarray (shape (K, ) or (1, K))</span>
+<span class="sd">    ps : np.array (shape (K, ) or (1, K))</span>
 <span class="sd">        The fraction (prior probability) of each observed, NOISY class P(labels = k).</span>
 
-<span class="sd">    py : np.ndarray (shape (K, ) or (1, K))</span>
+<span class="sd">    py : np.array (shape (K, ) or (1, K))</span>
 <span class="sd">        The estimated fraction (prior probability) of each TRUE class P(true_label = k).</span>
 
-<span class="sd">    noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
+<span class="sd">    noise_matrix : np.array of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing</span>
 <span class="sd">        the fraction of examples in every class, labeled as every other class.</span>
 <span class="sd">        Assumes columns of noise_matrix sum to 1.</span>
 
-<span class="sd">    inverse_noise_matrix : np.ndarray of shape (K, K), K = number of classes</span>
+<span class="sd">    inverse_noise_matrix : np.array of shape (K, K), K = number of classes</span>
 <span class="sd">        A conditional probability matrix of the form P(true_label=k_y|labels=k_s) representing</span>
 <span class="sd">        the estimated fraction observed examples in each class k_s, that are</span>
 <span class="sd">        mislabeled examples from every other class k_y. If None, the</span>
@@ -1491,7 +1491,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
-<span class="sd">        Three np.ndarrays of the form (py, noise_matrix, inverse_noise_matrix) all</span>
+<span class="sd">        Three np.arrays of the form (py, noise_matrix, inverse_noise_matrix) all</span>
 <span class="sd">        having numerical agreement in terms of their mathematical relations.&quot;&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">noise_matrix_iterations</span><span class="p">):</span>
@@ -1516,7 +1516,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : np.array</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 <span class="sd">      All the classes (0, 1, ..., and K-1) MUST be present in ``labels``, such that:</span>
@@ -1524,7 +1524,7 @@
 <span class="sd">      For multi-label classification where each example can belong to multiple classes(e.g. ``labels = [[1,2],[1],[0],..]``),</span>
 <span class="sd">      your labels should instead satisfy: ``len(set(k for l in labels for k in l)) == pred_probs.shape[1])``.</span>
 
-<span class="sd">    pred_probs : np.ndarray</span>
+<span class="sd">    pred_probs : np.array</span>
 <span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
 <span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
 <span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
@@ -1546,7 +1546,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    confident_thresholds : np.ndarray</span>
+<span class="sd">    confident_thresholds : np.array</span>
 <span class="sd">      An array of shape ``(K, )`` where K is the number of classes.&quot;&quot;&quot;</span>
 
     <span class="c1"># Assumes all classes are represented in labels: [0, 1, 2, ... num_classes - 1]</span>
