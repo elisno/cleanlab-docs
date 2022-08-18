@@ -817,8 +817,8 @@ def plot_data(data, circles, title, alpha=1.0):
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-08-16 21:39:39.822718: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-08-16 21:39:39.822748: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-08-18 03:04:48.530919: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-08-18 03:04:48.530966: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1470,14 +1470,14 @@ s=3 |   0.02    0.02    0.22    0.61
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get out of sample predicted probabilities via cross-validation.</span>
 <span class="c1"># Here we demonstrate the use of sklearn cross_val_predict as another option to get cross-validated predicted probabilities</span>
-<span class="n">cv_pred_probs</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
+<span class="n">pred_probs</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
     <span class="n">estimator</span><span class="o">=</span><span class="n">yourFavoriteModel</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;predict_proba&quot;</span>
 <span class="p">)</span>
 
 <span class="c1"># Find label issues</span>
 <span class="n">label_issues_indices</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span>
     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="o">=</span><span class="n">cv_pred_probs</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
     <span class="n">filter_by</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="c1"># 5 available filter_by options</span>
     <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>  <span class="c1"># 3 available label quality scoring options for rank ordering</span>
     <span class="n">rank_by_kwargs</span><span class="o">=</span><span class="p">{</span>
@@ -1538,7 +1538,7 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
 
 <span class="c1"># Get cross-validated predicted probabilities</span>
 <span class="c1"># Here we demonstrate the use of sklearn cross_val_predict as another option to get cross-validated predicted probabilities</span>
-<span class="n">cv_pred_probs</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
+<span class="n">pred_probs</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
     <span class="n">estimator</span><span class="o">=</span><span class="n">yourFavoriteModel</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;predict_proba&quot;</span>
 <span class="p">)</span>
 
@@ -1561,7 +1561,7 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
     <span class="c1"># Find label issues</span>
     <span class="n">label_issues</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span>
         <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-        <span class="n">pred_probs</span><span class="o">=</span><span class="n">cv_pred_probs</span><span class="p">,</span>
+        <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
         <span class="n">filter_by</span><span class="o">=</span><span class="n">filter_by</span>
     <span class="p">)</span>
 
@@ -1671,13 +1671,13 @@ array([ 99,   8,  64,  45,  83, 213, 212, 218, 152, 197, 196, 170, 167,
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Estimate the number of label issues</span>
 <span class="n">label_issues_count</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">num_label_issues</span><span class="p">(</span>
     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="o">=</span><span class="n">cv_pred_probs</span>
+    <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span>
 <span class="p">)</span>
 
 <span class="c1"># Get label quality scores</span>
 <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">rank</span><span class="o">.</span><span class="n">get_label_quality_scores</span><span class="p">(</span>
     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="o">=</span><span class="n">cv_pred_probs</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
     <span class="n">method</span><span class="o">=</span><span class="s2">&quot;self_confidence&quot;</span>
 <span class="p">)</span>
 
