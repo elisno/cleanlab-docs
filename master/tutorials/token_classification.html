@@ -182,6 +182,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outliers.html">Detecting Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multiannotator.html">Find Improved Consensus Labels for Multiannotator Data using Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
@@ -671,16 +672,16 @@ named entity recognition dataset which contains 20,718 sentences and 301,361 tok
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2022-08-30 16:36:41--  https://data.deepai.org/conll2003.zip
+--2022-08-30 18:48:55--  https://data.deepai.org/conll2003.zip
 Resolving data.deepai.org (data.deepai.org)... 5.9.140.253
 Connecting to data.deepai.org (data.deepai.org)|5.9.140.253|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 982975 (960K) [application/x-zip-compressed]
 Saving to: ‘conll2003.zip’
 
-conll2003.zip       100%[===================&gt;] 959.94K  1.51MB/s    in 0.6s
+conll2003.zip       100%[===================&gt;] 959.94K  1.17MB/s    in 0.8s
 
-2022-08-30 16:36:42 (1.51 MB/s) - ‘conll2003.zip’ saved [982975/982975]
+2022-08-30 18:48:56 (1.17 MB/s) - ‘conll2003.zip’ saved [982975/982975]
 
 mkdir: cannot create directory ‘data’: File exists
 Archive:  conll2003.zip
@@ -688,16 +689,16 @@ Archive:  conll2003.zip
   inflating: data/test.txt
   inflating: data/train.txt
   inflating: data/valid.txt
---2022-08-30 16:36:43--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
-Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.216.32.105
-Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.216.32.105|:443... connected.
+--2022-08-30 18:48:57--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
+Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.217.108.12
+Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.217.108.12|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 17045998 (16M) [binary/octet-stream]
 Saving to: ‘pred_probs.npz’
 
-pred_probs.npz      100%[===================&gt;]  16.26M  36.6MB/s    in 0.4s
+pred_probs.npz      100%[===================&gt;]  16.26M  19.4MB/s    in 0.8s
 
-2022-08-30 16:36:44 (36.6 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
+2022-08-30 18:48:58 (19.4 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
 
 </pre></div></div>
 </div>
@@ -914,8 +915,8 @@ cleanlab thinks may be badly labeled in your dataset.</p>
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-08-30 16:37:04.107748: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-08-30 16:37:04.107788: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-08-30 18:49:18.121629: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-08-30 18:49:18.121671: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 </section>
