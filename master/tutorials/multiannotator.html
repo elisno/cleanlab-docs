@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="FAQ" href="faq.html" /><link rel="prev" title="Detecting Outliers with Cleanlab and PyTorch Image Models (timm)" href="outliers.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>Find Improved Consensus Labels for Multiannotator Data using Cleanlab - cleanlab</title>
+        <title>Find Improved Consensus Labels for Multiannotator Data - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -182,7 +182,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outliers.html">Detecting Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Find Improved Consensus Labels for Multiannotator Data using Cleanlab</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Find Improved Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
@@ -639,21 +639,21 @@ div.rendered_html tbody tr:hover {
         `);
     })
 
-</script><section id="Find-Improved-Consensus-Labels-for-Multiannotator-Data-using-Cleanlab">
-<h1>Find Improved Consensus Labels for Multiannotator Data using Cleanlab<a class="headerlink" href="#Find-Improved-Consensus-Labels-for-Multiannotator-Data-using-Cleanlab" title="Permalink to this heading">#</a></h1>
-<p>In this tutorial, we will use Cleanlab to find <strong>improved consensus labels</strong> for data that has been labeled by multiple annotators. The tutorial also shows you how <code class="docutils literal notranslate"><span class="pre">cleanlab.multiannotator.get_label_quality_multiannotator()</span></code> can automatically compute:</p>
+</script><section id="Find-Improved-Consensus-Labels-for-Multiannotator-Data">
+<h1>Find Improved Consensus Labels for Multiannotator Data<a class="headerlink" href="#Find-Improved-Consensus-Labels-for-Multiannotator-Data" title="Permalink to this heading">#</a></h1>
+<p>This quickstart tutorial shows how to use cleanlab for classification data that has been labeled by multiple annotators (where each example has been labeled by at least one annotator, but not every annotator has labeled every example). Compared to existing crowdsourcing tools, cleanlab helps you better analyze such data by leveraging a trained classifier model in addition to the raw annotations. With one line of code, you can automatically compute:</p>
 <ul class="simple">
-<li><p>consensus quality scores</p></li>
-<li><p>annotator quality scores</p></li>
-<li><p>agreement scores for each example and each annotator</p></li>
-<li><p>label quality scores for every annotator’s labels</p></li>
+<li><p>A <strong>consensus label</strong> for each example that aggregates the individual annotations more accurately than alternative aggregation via majority-vote or other algorithms used in crowdsourcing.</p></li>
+<li><p>a <strong>quality score for each consensus label</strong> which measures our confidence that this label is correct (via well-calibrated estimates that account for the: number annotators which have labeled this example, overall quality of each annotator, and quality of our trained ML models).</p></li>
+<li><p>An analogous <strong>label quality score</strong> for each individual label chosen by one annotator for a particular example.</p></li>
+<li><p>An <strong>overall quality score for each annotator</strong> which measures our confidence in the overall correctness of labels obtained from this annotator.</p></li>
 </ul>
 <p><strong>Overview of what we’ll do in this tutorial:</strong></p>
 <ul class="simple">
-<li><p>Obtain consensus labels of multiannotator data using majority vote</p></li>
-<li><p>Train a model on the majority vote consensus labels to compute out-of-sample predicted probabilites</p></li>
-<li><p>Use cleanlab’s <code class="docutils literal notranslate"><span class="pre">multiannotator.get_label_quality_multiannotator</span></code> function to get improved consensus labels</p></li>
-<li><p>View other information about your multiannotator dataset, such as consensus and annotator quality scores, agreement scores, detailed label quality scores and more</p></li>
+<li><p>Obtain initial consensus labels of multiannotator data using majority vote.</p></li>
+<li><p>Train a classifier model on the initial consensus labels and use it to obtain out-of-sample predicted class probabilites.</p></li>
+<li><p>Use cleanlab’s <code class="docutils literal notranslate"><span class="pre">multiannotator.get_label_quality_multiannotator</span></code> function to get improved consensus labels that more accurately reflect the ground truth.</p></li>
+<li><p>View other information about your multiannotator dataset, such as consensus and annotator quality scores, agreement between annotators, detailed label quality scores and more!</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Quickstart</p>
@@ -694,7 +694,7 @@ div.rendered_html tbody tr:hover {
 <h2>2. Create the data (can skip these details)<a class="headerlink" href="#2.-Create-the-data-(can-skip-these-details)" title="Permalink to this heading">#</a></h2>
 <p>For this tutorial we will generate a toy dataset that has 50 annotators and 300 examples. There are three possible classes, <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p>
 <p>Each annotator annotates approximately 10% of the examples. We also synthetically made the last 5 annotators in our toy dataset have much noisier labels than the rest of the annotators.</p>
-<p>For the purpose of comparing cleanlab’s method of obtaining consensus labels to other methods, we will also generate the true labels for this toy dataset. However, true labels are not required for any cleanlab multiannotator functions (and they usually do not exist!)</p>
+<p>Solely for evaluating cleanlab’s consensus labels against other consensus methods, we here also generate the true labels for this example dataset. However, true labels are not required for any cleanlab multiannotator functions (and they usually are not available in real applications!)</p>
 <details><p>Below is the code used for data-generation.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
 
@@ -1042,8 +1042,8 @@ using the average annotator agreeement among other annotators as this annotator&
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-08-30 18:40:39.950312: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-08-30 18:40:39.950349: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-08-30 23:48:02.693984: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-08-30 23:48:02.694014: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1514,7 +1514,7 @@ Accuracy of better quality examples = 0.9857651245551602
 </section>
 <section id="5.-Retrain-model-using-improved-consensus-labels">
 <h2>5. Retrain model using improved consensus labels<a class="headerlink" href="#5.-Retrain-model-using-improved-consensus-labels" title="Permalink to this heading">#</a></h2>
-<p>After obtaining the improved consensus labels, we can now retrain a machine learning model using these newly obtained labels.</p>
+<p>After obtaining the improved consensus labels, we can now retrain a better version of our machine learning model using these newly obtained labels.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
@@ -1531,7 +1531,7 @@ Accuracy of better quality examples = 0.9857651245551602
 </pre></div>
 </div>
 </div>
-<p>We can repeatedly iterate this whole process of getting better consensus labels using the model’s out-of-sample predicted probabilites and then retraining the model with the improved labels to get even better predicted probabilities!</p>
+<p>You can also repeatedly iterate this process of getting better consensus labels using the model’s out-of-sample predicted probabilites and then retraining the model with the improved labels to get even better predicted probabilities!</p>
 </section>
 </section>
  
@@ -1610,7 +1610,7 @@ Accuracy of better quality examples = 0.9857651245551602
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Find Improved Consensus Labels for Multiannotator Data using Cleanlab</a><ul>
+<li><a class="reference internal" href="#">Find Improved Consensus Labels for Multiannotator Data</a><ul>
 <li><a class="reference internal" href="#1.-Install-and-import-required-dependencies">1. Install and import required dependencies</a></li>
 <li><a class="reference internal" href="#2.-Create-the-data-(can-skip-these-details)">2. Create the data (can skip these details)</a></li>
 <li><a class="reference internal" href="#3.-Get-majority-vote-labels-and-compute-out-of-sample-predicted-probabilites">3. Get majority vote labels and compute out-of-sample predicted probabilites</a></li>
