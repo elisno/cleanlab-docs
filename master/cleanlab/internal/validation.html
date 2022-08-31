@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="mnist_pytorch" href="mnist_pytorch.html" /><link rel="prev" title="experimental" href="index.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="How to migrate to 2.0.0 from versions pre 1.0.1" href="../../migrating/migrate_v2.html" /><link rel="prev" title="label_quality_utils" href="label_quality_utils.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>fasttext - cleanlab</title>
+        <title>validation - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
@@ -197,18 +197,18 @@
 <li class="toctree-l2"><a class="reference internal" href="../benchmarking/noise_generation.html">noise_generation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">experimental</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">fasttext</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mnist_pytorch.html">mnist_pytorch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="coteaching.html">coteaching</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cifar_cnn.html">cifar_cnn</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../experimental/fasttext.html">fasttext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../experimental/mnist_pytorch.html">mnist_pytorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../experimental/coteaching.html">coteaching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../experimental/cifar_cnn.html">cifar_cnn</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../internal/util.html">util</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../internal/latent_algebra.html">latent_algebra</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../internal/label_quality_utils.html">label_quality_utils</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../internal/validation.html">validation</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">internal</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="util.html">util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="latent_algebra.html">latent_algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">validation</a></li>
 </ul>
 </li>
 </ul>
@@ -360,147 +360,75 @@
 
 <!-- End of Version Warning Banner -->
 
- <section id="module-cleanlab.experimental.fasttext">
-<span id="fasttext"></span><h1>fasttext<a class="headerlink" href="#module-cleanlab.experimental.fasttext" title="Permalink to this heading">#</a></h1>
-<p>Text classification with FastText models that are compatible with cleanlab.
-This module allows you to easily find label issues in your text datasets.</p>
-<p>You must first <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">fasttext</span></code></p>
-<p><strong>Classes:</strong></p>
-<div class="table-wrapper autosummary longtable docutils container">
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.fasttext.FastTextClassifier" title="cleanlab.experimental.fasttext.FastTextClassifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FastTextClassifier</span></code></a>(train_data_fn[, ...])</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-</div>
+ <section id="module-cleanlab.internal.validation">
+<span id="validation"></span><h1>validation<a class="headerlink" href="#module-cleanlab.internal.validation" title="Permalink to this heading">#</a></h1>
+<p>Checks to ensure valid inputs for various methods.</p>
 <p><strong>Functions:</strong></p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.fasttext.data_loader" title="cleanlab.experimental.fasttext.data_loader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_loader</span></code></a>([fn, indices, label, batch_size])</p></td>
-<td><p>Returns a generator, yielding two lists containing [labels], [text].</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.validation.assert_indexing_works" title="cleanlab.internal.validation.assert_indexing_works"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_indexing_works</span></code></a>(X[, idx, length_X])</p></td>
+<td><p>Ensures we can do list-based indexing into <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.validation.assert_nonempty_input" title="cleanlab.internal.validation.assert_nonempty_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_nonempty_input</span></code></a>(X)</p></td>
+<td><p>Ensures input is not None.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.validation.assert_valid_class_labels" title="cleanlab.internal.validation.assert_valid_class_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_valid_class_labels</span></code></a>(y[, ...])</p></td>
+<td><p>Checks that <code class="docutils literal notranslate"><span class="pre">labels</span></code> is properly formatted, i.e. a 1D array that is zero-indexed (first label is 0) with all classes present (if <code class="docutils literal notranslate"><span class="pre">allow_missing_classes</span> <span class="pre">is</span> <span class="pre">False</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.validation.assert_valid_inputs" title="cleanlab.internal.validation.assert_valid_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_valid_inputs</span></code></a>(X, y[, pred_probs, ...])</p></td>
+<td><p>Checks that <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> are correctly formatted.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.validation.labels_to_array" title="cleanlab.internal.validation.labels_to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">labels_to_array</span></code></a>(y)</p></td>
+<td><p>Converts different types of label objects to 1D numpy array and checks their validity.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<dl class="py class">
-<dt class="sig sig-object py" id="cleanlab.experimental.fasttext.FastTextClassifier">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cleanlab.experimental.fasttext.</span></span><span class="sig-name descname"><span class="pre">FastTextClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_data_fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data_fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'__label__'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">del_intermediate_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_train_supervised</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_at_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/fasttext.html#FastTextClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.fasttext.FastTextClassifier" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseEstimator</span></code></p>
-<p><strong>Methods:</strong></p>
-<div class="table-wrapper autosummary longtable docutils container">
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.fasttext.FastTextClassifier.fit" title="cleanlab.experimental.fasttext.FastTextClassifier.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>([X, y, sample_weight])</p></td>
-<td><p>Trains the fast text classifier.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.fasttext.FastTextClassifier.get_params" title="cleanlab.experimental.fasttext.FastTextClassifier.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</p></td>
-<td><p>Get parameters for this estimator.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.fasttext.FastTextClassifier.predict" title="cleanlab.experimental.fasttext.FastTextClassifier.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>([X, train_data, return_labels])</p></td>
-<td><p>Predict labels of X</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.fasttext.FastTextClassifier.predict_proba" title="cleanlab.experimental.fasttext.FastTextClassifier.predict_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_proba</span></code></a>([X, train_data, return_labels])</p></td>
-<td><p>Produces a probability matrix with examples on rows and classes on columns, where each row sums to 1 and captures the probability of the example belonging to each class.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.fasttext.FastTextClassifier.score" title="cleanlab.experimental.fasttext.FastTextClassifier.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>([X, y, sample_weight, k])</p></td>
-<td><p>Compute the average precision &#64; k (single label) of the labels predicted from X and the true labels given by y.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.fasttext.FastTextClassifier.set_params" title="cleanlab.experimental.fasttext.FastTextClassifier.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</p></td>
-<td><p>Set the parameters of this estimator.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<dl class="py method">
-<dt class="sig sig-object py" id="cleanlab.experimental.fasttext.FastTextClassifier.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/fasttext.html#FastTextClassifier.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.fasttext.FastTextClassifier.fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Trains the fast text classifier.
-Typical usage requires NO parameters,
-just clf.fit()  # No params.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">e.g.</span> <span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">array</span> <span class="pre">(default</span> <span class="pre">None)</span></code>) – The list of indices of the data to use.
-When in doubt, set as None. None defaults to range(len(data)).</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>) – Leave this as None. It’s a filler to suit sklearns reqs.</p></li>
-<li><p><strong>sample_weight</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>) – Leave this as None. It’s a filler to suit sklearns reqs.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cleanlab.experimental.fasttext.FastTextClassifier.get_params">
-<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cleanlab.experimental.fasttext.FastTextClassifier.get_params" title="Permalink to this definition">#</a></dt>
-<dd><p>Get parameters for this estimator.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>deep</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – If True, will return the parameters for this estimator and
-contained subobjects that are estimators.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>params</strong> – Parameter names mapped to their values.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cleanlab.experimental.fasttext.FastTextClassifier.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/fasttext.html#FastTextClassifier.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.fasttext.FastTextClassifier.predict" title="Permalink to this definition">#</a></dt>
-<dd><p>Predict labels of X</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cleanlab.experimental.fasttext.FastTextClassifier.predict_proba">
-<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/fasttext.html#FastTextClassifier.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.fasttext.FastTextClassifier.predict_proba" title="Permalink to this definition">#</a></dt>
-<dd><p>Produces a probability matrix with examples on rows and
-classes on columns, where each row sums to 1 and captures the
-probability of the example belonging to each class.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cleanlab.experimental.fasttext.FastTextClassifier.score">
-<span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/fasttext.html#FastTextClassifier.score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.fasttext.FastTextClassifier.score" title="Permalink to this definition">#</a></dt>
-<dd><p>Compute the average precision &#64; k (single label) of the
-labels predicted from X and the true labels given by y.
-score expects a <cite>y</cite> variable. In this case, <cite>y</cite> is the noisy labels.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cleanlab.experimental.fasttext.FastTextClassifier.set_params">
-<span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cleanlab.experimental.fasttext.FastTextClassifier.set_params" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the parameters of this estimator.</p>
-<p>The method works on simple estimators as well as on nested objects
-(such as <code class="xref py py-class docutils literal notranslate"><span class="pre">Pipeline</span></code>). The latter have
-parameters of the form <code class="docutils literal notranslate"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it’s
-possible to update each component of a nested object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>**params</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – Estimator parameters.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>self</strong> – Estimator instance.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">estimator</span> <span class="pre">instance</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
+<dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.internal.validation.assert_indexing_works">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.validation.</span></span><span class="sig-name descname"><span class="pre">assert_indexing_works</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length_X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/cleanlab/internal/validation.html#assert_indexing_works"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.validation.assert_indexing_works" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensures we can do list-based indexing into <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.
+<code class="docutils literal notranslate"><span class="pre">length_X</span></code> is an optional argument since sparse matrix <code class="docutils literal notranslate"><span class="pre">X</span></code>
+does not support: <code class="docutils literal notranslate"><span class="pre">len(X)</span></code> and we want this method to work for sparse <code class="docutils literal notranslate"><span class="pre">X</span></code>
+(in addition to many other types of <code class="docutils literal notranslate"><span class="pre">X</span></code>).</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="cleanlab.experimental.fasttext.data_loader">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.experimental.fasttext.</span></span><span class="sig-name descname"><span class="pre">data_loader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'__label__'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/fasttext.html#data_loader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.fasttext.data_loader" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns a generator, yielding two lists containing
-[labels], [text]. Items are always returned in the
-order in the file, regardless if indices are provided.</p>
+<dt class="sig sig-object py" id="cleanlab.internal.validation.assert_nonempty_input">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.validation.</span></span><span class="sig-name descname"><span class="pre">assert_nonempty_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/cleanlab/internal/validation.html#assert_nonempty_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.validation.assert_nonempty_input" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensures input is not None.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.internal.validation.assert_valid_class_labels">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.validation.</span></span><span class="sig-name descname"><span class="pre">assert_valid_class_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_missing_classes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/cleanlab/internal/validation.html#assert_valid_class_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.validation.assert_valid_class_labels" title="Permalink to this definition">#</a></dt>
+<dd><p>Checks that <code class="docutils literal notranslate"><span class="pre">labels</span></code> is properly formatted, i.e. a 1D array that is
+zero-indexed (first label is 0) with all classes present (if <code class="docutils literal notranslate"><span class="pre">allow_missing_classes</span> <span class="pre">is</span> <span class="pre">False</span></code>).
+Assumes <code class="docutils literal notranslate"><span class="pre">labels</span></code> is a 1D numpy array (not multi-label).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.internal.validation.assert_valid_inputs">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.validation.</span></span><span class="sig-name descname"><span class="pre">assert_valid_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Series</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_missing_classes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/cleanlab/internal/validation.html#assert_valid_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.validation.assert_valid_inputs" title="Permalink to this definition">#</a></dt>
+<dd><p>Checks that <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> are correctly formatted.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.internal.validation.labels_to_array">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.validation.</span></span><span class="sig-name descname"><span class="pre">labels_to_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Series</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">generic</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../../_modules/cleanlab/internal/validation.html#labels_to_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.validation.labels_to_array" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts different types of label objects to 1D numpy array and checks their validity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Union[LabelLike</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">np.generic]</span></code>) – Labels to convert to 1D numpy array. Can be a list, numpy array, pandas Series, or pandas DataFrame.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1D numpy array of labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -510,23 +438,23 @@ order in the file, regardless if indices are provided.</p>
       <footer>
          
         <div class="related-pages">
-          <a class="next-page" href="mnist_pytorch.html">
+          <a class="next-page" href="../../migrating/migrate_v2.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">mnist_pytorch</div>
+                <div class="title">How to migrate to 2.0.0 from versions pre 1.0.1</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="index.html">
+          <a class="prev-page" href="label_quality_utils.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">experimental</div>
+                <div class="title">label_quality_utils</div>
                 
               </div>
             </a>

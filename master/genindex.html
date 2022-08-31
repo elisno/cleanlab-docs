@@ -190,6 +190,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/rank.html">rank</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/count.html">count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/dataset.html">dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleanlab/multiannotator.html">multiannotator</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/benchmarking/noise_generation.html">noise_generation</a></li>
 </ul>
@@ -205,6 +206,7 @@
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/validation.html">validation</a></li>
 </ul>
 </li>
 </ul>
@@ -343,8 +345,6 @@
         </ul></li>
         <li><a href="cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.adjust_learning_rate">adjust_learning_rate() (in module cleanlab.experimental.coteaching)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.append_extra_datapoint">append_extra_datapoint() (in module cleanlab.internal.util)</a>
 </li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.apply">apply() (cleanlab.experimental.cifar_cnn.CNN method)</a>
@@ -353,6 +353,16 @@
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.apply">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.assert_indexing_works">assert_indexing_works() (in module cleanlab.internal.validation)</a>
+</li>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.assert_nonempty_input">assert_nonempty_input() (in module cleanlab.internal.validation)</a>
+</li>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.assert_valid_class_labels">assert_valid_class_labels() (in module cleanlab.internal.validation)</a>
+</li>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.assert_valid_inputs">assert_valid_inputs() (in module cleanlab.internal.validation)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -479,8 +489,6 @@
           <li><a href="cleanlab/internal/index.html#module-cleanlab.internal">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cleanlab.internal.label_quality_utils
 
@@ -488,6 +496,8 @@
           <li><a href="cleanlab/internal/label_quality_utils.html#module-cleanlab.internal.label_quality_utils">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cleanlab.internal.latent_algebra
 
@@ -500,6 +510,20 @@
 
         <ul>
           <li><a href="cleanlab/internal/util.html#module-cleanlab.internal.util">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.internal.validation
+
+        <ul>
+          <li><a href="cleanlab/internal/validation.html#module-cleanlab.internal.validation">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.multiannotator
+
+        <ul>
+          <li><a href="cleanlab/multiannotator.html#module-cleanlab.multiannotator">module</a>
 </li>
         </ul></li>
         <li>
@@ -538,6 +562,8 @@
         <li><a href="cleanlab/internal/latent_algebra.html#cleanlab.internal.latent_algebra.compute_pyx">compute_pyx() (in module cleanlab.internal.latent_algebra)</a>
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.confusion_matrix">confusion_matrix() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/multiannotator.html#cleanlab.multiannotator.convert_long_to_wide_dataset">convert_long_to_wide_dataset() (in module cleanlab.multiannotator)</a>
 </li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.cpu">cpu() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
@@ -703,12 +729,16 @@
 </li>
         <li><a href="cleanlab/rank.html#cleanlab.rank.get_label_quality_ensemble_scores">get_label_quality_ensemble_scores() (in module cleanlab.rank)</a>
 </li>
+        <li><a href="cleanlab/multiannotator.html#cleanlab.multiannotator.get_label_quality_multiannotator">get_label_quality_multiannotator() (in module cleanlab.multiannotator)</a>
+</li>
         <li><a href="cleanlab/rank.html#cleanlab.rank.get_label_quality_scores">get_label_quality_scores() (in module cleanlab.rank)</a>
 </li>
-        <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.get_mnist_dataset">get_mnist_dataset() (in module cleanlab.experimental.mnist_pytorch)</a>
+        <li><a href="cleanlab/multiannotator.html#cleanlab.multiannotator.get_majority_vote_label">get_majority_vote_label() (in module cleanlab.multiannotator)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.get_mnist_dataset">get_mnist_dataset() (in module cleanlab.experimental.mnist_pytorch)</a>
+</li>
         <li><a href="cleanlab/internal/label_quality_utils.html#cleanlab.internal.label_quality_utils.get_normalized_entropy">get_normalized_entropy() (in module cleanlab.internal.label_quality_utils)</a>
 </li>
         <li><a href="cleanlab/rank.html#cleanlab.rank.get_normalized_margin_for_each_label">get_normalized_margin_for_each_label() (in module cleanlab.rank)</a>
@@ -785,16 +815,18 @@
   <h2>L</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.labels_to_array">labels_to_array() (in module cleanlab.internal.validation)</a>
+</li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.load_state_dict">load_state_dict() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.load_state_dict">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
-        <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.loader">loader (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.loader">loader (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
+</li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.log_interval">log_interval (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
 </li>
         <li><a href="cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.loss_coteaching">loss_coteaching() (in module cleanlab.experimental.coteaching)</a>
@@ -842,6 +874,10 @@
           <li><a href="cleanlab/internal/latent_algebra.html#module-cleanlab.internal.latent_algebra">cleanlab.internal.latent_algebra</a>
 </li>
           <li><a href="cleanlab/internal/util.html#module-cleanlab.internal.util">cleanlab.internal.util</a>
+</li>
+          <li><a href="cleanlab/internal/validation.html#module-cleanlab.internal.validation">cleanlab.internal.validation</a>
+</li>
+          <li><a href="cleanlab/multiannotator.html#module-cleanlab.multiannotator">cleanlab.multiannotator</a>
 </li>
           <li><a href="cleanlab/rank.html#module-cleanlab.rank">cleanlab.rank</a>
 </li>
