@@ -644,33 +644,6 @@ div.rendered_html tbody tr:hover {
 </script><section id="FAQ">
 <h1>FAQ<a class="headerlink" href="#FAQ" title="Permalink to this heading">#</a></h1>
 <p>Answers to frequently asked questions about the <a class="reference external" href="https://github.com/cleanlab/cleanlab">cleanlab</a> open-source package.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This cell is for internal CI purposes. Run it to ensure all other cells below can be executed in your own notebook</span>
-
-<span class="kn">import</span> <span class="nn">cleanlab</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">sklearn</span>
-
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
-
-<span class="c1"># Toy dataset:</span>
-<span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">K</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">num_errors</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
-<span class="n">pred_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_sample</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="n">K</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">K</span><span class="p">))</span>
-<span class="n">pred_probs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">),</span><span class="n">labels</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">4</span>  <span class="c1"># make pred_probs accurate</span>
-<span class="n">pred_probs</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">/</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">label</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(),</span> <span class="n">label</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">()]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">])</span>
-<span class="n">labels</span><span class="p">[</span><span class="o">-</span><span class="n">num_errors</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># introduce label errors</span>
-
-<span class="n">your_classifier</span><span class="o">=</span><span class="n">sklearn</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">()</span>  <span class="c1"># toy classifier</span>
-</pre></div>
-</div>
-</div>
 <section id="What-data-can-cleanlab-detect-issues-in?">
 <h2>What data can cleanlab detect issues in?<a class="headerlink" href="#What-data-can-cleanlab-detect-issues-in?" title="Permalink to this heading">#</a></h2>
 <p>Currently, cleanlab can be used to detect label issues in any classification dataset, including those involving: multiple annotators per example (multi-annotator), or multiple labels per example (multi-label). This includes data from any modality such as: image, text, tabular, audio, etc. For text data, cleanlab also supports NLP tasks like entity recognition in which each word is individually labeled (token classification). We’re <a class="reference external" href="https://github.com/orgs/cleanlab/projects/2">working to add
@@ -714,8 +687,8 @@ dimensions from <code class="docutils literal notranslate"><span class="pre">pre
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-09-06 21:27:54.955140: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-09-06 21:27:54.955167: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-09-06 22:46:07.720084: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-09-06 22:46:07.720124: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <p>Alternatively if you have already computed out-of-sample predicted probabilities (<code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>) from a classifier:</p>
