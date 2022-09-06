@@ -699,12 +699,13 @@ dimensions from <code class="docutils literal notranslate"><span class="pre">pre
 </section>
 <section id="How-do-I-infer-the-correct-labels-for-examples-cleanlab-has-flagged?">
 <h2>How do I infer the correct labels for examples cleanlab has flagged?<a class="headerlink" href="#How-do-I-infer-the-correct-labels-for-examples-cleanlab-has-flagged?" title="Permalink to this heading">#</a></h2>
-<p>If you have found issues via:</p>
+<p>If you have a classifier that is compatible with CleanLearning, here’s an easy way to see predicted labels alongside the label issues:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">issues</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">CleanLearning</span><span class="p">(</span><span class="n">your_classifier</span><span class="p">)</span>
+<span class="n">issues_dataframe</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -713,13 +714,41 @@ dimensions from <code class="docutils literal notranslate"><span class="pre">pre
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-09-06 20:40:22.040054: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-09-06 20:40:22.040112: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-09-06 21:08:12.309282: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-09-06 21:08:12.309330: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
+</div>
+<p>Alternatively if you have already computed out-of-sample predicted probabilities (<code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>) from a classifier:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">CleanLearning</span><span class="p">()</span>
+<span class="n">issues_dataframe</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/home/runner/work/cleanlab/cleanlab/cleanlab/internal/validation.py:88: UserWarning: When X and pred_probs are both provided, former may be ignored.
+  warnings.warn(&#34;When X and pred_probs are both provided, former may be ignored.&#34;)
+</pre></div></div>
+</div>
+<p>If you have already found issues via:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">issues</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <p>then you can see your trained classifier’s class prediction for each flagged example via:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">class_predicted_for_flagged_examples</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="p">[</span><span class="n">issues</span><span class="p">]</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -728,20 +757,10 @@ dimensions from <code class="docutils literal notranslate"><span class="pre">pre
 </div>
 <p>where you can see the classifier’s class prediction for every example via:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">class_predicted_for_all_examples</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>If your classifier is compatible with CleanLearning, here’s an easier way to see predicted labels alongside the label issues:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="o">=</span> <span class="n">cleanlab</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">CleanLearning</span><span class="p">(</span><span class="n">your_classifier</span><span class="p">)</span>
-<span class="n">issues_dataframe</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -770,7 +789,7 @@ pass them as inputs.</p>
 <h2>How can I use different models for data cleaning vs. final training in CleanLearning?<a class="headerlink" href="#How-can-I-use-different-models-for-data-cleaning-vs. final-training-in-CleanLearning?" title="Permalink to this heading">#</a></h2>
 <p>The code below demonstrates CleanLearning with 2 different classifiers: <code class="docutils literal notranslate"><span class="pre">LogisticRegression()</span></code> and <code class="docutils literal notranslate"><span class="pre">GradientBoostingClassifier()</span></code>. A <code class="docutils literal notranslate"><span class="pre">LogisticRegression</span></code> model is used to detect label issues (via cross-validation run inside CleanLearning) and a <code class="docutils literal notranslate"><span class="pre">GradientBoostingClassifier</span></code> model is finally trained on a clean subset of the data with issues removed. This can be done with any two classifiers.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.classification</span> <span class="kn">import</span> <span class="n">CleanLearning</span>
@@ -818,7 +837,7 @@ GradientBoostingClassifier()
 <h2>How do I hyperparameter tune only the final model trained (and not the one finding label issues) in CleanLearning?<a class="headerlink" href="#How-do-I-hyperparameter-tune-only-the-final-model-trained-(and-not-the-one-finding-label-issues)-in-CleanLearning?" title="Permalink to this heading">#</a></h2>
 <p>The code below demonstrates CleanLearning using a <code class="docutils literal notranslate"><span class="pre">GradientBoostingClassifier()</span></code> with no hyperparameter-tuning to find label issues but with hyperparameter-tuning via <code class="docutils literal notranslate"><span class="pre">RandomizedSearchCV(...)</span></code> for the final training of this model on the clean subset of the data. This is a useful trick to avoid expensive hyperparameter-tuning for every fold of cross-validation (which is needed to find label issues).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
