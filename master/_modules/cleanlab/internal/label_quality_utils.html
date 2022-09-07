@@ -180,7 +180,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/audio.html">Audio Classification with SpeechBrain and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/outliers.html">Detecting Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/outliers.html">Detecting Outlier Examples with Cleanlab and PyTorch Image Models (timm)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/multiannotator.html">Find Improved Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials/faq.html">FAQ</a></li>
 </ul>
@@ -377,30 +377,30 @@
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
 <span class="sd">&quot;&quot;&quot;Helper functions for computing label quality scores&quot;&quot;&quot;</span>
-
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">cleanlab.count</span> <span class="kn">import</span> <span class="n">get_confident_thresholds</span>
 
 
 <span class="k">def</span> <span class="nf">_subtract_confident_thresholds</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">confident_thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns adjusted predicted probabilities by subtracting the class confident thresholds and renormalizing.</span>
-
 <span class="sd">    The confident class threshold for a class j is the expected (average) &quot;self-confidence&quot; for class j.</span>
-
 <span class="sd">    The purpose of this adjustment is to handle class imbalance.</span>
-
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels : np.ndarray</span>
 <span class="sd">      Labels in the same format expected by the `cleanlab.count.get_confident_thresholds()` method.</span>
-
+<span class="sd">      If labels is None, confident_thresholds needs to be passed in as it will not be calculated.</span>
 <span class="sd">    pred_probs : np.ndarray (shape (N, K))</span>
 <span class="sd">      Predicted-probabilities in the same format expected by the `cleanlab.count.get_confident_thresholds()` method.</span>
-
+<span class="sd">    confident_thresholds : np.ndarray (shape (K,))</span>
+<span class="sd">      Pre-calculated confident thresholds. If passed in, function will subtract these thresholds instead of calculating</span>
+<span class="sd">      confident_thresholds from the given labels and pred_probs.</span>
 <span class="sd">    multi_label : bool, optional</span>
 <span class="sd">      If ``True``, labels should be an iterable (e.g. list) of iterables, containing a</span>
 <span class="sd">      list of labels for each example, instead of just a single label.</span>
@@ -410,7 +410,6 @@
 <span class="sd">      the total number of errors considered is based on the number of labels,</span>
 <span class="sd">      not the number of examples. So, the calibrated `confident_joint` will sum</span>
 <span class="sd">      to the number of total labels.</span>
-
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pred_probs_adj : np.ndarray (float)</span>
@@ -419,7 +418,16 @@
 
     <span class="c1"># Get expected (average) self-confidence for each class</span>
     <span class="c1"># TODO: Test this for multi-label</span>
-    <span class="n">confident_thresholds</span> <span class="o">=</span> <span class="n">get_confident_thresholds</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">confident_thresholds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Cannot calculate confident_thresholds without labels. Pass in either labels or already calculated &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;confident_thresholds parameter. &quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">confident_thresholds</span> <span class="o">=</span> <span class="n">get_confident_thresholds</span><span class="p">(</span>
+                <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span>
+            <span class="p">)</span>
 
     <span class="c1"># Subtract the class confident thresholds</span>
     <span class="n">pred_probs_adj</span> <span class="o">=</span> <span class="n">pred_probs</span> <span class="o">-</span> <span class="n">confident_thresholds</span>
