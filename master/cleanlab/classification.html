@@ -622,7 +622,8 @@ Supported <cite>array_like</cite> types include: <code class="docutils literal n
 to an example <cite>x</cite> and contains the model-predicted probabilities that
 <cite>x</cite> belongs to each possible class, for each of the K classes. The
 columns must be ordered such that these probabilities correspond to class 0, 1, …, K-1.
-<cite>pred_probs</cite> should be <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">out-of-sample, eg. computed via cross-validation</span></a>.</p>
+<cite>pred_probs</cite> should be <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">out-of-sample, eg. computed via cross-validation</span></a>.
+If provided, <cite>pred_probs</cite> will be used to find label issues rather than the <code class="docutils literal notranslate"><span class="pre">clf</span></code> classifier.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you are not sure, leave <code class="docutils literal notranslate"><span class="pre">pred_probs=None</span></code> (the default) and it
