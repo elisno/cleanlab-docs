@@ -191,6 +191,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/count.html">count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/dataset.html">dataset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/multiannotator.html">multiannotator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleanlab/outlier.html">outlier</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/benchmarking/noise_generation.html">noise_generation</a></li>
 </ul>
@@ -496,8 +497,6 @@
           <li><a href="cleanlab/internal/label_quality_utils.html#module-cleanlab.internal.label_quality_utils">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cleanlab.internal.latent_algebra
 
@@ -505,6 +504,8 @@
           <li><a href="cleanlab/internal/latent_algebra.html#module-cleanlab.internal.latent_algebra">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cleanlab.internal.util
 
@@ -524,6 +525,13 @@
 
         <ul>
           <li><a href="cleanlab/multiannotator.html#module-cleanlab.multiannotator">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.outlier
+
+        <ul>
+          <li><a href="cleanlab/outlier.html#module-cleanlab.outlier">module</a>
 </li>
         </ul></li>
         <li>
@@ -591,14 +599,16 @@
 </li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.dataset">dataset (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
 </li>
+        <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.DEFAULT_PARAM_DICT">DEFAULT_PARAM_DICT (cleanlab.outlier.OutOfDistribution attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.double">double() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.double">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.dump_patches">dump_patches (cleanlab.experimental.cifar_cnn.CNN attribute)</a>
 
         <ul>
@@ -678,9 +688,13 @@
 </li>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.fit">(cleanlab.experimental.mnist_pytorch.CNN method)</a>, <a href="cleanlab/experimental/mnist_pytorch.html#id0">[1]</a>
 </li>
+          <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.fit">(cleanlab.outlier.OutOfDistribution method)</a>
+</li>
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.fit_score">fit_score() (cleanlab.outlier.OutOfDistribution method)</a>
+</li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.float">float() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
@@ -877,6 +891,8 @@
 </li>
           <li><a href="cleanlab/multiannotator.html#module-cleanlab.multiannotator">cleanlab.multiannotator</a>
 </li>
+          <li><a href="cleanlab/outlier.html#module-cleanlab.outlier">cleanlab.outlier</a>
+</li>
           <li><a href="cleanlab/rank.html#module-cleanlab.rank">cleanlab.rank</a>
 </li>
         </ul></li>
@@ -942,9 +958,15 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.onehot2int">onehot2int() (in module cleanlab.internal.util)</a>
 </li>
+        <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.OOD_PARAMS">OOD_PARAMS (cleanlab.outlier.OutOfDistribution attribute)</a>
+</li>
+        <li><a href="cleanlab/rank.html#cleanlab.rank.order_label_issues">order_label_issues() (in module cleanlab.rank)</a>
+</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="cleanlab/rank.html#cleanlab.rank.order_label_issues">order_label_issues() (in module cleanlab.rank)</a>
+        <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.OUTLIER_PARAMS">OUTLIER_PARAMS (cleanlab.outlier.OutOfDistribution attribute)</a>
+</li>
+        <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution">OutOfDistribution (class in cleanlab.outlier)</a>
 </li>
         <li><a href="cleanlab/dataset.html#cleanlab.dataset.overall_label_health_score">overall_label_health_score() (in module cleanlab.dataset)</a>
 </li>
@@ -1070,6 +1092,8 @@
 
         <ul>
           <li><a href="cleanlab/experimental/fasttext.html#cleanlab.experimental.fasttext.FastTextClassifier.score">(cleanlab.experimental.fasttext.FastTextClassifier method)</a>
+</li>
+          <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.score">(cleanlab.outlier.OutOfDistribution method)</a>
 </li>
         </ul></li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.seed">seed (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
