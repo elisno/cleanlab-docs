@@ -378,19 +378,18 @@
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
 
-<span class="c1"># ## Latent Algebra</span>
-<span class="c1">#</span>
-<span class="c1"># #### Contains mathematical functions relating the latent terms,</span>
-<span class="c1"># $p(labels), P_{labels \vert y}, P_{y \vert labels}, p(true_labels)$, etc. together.</span>
-<span class="c1"># For every function here, if the inputs are exact, the output is guaranteed</span>
-<span class="c1"># to be exact. Every function herein is the computational equivalent of a</span>
-<span class="c1"># mathematical equation having a closed, exact form. If the inputs are</span>
-<span class="c1"># inexact, the error will of course propagate.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Contains mathematical functions relating the latent terms,</span>
+<span class="sd">P(given_label), P(given_label | true_label), P(true_label | given_label), P(true_label), etc. together.</span>
+<span class="sd">For every function here, if the inputs are exact, the output is guaranteed to be exact. </span>
+<span class="sd">Every function herein is the computational equivalent of a mathematical equation having a closed, exact form. </span>
+<span class="sd">If the inputs are inexact, the error will of course propagate.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">cleanlab.internal.util</span> <span class="kn">import</span> <span class="n">value_counts</span><span class="p">,</span> <span class="n">clip_values</span><span class="p">,</span> <span class="n">clip_noise_rates</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 
 
 <div class="viewcode-block" id="compute_ps_py_inv_noise_matrix"><a class="viewcode-back" href="../../../cleanlab/internal/latent_algebra.html#cleanlab.internal.latent_algebra.compute_ps_py_inv_noise_matrix">[docs]</a><span class="k">def</span> <span class="nf">compute_ps_py_inv_noise_matrix</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">):</span>
