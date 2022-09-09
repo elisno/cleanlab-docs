@@ -653,7 +653,11 @@ named entity recognition dataset which contains 20,718 sentences and 301,361 tok
 <li><p>MISC (miscellaneous other type of entity)</p></li>
 <li><p>O (other type of word that does not correspond to an entity)</p></li>
 </ul>
-<p><strong>Overview of what we’ll do in this tutorial:</strong> - Identify potential token label issues using cleanlab’s <code class="docutils literal notranslate"><span class="pre">token_classification.filter.find_label_issues</span></code> method. - Rank sentences using cleanlab’s <code class="docutils literal notranslate"><span class="pre">token_classification.rank.get_label_quality_scores</span></code> method. - TODO: (Clean Learning) Train a more robust model by removing problematic sentences.</p>
+<p><strong>Overview of what we’ll do in this tutorial:</strong></p>
+<ul class="simple">
+<li><p>Identify potential token label issues using cleanlab’s <code class="docutils literal notranslate"><span class="pre">token_classification.filter.find_label_issues</span></code> method.</p></li>
+<li><p>Rank sentences using cleanlab’s <code class="docutils literal notranslate"><span class="pre">token_classification.rank.get_label_quality_scores</span></code> method.</p></li>
+</ul>
 <section id="1.-Install-required-dependencies-and-download-data">
 <h2>1. Install required dependencies and download data<a class="headerlink" href="#1.-Install-required-dependencies-and-download-data" title="Permalink to this heading">#</a></h2>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install all packages required for this tutorial as follows:</p>
@@ -675,16 +679,16 @@ named entity recognition dataset which contains 20,718 sentences and 301,361 tok
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2022-09-08 20:26:49--  https://data.deepai.org/conll2003.zip
+--2022-09-09 01:52:34--  https://data.deepai.org/conll2003.zip
 Resolving data.deepai.org (data.deepai.org)... 5.9.140.253
 Connecting to data.deepai.org (data.deepai.org)|5.9.140.253|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 982975 (960K) [application/x-zip-compressed]
 Saving to: ‘conll2003.zip’
 
-conll2003.zip       100%[===================&gt;] 959.94K  1.51MB/s    in 0.6s
+conll2003.zip       100%[===================&gt;] 959.94K  1.17MB/s    in 0.8s
 
-2022-09-08 20:26:50 (1.51 MB/s) - ‘conll2003.zip’ saved [982975/982975]
+2022-09-09 01:52:36 (1.17 MB/s) - ‘conll2003.zip’ saved [982975/982975]
 
 mkdir: cannot create directory ‘data’: File exists
 Archive:  conll2003.zip
@@ -692,16 +696,16 @@ Archive:  conll2003.zip
   inflating: data/test.txt
   inflating: data/train.txt
   inflating: data/valid.txt
---2022-09-08 20:26:50--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
-Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.216.205.163
-Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.216.205.163|:443... connected.
+--2022-09-09 01:52:36--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
+Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.217.0.252
+Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.217.0.252|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 17045998 (16M) [binary/octet-stream]
 Saving to: ‘pred_probs.npz’
 
-pred_probs.npz      100%[===================&gt;]  16.26M  31.8MB/s    in 0.5s
+pred_probs.npz      100%[===================&gt;]  16.26M  19.0MB/s    in 0.9s
 
-2022-09-08 20:26:51 (31.8 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
+2022-09-09 01:52:37 (19.0 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
 
 </pre></div></div>
 </div>
@@ -730,10 +734,12 @@ pred_probs.npz      100%[===================&gt;]  16.26M  31.8MB/s    in 0.5s
 </ul>
 <p>Here, indicies are a tuple <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code> unless otherwise specified, which refers to the <code class="docutils literal notranslate"><span class="pre">j</span></code>’th word-level token of the <code class="docutils literal notranslate"><span class="pre">i</span></code>’th sentence. Given that each sentence has different number of tokens, we store <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and <code class="docutils literal notranslate"><span class="pre">labels</span></code> as <code class="docutils literal notranslate"><span class="pre">.npz</span></code> files, which can be easily converted to dictionaries. Use <code class="docutils literal notranslate"><span class="pre">read_npz</span></code> to retrieve <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and <code class="docutils literal notranslate"><span class="pre">labels</span></code> in nested-list format.</p>
 <details><p>Below is the code used to read the <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def read_npz(filepath):
-    data = dict(np.load(filepath))
-    data = [data[str(i)] for i in range(len(data))]
-    return data
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
+
+<span class="k">def</span> <span class="nf">read_npz</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))]</span>
+    <span class="k">return</span> <span class="n">data</span>
 </pre></div>
 </div>
 </details><div class="nbinput nblast docutils container">
@@ -751,93 +757,42 @@ prefixes indicates whether the tokens are at the start of an entity, which are i
 </pre></div>
 </div>
 <p>and</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>merge_entities = [&#39;O&#39;, &#39;MISC&#39;, &#39;PER&#39;, &#39;ORG&#39;, &#39;LOC&#39;]
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>merged_entities = [&#39;O&#39;, &#39;MISC&#39;, &#39;PER&#39;, &#39;ORG&#39;, &#39;LOC&#39;]
 </pre></div>
 </div>
 <details><p>Below is the code used for reading the files.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>filepaths = [&#39;data/train.txt&#39;, &#39;data/valid.txt&#39;, &#39;data/test.txt&#39;]
-given_entities = [&#39;O&#39;, &#39;B-MISC&#39;, &#39;I-MISC&#39;, &#39;B-PER&#39;, &#39;I-PER&#39;, &#39;B-ORG&#39;, &#39;I-ORG&#39;, &#39;B-LOC&#39;, &#39;I-LOC&#39;]
-merged_entities = [&#39;O&#39;, &#39;MISC&#39;, &#39;PER&#39;, &#39;ORG&#39;, &#39;LOC&#39;]
-entity_map = {entity: i for i, entity in enumerate(given_entities)}
+<p>```ipython3 # Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</p>
+<p>given_entities = [‘O’, ‘B-MISC’, ‘I-MISC’, ‘B-PER’, ‘I-PER’, ‘B-ORG’, ‘I-ORG’, ‘B-LOC’, ‘I-LOC’] merged_entities = [‘O’, ‘MISC’, ‘PER’, ‘ORG’, ‘LOC’] entity_map = {entity: i for i, entity in enumerate(given_entities)}</p>
+<p>def readfile(filepath, sep=’ ’): lines = open(filepath)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>data, sentence, label = [], [], []
+for line in lines:
+    if len(line) == 0 or line.startswith(&#39;-DOCSTART&#39;) or line[0] == &#39;\n&#39;:
+        if len(sentence) &gt; 0:
+            data.append((sentence, label))
+            sentence, label = [], []
+        continue
+    splits = line.split(sep)
+    word = splits[0]
+    if len(word) &gt; 0 and word[0].isalpha() and word.isupper():
+        word = word[0] + word[1:].lower()
+    sentence.append(word)
+    label.append(entity_map[splits[-1][:-1]])
 
-def readfile(filepath, sep=&#39; &#39;):
-    lines = open(filepath)
+if len(sentence) &gt; 0:
+    data.append((sentence, label))
 
-    data, sentence, label = [], [], []
-    for line in lines:
-        if len(line) == 0 or line.startswith(&#39;-DOCSTART&#39;) or line[0] == &#39;\n&#39;:
-            if len(sentence) &gt; 0:
-                data.append((sentence, label))
-                sentence, label = [], []
-            continue
-        splits = line.split(sep)
-        word = splits[0]
-        if len(word) &gt; 0 and word[0].isalpha() and word.isupper():
-            word = word[0] + word[1:].lower()
-        sentence.append(word)
-        label.append(entity_map[splits[-1][:-1]])
+given_words = [d[0] for d in data]
+given_labels = [d[1] for d in data]
 
-    if len(sentence) &gt; 0:
-        data.append((sentence, label))
-
-    given_words = [d[0] for d in data]
-    given_labels = [d[1] for d in data]
-
-    return given_words, given_labels
-
-given_words, given_labels = [], []
-
-for filepath in filepaths:
-    words, label = readfile(filepath)
-    given_words.extend(words)
-    given_labels.extend(label)
-
-sentences = list(map(get_sentence, given_words))
-
-sentences, mask = filter_sentence(sentences)
-given_words = [words for m, words in zip(mask, given_words) if m]
-given_labels = [labels for m, labels in zip(mask, given_labels) if m]
-
-maps = [0, 1, 1, 2, 2, 3, 3, 4, 4]
-given_labels = [mapping(labels, maps) for labels in given_labels]
+return given_words, given_labels
 </pre></div>
 </div>
 </details><div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">readfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-
-    <span class="n">data</span><span class="p">,</span> <span class="n">sentence</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;-DOCSTART&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sentence</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
-                <span class="n">sentence</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-            <span class="k">continue</span>
-        <span class="n">splits</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
-        <span class="n">word</span> <span class="o">=</span> <span class="n">splits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()</span> <span class="ow">and</span> <span class="n">word</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
-            <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="n">sentence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-        <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entity_map</span><span class="p">[</span><span class="n">splits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sentence</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
-
-    <span class="n">given_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
-    <span class="n">given_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
-
-    <span class="k">return</span> <span class="n">given_words</span><span class="p">,</span> <span class="n">given_labels</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">given_words</span><span class="p">,</span> <span class="n">given_labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filepaths</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;data/train.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;data/valid.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;data/test.txt&#39;</span><span class="p">]</span>
+<span class="n">given_words</span><span class="p">,</span> <span class="n">given_labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">filepath</span> <span class="ow">in</span> <span class="n">filepaths</span><span class="p">:</span>
     <span class="n">words</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">readfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
@@ -918,8 +873,8 @@ cleanlab thinks may be badly labeled in your dataset.</p>
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-09-08 20:27:13.237752: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-09-08 20:27:13.237794: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-09-09 01:52:56.138213: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-09-09 01:52:56.138270: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 </section>
