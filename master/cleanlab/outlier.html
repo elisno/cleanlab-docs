@@ -385,7 +385,7 @@ OOD scores may be estimated from either: feature embeddings or predicted probabi
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>params</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>default</em> = <code class="docutils literal notranslate"><span class="pre">{}</span></code>) – <p>Optional keyword arguments to control how this estimator is fit. Effect of arguments passed in depends on if
-<cite>OutOfDistribution</cite> estimator will rely on <cite>features</cite> or <cite>pred_probs</cite>.</p>
+<cite>OutOfDistribution</cite> estimator will rely on <cite>features</cite> or <cite>pred_probs</cite>. These are stored as an instance attribute <cite>self.params</cite>.</p>
 <dl class="simple">
 <dt>If <cite>features</cite> is passed in during <code class="docutils literal notranslate"><span class="pre">fit()</span></code>, <cite>params</cite> could contain following keys:</dt><dd><ul class="simple">
 <li><dl class="simple">
@@ -411,7 +411,7 @@ as long as your specified value of <cite>k</cite> is smaller than the value orig
 <li><dl class="simple">
 <dt>t<span class="classifier">int, default=1</span></dt><dd><p>Optional hyperparameter only for advanced users.
 Controls transformation of distances between examples into similarity scores that lie in [0,1].
-The transformation applied to distances <cite>x</cite> is <cite>exp(-x*t)</cite>.
+The transformation applied to distances <cite>x</cite> is <code class="docutils literal notranslate"><span class="pre">exp(-x*t)</span></code>.
 If you find your scores are all too close to 1, consider increasing <cite>t</cite>,
 although the relative scores of examples will still have the same ranking across the dataset.</p>
 </dd>
@@ -423,7 +423,7 @@ although the relative scores of examples will still have the same ranking across
 <li><dl class="simple">
 <dt>confident_thresholds: np.ndarray, default = None</dt><dd><p>An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">)</span></code> where K is the number of classes.
 Confident threshold for a class j is the expected (average) “self-confidence” for that class.
-If you specify <code class="docutils literal notranslate"><span class="pre">confident_thresholds</span></code> here, there is no need to later call <code class="docutils literal notranslate"><span class="pre">fit()</span></code> before calling <code class="docutils literal notranslate"><span class="pre">score()</span></code>.</p>
+If you specify <cite>confident_thresholds</cite> here, there is no need to later call <code class="docutils literal notranslate"><span class="pre">fit()</span></code> before calling <code class="docutils literal notranslate"><span class="pre">score()</span></code>.</p>
 </dd>
 </dl>
 </li>
@@ -452,22 +452,6 @@ for the i-th particular example, its OOD score can either be:</p>
 </p>
 </dd>
 </dl>
-<p><strong>Attributes:</strong></p>
-<div class="table-wrapper autosummary longtable docutils container">
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.outlier.OutOfDistribution.DEFAULT_PARAM_DICT" title="cleanlab.outlier.OutOfDistribution.DEFAULT_PARAM_DICT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_PARAM_DICT</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.outlier.OutOfDistribution.OOD_PARAMS" title="cleanlab.outlier.OutOfDistribution.OOD_PARAMS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OOD_PARAMS</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.outlier.OutOfDistribution.OUTLIER_PARAMS" title="cleanlab.outlier.OutOfDistribution.OUTLIER_PARAMS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OUTLIER_PARAMS</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <p><strong>Methods:</strong></p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
@@ -484,28 +468,13 @@ for the i-th particular example, its OOD score can either be:</p>
 </tbody>
 </table>
 </div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cleanlab.outlier.OutOfDistribution.DEFAULT_PARAM_DICT">
-<span class="sig-name descname"><span class="pre">DEFAULT_PARAM_DICT</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'adjust_pred_probs':</span> <span class="pre">True,</span> <span class="pre">'confident_thresholds':</span> <span class="pre">None,</span> <span class="pre">'k':</span> <span class="pre">None,</span> <span class="pre">'knn':</span> <span class="pre">None,</span> <span class="pre">'method':</span> <span class="pre">'entropy',</span> <span class="pre">'t':</span> <span class="pre">1}</span></em><a class="headerlink" href="#cleanlab.outlier.OutOfDistribution.DEFAULT_PARAM_DICT" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cleanlab.outlier.OutOfDistribution.OOD_PARAMS">
-<span class="sig-name descname"><span class="pre">OOD_PARAMS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'adjust_pred_probs',</span> <span class="pre">'confident_thresholds',</span> <span class="pre">'method'}</span></em><a class="headerlink" href="#cleanlab.outlier.OutOfDistribution.OOD_PARAMS" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cleanlab.outlier.OutOfDistribution.OUTLIER_PARAMS">
-<span class="sig-name descname"><span class="pre">OUTLIER_PARAMS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'k',</span> <span class="pre">'knn',</span> <span class="pre">'t'}</span></em><a class="headerlink" href="#cleanlab.outlier.OutOfDistribution.OUTLIER_PARAMS" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.outlier.OutOfDistribution.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/outlier.html#OutOfDistribution.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.outlier.OutOfDistribution.fit" title="Permalink to this definition">#</a></dt>
 <dd><p>Fits this estimator to a given dataset.
 One of <cite>features</cite> or <cite>pred_probs</cite> must be specified.</p>
 <p>If <cite>features</cite> are passed in, a <code class="docutils literal notranslate"><span class="pre">NearestNeighbors</span></code> object is fit.
-If <cite>pred_probs</cite> and ‘labels’ are passed in, a <code class="docutils literal notranslate"><span class="pre">confident_thresholds</span></code> np.ndarray is fit.
+If <cite>pred_probs</cite> and ‘labels’ are passed in, a <cite>confident_thresholds</cite> <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> is fit.
 For details see <a class="reference internal" href="#cleanlab.outlier.OutOfDistribution" title="cleanlab.outlier.OutOfDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutOfDistribution</span></code></a> documentation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -545,7 +514,7 @@ Scores lie in [0,1] with smaller values indicating examples that are less typica
 distribution (values near 0 indicate outliers). Exactly one of <cite>features</cite> or <cite>pred_probs</cite> needs to be passed
 in to calculate scores.</p>
 <p>If <cite>features</cite> are passed in a <code class="docutils literal notranslate"><span class="pre">NearestNeighbors</span></code> object is fit. If <cite>pred_probs</cite> and ‘labels’ are passed in a
-<code class="docutils literal notranslate"><span class="pre">confident_thresholds</span></code> np.ndarray is fit. For details see <a class="reference internal" href="#cleanlab.outlier.OutOfDistribution.fit" title="cleanlab.outlier.OutOfDistribution.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit</span></code></a>.</p>
+<cite>confident_thresholds</cite> <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> is fit. For details see <a class="reference internal" href="#cleanlab.outlier.OutOfDistribution.fit" title="cleanlab.outlier.OutOfDistribution.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">fit</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
