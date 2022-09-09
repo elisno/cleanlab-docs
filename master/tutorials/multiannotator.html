@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Finding Label Errors in Token Classification Datasets" href="token_classification.html" /><link rel="prev" title="Detecting Outlier Examples with Cleanlab and PyTorch Image Models (timm)" href="outliers.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Finding Label Errors in Token Classification Datasets" href="token_classification.html" /><link rel="prev" title="Detect Outliers with Cleanlab and PyTorch Image Models (timm)" href="outliers.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>Find Improved Consensus Labels for Multiannotator Data - cleanlab</title>
+        <title>Improve Consensus Labels for Multiannotator Data - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -181,8 +181,8 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio Classification with SpeechBrain and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outliers.html">Detecting Outlier Examples with Cleanlab and PyTorch Image Models (timm)</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Find Improved Consensus Labels for Multiannotator Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Improve Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="token_classification.html">Finding Label Errors in Token Classification Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
@@ -643,8 +643,8 @@ div.rendered_html tbody tr:hover {
         `);
     })
 
-</script><section id="Find-Improved-Consensus-Labels-for-Multiannotator-Data">
-<h1>Find Improved Consensus Labels for Multiannotator Data<a class="headerlink" href="#Find-Improved-Consensus-Labels-for-Multiannotator-Data" title="Permalink to this heading">#</a></h1>
+</script><section id="Improve-Consensus-Labels-for-Multiannotator-Data">
+<h1>Improve Consensus Labels for Multiannotator Data<a class="headerlink" href="#Improve-Consensus-Labels-for-Multiannotator-Data" title="Permalink to this heading">#</a></h1>
 <p>This quickstart tutorial shows how to use cleanlab for classification data that has been labeled by multiple annotators (where each example has been labeled by at least one annotator, but not every annotator has labeled every example). Compared to existing crowdsourcing tools, cleanlab helps you better analyze such data by leveraging a trained classifier model in addition to the raw annotations. With one line of code, you can automatically compute:</p>
 <ul class="simple">
 <li><p>A <strong>consensus label</strong> for each example that aggregates the individual annotations more accurately than alternative aggregation via majority-vote or other algorithms used in crowdsourcing.</p></li>
@@ -1028,35 +1028,17 @@ array([[ 5.60856743,  1.41693214],
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">multiannotator_results</span> <span class="o">=</span> <span class="n">get_label_quality_multiannotator</span><span class="p">(</span><span class="n">multiannotator_labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">get_label_quality_multiannotator</span><span class="p">(</span><span class="n">multiannotator_labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Annotator(s) [&#39;A0002&#39; &#39;A0027&#39; &#39;A0028&#39; &#39;A0029&#39; &#39;A0035&#39;] did not annotate any examples that overlap with other annotators,
-using the average annotator agreeement among other annotators as this annotator&#39;s agreement.
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-2022-09-09 16:23:26.555615: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-09-09 16:23:26.555673: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area docutils container">
+<div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-Annotator(s) [&#39;A0002&#39; &#39;A0027&#39; &#39;A0028&#39; &#39;A0029&#39; &#39;A0035&#39;] did not annotate any examples that overlap with other annotators,
-using the average annotator agreeement among other annotators as this annotator&#39;s agreement.
+2022-09-09 17:43:40.650011: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-09-09 17:43:40.650055: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <p>Here, we use the <code class="docutils literal notranslate"><span class="pre">multiannotator.get_label_quality_multiannotator()</span></code> function which returns a dictionary containing three items:</p>
@@ -1067,7 +1049,7 @@ using the average annotator agreeement among other annotators as this annotator&
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">multiannotator_results</span><span class="p">[</span><span class="s2">&quot;label_quality&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;label_quality&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1147,7 +1129,7 @@ using the average annotator agreeement among other annotators as this annotator&
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">multiannotator_results</span><span class="p">[</span><span class="s2">&quot;detailed_label_quality&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;detailed_label_quality&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1330,7 +1312,7 @@ using the average annotator agreeement among other annotators as this annotator&
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">multiannotator_results</span><span class="p">[</span><span class="s2">&quot;annotator_stats&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;annotator_stats&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1447,7 +1429,7 @@ using the average annotator agreeement among other annotators as this annotator&
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">improved_consensus_label</span> <span class="o">=</span> <span class="n">multiannotator_results</span><span class="p">[</span><span class="s2">&quot;label_quality&quot;</span><span class="p">][</span><span class="s2">&quot;consensus_label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">improved_consensus_label</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;label_quality&quot;</span><span class="p">][</span><span class="s2">&quot;consensus_label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 </div>
 </div>
@@ -1482,7 +1464,7 @@ Accuracy of cleanlab consensus labels = 0.9763513513513513
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">consensus_quality_score</span> <span class="o">=</span> <span class="n">multiannotator_results</span><span class="p">[</span><span class="s2">&quot;label_quality&quot;</span><span class="p">][</span><span class="s2">&quot;consensus_quality_score&quot;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">consensus_quality_score</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;label_quality&quot;</span><span class="p">][</span><span class="s2">&quot;consensus_quality_score&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1536,6 +1518,7 @@ Accuracy of better quality examples = 0.9857651245551602
 </div>
 </div>
 <p>You can also repeatedly iterate this process of getting better consensus labels using the model’s out-of-sample predicted probabilites and then retraining the model with the improved labels to get even better predicted probabilities!</p>
+<p>For an example on this iterative training process, check out this notebook that <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/10_cifar10_multiannotator/multiannotator_labels.ipynb">iteratively uses Cleanlab to improve classification models from data labeled by multiple annotators</a>.</p>
 </section>
 </section>
  
@@ -1560,7 +1543,7 @@ Accuracy of better quality examples = 0.9857651245551602
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Detecting Outlier Examples with Cleanlab and PyTorch Image Models (timm)</div>
+                <div class="title">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</div>
                 
               </div>
             </a>
@@ -1614,7 +1597,7 @@ Accuracy of better quality examples = 0.9857651245551602
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Find Improved Consensus Labels for Multiannotator Data</a><ul>
+<li><a class="reference internal" href="#">Improve Consensus Labels for Multiannotator Data</a><ul>
 <li><a class="reference internal" href="#1.-Install-and-import-required-dependencies">1. Install and import required dependencies</a></li>
 <li><a class="reference internal" href="#2.-Create-the-data-(can-skip-these-details)">2. Create the data (can skip these details)</a></li>
 <li><a class="reference internal" href="#3.-Get-majority-vote-labels-and-compute-out-of-sample-predicted-probabilites">3. Get majority vote labels and compute out-of-sample predicted probabilites</a></li>

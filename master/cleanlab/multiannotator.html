@@ -181,8 +181,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/audio.html">Audio Classification with SpeechBrain and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/outliers.html">Detecting Outlier Examples with Cleanlab and PyTorch Image Models (timm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/multiannotator.html">Find Improved Consensus Labels for Multiannotator Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/token_classification.html">Finding Label Errors in Token Classification Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/faq.html">FAQ</a></li>
 </ul>
@@ -391,11 +391,13 @@
 <dt class="sig sig-object py" id="cleanlab.multiannotator.convert_long_to_wide_dataset">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.multiannotator.</span></span><span class="sig-name descname"><span class="pre">convert_long_to_wide_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels_multiannotator_long</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../_modules/cleanlab/multiannotator.html#convert_long_to_wide_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.multiannotator.convert_long_to_wide_dataset" title="Permalink to this definition">#</a></dt>
 <dd><p>Converts a long format dataset to wide format which is suitable for passing into
-<a class="reference internal" href="#cleanlab.multiannotator.get_label_quality_multiannotator" title="cleanlab.multiannotator.get_label_quality_multiannotator"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_multiannotator</span></code></a>.
-Dataframe must contain three columns named:
-1. <code class="docutils literal notranslate"><span class="pre">task</span></code> representing each example labeled by the annotators
-2. <code class="docutils literal notranslate"><span class="pre">annotator</span></code> representing each annotator
-3. <code class="docutils literal notranslate"><span class="pre">label</span></code> representing the label given by an annotator for the corresponding task</p>
+<a class="reference internal" href="#cleanlab.multiannotator.get_label_quality_multiannotator" title="cleanlab.multiannotator.get_label_quality_multiannotator"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_multiannotator</span></code></a>.</p>
+<p>Dataframe must contain three columns named:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">task</span></code> representing each example labeled by the annotators</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">annotator</span></code> representing each annotator</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">label</span></code> representing the label given by an annotator for the corresponding task (i.e. example)</p></li>
+</ol>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>labels_multiannotator_long</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – pandas DataFrame in long format with three columns named <code class="docutils literal notranslate"><span class="pre">task</span></code>, <code class="docutils literal notranslate"><span class="pre">annotator</span></code> and <code class="docutils literal notranslate"><span class="pre">label</span></code></p>
@@ -412,70 +414,81 @@ Dataframe must contain three columns named:
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.multiannotator.get_label_quality_multiannotator">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.multiannotator.</span></span><span class="sig-name descname"><span class="pre">get_label_quality_multiannotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels_multiannotator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consensus_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'best_quality'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quality_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'crowdlab'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_detailed_quality</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_annotator_stats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_quality_score_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/cleanlab/multiannotator.html#get_label_quality_multiannotator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.multiannotator.get_label_quality_multiannotator" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns label quality scores for each example and for each annotator.
-This function is for multiclass classification datasets where examples have been labeled by
-multiple annotators (not necessarily the same number of annotators per example).
-It computes one consensus label for each example that best accounts for the labels chosen by each
+<dd><p>Returns label quality scores for each example and for each annotator.</p>
+<p>This function is for multiclass classification datasets where examples have been labeled by
+multiple annotators (not necessarily the same number of annotators per example).</p>
+<p>It computes one consensus label for each example that best accounts for the labels chosen by each
 annotator (and their quality), as well as a score for how confident we are that this consensus label is actually correct.
-It also computes the the quality scores for each annotator’s individual labels, and the quality of each annotator.
-The score is between 0 and 1; lower scores
-indicate labels less likely to be correct. For example:
-1 - clean label (the given label is likely correct).
-0 - dirty label (the given label is unlikely correct).</p>
+It also computes the the quality scores for each annotator’s individual labels, and the quality of each annotator.</p>
+<p>The score is between 0 and 1; lower scores indicate labels less likely to be correct. For example:</p>
+<ul class="simple">
+<li><p>1 - clean label (the given label is likely correct).</p></li>
+<li><p>0 - dirty label (the given label is unlikely correct).</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels_multiannotator</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – 2D pandas DataFrame or array of multiple given labels for each example with shape (N, M),
+<li><p><strong>labels_multiannotator</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – <p>2D pandas DataFrame or array of multiple given labels for each example with shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">M)</span></code>,
 where N is the number of examples and M is the number of annotators.
-labels_multiannotator[n][m] = given label for n-th example by m-th annotator.
-For a dataset with K classes, each given label must be an integer in 0, 1, …, K-1 or
-NaN if this annotator did not label a particular example. Column names should correspond to the annotators’ ID.</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities.
+<code class="docutils literal notranslate"><span class="pre">labels_multiannotator[n][m]</span></code> = label for n-th example given by m-th annotator.</p>
+<p>For a dataset with K classes, each given label must be an integer in 0, 1, …, K-1 or
+NaN if this annotator did not label a particular example. If pd.DataFrame, column names should correspond to each annotator’s ID.</p>
+</p></li>
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of predicted class probabilities from a trained classifier model.
 Predicted probabilities in the same format expected by the <a class="reference internal" href="rank.html#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>.</p></li>
-<li><p><strong>consensus_method</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">List[str]</span></code>, <em>default</em> = <code class="docutils literal notranslate"><span class="pre">&quot;majority_vote&quot;</span></code>) – Specifies the method used to aggregate labels from multiple annotators into a single consensus label.
-Options include:
-- <code class="docutils literal notranslate"><span class="pre">majority_vote</span></code>: consensus obtained using a simple majority vote among annotators, with ties broken via <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>.
-- <code class="docutils literal notranslate"><span class="pre">best_quality</span></code>: consensus obtained by selecting the label with highest label quality (quality determined by method specified in <code class="docutils literal notranslate"><span class="pre">quality_method</span></code>)
-A List may be passed if you want to consider multiple methods for producing consensus labels.
+<li><p><strong>consensus_method</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">List[str]</span></code>, <em>default</em> = <code class="docutils literal notranslate"><span class="pre">&quot;majority_vote&quot;</span></code>) – <p>Specifies the method used to aggregate labels from multiple annotators into a single consensus label.
+Options include:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">majority_vote</span></code>: consensus obtained using a simple majority vote among annotators, with ties broken via <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">best_quality</span></code>: consensus obtained by selecting the label with highest label quality (quality determined by method specified in <code class="docutils literal notranslate"><span class="pre">quality_method</span></code>)</p></li>
+</ul>
+<p>A List may be passed if you want to consider multiple methods for producing consensus labels.
 If a List is passed, then the 0th element of List is the method used to produce columns “consensus_label”, “consensus_quality_score”, “annotator_agreement” in the returned DataFrame.
 The 1st, 2nd, 3rd, etc. elements of this List are output as extra columns in the returned <code class="docutils literal notranslate"><span class="pre">pandas</span> <span class="pre">DataFrame</span></code> with names formatted as:
-consensus_label_SUFFIX, consensus_quality_score_SUFFIX
-where SUFFIX = the str element of this list, which must correspond to a valid method for computing consensus labels.</p></li>
-<li><p><strong>quality_method</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>default</em> = <code class="docutils literal notranslate"><span class="pre">&quot;crowdlab&quot;</span></code>) – Specifies the method used to calculate the quality of the consensus label.
-Options include:
-- <code class="docutils literal notranslate"><span class="pre">crowdlab</span></code>: an emsemble method that weighs both the annotators’ labels as well as the model’s prediction
-- <code class="docutils literal notranslate"><span class="pre">agreement</span></code>: the fraction of annotators that agree with the consensus label</p></li>
+consensus_label_SUFFIX, consensus_quality_score_SUFFIX where SUFFIX = the str element of this
+list, which must correspond to a valid method for computing consensus labels.</p>
+</p></li>
+<li><p><strong>quality_method</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>default</em> = <code class="docutils literal notranslate"><span class="pre">&quot;crowdlab&quot;</span></code>) – <p>Specifies the method used to calculate the quality of the consensus label.
+Options include:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">crowdlab</span></code>: an emsemble method that weighs both the annotators’ labels as well as the model’s prediction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">agreement</span></code>: the fraction of annotators that agree with the consensus label</p></li>
+</ul>
+</p></li>
 <li><p><strong>return_detailed_quality</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-class docutils literal notranslate"><span class="pre">=</span> <span class="pre">True</span></code>) – Boolean to specify if <cite>detailed_label_quality</cite> is returned.</p></li>
 <li><p><strong>return_annotator_stats</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-class docutils literal notranslate"><span class="pre">=</span> <span class="pre">True</span></code>) – Boolean to specify if <cite>annotator_stats</cite> is returned.</p></li>
 <li><p><strong>verbose</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-class docutils literal notranslate"><span class="pre">=</span> <span class="pre">True</span></code>) – Certain warnings and notes will be printed if <code class="docutils literal notranslate"><span class="pre">verbose</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
-<li><p><strong>label_quality_score_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>optional</em>) – Keyword arguments to pass into <code class="docutils literal notranslate"><span class="pre">get_label_quality_scores()</span></code>.</p></li>
+<li><p><strong>label_quality_score_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>optional</em>) – Keyword arguments to pass into <a class="reference internal" href="rank.html#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dictionary</span> <span class="pre">containing</span> <span class="pre">up</span></code> to <code class="xref py py-class docutils literal notranslate"><span class="pre">3</span> <span class="pre">pandas</span> <span class="pre">DataFrame</span> <span class="pre">with</span> <span class="pre">keys</span> <span class="pre">as</span> <span class="pre">below</span></code> –</p>
+<dd class="field-even"><p><p>Dictionary containing up to 3 pandas DataFrame with keys as below:</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">label_quality</span></code><span class="classifier">pandas.DataFrame</span></dt><dd><p>pandas DataFrame in which each row corresponds to one example, with columns:
-- <code class="docutils literal notranslate"><span class="pre">num_annotations</span></code>: the number of annotators that have labeled each example.
-- <code class="docutils literal notranslate"><span class="pre">consensus_label</span></code>: the single label that is best for each example (you can control how it is derived from all annotators’ labels via the argument: <code class="docutils literal notranslate"><span class="pre">consensus_method</span></code>)
-- <code class="docutils literal notranslate"><span class="pre">annotator_agreement</span></code>: the fraction of annotators that agree with the consensus label (only consider the annotators that labeled that particular example).
-- <code class="docutils literal notranslate"><span class="pre">consensus_quality_score</span></code>: label quality score for consensus label, calculated using weighted product of <cite>label_quality_score</cite> of <cite>consensus_label</cite> and <cite>annotator_agreement</cite></p>
+<dt><code class="docutils literal notranslate"><span class="pre">label_quality</span></code><span class="classifier">pandas.DataFrame</span></dt><dd><p>pandas DataFrame in which each row corresponds to one example, with columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">num_annotations</span></code>: the number of annotators that have labeled each example.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">consensus_label</span></code>: the single label that is best for each example (you can control how it is derived from all annotators’ labels via the argument: <code class="docutils literal notranslate"><span class="pre">consensus_method</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">annotator_agreement</span></code>: the fraction of annotators that agree with the consensus label (only consider the annotators that labeled that particular example).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">consensus_quality_score</span></code>: label quality score for consensus label, calculated by the method specified in <code class="docutils literal notranslate"><span class="pre">quality_method</span></code>.</p></li>
+</ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">detailed_label_quality</span></code><span class="classifier">pandas.DataFrame (returned if <cite>return_detailed_quality=True</cite>)</span></dt><dd><p>Returns a pandas DataFrame with columns <code class="docutils literal notranslate"><span class="pre">quality_annotator_1</span></code>, <code class="docutils literal notranslate"><span class="pre">quality_annotator_2</span></code>, …, <code class="docutils literal notranslate"><span class="pre">quality_annotator_M</span></code> where each entry is
 the label quality score for the labels provided by each annotator (is <code class="docutils literal notranslate"><span class="pre">NaN</span></code> for examples which this annotator did not label).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">annotator_stats</span></code><span class="classifier">pandas.DataFrame (returned if <cite>return_annotator_stats=True</cite>)</span></dt><dd><p>Returns overall statistics about each annotator, sorted by lowest annotator_quality first.
-pandas DataFrame in which each row corresponds to one annotator (the row IDs correspond to annotator IDs), with columns:
-- <code class="docutils literal notranslate"><span class="pre">annotator_quality</span></code>: overall quality of a given annotator’s labels
-- <code class="docutils literal notranslate"><span class="pre">num_examples_labeled</span></code>: number of examples annotated by a given annotator
-- <code class="docutils literal notranslate"><span class="pre">agreement_with_consensus</span></code>: fraction of examples where a given annotator agrees with the consensus label
-- <code class="docutils literal notranslate"><span class="pre">worst_class</span></code>: the class that is most frequently mislabeled by a given annotator</p>
+pandas DataFrame in which each row corresponds to one annotator (the row IDs correspond to annotator IDs), with columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">annotator_quality</span></code>: overall quality of a given annotator’s labels, calculated by the method specified in <code class="docutils literal notranslate"><span class="pre">quality_method</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_examples_labeled</span></code>: number of examples annotated by a given annotator</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">agreement_with_consensus</span></code>: fraction of examples where a given annotator agrees with the consensus label</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">worst_class</span></code>: the class that is most frequently mislabeled by a given annotator</p></li>
+</ul>
 </dd>
 </dl>
-</li>
-</ul>
 </p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -487,7 +500,7 @@ pandas DataFrame in which each row corresponds to one annotator (the row IDs cor
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels_multiannotator</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – 2D pandas DataFrame or array of multiple given labels for each example with shape (N, M),
+<li><p><strong>labels_multiannotator</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – 2D pandas DataFrame or array of multiple given labels for each example with shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">M)</span></code>,
 where N is the number of examples and M is the number of annotators.
 For more details, labels in the same format expected by the <a class="reference internal" href="#cleanlab.multiannotator.get_label_quality_multiannotator" title="cleanlab.multiannotator.get_label_quality_multiannotator"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_label_quality_multiannotator</span></code></a>.</p></li>
 <li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities, <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>.
@@ -495,7 +508,13 @@ For details, predicted probabilities in the same format expected by the <a class
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>consensus_label</strong> – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> with the majority vote label aggregated from all annotators.</p>
+<dd class="field-even"><p><p><strong>consensus_label</strong> – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> with the majority vote label aggregated from all annotators.</p>
+<p>In the event of majority vote ties, ties are broken in the following order:
+using the model <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> (if provided) and selecting the class with highest predicted probability,
+using the empirical class frequencies and selecting the class with highest frequency,
+using an initial annotator quality score and selecting the class that has been labeled by annotators with higher quality,
+and lastly by random selection.</p>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>

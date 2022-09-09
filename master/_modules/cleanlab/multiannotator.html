@@ -180,8 +180,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/audio.html">Audio Classification with SpeechBrain and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/outliers.html">Detecting Outlier Examples with Cleanlab and PyTorch Image Models (timm)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorials/multiannotator.html">Find Improved Consensus Labels for Multiannotator Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/token_classification.html">Finding Label Errors in Token Classification Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/faq.html">FAQ</a></li>
 </ul>
@@ -408,42 +408,49 @@
     <span class="n">label_quality_score_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Returns label quality scores for each example and for each annotator.</span>
+
 <span class="sd">    This function is for multiclass classification datasets where examples have been labeled by</span>
 <span class="sd">    multiple annotators (not necessarily the same number of annotators per example).</span>
+
 <span class="sd">    It computes one consensus label for each example that best accounts for the labels chosen by each</span>
 <span class="sd">    annotator (and their quality), as well as a score for how confident we are that this consensus label is actually correct.</span>
 <span class="sd">    It also computes the the quality scores for each annotator&#39;s individual labels, and the quality of each annotator.</span>
-<span class="sd">    The score is between 0 and 1; lower scores</span>
-<span class="sd">    indicate labels less likely to be correct. For example:</span>
-<span class="sd">    1 - clean label (the given label is likely correct).</span>
-<span class="sd">    0 - dirty label (the given label is unlikely correct).</span>
+
+<span class="sd">    The score is between 0 and 1; lower scores indicate labels less likely to be correct. For example:</span>
+
+<span class="sd">    * 1 - clean label (the given label is likely correct).</span>
+<span class="sd">    * 0 - dirty label (the given label is unlikely correct).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels_multiannotator : pd.DataFrame of np.ndarray</span>
-<span class="sd">        2D pandas DataFrame or array of multiple given labels for each example with shape (N, M),</span>
+<span class="sd">        2D pandas DataFrame or array of multiple given labels for each example with shape ``(N, M)``,</span>
 <span class="sd">        where N is the number of examples and M is the number of annotators.</span>
-<span class="sd">        labels_multiannotator[n][m] = given label for n-th example by m-th annotator.</span>
+<span class="sd">        ``labels_multiannotator[n][m]`` = label for n-th example given by m-th annotator.</span>
+
 <span class="sd">        For a dataset with K classes, each given label must be an integer in 0, 1, ..., K-1 or</span>
-<span class="sd">        NaN if this annotator did not label a particular example. Column names should correspond to the annotators&#39; ID.</span>
+<span class="sd">        NaN if this annotator did not label a particular example. If pd.DataFrame, column names should correspond to each annotator&#39;s ID.</span>
 <span class="sd">    pred_probs : np.ndarray</span>
-<span class="sd">        An array of shape ``(N, K)`` of model-predicted probabilities.</span>
+<span class="sd">        An array of shape ``(N, K)`` of predicted class probabilities from a trained classifier model.</span>
 <span class="sd">        Predicted probabilities in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;`.</span>
 <span class="sd">    consensus_method : str or List[str], default = &quot;majority_vote&quot;</span>
 <span class="sd">        Specifies the method used to aggregate labels from multiple annotators into a single consensus label.</span>
 <span class="sd">        Options include:</span>
-<span class="sd">        - ``majority_vote``: consensus obtained using a simple majority vote among annotators, with ties broken via ``pred_probs``.</span>
-<span class="sd">        - ``best_quality``: consensus obtained by selecting the label with highest label quality (quality determined by method specified in ``quality_method``)</span>
+
+<span class="sd">        * ``majority_vote``: consensus obtained using a simple majority vote among annotators, with ties broken via ``pred_probs``.</span>
+<span class="sd">        * ``best_quality``: consensus obtained by selecting the label with highest label quality (quality determined by method specified in ``quality_method``)</span>
+
 <span class="sd">        A List may be passed if you want to consider multiple methods for producing consensus labels.</span>
 <span class="sd">        If a List is passed, then the 0th element of List is the method used to produce columns &quot;consensus_label&quot;, &quot;consensus_quality_score&quot;, &quot;annotator_agreement&quot; in the returned DataFrame.</span>
 <span class="sd">        The 1st, 2nd, 3rd, etc. elements of this List are output as extra columns in the returned ``pandas DataFrame`` with names formatted as:</span>
-<span class="sd">        consensus_label_SUFFIX, consensus_quality_score_SUFFIX</span>
-<span class="sd">        where SUFFIX = the str element of this list, which must correspond to a valid method for computing consensus labels.</span>
+<span class="sd">        consensus_label_SUFFIX, consensus_quality_score_SUFFIX where SUFFIX = the str element of this</span>
+<span class="sd">        list, which must correspond to a valid method for computing consensus labels.</span>
 <span class="sd">    quality_method : str, default = &quot;crowdlab&quot;</span>
 <span class="sd">        Specifies the method used to calculate the quality of the consensus label.</span>
 <span class="sd">        Options include:</span>
-<span class="sd">        - ``crowdlab``: an emsemble method that weighs both the annotators&#39; labels as well as the model&#39;s prediction</span>
-<span class="sd">        - ``agreement``: the fraction of annotators that agree with the consensus label</span>
+
+<span class="sd">        * ``crowdlab``: an emsemble method that weighs both the annotators&#39; labels as well as the model&#39;s prediction</span>
+<span class="sd">        * ``agreement``: the fraction of annotators that agree with the consensus label</span>
 <span class="sd">    return_detailed_quality: bool, default = True</span>
 <span class="sd">        Boolean to specify if `detailed_label_quality` is returned.</span>
 <span class="sd">    return_annotator_stats : bool, default = True</span>
@@ -451,19 +458,20 @@
 <span class="sd">    verbose : bool, default = True</span>
 <span class="sd">        Certain warnings and notes will be printed if ``verbose`` is set to ``True``.</span>
 <span class="sd">    label_quality_score_kwargs : dict, optional</span>
-<span class="sd">        Keyword arguments to pass into ``get_label_quality_scores()``.</span>
+<span class="sd">        Keyword arguments to pass into :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
+<span class="sd">        Dictionary containing up to 3 pandas DataFrame with keys as below:</span>
 
-<span class="sd">    dictionary containing up to 3 pandas DataFrame with keys as below:</span>
 <span class="sd">        ``label_quality`` : pandas.DataFrame</span>
 <span class="sd">            pandas DataFrame in which each row corresponds to one example, with columns:</span>
-<span class="sd">            - ``num_annotations``: the number of annotators that have labeled each example.</span>
-<span class="sd">            - ``consensus_label``: the single label that is best for each example (you can control how it is derived from all annotators&#39; labels via the argument: ``consensus_method``)</span>
-<span class="sd">            - ``annotator_agreement``: the fraction of annotators that agree with the consensus label (only consider the annotators that labeled that particular example).</span>
-<span class="sd">            - ``consensus_quality_score``: label quality score for consensus label, calculated using weighted product of `label_quality_score` of `consensus_label` and `annotator_agreement`</span>
+
+<span class="sd">            * ``num_annotations``: the number of annotators that have labeled each example.</span>
+<span class="sd">            * ``consensus_label``: the single label that is best for each example (you can control how it is derived from all annotators&#39; labels via the argument: ``consensus_method``)</span>
+<span class="sd">            * ``annotator_agreement``: the fraction of annotators that agree with the consensus label (only consider the annotators that labeled that particular example).</span>
+<span class="sd">            * ``consensus_quality_score``: label quality score for consensus label, calculated by the method specified in ``quality_method``.</span>
 
 <span class="sd">        ``detailed_label_quality`` : pandas.DataFrame (returned if `return_detailed_quality=True`)</span>
 <span class="sd">            Returns a pandas DataFrame with columns ``quality_annotator_1``, ``quality_annotator_2``, ..., ``quality_annotator_M`` where each entry is</span>
@@ -472,10 +480,11 @@
 <span class="sd">        ``annotator_stats`` : pandas.DataFrame (returned if `return_annotator_stats=True`)</span>
 <span class="sd">            Returns overall statistics about each annotator, sorted by lowest annotator_quality first.</span>
 <span class="sd">            pandas DataFrame in which each row corresponds to one annotator (the row IDs correspond to annotator IDs), with columns:</span>
-<span class="sd">            - ``annotator_quality``: overall quality of a given annotator&#39;s labels</span>
-<span class="sd">            - ``num_examples_labeled``: number of examples annotated by a given annotator</span>
-<span class="sd">            - ``agreement_with_consensus``: fraction of examples where a given annotator agrees with the consensus label</span>
-<span class="sd">            - ``worst_class``: the class that is most frequently mislabeled by a given annotator</span>
+
+<span class="sd">            * ``annotator_quality``: overall quality of a given annotator&#39;s labels, calculated by the method specified in ``quality_method``.</span>
+<span class="sd">            * ``num_examples_labeled``: number of examples annotated by a given annotator</span>
+<span class="sd">            * ``agreement_with_consensus``: fraction of examples where a given annotator agrees with the consensus label</span>
+<span class="sd">            * ``worst_class``: the class that is most frequently mislabeled by a given annotator</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
@@ -679,7 +688,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels_multiannotator : pd.DataFrame or np.ndarray</span>
-<span class="sd">        2D pandas DataFrame or array of multiple given labels for each example with shape (N, M),</span>
+<span class="sd">        2D pandas DataFrame or array of multiple given labels for each example with shape ``(N, M)``,</span>
 <span class="sd">        where N is the number of examples and M is the number of annotators.</span>
 <span class="sd">        For more details, labels in the same format expected by the :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
 <span class="sd">    pred_probs : np.ndarray, optional</span>
@@ -690,6 +699,12 @@
 <span class="sd">    -------</span>
 <span class="sd">    consensus_label: np.ndarray</span>
 <span class="sd">        An array of shape ``(N,)`` with the majority vote label aggregated from all annotators.</span>
+
+<span class="sd">        In the event of majority vote ties, ties are broken in the following order:</span>
+<span class="sd">        using the model ``pred_probs`` (if provided) and selecting the class with highest predicted probability,</span>
+<span class="sd">        using the empirical class frequencies and selecting the class with highest frequency,</span>
+<span class="sd">        using an initial annotator quality score and selecting the class that has been labeled by annotators with higher quality,</span>
+<span class="sd">        and lastly by random selection.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
@@ -790,7 +805,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels_multiannotator : pd.DataFrame</span>
-<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape (N, M),</span>
+<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape ``(N, M)``,</span>
 <span class="sd">        where N is the number of examples and M is the number of annotators.</span>
 <span class="sd">        For more details, labels in the same format expected by the :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
 <span class="sd">    pred_probs : np.ndarray</span>
@@ -866,7 +881,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels_multiannotator : pd.DataFrame</span>
-<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape (N, M),</span>
+<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape ``(N, M)``,</span>
 <span class="sd">        where N is the number of examples and M is the number of annotators.</span>
 <span class="sd">        For more details, labels in the same format expected by the :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
 <span class="sd">    pred_probs : np.ndarray</span>
@@ -948,7 +963,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels_multiannotator : pd.DataFrame</span>
-<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape (N, M),</span>
+<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape ``(N, M)``,</span>
 <span class="sd">        where N is the number of examples and M is the number of annotators.</span>
 <span class="sd">        For more details, labels in the same format expected by the :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
 <span class="sd">    consensus_label : np.ndarray</span>
@@ -976,7 +991,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels_multiannotator : pd.DataFrame</span>
-<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape (N, M),</span>
+<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape ``(N, M)``,</span>
 <span class="sd">        where N is the number of examples and M is the number of annotators.</span>
 <span class="sd">        For more details, labels in the same format expected by the :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
 <span class="sd">    consensus_label : np.ndarray</span>
@@ -1173,14 +1188,13 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels_multiannotator : pd.DataFrame</span>
-<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape (N, M),</span>
+<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape ``(N, M)``,</span>
 <span class="sd">        where N is the number of examples and M is the number of annotators.</span>
 <span class="sd">        For more details, labels in the same format expected by the :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
 <span class="sd">    consensus_label : np.ndarray</span>
 <span class="sd">        An array of shape ``(N,)`` with the consensus labels aggregated from all annotators.</span>
 <span class="sd">    pred_probs : np.ndarray</span>
 <span class="sd">        An array of shape ``(N, K)`` of posterior predicted probabilities, ``P(label=k|x)``.</span>
-<span class="sd">        Posterior</span>
 <span class="sd">        For details, predicted probabilities in the same format expected by the :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
 <span class="sd">    num_annotations : np.ndarray</span>
 <span class="sd">        An array of shape ``(N,)`` with the number of annotators that have labeled each example.</span>
@@ -1257,7 +1271,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels_multiannotator : pd.DataFrame</span>
-<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape (N, M),</span>
+<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape ``(N, M)``,</span>
 <span class="sd">        where N is the number of examples and M is the number of annotators.</span>
 <span class="sd">        For more details, labels in the same format expected by the :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
 <span class="sd">    pred_probs : np.ndarray</span>
@@ -1343,7 +1357,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels_multiannotator : pd.DataFrame</span>
-<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape (N, M),</span>
+<span class="sd">        2D pandas DataFrame of multiple given labels for each example with shape ``(N, M)``,</span>
 <span class="sd">        where N is the number of examples and M is the number of annotators.</span>
 <span class="sd">        For more details, labels in the same format expected by the :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
 <span class="sd">    consensus_label : np.ndarray</span>
@@ -1403,10 +1417,12 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Converts a long format dataset to wide format which is suitable for passing into</span>
 <span class="sd">    :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
+
 <span class="sd">    Dataframe must contain three columns named:</span>
-<span class="sd">    1. ``task`` representing each example labeled by the annotators</span>
-<span class="sd">    2. ``annotator`` representing each annotator</span>
-<span class="sd">    3. ``label`` representing the label given by an annotator for the corresponding task</span>
+
+<span class="sd">    #. ``task`` representing each example labeled by the annotators</span>
+<span class="sd">    #. ``annotator`` representing each annotator</span>
+<span class="sd">    #. ``label`` representing the label given by an annotator for the corresponding task (i.e. example)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
