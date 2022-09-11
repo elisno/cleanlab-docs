@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Image Classification with PyTorch and Cleanlab" href="image.html" /><link rel="prev" title="cleanlab documentation" href="../index.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>Cleanlab 2.0: The Workflows of Data-centric AI - cleanlab</title>
+        <title>The Workflows of Data-centric AI for Classification with Noisy Labels - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -174,7 +174,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Cleanlab 2.0: The Workflows of Data-centric AI</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">The Workflows of Data-centric AI for Classification with Noisy Labels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="image.html">Image Classification with PyTorch and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text.html">Text Classification with TensorFlow, Keras, and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tabular.html">Classification with Tabular Data using Scikit-Learn and Cleanlab</a></li>
@@ -643,17 +643,18 @@ div.rendered_html tbody tr:hover {
         `);
     })
 
-</script><section id="Cleanlab-2.0:-The-Workflows-of-Data-centric-AI">
-<h1>Cleanlab 2.0: The Workflows of Data-centric AI<a class="headerlink" href="#Cleanlab-2.0:-The-Workflows-of-Data-centric-AI" title="Permalink to this heading">#</a></h1>
-<p>In this tutorial, you will learn how to easily incorporate the new and improved <a class="reference external" href="https://github.com/cleanlab/cleanlab">cleanlab 2.0</a> into your ML development workflows to:</p>
+</script><section id="The-Workflows-of-Data-centric-AI-for-Classification-with-Noisy-Labels">
+<h1>The Workflows of Data-centric AI for Classification with Noisy Labels<a class="headerlink" href="#The-Workflows-of-Data-centric-AI-for-Classification-with-Noisy-Labels" title="Permalink to this heading">#</a></h1>
+<p>In this tutorial, you will learn how to easily incorporate <a class="reference external" href="https://github.com/cleanlab/cleanlab">cleanlab</a> into your ML development workflows to:</p>
 <ul class="simple">
-<li><p>Automatically find label issues lurking in your data.</p></li>
+<li><p>Automatically find label issues lurking in your classification data.</p></li>
 <li><p>Score the label quality of every example in your dataset.</p></li>
 <li><p>Train robust models in the presence of label issues.</p></li>
 <li><p>Identify overlapping classes that you can merge to make the learning task less ambiguous.</p></li>
 <li><p>Generate an overall label health score to track improvements in your labels as you clean your datasets over time.</p></li>
 </ul>
-<p>This tutorial provides an in-depth survey of many possible different ways that cleanlab can be utilized for Data-Centric AI. If you have a different use-case in mind that is not supported, please <a class="reference external" href="https://github.com/cleanlab/cleanlab/issues">tell us about it</a>!</p>
+<p>This tutorial provides an in-depth survey of many possible different ways that cleanlab can be utilized for Data-Centric AI. If you have a different use-case in mind that is not supported, please <a class="reference external" href="https://github.com/cleanlab/cleanlab/issues">tell us about it</a>! While this tutorial focuses on standard multi-class (and binary) classification datasets, cleanlab also supports other tasks including: <a class="reference external" href="multiannotator.html">data labeled by multiple annotators</a>, <a class="reference internal" href="../cleanlab/filter.html#cleanlab.filter.find_label_issues"><span class="std std-ref">multi-label
+classification</span></a>, and <a class="reference external" href="token_classification.html">token classification of text</a>.</p>
 <p><strong>cleanlab is grounded in theory and science</strong>. Learn more:</p>
 <p><a class="reference external" href="https://cleanlab.ai/research">Research Publications</a> | <a class="reference external" href="https://labelerrors.com/">Label Errors found by cleanlab</a> | <a class="reference external" href="https://github.com/cleanlab/examples">Examples using cleanlab</a></p>
 <section id="Install-dependencies-and-import-them">
@@ -822,8 +823,9 @@ def plot_data(data, circles, title, alpha=1.0):
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-09-09 23:00:48.932123: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-09-09 23:00:48.932156: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-09-11 07:48:18.027880: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2022-09-11 07:48:18.031398: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-09-11 07:48:18.031410: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1860,7 +1862,7 @@ array([ 99,   8,  64, 107,  10,  16,  51,  63, 121, 213, 212, 218, 117,
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Cleanlab 2.0: The Workflows of Data-centric AI</a><ul>
+<li><a class="reference internal" href="#">The Workflows of Data-centric AI for Classification with Noisy Labels</a><ul>
 <li><a class="reference internal" href="#Install-dependencies-and-import-them">Install dependencies and import them</a></li>
 <li><a class="reference internal" href="#Create-the-data-(can-skip-these-details)">Create the data (can skip these details)</a></li>
 <li><a class="reference internal" href="#Workflow-1:-Use-CleanLearning()-for-everything"><strong>Workflow 1:</strong> Use CleanLearning() for everything</a><ul>

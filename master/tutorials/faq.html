@@ -174,7 +174,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="indepth_overview.html">Cleanlab 2.0: The Workflows of Data-centric AI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indepth_overview.html">The Workflows of Data-centric AI for Classification with Noisy Labels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="image.html">Image Classification with PyTorch and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text.html">Text Classification with TensorFlow, Keras, and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tabular.html">Classification with Tabular Data using Scikit-Learn and Cleanlab</a></li>
@@ -674,7 +674,7 @@ dimensions from <code class="docutils literal notranslate"><span class="pre">pre
 </section>
 <section id="How-do-I-infer-the-correct-labels-for-examples-cleanlab-has-flagged?">
 <h2>How do I infer the correct labels for examples cleanlab has flagged?<a class="headerlink" href="#How-do-I-infer-the-correct-labels-for-examples-cleanlab-has-flagged?" title="Permalink to this heading">#</a></h2>
-<p>If you have a classifier that is compatible with CleanLearning, here’s an easy way to see predicted labels alongside the label issues:</p>
+<p>If you have a classifier that is compatible with <a class="reference external" href="../cleanlab/classification.html">CleanLearning</a> (i.e. follows the sklearn API), here’s an easy way to see predicted labels alongside the label issues:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
@@ -689,8 +689,9 @@ dimensions from <code class="docutils literal notranslate"><span class="pre">pre
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-09-09 22:56:17.217181: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-09-09 22:56:17.217222: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-09-11 07:44:09.531465: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2022-09-11 07:44:09.535102: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-09-11 07:44:09.535114: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <p>Alternatively if you have already computed out-of-sample predicted probabilities (<code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>) from a classifier:</p>
