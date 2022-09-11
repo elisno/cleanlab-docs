@@ -1037,9 +1037,8 @@ array([[ 5.60856743,  1.41693214],
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-09-11 07:48:37.172543: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2022-09-11 07:48:37.176175: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-09-11 07:48:37.176187: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-09-11 19:38:24.511828: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-09-11 19:38:24.511891: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <p>Here, we use the <code class="docutils literal notranslate"><span class="pre">multiannotator.get_label_quality_multiannotator()</span></code> function which returns a dictionary containing three items:</p>
@@ -1519,7 +1518,7 @@ Accuracy of better quality examples = 0.9857651245551602
 </div>
 </div>
 <p>You can also repeatedly iterate this process of getting better consensus labels using the model’s out-of-sample predicted probabilites and then retraining the model with the improved labels to get even better predicted probabilities!</p>
-<p>For an example on this iterative training process, check out this notebook that <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/10_cifar10_multiannotator/multiannotator_labels.ipynb">iteratively uses Cleanlab to improve classification models from data labeled by multiple annotators</a>.</p>
+<p>For details, see our <a class="reference external" href="https://github.com/cleanlab/examples">examples</a> notebook on <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/10_cifar10_multiannotator/multiannotator_labels.ipynb">Iterative use of Cleanlab to Improve Classification Models (and Consensus Labels) from Data Labeled by Multiple Annotators</a>.</p>
 </section>
 </section>
  
