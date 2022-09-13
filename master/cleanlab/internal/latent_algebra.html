@@ -452,12 +452,9 @@ already been precomputed, to increase code efficiency.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>noise_matrix</strong> – A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing
+<dd class="field-even"><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(K</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K)</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">number</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">classes</span></code>) – A conditional probability matrix of the form P(label=k_s|true_label=k_y) containing
 the fraction of examples in every class, labeled as every other class.
 Columns of noise_matrix sum to 1.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(K</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K)</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K</span> <span class="pre">=</span> <span class="pre">number</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">classes</span></code></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -527,10 +524,7 @@ the matrix diagonals instead of all the probabilities.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>py</strong> – The fraction (prior probability) of each TRUE class label, P(true_label = k).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span> <span class="pre">(shape</span> <span class="pre">(K</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">)</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">(1</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code></p>
+<dd class="field-even"><p><strong>py</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span> <span class="pre">(shape</span> <span class="pre">(K</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">)</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">(1</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code>) – The fraction (prior probability) of each TRUE class label, P(true_label = k).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -578,14 +572,11 @@ Assumes columns of inverse_noise_matrix sum to 1.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>pyx</strong> – P(true_label=k|x) is a matrix with K model-predicted probabilities.
+<dd class="field-even"><p><strong>pyx</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span> <span class="pre">(shape</span> <span class="pre">(N</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code>) – P(true_label=k|x) is a matrix with K model-predicted probabilities.
 Each row of this matrix corresponds to an example <cite>x</cite> and contains the model-predicted
 probabilities that <cite>x</cite> belongs to each possible class.
 The columns must be ordered such that these probabilities correspond to class 0,1,2,…
 <cite>pred_probs</cite> should have been computed using 3 (or higher) fold cross-validation.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span> <span class="pre">(shape</span> <span class="pre">(N</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">K))</span></code></p>
 </dd>
 </dl>
 </dd></dl>

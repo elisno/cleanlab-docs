@@ -569,7 +569,7 @@ This means some other methods like <cite>self.get_label_issues()</cite> will no 
 <p>For info about the <strong>other parameters</strong>, see the docstring of <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p>pandas DataFrame of label issues for each example.
+<dd class="field-odd"><p><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> – pandas DataFrame of label issues for each example.
 Unless <cite>save_space</cite> argument is specified, same DataFrame is also stored as
 <cite>self.label_issues_df</cite> attribute accessible via
 <a class="reference internal" href="#cleanlab.classification.CleanLearning.get_label_issues" title="cleanlab.classification.CleanLearning.get_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_label_issues</span></code></a>.
@@ -583,9 +583,6 @@ the DataFrame may contain the following columns:</p>
 <li><p><em>sample_weight</em>: Numeric values used to weight examples during the final training of <cite>clf</cite> in <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>. This column may not be present after <cite>self.find_label_issues()</cite> but may be added after call to <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>. For more precise definition of sample weights, see documentation of <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a></p></li>
 </ul>
 </p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -700,10 +697,7 @@ and is offered as an alternative for compatibility with sklearn.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>self</strong> – Fitted estimator that has all the same methods as any sklearn estimator.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p><a class="reference internal" href="#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a></p>
+<dd class="field-even"><p><p><strong>self</strong> (<a class="reference internal" href="#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a>) – Fitted estimator that has all the same methods as any sklearn estimator.</p>
 <p>After calling <code class="docutils literal notranslate"><span class="pre">self.fit()</span></code>, this estimator also stores extra attributes such as:</p>
 <ul class="simple">
 <li><p><em>self.label_issues_df</em>: a <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> accessible via</p></li>
@@ -747,7 +741,7 @@ This <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</
 For column definitions, see the documentation of
 <a class="reference internal" href="#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.find_label_issues</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
 </dd>
 </dl>
@@ -763,10 +757,7 @@ For column definitions, see the documentation of
 contained subobjects that are estimators.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>params</strong> – Parameter names mapped to their values.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
+<dd class="field-even"><p><strong>params</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – Parameter names mapped to their values.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -833,10 +824,7 @@ possible to update each component of a nested object.</p>
 <dd class="field-odd"><p><strong>**params</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – Estimator parameters.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>self</strong> – Estimator instance.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">estimator</span> <span class="pre">instance</span></code></p>
+<dd class="field-even"><p><strong>self</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">estimator</span> <span class="pre">instance</span></code>) – Estimator instance.</p>
 </dd>
 </dl>
 </dd></dl>

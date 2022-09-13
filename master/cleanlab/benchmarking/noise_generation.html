@@ -439,12 +439,9 @@ higher</em>. The opposite occurs with a small trace.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>noise_matrix</strong> – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the noise matrix <code class="docutils literal notranslate"><span class="pre">P(label=k_s|true_label=k_y)</span></code> with <cite>trace</cite>
+<dd class="field-even"><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the noise matrix <code class="docutils literal notranslate"><span class="pre">P(label=k_s|true_label=k_y)</span></code> with <cite>trace</cite>
 equal to <code class="docutils literal notranslate"><span class="pre">np.sum(np.diagonal(noise_matrix))</span></code>. This a conditional probability matrix and a
 left stochastic matrix. Returns <code class="docutils literal notranslate"><span class="pre">None</span></code> if <cite>max_iter</cite> is exceeded.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -469,10 +466,7 @@ examples in every class, labeled as every other class. Assumes columns of
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>labels</strong> – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code></p>
+<dd class="field-even"><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -512,10 +506,7 @@ of each true class label, <code class="docutils literal notranslate"><span class
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Whether the noise matrix is a learnable matrix.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code> – Whether the noise matrix is a learnable matrix.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -534,7 +525,7 @@ to K.</p>
 <li><p><strong>min_balls_per_bin</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Ensure that each bin contains at least <cite>min_balls_per_bin</cite> balls.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
 </dd>
 </dl>
