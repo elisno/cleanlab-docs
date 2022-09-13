@@ -399,7 +399,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides scores to detect Out Of Distribution (OOD) examples that are outliers in a dataset.</span>
 <span class="sd">    Each example&#39;s OOD score lies in [0,1] with smaller values indicating examples that are less typical under the data distribution.</span>
-<span class="sd">    OOD scores may be estimated from either: feature embeddings or predicted probabilities from a trained classifier.</span>
+<span class="sd">    OOD scores may be estimated from either: numeric feature embeddings or predicted probabilities from a trained classifier.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -540,7 +540,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        features : np.ndarray, optional</span>
 <span class="sd">          Feature array of shape ``(N, M)``, where N is the number of examples and M is the number of features used to represent each example.</span>
-<span class="sd">          All features should be numeric. For less structured data (eg. images, text, categorical values, ...), you should provide</span>
+<span class="sd">          All features should be **numeric**. For less structured data (eg. images, text, categorical values, ...), you should provide</span>
 <span class="sd">          vector embeddings to represent each example (eg. extracted from some pretrained neural network).</span>
 
 <span class="sd">        pred_probs : np.ndarray, optional</span>

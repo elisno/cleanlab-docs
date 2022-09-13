@@ -381,7 +381,7 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Provides scores to detect Out Of Distribution (OOD) examples that are outliers in a dataset.
 Each example’s OOD score lies in [0,1] with smaller values indicating examples that are less typical under the data distribution.
-OOD scores may be estimated from either: feature embeddings or predicted probabilities from a trained classifier.</p>
+OOD scores may be estimated from either: numeric feature embeddings or predicted probabilities from a trained classifier.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>params</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>default</em> = <code class="docutils literal notranslate"><span class="pre">{}</span></code>) – <p>Optional keyword arguments to control how this estimator is fit. Effect of arguments passed in depends on if
@@ -480,7 +480,7 @@ For details see <a class="reference internal" href="#cleanlab.outlier.OutOfDistr
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>features</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – Feature array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">M)</span></code>, where N is the number of examples and M is the number of features used to represent each example.
-All features should be numeric. For less structured data (eg. images, text, categorical values, …), you should provide
+All features should be <strong>numeric</strong>. For less structured data (eg. images, text, categorical values, …), you should provide
 vector embeddings to represent each example (eg. extracted from some pretrained neural network).</p></li>
 <li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – <p>An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds
