@@ -675,7 +675,7 @@ dimensions from <code class="docutils literal notranslate"><span class="pre">pre
 <section id="How-do-I-infer-the-correct-labels-for-examples-cleanlab-has-flagged?">
 <h2>How do I infer the correct labels for examples cleanlab has flagged?<a class="headerlink" href="#How-do-I-infer-the-correct-labels-for-examples-cleanlab-has-flagged?" title="Permalink to this heading">#</a></h2>
 <p>If you have a classifier that is compatible with <a class="reference external" href="../cleanlab/classification.html">CleanLearning</a> (i.e. follows the sklearn API), here’s an easy way to see predicted labels alongside the label issues:</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
@@ -683,15 +683,6 @@ dimensions from <code class="docutils literal notranslate"><span class="pre">pre
 <span class="n">issues_dataframe</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-2022-09-11 21:51:33.411618: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-09-11 21:51:33.411658: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
-</pre></div></div>
 </div>
 <p>Alternatively if you have already computed out-of-sample predicted probabilities (<code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>) from a classifier:</p>
 <div class="nbinput nblast docutils container">
