@@ -180,10 +180,10 @@
 <li class="toctree-l1"><a class="reference internal" href="tabular.html">Classification with Tabular Data using Scikit-Learn and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio Classification with SpeechBrain and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Improve Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="token_classification.html">Finding Label Errors in Token Classification Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
@@ -193,8 +193,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/rank.html">rank</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/count.html">count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/dataset.html">dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../cleanlab/multiannotator.html">multiannotator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/outlier.html">outlier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/multiannotator.html">multiannotator</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/benchmarking/noise_generation.html">noise_generation</a></li>
 </ul>
@@ -1024,22 +1024,13 @@ array([[ 5.60856743,  1.41693214],
 <section id="4.-Use-cleanlab-to-get-better-consensus-labels-and-other-statistics">
 <h2>4. Use cleanlab to get better consensus labels and other statistics<a class="headerlink" href="#4.-Use-cleanlab-to-get-better-consensus-labels-and-other-statistics" title="Permalink to this heading">#</a></h2>
 <p>Using the annotators’ labels and the out-of-sample predicted probabilites from the model, cleanlab can help us obtain improved consensus labels for our data.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">get_label_quality_multiannotator</span><span class="p">(</span><span class="n">multiannotator_labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-2022-09-13 01:14:39.558080: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
-2022-09-13 01:14:39.558120: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
-</pre></div></div>
 </div>
 <p>Here, we use the <code class="docutils literal notranslate"><span class="pre">multiannotator.get_label_quality_multiannotator()</span></code> function which returns a dictionary containing three items:</p>
 <ol class="arabic simple">
