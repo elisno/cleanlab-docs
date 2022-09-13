@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Computing Out-of-Sample Predicted Probabilities with Cross-Validation" href="pred_probs_cross_val.html" /><link rel="prev" title="Improve Consensus Labels for Multiannotator Data" href="multiannotator.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>Finding Label Errors in Token Classification Datasets - cleanlab</title>
+        <title>Find Label Errors in Token Classification (Text) Datasets - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -182,7 +182,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Finding Label Errors in Token Classification Datasets</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Find Label Errors in Token Classification (Text) Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
@@ -643,10 +643,10 @@ div.rendered_html tbody tr:hover {
         `);
     })
 
-</script><section id="Finding-Label-Errors-in-Token-Classification-Datasets">
-<h1>Finding Label Errors in Token Classification Datasets<a class="headerlink" href="#Finding-Label-Errors-in-Token-Classification-Datasets" title="Permalink to this heading">#</a></h1>
-<p>This tutorial shows how you can use cleanlab to find potential label errors in text datasets used for the NLP task of token classification. In token-classification, our data consists of a bunch of sentences (aka documents) in which every token (aka word) is labeled with one of K classes, and we train models to predict the class of each token in a new sentence. Example applications include part-of-speech-tagging or entity recognition, which is the focus on this tutorial. Here, we use CONLL-2003
-named entity recognition dataset which contains 20,718 sentences and 301,361 tokens, where each token is labeled with one of the following classes:</p>
+</script><section id="Find-Label-Errors-in-Token-Classification-(Text)-Datasets">
+<h1>Find Label Errors in Token Classification (Text) Datasets<a class="headerlink" href="#Find-Label-Errors-in-Token-Classification-(Text)-Datasets" title="Permalink to this heading">#</a></h1>
+<p>This tutorial shows how you can use cleanlab to find potential label errors in text datasets for token classification . In token-classification, our data consists of a bunch of sentences (aka documents) in which every token (aka word) is labeled with one of K classes, and we train models to predict the class of each token in a new sentence. Example applications in NLP include part-of-speech-tagging or entity recognition, which is the focus on this tutorial. Here we use the <a class="reference external" href="https://deepai.org/dataset/conll-2003-english">CoNLL-2003 named
+entity recognition</a> dataset which contains around 20,000 sentences with 300,000 individual tokens. Each token is labeled with one of the following classes:</p>
 <ul class="simple">
 <li><p>LOC (location entity)</p></li>
 <li><p>PER (person entity)</p></li>
@@ -656,10 +656,24 @@ named entity recognition dataset which contains 20,718 sentences and 301,361 tok
 </ul>
 <p><strong>Overview of what we’ll do in this tutorial:</strong></p>
 <ul class="simple">
-<li><p>Identify potential token label issues using cleanlab’s <code class="docutils literal notranslate"><span class="pre">token_classification.filter.find_label_issues</span></code> method.</p></li>
-<li><p>Rank sentences using cleanlab’s <code class="docutils literal notranslate"><span class="pre">token_classification.rank.get_label_quality_scores</span></code> method.</p></li>
+<li><p>Find tokens with label issues using <code class="docutils literal notranslate"><span class="pre">cleanlab.token_classification.filter.find_label_issues</span></code>.</p></li>
+<li><p>Rank sentences based on their overall label quality using <code class="docutils literal notranslate"><span class="pre">cleanlab.token_classification.rank.get_label_quality_scores</span></code>.</p></li>
 </ul>
-<section id="1.-Install-required-dependencies-and-download-data">
+<div class="admonition note">
+<p class="admonition-title">Quickstart</p>
+<p>cleanlab uses three inputs to handle token classification data: - <code class="docutils literal notranslate"><span class="pre">given_words</span></code>: List whose <code class="docutils literal notranslate"><span class="pre">i</span></code>th element is a list of strings corresponding to tokens of the <code class="docutils literal notranslate"><span class="pre">i</span></code>th sentence in dataset. Example: <code class="docutils literal notranslate"><span class="pre">[...,</span> <span class="pre">[&quot;I&quot;,</span> <span class="pre">&quot;love&quot;,</span> <span class="pre">&quot;cleanlab&quot;],</span> <span class="pre">...]</span></code> - <code class="docutils literal notranslate"><span class="pre">labels</span></code>: List whose <code class="docutils literal notranslate"><span class="pre">i</span></code>th element is a list of integers corresponding to class labels of each token in the <code class="docutils literal notranslate"><span class="pre">i</span></code>th sentence. Example: <code class="docutils literal notranslate"><span class="pre">[...,</span> <span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1],</span> <span class="pre">...]</span></code> - <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>: List whose <code class="docutils literal notranslate"><span class="pre">i</span></code>th element is a np.ndarray of shape
+<code class="docutils literal notranslate"><span class="pre">(N_i,</span> <span class="pre">K)</span></code> corresponding to predicted class probabilities for each token in the <code class="docutils literal notranslate"><span class="pre">i</span></code>th sentence (assuming this sentence contains <code class="docutils literal notranslate"><span class="pre">N_i</span></code> tokens and dataset has <code class="docutils literal notranslate"><span class="pre">K</span></code> possible classes). These should be out-of-sample <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> obtained from a token classification model via cross-validation. Example: <code class="docutils literal notranslate"><span class="pre">[...,</span> <span class="pre">np.array([[0.8,0.2],</span> <span class="pre">[0.9,0.1],</span> <span class="pre">[0.3,0.7]]),</span> <span class="pre">...]</span></code></p>
+<p>Using these, you can find/display label issues with this code:</p>
+<div class="markdown" style="background:white;margin:16px"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.token_classification.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
+<span class="kn">from</span> <span class="nn">cleanlab.token_classification.summary</span> <span class="kn">import</span> <span class="n">display_issues</span>
+
+<span class="n">issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s1">&#39;self_confidence&#39;</span><span class="p">)</span>
+<span class="n">display_issues</span><span class="p">(</span><span class="n">issues</span><span class="p">,</span> <span class="n">given_words</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+               <span class="n">class_names</span><span class="o">=</span><span class="n">OPTIONAL_LIST_OF_ORDERED_CLASS_NAMES</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div><section id="1.-Install-required-dependencies-and-download-data">
 <h2>1. Install required dependencies and download data<a class="headerlink" href="#1.-Install-required-dependencies-and-download-data" title="Permalink to this heading">#</a></h2>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install all packages required for this tutorial as follows:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>!pip install cleanlab
@@ -680,16 +694,16 @@ named entity recognition dataset which contains 20,718 sentences and 301,361 tok
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2022-09-13 08:13:24--  https://data.deepai.org/conll2003.zip
+--2022-09-13 16:51:40--  https://data.deepai.org/conll2003.zip
 Resolving data.deepai.org (data.deepai.org)... 5.9.140.253
 Connecting to data.deepai.org (data.deepai.org)|5.9.140.253|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 982975 (960K) [application/x-zip-compressed]
 Saving to: ‘conll2003.zip’
 
-conll2003.zip       100%[===================&gt;] 959.94K  2.01MB/s    in 0.5s
+conll2003.zip       100%[===================&gt;] 959.94K  1.99MB/s    in 0.5s
 
-2022-09-13 08:13:25 (2.01 MB/s) - ‘conll2003.zip’ saved [982975/982975]
+2022-09-13 16:51:41 (1.99 MB/s) - ‘conll2003.zip’ saved [982975/982975]
 
 mkdir: cannot create directory ‘data’: File exists
 Archive:  conll2003.zip
@@ -697,16 +711,16 @@ Archive:  conll2003.zip
   inflating: data/test.txt
   inflating: data/train.txt
   inflating: data/valid.txt
---2022-09-13 08:13:25--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
-Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.217.133.65
-Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.217.133.65|:443... connected.
+--2022-09-13 16:51:41--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
+Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 54.231.228.233
+Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|54.231.228.233|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 17045998 (16M) [binary/octet-stream]
 Saving to: ‘pred_probs.npz’
 
-pred_probs.npz      100%[===================&gt;]  16.26M  --.-KB/s    in 0.09s
+pred_probs.npz      100%[===================&gt;]  16.26M  65.7MB/s    in 0.2s
 
-2022-09-13 08:13:25 (191 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
+2022-09-13 16:51:42 (65.7 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
 
 </pre></div></div>
 </div>
@@ -725,16 +739,11 @@ pred_probs.npz      100%[===================&gt;]  16.26M  --.-KB/s    in 0.09s
 </div>
 </div>
 </section>
-<section id="2.-Get-pred_probs,-labels-and-read-file">
-<h2>2. Get <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code> and read file<a class="headerlink" href="#2.-Get-pred_probs,-labels-and-read-file" title="Permalink to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> are out-of-sample model-predicted probabilities of the CoNLL-2003 dataset (including training, development, and testing dataset), obtained via cross-validation. To detect potential labels issues, we first get <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and <code class="docutils literal notranslate"><span class="pre">labels</span></code>, which are both in nested-list format, such that:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> is a list of <code class="docutils literal notranslate"><span class="pre">np.arrays</span></code>, such that <code class="docutils literal notranslate"><span class="pre">pred_probs[i]</span></code> is the model-predicted probabilities for the tokens in the i’th sentence, and has shape <code class="docutils literal notranslate"><span class="pre">(N_i,</span> <span class="pre">K)</span></code>, where <code class="docutils literal notranslate"><span class="pre">N_i</span></code> is the number of word-level tokens of the <code class="docutils literal notranslate"><span class="pre">i</span></code>’th sentence. Each row of the matrix corresponds to a token <code class="docutils literal notranslate"><span class="pre">t</span></code> and contains the model-predicted probabilities that <code class="docutils literal notranslate"><span class="pre">t</span></code> belongs to each possible class, for each of the K classes. The columns must be ordered such that the probabilities correspond to class 0,
-1, …, K-1.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">labels</span></code> is a list of lists, such that <code class="docutils literal notranslate"><span class="pre">labels[i]</span></code> is a list of given token labels of the <code class="docutils literal notranslate"><span class="pre">i</span></code>’th sentence. For dataset with K classes, labels must be in 0, 1, …, K-1. All the classes (0, 1, …, and K-1) MUST be present in <code class="docutils literal notranslate"><span class="pre">labels[i]</span></code> for some <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p></li>
-</ul>
-<p>Here, indicies are a tuple <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code> unless otherwise specified, which refers to the <code class="docutils literal notranslate"><span class="pre">j</span></code>’th word-level token of the <code class="docutils literal notranslate"><span class="pre">i</span></code>’th sentence. Given that each sentence has different number of tokens, we store <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and <code class="docutils literal notranslate"><span class="pre">labels</span></code> as <code class="docutils literal notranslate"><span class="pre">.npz</span></code> files, which can be easily converted to dictionaries. Use <code class="docutils literal notranslate"><span class="pre">read_npz</span></code> to retrieve <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and <code class="docutils literal notranslate"><span class="pre">labels</span></code> in nested-list format.</p>
-<details><p>Below is the code used to read the <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file.</p>
+<section id="2.-Get-data,-labels,-and-pred_probs">
+<h2>2. Get data, labels, and pred_probs<a class="headerlink" href="#2.-Get-data,-labels,-and-pred_probs" title="Permalink to this heading">#</a></h2>
+<p>In token classification tasks, each token in the dataset is labeled with one of <em>K</em> possible classes. To find label issues, cleanlab requires predicted class probabilities from a trained classifier. These <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> contain a length-<em>K</em> vector for <strong>each</strong> token in the dataset (which sums to 1 for each token). Here we use <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> which are out-of-sample predicted class probabilities for the full CoNLL-2003 dataset (merging training, development, and testing splits), obtained from a
+BERT Transformer fit via cross-validation. Our example notebook <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/11_entity_recognition/entity_recognition_training.ipynb">“Training Entity Recognition Model for Token Classification”</a> contains the code to produce such <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and save them in a <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file, which we simply load here via a <code class="docutils literal notranslate"><span class="pre">read_npz</span></code> function (can skip these details).</p>
+<details><p>Below is the code used to read the .npz file.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
 
 <span class="k">def</span> <span class="nf">read_npz</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
@@ -751,41 +760,42 @@ pred_probs.npz      100%[===================&gt;]  16.26M  --.-KB/s    in 0.09s
 </pre></div>
 </div>
 </div>
-<p>As shown above, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> is a list of np.array. In our example, the first sentence has 9 given tokens and 5 class names.</p>
-<p>Given that we would like to visualize the results, we first read the files. We obtain the sentences from the original files to display the word-level token label issues in context. <code class="docutils literal notranslate"><span class="pre">given_words</span></code> contains the word-level tokens in the dataset such that <code class="docutils literal notranslate"><span class="pre">given_words[i]</span></code> is a list of words of the <code class="docutils literal notranslate"><span class="pre">i</span></code>’th sentence; <code class="docutils literal notranslate"><span class="pre">given_labels</span></code> contains the given labels in the dataset such that <code class="docutils literal notranslate"><span class="pre">given_labels[i]</span></code> is a list of labels of the <code class="docutils literal notranslate"><span class="pre">i</span></code>th sentence. Note that in CoNLL-2003, the <code class="docutils literal notranslate"><span class="pre">B-</span></code> and <code class="docutils literal notranslate"><span class="pre">I-</span></code>
-prefixes indicates whether the tokens are at the start of an entity, which are ignored in this tutorial. Therefore, we have two sets of entities:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>given_entities = [&#39;O&#39;, &#39;B-MISC&#39;, &#39;I-MISC&#39;, &#39;B-PER&#39;, &#39;I-PER&#39;, &#39;B-ORG&#39;, &#39;I-ORG&#39;, &#39;B-LOC&#39;, &#39;I-LOC&#39;]
-</pre></div>
+<p><code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> is a list of numpy arrays, which we’ll describe later. Let’s first also load the dataset and its labels. We collect sentences from the original text files defining: - <code class="docutils literal notranslate"><span class="pre">given_words</span></code> as a nested list of the word-level tokens in the dataset where <code class="docutils literal notranslate"><span class="pre">given_words[i]</span></code> is a list of words in the <code class="docutils literal notranslate"><span class="pre">i</span></code>th sentence - <code class="docutils literal notranslate"><span class="pre">given_labels</span></code> as a nested list of the given labels in the dataset where <code class="docutils literal notranslate"><span class="pre">given_labels[i]</span></code> is a list of labels for each token in the <code class="docutils literal notranslate"><span class="pre">i</span></code>th sentence.</p>
+<div class="line-block">
+<div class="line">This version of CoNLL-2003 uses IOB2-formatting for tagging, where <code class="docutils literal notranslate"><span class="pre">B-</span></code> and <code class="docutils literal notranslate"><span class="pre">I-</span></code> prefixes in the class labels indicate whether the tokens are at the start of an entity or in the middle. We ignore these distinctions in this tutorial (as label errors that confuse <code class="docutils literal notranslate"><span class="pre">B-</span></code> and <code class="docutils literal notranslate"><span class="pre">I-</span></code> are less interesting), and thus have two sets of entities: - <code class="docutils literal notranslate"><span class="pre">given_entities</span></code> = [‘O’, ‘B-MISC’, ‘I-MISC’, ‘B-PER’, ‘I-PER’, ‘B-ORG’, ‘I-ORG’, ‘B-LOC’, ‘I-LOC’]</div>
+<div class="line">- <code class="docutils literal notranslate"><span class="pre">entities</span></code> = [‘O’, ‘MISC’, ‘PER’, ‘ORG’, ‘LOC’]. These are our classes of interest for the token classification task.</div>
 </div>
-<p>and</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>merged_entities = [&#39;O&#39;, &#39;MISC&#39;, &#39;PER&#39;, &#39;ORG&#39;, &#39;LOC&#39;]
-</pre></div>
-</div>
-<details><p>Below is the code used for reading the files.</p>
-<p>```ipython3 # Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</p>
-<p>given_entities = [‘O’, ‘B-MISC’, ‘I-MISC’, ‘B-PER’, ‘I-PER’, ‘B-ORG’, ‘I-ORG’, ‘B-LOC’, ‘I-LOC’] merged_entities = [‘O’, ‘MISC’, ‘PER’, ‘ORG’, ‘LOC’] entity_map = {entity: i for i, entity in enumerate(given_entities)}</p>
-<p>def readfile(filepath, sep=’ ’): lines = open(filepath)</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>data, sentence, label = [], [], []
-for line in lines:
-    if len(line) == 0 or line.startswith(&#39;-DOCSTART&#39;) or line[0] == &#39;\n&#39;:
-        if len(sentence) &gt; 0:
-            data.append((sentence, label))
-            sentence, label = [], []
-        continue
-    splits = line.split(sep)
-    word = splits[0]
-    if len(word) &gt; 0 and word[0].isalpha() and word.isupper():
-        word = word[0] + word[1:].lower()
-    sentence.append(word)
-    label.append(entity_map[splits[-1][:-1]])
+<p>We use some helper methods to load the CoNLL data (can skip these details).</p>
+<details><p>Below is the code used for reading the CoNLL data files.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
 
-if len(sentence) &gt; 0:
-    data.append((sentence, label))
 
-given_words = [d[0] for d in data]
-given_labels = [d[1] for d in data]
+<span class="n">given_entities</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;B-MISC&#39;</span><span class="p">,</span> <span class="s1">&#39;I-MISC&#39;</span><span class="p">,</span> <span class="s1">&#39;B-PER&#39;</span><span class="p">,</span> <span class="s1">&#39;I-PER&#39;</span><span class="p">,</span> <span class="s1">&#39;B-ORG&#39;</span><span class="p">,</span> <span class="s1">&#39;I-ORG&#39;</span><span class="p">,</span> <span class="s1">&#39;B-LOC&#39;</span><span class="p">,</span> <span class="s1">&#39;I-LOC&#39;</span><span class="p">]</span>
+<span class="n">entities</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;MISC&#39;</span><span class="p">,</span> <span class="s1">&#39;PER&#39;</span><span class="p">,</span> <span class="s1">&#39;ORG&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC&#39;</span><span class="p">]</span>
+<span class="n">entity_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">entity</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">entity</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">given_entities</span><span class="p">)}</span>
 
-return given_words, given_labels
+<span class="k">def</span> <span class="nf">readfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">sentence</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;-DOCSTART&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sentence</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
+                <span class="n">sentence</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+            <span class="k">continue</span>
+        <span class="n">splits</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">splits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()</span> <span class="ow">and</span> <span class="n">word</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">sentence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entity_map</span><span class="p">[</span><span class="n">splits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sentence</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
+
+    <span class="n">given_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+    <span class="n">given_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">given_words</span><span class="p">,</span> <span class="n">given_labels</span>
 </pre></div>
 </div>
 </details><div class="nbinput nblast docutils container">
@@ -811,12 +821,12 @@ return given_words, given_labels
 </pre></div>
 </div>
 </div>
-<p>Here, we request the inputs to be in the following format:</p>
+<p>To find label issues in token classification data, cleanlab requires <code class="docutils literal notranslate"><span class="pre">labels</span></code> and <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, which should look as follows:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indices_to_preview</span> <span class="o">=</span> <span class="mi">3</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indices_to_preview</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># increase this to view more examples</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">indices_to_preview</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">sentences[</span><span class="si">%d</span><span class="s1">]:</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sentences</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;labels[</span><span class="si">%d</span><span class="s1">]:</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
@@ -856,11 +866,17 @@ pred_probs[2]:
  [0.99999061 0.00000201 0.00000195 0.00000408 0.00000135]]
 </pre></div></div>
 </div>
+<p>Note that these correspond to the sentences in the dataset, where each sentence is treated as an individual training example (could be document instead of sentence). If using your own dataset, both <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and <code class="docutils literal notranslate"><span class="pre">labels</span></code> should each be formatted as a nested-list where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> is a list whose <code class="docutils literal notranslate"><span class="pre">i</span></code>th element is a np.ndarray of shape <code class="docutils literal notranslate"><span class="pre">(N_i,</span> <span class="pre">K)</span></code> corresponding to predicted class probabilities for each token in the <code class="docutils literal notranslate"><span class="pre">i</span></code>th sentence (assuming this sentence contains <code class="docutils literal notranslate"><span class="pre">N_i</span></code> tokens and dataset has <code class="docutils literal notranslate"><span class="pre">K</span></code> possible classes). Each row of one np.ndarray corresponds to a token <code class="docutils literal notranslate"><span class="pre">t</span></code> and contains a model’s predicted probability that <code class="docutils literal notranslate"><span class="pre">t</span></code> belongs to each possible class, for each of the K classes. The columns must be ordered such that the probabilities
+correspond to class 0, 1, …, K-1. These should be out-of-sample <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> obtained from a token classification model via cross-validation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">labels</span></code> is a list whose <code class="docutils literal notranslate"><span class="pre">i</span></code>th element is a list of integers corresponding to class label of each token in the <code class="docutils literal notranslate"><span class="pre">i</span></code>th sentence. For dataset with K classes, labels must be in 0, 1, …, K-1. All classes 0, 1, …, and K-1 MUST be present in <code class="docutils literal notranslate"><span class="pre">labels[i]</span></code> for at least one <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p></li>
+</ul>
 </section>
-<section id="3.-Use-cleanlab-to-find-potential-label-issues">
-<h2>3. Use cleanlab to find potential label issues<a class="headerlink" href="#3.-Use-cleanlab-to-find-potential-label-issues" title="Permalink to this heading">#</a></h2>
-<p>Based on the given labels and out-of-sample predicted probabilities, cleanlab can quickly help us identify label issues in our dataset. Here we request that the indices of the identified label issues be sorted by cleanlab’s self-confidence score, which measures the quality of each given label via the probability assigned to it in our model’s prediction. Here, <code class="docutils literal notranslate"><span class="pre">issues</span></code> is a list of tuples <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code>, which corresponds to the <code class="docutils literal notranslate"><span class="pre">j</span></code>’th token of the <code class="docutils literal notranslate"><span class="pre">i</span></code>’th sentence. These are the tokens
-cleanlab thinks may be badly labeled in your dataset.</p>
+<section id="3.-Use-cleanlab-to-find-label-issues">
+<h2>3. Use cleanlab to find label issues<a class="headerlink" href="#3.-Use-cleanlab-to-find-label-issues" title="Permalink to this heading">#</a></h2>
+<p>Based on the given labels and out-of-sample predicted probabilities, cleanlab can quickly help us identify label issues in our dataset. Here we request that the indices of the identified label issues be sorted by cleanlab’s self-confidence score, which measures the quality of each given label via the probability assigned to it in our model’s prediction. The returned <code class="docutils literal notranslate"><span class="pre">issues</span></code> are a list of tuples <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code>, which corresponds to the <code class="docutils literal notranslate"><span class="pre">j</span></code>th token of the <code class="docutils literal notranslate"><span class="pre">i</span></code>th sentence in the dataset.
+These are the tokens cleanlab thinks may be badly labeled in your dataset.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
@@ -869,15 +885,12 @@ cleanlab thinks may be badly labeled in your dataset.</p>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="4.-Most-likely-issues">
-<h2>4. Most likely issues<a class="headerlink" href="#4.-Most-likely-issues" title="Permalink to this heading">#</a></h2>
-<p>Let’s look at the top 20 examples cleanlab thinks are most likely to be incorrectly labeled.</p>
+<p>Let’s look at the top 20 tokens that cleanlab thinks are most likely mislabeled.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top</span> <span class="o">=</span> <span class="mi">20</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># increase this value to view more identified issues</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cleanlab found </span><span class="si">%d</span><span class="s1"> potential label issues. &#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">issues</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The top </span><span class="si">%d</span><span class="s1"> most likely label errors:&#39;</span> <span class="o">%</span> <span class="n">top</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">issues</span><span class="p">[:</span><span class="n">top</span><span class="p">])</span>
@@ -894,13 +907,13 @@ The top 20 most likely label errors:
 [(2907, 0), (19392, 0), (9962, 4), (8904, 30), (19303, 0), (12918, 0), (9256, 0), (11855, 20), (18392, 4), (20426, 28), (19402, 21), (14744, 15), (19371, 0), (4645, 2), (83, 9), (10331, 3), (9430, 10), (6143, 25), (18367, 0), (12914, 3)]
 </pre></div></div>
 </div>
-<p>We show the top 20 potential label issues. Given that <code class="docutils literal notranslate"><span class="pre">O</span></code> and <code class="docutils literal notranslate"><span class="pre">MISC</span></code> are hard to distinguish and can sometimes be ambiguous, they are excluded from the examples below. They can be specified in the <code class="docutils literal notranslate"><span class="pre">exclude</span></code> argument, which is a list of tuples <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code> such that tokens predicted as <code class="docutils literal notranslate"><span class="pre">merged_entities[j]</span></code> but labels as <code class="docutils literal notranslate"><span class="pre">merged_entities[i]</span></code> are ignored. In the following example, we ignore mislabels between <code class="docutils literal notranslate"><span class="pre">O</span></code> and <code class="docutils literal notranslate"><span class="pre">MISC</span></code>, which are indexed <code class="docutils literal notranslate"><span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<p>We can better decide how to handle these issues by viewing the original sentences containing these tokens. Given that <code class="docutils literal notranslate"><span class="pre">O</span></code> and <code class="docutils literal notranslate"><span class="pre">MISC</span></code> classes (corresponding to integers 0 and 1 in our class ordering) can sometimes be ambiguous, they are excluded from our visualization below. This is achieved via the <code class="docutils literal notranslate"><span class="pre">exclude</span></code> argument, a list of tuples <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code> such that tokens predicted as <code class="docutils literal notranslate"><span class="pre">entities[j]</span></code> but labeled as <code class="docutils literal notranslate"><span class="pre">entities[i]</span></code> are ignored.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_issues</span><span class="p">(</span><span class="n">issues</span><span class="p">,</span> <span class="n">given_words</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-               <span class="n">exclude</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">class_names</span><span class="o">=</span><span class="n">merged_entities</span><span class="p">)</span>
+               <span class="n">exclude</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">class_names</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -991,11 +1004,10 @@ Given label: ORG, predicted label according to provided pred_probs: O
 
 </pre></div></div>
 </div>
-<p>More than half of the potential label issues correspond to tokens that are incorrectly labeled. As shown above, some examples are ambigious and require manual checking. Observe that there are some edge cases such as tokens simply being punctuations such as <code class="docutils literal notranslate"><span class="pre">/</span></code> and <code class="docutils literal notranslate"><span class="pre">(</span></code>.</p>
-</section>
-<section id="4.-Most-common-word-level-token-mislabels">
-<h2>4. Most common word-level token mislabels<a class="headerlink" href="#4.-Most-common-word-level-token-mislabels" title="Permalink to this heading">#</a></h2>
-<p>It may be useful to examine the most common word-level token mislabels.</p>
+<p>More than half of the potential label issues correspond to tokens that are incorrectly labeled. As shown above, some examples are ambigious and may require more thoughful handling. cleanlab has also discovered some edge cases such as tokens which are simply punctuations such as <code class="docutils literal notranslate"><span class="pre">/</span></code> and <code class="docutils literal notranslate"><span class="pre">(</span></code>.</p>
+<section id="Most-common-word-level-token-mislabels">
+<h3>Most common word-level token mislabels<a class="headerlink" href="#Most-common-word-level-token-mislabels" title="Permalink to this heading">#</a></h3>
+<p>We may also wish to understand which tokens tend to be most commonly mislabeled throughout the entire dataset:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -1003,7 +1015,7 @@ Given label: ORG, predicted label according to provided pred_probs: O
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">info</span> <span class="o">=</span> <span class="n">common_label_issues</span><span class="p">(</span><span class="n">issues</span><span class="p">,</span> <span class="n">given_words</span><span class="p">,</span>
                            <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
                            <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
-                           <span class="n">class_names</span><span class="o">=</span><span class="n">merged_entities</span><span class="p">,</span>
+                           <span class="n">class_names</span><span class="o">=</span><span class="n">entities</span><span class="p">,</span>
                            <span class="n">exclude</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
 </pre></div>
 </div>
@@ -1074,18 +1086,19 @@ labeled as class `LOC` but predicted to actually be class `ORG` 1 times
 
 </pre></div></div>
 </div>
-<p>The above printed information is also stored as a DataFrame <code class="docutils literal notranslate"><span class="pre">info</span></code>, sorted by the number of mislabels in descending order.</p>
+<p>The printed information above is also stored in pd.DataFrame <code class="docutils literal notranslate"><span class="pre">info</span></code>.</p>
 </section>
-<section id="5.-Find-issue-sentences-with-particular-word">
-<h2>5. Find issue sentences with particular word<a class="headerlink" href="#5.-Find-issue-sentences-with-particular-word" title="Permalink to this heading">#</a></h2>
-<p>Call <code class="docutils literal notranslate"><span class="pre">search_token</span></code> to examine the token label issues of a specific token.</p>
+<section id="Find-issue-sentences-with-particular-word">
+<h3>Find issue sentences with particular word<a class="headerlink" href="#Find-issue-sentences-with-particular-word" title="Permalink to this heading">#</a></h3>
+<p>You can also only focus on the subset of potentially problematic sentences where a particular token may have been mislabeled.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">token_issues</span> <span class="o">=</span> <span class="n">filter_by_token</span><span class="p">(</span><span class="s1">&#39;United&#39;</span><span class="p">,</span> <span class="n">issues</span><span class="p">,</span> <span class="n">given_words</span><span class="p">)</span>
+
 <span class="n">display_issues</span><span class="p">(</span><span class="n">token_issues</span><span class="p">,</span> <span class="n">given_words</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-               <span class="n">exclude</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">class_names</span><span class="o">=</span><span class="n">merged_entities</span><span class="p">)</span>
+               <span class="n">exclude</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">class_names</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1121,9 +1134,10 @@ Given label: ORG, predicted label according to provided pred_probs: LOC
 </pre></div></div>
 </div>
 </section>
-<section id="6.-Sentence-label-quality-score">
-<h2>6. Sentence label quality score<a class="headerlink" href="#6.-Sentence-label-quality-score" title="Permalink to this heading">#</a></h2>
-<p>Cleanlab can analyze every label in the dataset and provide a numerical score for each sentence. The score ranges between 0 and 1: a lower score indicates that the sentence is more likely to contain at least one error.</p>
+<section id="Sentence-label-quality-score">
+<h3>Sentence label quality score<a class="headerlink" href="#Sentence-label-quality-score" title="Permalink to this heading">#</a></h3>
+<p>For best reviewing label issues in a token classification dataset, you want to look at sentences one at a time. Here sentences more likely to contain a label error should be ranked earlier. Cleanlab can provide an overall label quality score for each sentence (ranging from 0 to 1) such that lower scores indicate sentences more likely to contain some mislabeled token. We can also obtain label quality scores for each individual token and decide which of these are label issues by thresholding them.
+This may be a superior approach if high precision (or high recall) is specifically preferred for your label error detection.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -1131,7 +1145,7 @@ Given label: ORG, predicted label according to provided pred_probs: LOC
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span><span class="p">,</span> <span class="n">token_scores</span> <span class="o">=</span> <span class="n">get_label_quality_scores</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
 <span class="n">issues</span> <span class="o">=</span> <span class="n">issues_from_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">token_scores</span><span class="o">=</span><span class="n">token_scores</span><span class="p">)</span>
 <span class="n">display_issues</span><span class="p">(</span><span class="n">issues</span><span class="p">,</span> <span class="n">given_words</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-               <span class="n">exclude</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">class_names</span><span class="o">=</span><span class="n">merged_entities</span><span class="p">)</span>
+               <span class="n">exclude</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span> <span class="n">class_names</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1222,6 +1236,7 @@ Given label: ORG, predicted label according to provided pred_probs: O
 
 </pre></div></div>
 </div>
+</section>
 </section>
 </section>
  
@@ -1300,14 +1315,15 @@ Given label: ORG, predicted label according to provided pred_probs: O
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Finding Label Errors in Token Classification Datasets</a><ul>
+<li><a class="reference internal" href="#">Find Label Errors in Token Classification (Text) Datasets</a><ul>
 <li><a class="reference internal" href="#1.-Install-required-dependencies-and-download-data">1. Install required dependencies and download data</a></li>
-<li><a class="reference internal" href="#2.-Get-pred_probs,-labels-and-read-file">2. Get <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code> and read file</a></li>
-<li><a class="reference internal" href="#3.-Use-cleanlab-to-find-potential-label-issues">3. Use cleanlab to find potential label issues</a></li>
-<li><a class="reference internal" href="#4.-Most-likely-issues">4. Most likely issues</a></li>
-<li><a class="reference internal" href="#4.-Most-common-word-level-token-mislabels">4. Most common word-level token mislabels</a></li>
-<li><a class="reference internal" href="#5.-Find-issue-sentences-with-particular-word">5. Find issue sentences with particular word</a></li>
-<li><a class="reference internal" href="#6.-Sentence-label-quality-score">6. Sentence label quality score</a></li>
+<li><a class="reference internal" href="#2.-Get-data,-labels,-and-pred_probs">2. Get data, labels, and pred_probs</a></li>
+<li><a class="reference internal" href="#3.-Use-cleanlab-to-find-label-issues">3. Use cleanlab to find label issues</a><ul>
+<li><a class="reference internal" href="#Most-common-word-level-token-mislabels">Most common word-level token mislabels</a></li>
+<li><a class="reference internal" href="#Find-issue-sentences-with-particular-word">Find issue sentences with particular word</a></li>
+<li><a class="reference internal" href="#Sentence-label-quality-score">Sentence label quality score</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
