@@ -193,21 +193,28 @@
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/dataset.html">dataset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/outlier.html">outlier</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/multiannotator.html">multiannotator</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/token_classification/index.html">token_classification</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/token_classification/filter.html">filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/token_classification/rank.html">rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/token_classification/summary.html">summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/benchmarking/noise_generation.html">noise_generation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/experimental/fasttext.html">fasttext</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/experimental/mnist_pytorch.html">mnist_pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/experimental/coteaching.html">coteaching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/experimental/cifar_cnn.html">cifar_cnn</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/token_classification_utils.html">token_classification_utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/validation.html">validation</a></li>
 </ul>
 </li>
@@ -505,8 +512,13 @@
           <li><a href="cleanlab/internal/latent_algebra.html#module-cleanlab.internal.latent_algebra">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    cleanlab.internal.token_classification_utils
+
+        <ul>
+          <li><a href="cleanlab/internal/token_classification_utils.html#module-cleanlab.internal.token_classification_utils">module</a>
+</li>
+        </ul></li>
         <li>
     cleanlab.internal.util
 
@@ -521,6 +533,8 @@
           <li><a href="cleanlab/internal/validation.html#module-cleanlab.internal.validation">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cleanlab.multiannotator
 
@@ -542,6 +556,34 @@
           <li><a href="cleanlab/rank.html#module-cleanlab.rank">module</a>
 </li>
         </ul></li>
+        <li>
+    cleanlab.token_classification
+
+        <ul>
+          <li><a href="cleanlab/token_classification/index.html#module-cleanlab.token_classification">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.token_classification.filter
+
+        <ul>
+          <li><a href="cleanlab/token_classification/filter.html#module-cleanlab.token_classification.filter">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.token_classification.rank
+
+        <ul>
+          <li><a href="cleanlab/token_classification/rank.html#module-cleanlab.token_classification.rank">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.token_classification.summary
+
+        <ul>
+          <li><a href="cleanlab/token_classification/summary.html#module-cleanlab.token_classification.summary">module</a>
+</li>
+        </ul></li>
         <li><a href="cleanlab/classification.html#cleanlab.classification.CleanLearning">CleanLearning (class in cleanlab.classification)</a>
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.clip_noise_rates">clip_noise_rates() (in module cleanlab.internal.util)</a>
@@ -554,6 +596,10 @@
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN">(class in cleanlab.experimental.mnist_pytorch)</a>
 </li>
         </ul></li>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.color_sentence">color_sentence() (in module cleanlab.internal.token_classification_utils)</a>
+</li>
+        <li><a href="cleanlab/token_classification/summary.html#cleanlab.token_classification.summary.common_label_issues">common_label_issues() (in module cleanlab.token_classification.summary)</a>
+</li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.compress_int_array">compress_int_array() (in module cleanlab.internal.util)</a>
 </li>
         <li><a href="cleanlab/count.html#cleanlab.count.compute_confident_joint">compute_confident_joint() (in module cleanlab.count)</a>
@@ -600,14 +646,16 @@
 </li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.dataset">dataset (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
 </li>
+        <li><a href="cleanlab/token_classification/summary.html#cleanlab.token_classification.summary.display_issues">display_issues() (in module cleanlab.token_classification.summary)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.double">double() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.double">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.dump_patches">dump_patches (cleanlab.experimental.cifar_cnn.CNN attribute)</a>
 
         <ul>
@@ -668,10 +716,16 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/experimental/fasttext.html#cleanlab.experimental.fasttext.FastTextClassifier">FastTextClassifier (class in cleanlab.experimental.fasttext)</a>
 </li>
+        <li><a href="cleanlab/token_classification/summary.html#cleanlab.token_classification.summary.filter_by_token">filter_by_token() (in module cleanlab.token_classification.summary)</a>
+</li>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.filter_sentence">filter_sentence() (in module cleanlab.internal.token_classification_utils)</a>
+</li>
         <li><a href="cleanlab/classification.html#cleanlab.classification.CleanLearning.find_label_issues">find_label_issues() (cleanlab.classification.CleanLearning method)</a>
 
         <ul>
           <li><a href="cleanlab/filter.html#cleanlab.filter.find_label_issues">(in module cleanlab.filter)</a>
+</li>
+          <li><a href="cleanlab/token_classification/filter.html#cleanlab.token_classification.filter.find_label_issues">(in module cleanlab.token_classification.filter)</a>
 </li>
         </ul></li>
         <li><a href="cleanlab/filter.html#cleanlab.filter.find_label_issues_using_argmax_confusion_matrix">find_label_issues_using_argmax_confusion_matrix() (in module cleanlab.filter)</a>
@@ -680,6 +734,8 @@
 </li>
         <li><a href="cleanlab/filter.html#cleanlab.filter.find_predicted_neq_given">find_predicted_neq_given() (in module cleanlab.filter)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/classification.html#cleanlab.classification.CleanLearning.fit">fit() (cleanlab.classification.CleanLearning method)</a>
 
         <ul>
@@ -690,8 +746,6 @@
           <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.fit">(cleanlab.outlier.OutOfDistribution method)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.fit_score">fit_score() (cleanlab.outlier.OutOfDistribution method)</a>
 </li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.float">float() (cleanlab.experimental.cifar_cnn.CNN method)</a>
@@ -745,7 +799,11 @@
         <li><a href="cleanlab/multiannotator.html#cleanlab.multiannotator.get_label_quality_multiannotator">get_label_quality_multiannotator() (in module cleanlab.multiannotator)</a>
 </li>
         <li><a href="cleanlab/rank.html#cleanlab.rank.get_label_quality_scores">get_label_quality_scores() (in module cleanlab.rank)</a>
+
+        <ul>
+          <li><a href="cleanlab/token_classification/rank.html#cleanlab.token_classification.rank.get_label_quality_scores">(in module cleanlab.token_classification.rank)</a>
 </li>
+        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/multiannotator.html#cleanlab.multiannotator.get_majority_vote_label">get_majority_vote_label() (in module cleanlab.multiannotator)</a>
@@ -773,6 +831,8 @@
 </li>
         </ul></li>
         <li><a href="cleanlab/rank.html#cleanlab.rank.get_self_confidence_for_each_label">get_self_confidence_for_each_label() (in module cleanlab.rank)</a>
+</li>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.get_sentence">get_sentence() (in module cleanlab.internal.token_classification_utils)</a>
 </li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.get_sklearn_digits_dataset">get_sklearn_digits_dataset() (in module cleanlab.experimental.mnist_pytorch)</a>
 </li>
@@ -818,6 +878,8 @@
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.is_torch_dataset">is_torch_dataset() (in module cleanlab.internal.util)</a>
 </li>
+        <li><a href="cleanlab/token_classification/rank.html#cleanlab.token_classification.rank.issues_from_scores">issues_from_scores() (in module cleanlab.token_classification.rank)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -852,6 +914,10 @@
   <h2>M</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.mapping">mapping() (in module cleanlab.internal.token_classification_utils)</a>
+</li>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.merge_probs">merge_probs() (in module cleanlab.internal.token_classification_utils)</a>
+</li>
         <li>
     module
 
@@ -884,6 +950,8 @@
 </li>
           <li><a href="cleanlab/internal/latent_algebra.html#module-cleanlab.internal.latent_algebra">cleanlab.internal.latent_algebra</a>
 </li>
+          <li><a href="cleanlab/internal/token_classification_utils.html#module-cleanlab.internal.token_classification_utils">cleanlab.internal.token_classification_utils</a>
+</li>
           <li><a href="cleanlab/internal/util.html#module-cleanlab.internal.util">cleanlab.internal.util</a>
 </li>
           <li><a href="cleanlab/internal/validation.html#module-cleanlab.internal.validation">cleanlab.internal.validation</a>
@@ -893,6 +961,14 @@
           <li><a href="cleanlab/outlier.html#module-cleanlab.outlier">cleanlab.outlier</a>
 </li>
           <li><a href="cleanlab/rank.html#module-cleanlab.rank">cleanlab.rank</a>
+</li>
+          <li><a href="cleanlab/token_classification/index.html#module-cleanlab.token_classification">cleanlab.token_classification</a>
+</li>
+          <li><a href="cleanlab/token_classification/filter.html#module-cleanlab.token_classification.filter">cleanlab.token_classification.filter</a>
+</li>
+          <li><a href="cleanlab/token_classification/rank.html#module-cleanlab.token_classification.rank">cleanlab.token_classification.rank</a>
+</li>
+          <li><a href="cleanlab/token_classification/summary.html#module-cleanlab.token_classification.summary">cleanlab.token_classification.summary</a>
 </li>
         </ul></li>
     </ul></td>
@@ -1004,6 +1080,8 @@
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.print_noise_matrix">print_noise_matrix() (in module cleanlab.internal.util)</a>
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.print_square_matrix">print_square_matrix() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.process_token">process_token() (in module cleanlab.internal.token_classification_utils)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -1118,6 +1196,8 @@
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet">SimpleNet (class in cleanlab.experimental.mnist_pytorch)</a>
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.smart_display_dataframe">smart_display_dataframe() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/token_classification/rank.html#cleanlab.token_classification.rank.softmin_sentence_score">softmin_sentence_score() (in module cleanlab.token_classification.rank)</a>
 </li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.state_dict">state_dict() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
