@@ -429,7 +429,7 @@
 <span class="sd">        ``labels_multiannotator[n][m]`` = label for n-th example given by m-th annotator.</span>
 
 <span class="sd">        For a dataset with K classes, each given label must be an integer in 0, 1, ..., K-1 or</span>
-<span class="sd">        NaN if this annotator did not label a particular example. If pd.DataFrame, column names should correspond to each annotator&#39;s ID.</span>
+<span class="sd">        ``NaN`` if this annotator did not label a particular example. If pd.DataFrame, column names should correspond to each annotator&#39;s ID.</span>
 <span class="sd">    pred_probs : np.ndarray</span>
 <span class="sd">        An array of shape ``(N, K)`` of predicted class probabilities from a trained classifier model.</span>
 <span class="sd">        Predicted probabilities in the same format expected by the :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;`.</span>
@@ -438,19 +438,19 @@
 <span class="sd">        Options include:</span>
 
 <span class="sd">        * ``majority_vote``: consensus obtained using a simple majority vote among annotators, with ties broken via ``pred_probs``.</span>
-<span class="sd">        * ``best_quality``: consensus obtained by selecting the label with highest label quality (quality determined by method specified in ``quality_method``)</span>
+<span class="sd">        * ``best_quality``: consensus obtained by selecting the label with highest label quality (quality determined by method specified in ``quality_method``).</span>
 
 <span class="sd">        A List may be passed if you want to consider multiple methods for producing consensus labels.</span>
-<span class="sd">        If a List is passed, then the 0th element of List is the method used to produce columns &quot;consensus_label&quot;, &quot;consensus_quality_score&quot;, &quot;annotator_agreement&quot; in the returned DataFrame.</span>
-<span class="sd">        The 1st, 2nd, 3rd, etc. elements of this List are output as extra columns in the returned ``pandas DataFrame`` with names formatted as:</span>
-<span class="sd">        consensus_label_SUFFIX, consensus_quality_score_SUFFIX where SUFFIX = the str element of this</span>
+<span class="sd">        If a List is passed, then the 0th element of the list is the method used to produce columns `consensus_label`, `consensus_quality_score`, `annotator_agreement` in the returned DataFrame.</span>
+<span class="sd">        The remaning (1st, 2nd, 3rd, etc.) elements of this list are output as extra columns in the returned pandas DataFrame with names formatted as:</span>
+<span class="sd">        `consensus_label_SUFFIX`, `consensus_quality_score_SUFFIX` where `SUFFIX` = each element of this</span>
 <span class="sd">        list, which must correspond to a valid method for computing consensus labels.</span>
 <span class="sd">    quality_method : str, default = &quot;crowdlab&quot;</span>
 <span class="sd">        Specifies the method used to calculate the quality of the consensus label.</span>
 <span class="sd">        Options include:</span>
 
-<span class="sd">        * ``crowdlab``: an emsemble method that weighs both the annotators&#39; labels as well as the model&#39;s prediction</span>
-<span class="sd">        * ``agreement``: the fraction of annotators that agree with the consensus label</span>
+<span class="sd">        * ``crowdlab``: an emsemble method that weighs both the annotators&#39; labels as well as the model&#39;s prediction.</span>
+<span class="sd">        * ``agreement``: the fraction of annotators that agree with the consensus label.</span>
 <span class="sd">    return_detailed_quality: bool, default = True</span>
 <span class="sd">        Boolean to specify if `detailed_label_quality` is returned.</span>
 <span class="sd">    return_annotator_stats : bool, default = True</span>
@@ -469,12 +469,12 @@
 <span class="sd">            pandas DataFrame in which each row corresponds to one example, with columns:</span>
 
 <span class="sd">            * ``num_annotations``: the number of annotators that have labeled each example.</span>
-<span class="sd">            * ``consensus_label``: the single label that is best for each example (you can control how it is derived from all annotators&#39; labels via the argument: ``consensus_method``)</span>
+<span class="sd">            * ``consensus_label``: the single label that is best for each example (you can control how it is derived from all annotators&#39; labels via the argument: ``consensus_method``).</span>
 <span class="sd">            * ``annotator_agreement``: the fraction of annotators that agree with the consensus label (only consider the annotators that labeled that particular example).</span>
 <span class="sd">            * ``consensus_quality_score``: label quality score for consensus label, calculated by the method specified in ``quality_method``.</span>
 
 <span class="sd">        ``detailed_label_quality`` : pandas.DataFrame (returned if `return_detailed_quality=True`)</span>
-<span class="sd">            Returns a pandas DataFrame with columns ``quality_annotator_1``, ``quality_annotator_2``, ..., ``quality_annotator_M`` where each entry is</span>
+<span class="sd">            Returns a pandas DataFrame with columns `quality_annotator_1`, `quality_annotator_2`, ..., `quality_annotator_M` where each entry is</span>
 <span class="sd">            the label quality score for the labels provided by each annotator (is ``NaN`` for examples which this annotator did not label).</span>
 
 <span class="sd">        ``annotator_stats`` : pandas.DataFrame (returned if `return_annotator_stats=True`)</span>
@@ -482,9 +482,9 @@
 <span class="sd">            pandas DataFrame in which each row corresponds to one annotator (the row IDs correspond to annotator IDs), with columns:</span>
 
 <span class="sd">            * ``annotator_quality``: overall quality of a given annotator&#39;s labels, calculated by the method specified in ``quality_method``.</span>
-<span class="sd">            * ``num_examples_labeled``: number of examples annotated by a given annotator</span>
-<span class="sd">            * ``agreement_with_consensus``: fraction of examples where a given annotator agrees with the consensus label</span>
-<span class="sd">            * ``worst_class``: the class that is most frequently mislabeled by a given annotator</span>
+<span class="sd">            * ``num_examples_labeled``: number of examples annotated by a given annotator.</span>
+<span class="sd">            * ``agreement_with_consensus``: fraction of examples where a given annotator agrees with the consensus label.</span>
+<span class="sd">            * ``worst_class``: the class that is most frequently mislabeled by a given annotator.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
