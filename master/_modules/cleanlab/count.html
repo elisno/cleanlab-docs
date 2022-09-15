@@ -401,6 +401,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">cleanlab.internal.util</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">value_counts</span><span class="p">,</span>
@@ -429,7 +430,7 @@
     <span class="n">labels</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">,</span>
     <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Estimates the number of label issues in the `labels` of a dataset.</span>
 
 <span class="sd">    This method is **more accurate** than ``sum(find_label_issues())`` because its computed using only</span>
@@ -470,8 +471,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    int</span>
-<span class="sd">      An estimate of the number of label issues.</span>
+<span class="sd">    num_issues : int</span>
+<span class="sd">      The estimated number of examples with label issues in the dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">confident_joint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -484,7 +485,7 @@
     <span class="k">return</span> <span class="n">num_issues</span></div>
 
 
-<div class="viewcode-block" id="calibrate_confident_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.calibrate_confident_joint">[docs]</a><span class="k">def</span> <span class="nf">calibrate_confident_joint</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="calibrate_confident_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.calibrate_confident_joint">[docs]</a><span class="k">def</span> <span class="nf">calibrate_confident_joint</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Calibrates any confident joint estimate ``P(label=i, true_label=j)`` such that</span>
 <span class="sd">    ``np.sum(cj) == len(labels)`` and ``np.sum(cj, axis = 1) == np.bincount(labels)``.</span>
 
@@ -542,7 +543,7 @@
     <span class="k">return</span> <span class="n">round_preserving_row_totals</span><span class="p">(</span><span class="n">calibrated_cj</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="estimate_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_joint">[docs]</a><span class="k">def</span> <span class="nf">estimate_joint</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="estimate_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_joint">[docs]</a><span class="k">def</span> <span class="nf">estimate_joint</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Estimates the joint distribution of label noise ``P(label=i, true_label=j)`` guaranteed to:</span>
 
@@ -583,9 +584,9 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    confident_joint : np.ndarray</span>
+<span class="sd">    confident_joint_distribution : np.ndarray</span>
 <span class="sd">      An array of shape ``(K, K)`` representing an</span>
-<span class="sd">      estimate of the true joint of noisy and true labels.</span>
+<span class="sd">      estimate of the true joint distribution of noisy and true labels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">confident_joint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -598,6 +599,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">calibrated_cj</span> <span class="o">=</span> <span class="n">calibrate_confident_joint</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span><span class="p">)</span>
 
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">calibrated_cj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">calibrated_cj</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">calibrated_cj</span><span class="p">))</span></div>
 
 
@@ -608,7 +610,7 @@
     <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">calibrate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">return_indices_of_off_diagonals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Computes the confident joint for multi_labeled data. Thus,</span>
 <span class="sd">    input `labels` is a list of lists (or list of iterable).</span>
 <span class="sd">    This is intended as a helper function. You should probably</span>
@@ -676,9 +678,11 @@
             <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">pred_probs_bool</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="n">k_in_l</span><span class="p">[</span><span class="n">k</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">unique_classes</span>
         <span class="p">]</span>
         <span class="c1"># Map boolean mask to the indices of the examples, for each class k</span>
-        <span class="n">indices_of_issues</span> <span class="o">=</span> <span class="p">[</span><span class="n">indices_k_in_l</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">issues_mask</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">unique_classes</span><span class="p">]</span>
+        <span class="n">indices_of_issues_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">indices_k_in_l</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">issues_mask</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">unique_classes</span><span class="p">]</span>
         <span class="c1"># Combine error indices for each class k into a single set of all the indices of errors</span>
-        <span class="n">indices_of_issues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">z</span> <span class="k">for</span> <span class="n">lst</span> <span class="ow">in</span> <span class="n">indices_of_issues</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">])))</span>
+        <span class="n">indices_of_issues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+            <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">z</span> <span class="k">for</span> <span class="n">lst</span> <span class="ow">in</span> <span class="n">indices_of_issues_list</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">]))</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">confident_joint</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">indices_of_issues</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">confident_joint</span>
@@ -692,25 +696,16 @@
     <span class="n">calibrate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">return_indices_of_off_diagonals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Estimates ``P(labels,y)``, the confident counts of the latent</span>
-<span class="sd">    joint distribution of true and noisy labels</span>
-<span class="sd">    using observed labels and predicted probabilities pred_probs.</span>
-
-<span class="sd">    This estimate is called the confident joint.</span>
-
-<span class="sd">    When ``calibrate=True``, this method returns an estimate of</span>
-<span class="sd">    the latent true joint counts of noisy and true labels.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Estimates the confident counts of latent true vs observed noisy labels</span>
+<span class="sd">    for the examples in our dataset. This array of shape ``(K, K)`` is called the **confident joint**</span>
+<span class="sd">    and contains counts of examples in every class, confidently labeled as every other class.</span>
+<span class="sd">    These counts may subsequently be used to estimate the joint distribution of true and noisy labels</span>
+<span class="sd">    (by normalizing them to frequencies).</span>
 
 <span class="sd">    Important: this function assumes that `pred_probs` are out-of-sample</span>
 <span class="sd">    holdout probabilities. This can be :ref:`done with cross validation &lt;pred_probs_cross_val&gt;`. If</span>
 <span class="sd">    the probabilities are not computed out-of-sample, overfitting may occur.</span>
-
-<span class="sd">    This function estimates the joint of shape ``(K, K)``. This is the</span>
-<span class="sd">    confident counts of examples in every class, labeled as every other class.</span>
-
-<span class="sd">    Under certain conditions, estimates are exact, and in most</span>
-<span class="sd">    conditions, the estimate is within 1 percent of the truth.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -746,6 +741,8 @@
 <span class="sd">    calibrate : bool, default=True</span>
 <span class="sd">        Calibrates confident joint estimate ``P(label=i, true_label=j)`` such that</span>
 <span class="sd">        ``np.sum(cj) == len(labels)`` and ``np.sum(cj, axis = 1) == np.bincount(labels)``.</span>
+<span class="sd">        When ``calibrate=True``, this method returns an estimate of</span>
+<span class="sd">        the latent true joint counts of noisy and true labels.</span>
 
 <span class="sd">    multi_label : bool, optional</span>
 <span class="sd">      If ``True``, labels should be an iterable (e.g. list) of iterables, containing a</span>
@@ -762,6 +759,13 @@
 <span class="sd">      of confident joint as a baseline proxy for the label issues. This</span>
 <span class="sd">      sometimes works as well as ``filter.find_label_issues(confident_joint)``.</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    confident_joint_counts : np.ndarray</span>
+<span class="sd">      An array of shape ``(K, K)`` representing counts of examples</span>
+<span class="sd">      for which we are confident about their given and true label.</span>
+<span class="sd">      If `return_indices_of_off_diagonals` is ``True``, `confident_joint_counts` is the first element of returned tuple</span>
+<span class="sd">      and second element is another array of indices counted in off-diagonals of confident joint.</span>
 
 <span class="sd">    Note</span>
 <span class="sd">    ----</span>
@@ -856,7 +860,7 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">py_method</span><span class="o">=</span><span class="s2">&quot;cnt&quot;</span><span class="p">,</span>
     <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Computes the latent prior ``p(y)``, the noise matrix ``P(labels|y)`` and the</span>
 <span class="sd">    inverse noise matrix ``P(y|labels)`` from the `confident_joint` ``count(labels, y)``. The</span>
 <span class="sd">    `confident_joint` can be estimated by `compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;`</span>
@@ -933,7 +937,7 @@
     <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">py_method</span><span class="o">=</span><span class="s2">&quot;cnt&quot;</span><span class="p">,</span>
     <span class="n">calibrate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Computes the confident counts</span>
 <span class="sd">    estimate of latent variables `py` and the noise rates</span>
 <span class="sd">    using observed labels and predicted probabilities, `pred_probs`.</span>
@@ -993,8 +997,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
-<span class="sd">    tuple</span>
-<span class="sd">        A tuple of (py, noise_matrix, inverse_noise_matrix, confident_joint).&quot;&quot;&quot;</span>
+<span class="sd">    estimates : tuple</span>
+<span class="sd">        A tuple of arrays: (`py`, `noise_matrix`, `inverse_noise_matrix`, `confident_joint`).&quot;&quot;&quot;</span>
 
     <span class="n">confident_joint</span> <span class="o">=</span> <span class="n">compute_confident_joint</span><span class="p">(</span>
         <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
@@ -1008,6 +1012,7 @@
         <span class="n">py_method</span><span class="o">=</span><span class="n">py_method</span><span class="p">,</span>
         <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="n">converge_latent_estimates</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">py</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">,</span> <span class="n">inv_noise_matrix</span><span class="p">,</span> <span class="n">confident_joint</span></div>
 
@@ -1023,7 +1028,7 @@
     <span class="n">calibrate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
     <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Estimates ``P(labels, y)``, the confident counts of the latent</span>
 <span class="sd">    joint distribution of true and noisy labels</span>
 <span class="sd">    using observed `labels` and predicted probabilities `pred_probs`.</span>
@@ -1094,7 +1099,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
-<span class="sd">    tuple</span>
+<span class="sd">    estimates : tuple</span>
 <span class="sd">      Tuple of two numpy arrays in the form:</span>
 <span class="sd">      (joint counts matrix, predicted probability matrix)&quot;&quot;&quot;</span>
 
@@ -1183,6 +1188,8 @@
         <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
         <span class="n">calibrate</span><span class="o">=</span><span class="n">calibrate</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">confident_joint</span><span class="p">,</span> <span class="n">pred_probs</span></div>
 
@@ -1199,7 +1206,7 @@
     <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
     <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;This function computes the out-of-sample predicted</span>
 <span class="sd">    probability ``P(label=k|x)`` for every example x in `X` using cross</span>
 <span class="sd">    validation while also computing the confident counts noise</span>
@@ -1268,8 +1275,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
-<span class="sd">    tuple</span>
-<span class="sd">      A tuple of five arrays (py, noise_matrix, inverse_noise_matrix, confident joint, predicted probability matrix).</span>
+<span class="sd">    estimates: tuple</span>
+<span class="sd">      A tuple of five arrays (py, noise matrix, inverse noise matrix, confident joint, predicted probability matrix).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">confident_joint</span><span class="p">,</span> <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">estimate_confident_joint_and_cv_pred_proba</span><span class="p">(</span>
@@ -1302,7 +1309,7 @@
     <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
     <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This function computes the out-of-sample predicted</span>
 <span class="sd">    probability [P(label=k|x)] for every example in X using cross</span>
 <span class="sd">    validation. Output is a np.ndarray of shape (N, K) where N is</span>
@@ -1368,7 +1375,7 @@
     <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">clf_kwargs</span><span class="o">=</span><span class="p">{},</span>
     <span class="n">validation_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Estimates the `noise_matrix` of shape ``(K, K)``. This is the</span>
 <span class="sd">    fraction of examples in every class, labeled as every other class. The</span>
 <span class="sd">    `noise_matrix` is a conditional probability matrix for ``P(label=k_s|true_label=k_y)``.</span>
@@ -1426,8 +1433,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
-<span class="sd">    tuple</span>
-<span class="sd">      A tuple containing (noise_matrix, inv_noise_matrix).&quot;&quot;&quot;</span>
+<span class="sd">    estimates : tuple</span>
+<span class="sd">      A tuple containing arrays (`noise_matrix`, `inv_noise_matrix`).&quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">estimate_py_noise_matrices_and_cv_pred_proba</span><span class="p">(</span>
         <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
@@ -1450,7 +1457,7 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">inv_noise_matrix_iterations</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
     <span class="n">noise_matrix_iterations</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Updates py := P(true_label=k) and both `noise_matrix` and `inverse_noise_matrix`</span>
 <span class="sd">    to be numerically consistent with each other, by iteratively updating their estimates based on</span>
 <span class="sd">    the mathematical relationships between them.</span>
@@ -1503,7 +1510,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
-<span class="sd">        Three np.ndarrays of the form (py, noise_matrix, inverse_noise_matrix) all</span>
+<span class="sd">    estimates: tuple</span>
+<span class="sd">        Three arrays of the form (`py`, `noise_matrix`, `inverse_noise_matrix`) all</span>
 <span class="sd">        having numerical agreement in terms of their mathematical relations.&quot;&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">noise_matrix_iterations</span><span class="p">):</span>

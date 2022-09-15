@@ -386,7 +386,7 @@
 <td><p>Calibrates any confident joint estimate <code class="docutils literal notranslate"><span class="pre">P(label=i,</span> <span class="pre">true_label=j)</span></code> such that <code class="docutils literal notranslate"><span class="pre">np.sum(cj)</span> <span class="pre">==</span> <span class="pre">len(labels)</span></code> and <code class="docutils literal notranslate"><span class="pre">np.sum(cj,</span> <span class="pre">axis</span> <span class="pre">=</span> <span class="pre">1)</span> <span class="pre">==</span> <span class="pre">np.bincount(labels)</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.count.compute_confident_joint" title="cleanlab.count.compute_confident_joint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_confident_joint</span></code></a>(labels, pred_probs, *)</p></td>
-<td><p>Estimates <code class="docutils literal notranslate"><span class="pre">P(labels,y)</span></code>, the confident counts of the latent joint distribution of true and noisy labels using observed labels and predicted probabilities pred_probs.</p></td>
+<td><p>Estimates the confident counts of latent true vs observed noisy labels for the examples in our dataset.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.count.estimate_confident_joint_and_cv_pred_proba" title="cleanlab.count.estimate_confident_joint_and_cv_pred_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate_confident_joint_and_cv_pred_proba</span></code></a>(X, ...)</p></td>
 <td><p>Estimates <code class="docutils literal notranslate"><span class="pre">P(labels,</span> <span class="pre">y)</span></code>, the confident counts of the latent joint distribution of true and noisy labels using observed <cite>labels</cite> and predicted probabilities <cite>pred_probs</cite>.</p></td>
@@ -452,8 +452,11 @@ not the number of examples. So, the calibrated <cite>confident_joint</cite> will
 to the number of total labels.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>calibrated_cj</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> of type float representing a valid
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>calibrated_cj</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> of type float representing a valid
 estimate of the joint <em>counts</em> of noisy and true labels.</p>
 </dd>
 </dl>
@@ -462,19 +465,14 @@ estimate of the joint <em>counts</em> of noisy and true labels.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.count.compute_confident_joint">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.count.</span></span><span class="sig-name descname"><span class="pre">compute_confident_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresholds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_indices_of_off_diagonals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/count.html#compute_confident_joint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.count.compute_confident_joint" title="Permalink to this definition">#</a></dt>
-<dd><p>Estimates <code class="docutils literal notranslate"><span class="pre">P(labels,y)</span></code>, the confident counts of the latent
-joint distribution of true and noisy labels
-using observed labels and predicted probabilities pred_probs.</p>
-<p>This estimate is called the confident joint.</p>
-<p>When <code class="docutils literal notranslate"><span class="pre">calibrate=True</span></code>, this method returns an estimate of
-the latent true joint counts of noisy and true labels.</p>
+<dd><p>Estimates the confident counts of latent true vs observed noisy labels
+for the examples in our dataset. This array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> is called the <strong>confident joint</strong>
+and contains counts of examples in every class, confidently labeled as every other class.
+These counts may subsequently be used to estimate the joint distribution of true and noisy labels
+(by normalizing them to frequencies).</p>
 <p>Important: this function assumes that <cite>pred_probs</cite> are out-of-sample
 holdout probabilities. This can be <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">done with cross validation</span></a>. If
 the probabilities are not computed out-of-sample, overfitting may occur.</p>
-<p>This function estimates the joint of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code>. This is the
-confident counts of examples in every class, labeled as every other class.</p>
-<p>Under certain conditions, estimates are exact, and in most
-conditions, the estimate is within 1 percent of the truth.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -502,7 +500,9 @@ k. This is not used for pruning/filtering, only for estimating the
 noise rates using confident counts.</p>
 </p></li>
 <li><p><strong>calibrate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – Calibrates confident joint estimate <code class="docutils literal notranslate"><span class="pre">P(label=i,</span> <span class="pre">true_label=j)</span></code> such that
-<code class="docutils literal notranslate"><span class="pre">np.sum(cj)</span> <span class="pre">==</span> <span class="pre">len(labels)</span></code> and <code class="docutils literal notranslate"><span class="pre">np.sum(cj,</span> <span class="pre">axis</span> <span class="pre">=</span> <span class="pre">1)</span> <span class="pre">==</span> <span class="pre">np.bincount(labels)</span></code>.</p></li>
+<code class="docutils literal notranslate"><span class="pre">np.sum(cj)</span> <span class="pre">==</span> <span class="pre">len(labels)</span></code> and <code class="docutils literal notranslate"><span class="pre">np.sum(cj,</span> <span class="pre">axis</span> <span class="pre">=</span> <span class="pre">1)</span> <span class="pre">==</span> <span class="pre">np.bincount(labels)</span></code>.
+When <code class="docutils literal notranslate"><span class="pre">calibrate=True</span></code>, this method returns an estimate of
+the latent true joint counts of noisy and true labels.</p></li>
 <li><p><strong>multi_label</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, labels should be an iterable (e.g. list) of iterables, containing a
 list of labels for each example, instead of just a single label.
 The multi-label setting supports classification tasks where an example has 1 or more labels.
@@ -515,6 +515,15 @@ to the number of total labels.</p></li>
 of confident joint as a baseline proxy for the label issues. This
 sometimes works as well as <code class="docutils literal notranslate"><span class="pre">filter.find_label_issues(confident_joint)</span></code>.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>confident_joint_counts</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing counts of examples
+for which we are confident about their given and true label.
+If <cite>return_indices_of_off_diagonals</cite> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, <cite>confident_joint_counts</cite> is the first element of returned tuple
+and second element is another array of indices counted in off-diagonals of confident joint.</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -601,8 +610,11 @@ the cross-validated folds. If None, uses np.random current random state.</p></li
 For details, see the documentation of <a class="reference internal" href="classification.html#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit</span></code></a></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code> – Tuple of two numpy arrays in the form:
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>estimates</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>) – Tuple of two numpy arrays in the form:
 (joint counts matrix, predicted probability matrix)</p>
 </dd>
 </dl>
@@ -634,8 +646,11 @@ the cross-validated folds. If <code class="docutils literal notranslate"><span c
 For details, see the documentation of <a class="reference internal" href="classification.html#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit</span></code></a></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> representing <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>, the model-predicted probabilities.
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> representing <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>, the model-predicted probabilities.
 Each row of this matrix corresponds to an example <cite>x</cite> and contains the model-predicted
 probabilities that <cite>x</cite> belongs to each possible class.</p>
 </dd>
@@ -677,9 +692,12 @@ The multi-label setting supports classification tasks where an example has 1 or 
 Example of a multi-labeled <cite>labels</cite> input: <code class="docutils literal notranslate"><span class="pre">[[0,1],</span> <span class="pre">[1],</span> <span class="pre">[0,2],</span> <span class="pre">[0,1,2],</span> <span class="pre">[0],</span> <span class="pre">[1],</span> <span class="pre">...]</span></code>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>confident_joint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing an
-estimate of the true joint of noisy and true labels.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>confident_joint_distribution</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing an
+estimate of the true joint distribution of noisy and true labels.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -710,8 +728,11 @@ independently, but they are related mathematically with closed form
 equivalences. This will iteratively make them mathematically consistent.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code> – A tuple containing (py, noise_matrix, inv_noise_matrix).</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code> – A tuple containing (py, noise_matrix, inv_noise_matrix).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -757,8 +778,11 @@ the cross-validated folds. If None, uses np.random current random state.</p></li
 For details, see the documentation of <a class="reference internal" href="classification.html#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit</span></code></a></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code> – A tuple containing (noise_matrix, inv_noise_matrix).</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>estimates</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>) – A tuple containing arrays (<cite>noise_matrix</cite>, <cite>inv_noise_matrix</cite>).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -810,8 +834,11 @@ the matrix diagonals instead of all the probabilities.</p></li>
 <code class="docutils literal notranslate"><span class="pre">np.sum(cj)</span> <span class="pre">==</span> <span class="pre">len(labels)</span></code> and <code class="docutils literal notranslate"><span class="pre">np.sum(cj,</span> <span class="pre">axis</span> <span class="pre">=</span> <span class="pre">1)</span> <span class="pre">==</span> <span class="pre">np.bincount(labels)</span></code>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code> – A tuple of (py, noise_matrix, inverse_noise_matrix, confident_joint).</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>estimates</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>) – A tuple of arrays: (<cite>py</cite>, <cite>noise_matrix</cite>, <cite>inverse_noise_matrix</cite>, <cite>confident_joint</cite>).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -865,8 +892,11 @@ the cross-validated folds. If <code class="docutils literal notranslate"><span c
 For details, see the documentation of <a class="reference internal" href="classification.html#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit</span></code></a></p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code> – A tuple of five arrays (py, noise_matrix, inverse_noise_matrix, confident joint, predicted probability matrix).</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>estimates</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>) – A tuple of five arrays (py, noise matrix, inverse noise matrix, confident joint, predicted probability matrix).</p>
 </dd>
 </dl>
 </dd></dl>
@@ -950,8 +980,11 @@ The <cite>confident_joint</cite> can be computed using <a class="reference inter
 If not provided, it is computed from the given (noisy) <cite>labels</cite> and <cite>pred_probs</cite>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code> – An estimate of the number of label issues.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num_issues</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The estimated number of examples with label issues in the dataset.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -392,7 +392,7 @@ generating noisy labels given a noise matrix, generating valid noise matrices wi
 <td><p>Given a prior <cite>py</cite> representing <code class="docutils literal notranslate"><span class="pre">p(true_label=k)</span></code>, checks if the given <cite>noise_matrix</cite> is a learnable matrix.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.benchmarking.noise_generation.randomly_distribute_N_balls_into_K_bins" title="cleanlab.benchmarking.noise_generation.randomly_distribute_N_balls_into_K_bins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">randomly_distribute_N_balls_into_K_bins</span></code></a>(N, K, *)</p></td>
-<td><p>Returns a uniformly random numpy integer array of length N that sums to K.</p></td>
+<td><p>Returns a uniformly random numpy integer array of length <cite>N</cite> that sums to <cite>K</cite>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -411,6 +411,12 @@ generating noisy labels given a noise matrix, generating valid noise matrices wi
 <li><p><strong>max_prob</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">1.0</span></code>) – Maximum probability of any entry in the returned array. Must be between 0 and 1.</p></li>
 <li><p><strong>min_prob</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0.0</span></code>) – Minimum probability of any entry in the returned array. Must be between 0 and 1.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>probabilities</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of probabilities.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -445,8 +451,11 @@ higher</em>. The opposite occurs with a small trace.</p></li>
 <li><p><strong>max_iter</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">10000</span></code>) – The max number of tries to produce a valid matrix before returning <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the noise matrix <code class="docutils literal notranslate"><span class="pre">P(label=k_s|true_label=k_y)</span></code> with <cite>trace</cite>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>noise_matrix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(K,</span> <span class="pre">K)</span></code> representing the noise matrix <code class="docutils literal notranslate"><span class="pre">P(label=k_s|true_label=k_y)</span></code> with <cite>trace</cite>
 equal to <code class="docutils literal notranslate"><span class="pre">np.sum(np.diagonal(noise_matrix))</span></code>. This a conditional probability matrix and a
 left stochastic matrix. Returns <code class="docutils literal notranslate"><span class="pre">None</span></code> if <cite>max_iter</cite> is exceeded.</p>
 </dd>
@@ -472,8 +481,11 @@ examples in every class, labeled as every other class. Assumes columns of
 <cite>noise_matrix</cite> sum to 1.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> of noisy labels.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -512,8 +524,11 @@ examples in every class, labeled as every other class. Assumes columns of
 of each true class label, <code class="docutils literal notranslate"><span class="pre">P(true_label</span> <span class="pre">=</span> <span class="pre">k)</span></code>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code> – Whether the noise matrix is a learnable matrix.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>is_valid</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether the noise matrix is a learnable matrix.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -521,8 +536,8 @@ of each true class label, <code class="docutils literal notranslate"><span class
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.benchmarking.noise_generation.randomly_distribute_N_balls_into_K_bins">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.benchmarking.noise_generation.</span></span><span class="sig-name descname"><span class="pre">randomly_distribute_N_balls_into_K_bins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_balls_per_bin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_balls_per_bin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/benchmarking/noise_generation.html#randomly_distribute_N_balls_into_K_bins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.benchmarking.noise_generation.randomly_distribute_N_balls_into_K_bins" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns a uniformly random numpy integer array of length N that sums
-to K.</p>
+<dd><p>Returns a uniformly random numpy integer array of length <cite>N</cite> that sums
+to <cite>K</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -532,8 +547,11 @@ to K.</p>
 <li><p><strong>min_balls_per_bin</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Ensure that each bin contains at least <cite>min_balls_per_bin</cite> balls.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>int_array</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.array</span></code>) – Length <cite>N</cite> array that sums to <cite>K</cite>.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -530,16 +530,16 @@ statements.</p></li>
 <td><p>Get parameters for this estimator.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.predict" title="cleanlab.classification.CleanLearning.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Returns a vector of predictions.</p></td>
+<td><p>Predict class labels using your wrapped classifier <cite>clf</cite>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.predict_proba" title="cleanlab.classification.CleanLearning.predict_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_proba</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Returns a vector of predicted probabilities for each example in X, <code class="docutils literal notranslate"><span class="pre">P(true</span> <span class="pre">label=k)</span></code>.</p></td>
+<td><p>Predict class probabilities <code class="docutils literal notranslate"><span class="pre">P(true</span> <span class="pre">label=k)</span></code> using your wrapped classifier <cite>clf</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.save_space" title="cleanlab.classification.CleanLearning.save_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_space</span></code></a>()</p></td>
 <td><p>Clears non-sklearn attributes of this estimator to save space (in-place).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.score" title="cleanlab.classification.CleanLearning.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X, y[, sample_weight])</p></td>
-<td><p>Returns the <cite>clf</cite>'s score on a test set <cite>X</cite> with labels <cite>y</cite>.</p></td>
+<td><p>Evaluates your wrapped classifier <cite>clf</cite>'s score on a test set <cite>X</cite> with labels <cite>y</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.classification.CleanLearning.set_params" title="cleanlab.classification.CleanLearning.set_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code></a>(**params)</p></td>
 <td><p>Set the parameters of this estimator.</p></td>
@@ -575,8 +575,11 @@ This means some other methods like <cite>self.get_label_issues()</cite> will no 
 </dl>
 <p>For info about the <strong>other parameters</strong>, see the docstring of <a class="reference internal" href="#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> – pandas DataFrame of label issues for each example.
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>label_issues_df</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – DataFrame with info about label issues for each example.
 Unless <cite>save_space</cite> argument is specified, same DataFrame is also stored as
 <cite>self.label_issues_df</cite> attribute accessible via
 <a class="reference internal" href="#cleanlab.classification.CleanLearning.get_label_issues" title="cleanlab.classification.CleanLearning.get_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_label_issues</span></code></a>.
@@ -611,8 +614,8 @@ Supported <cite>DatasetLike</cite> types beyond <code class="docutils literal no
 <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy.sparse.csr_matrix</span></code>, <code class="docutils literal notranslate"><span class="pre">torch.utils.data.Dataset</span></code>, <code class="docutils literal notranslate"><span class="pre">tensorflow.data.Dataset</span></code>,
 or any dataset object <code class="docutils literal notranslate"><span class="pre">X</span></code> that supports list-based indexing:
 <code class="docutils literal notranslate"><span class="pre">X[index_list]</span></code> to select a subset of training examples.
-The classifier that this instance was initialized with,
-<code class="docutils literal notranslate"><span class="pre">clf</span></code>, must be able to fit() and predict() data of this format.</p>
+Your classifier that this instance was initialized with,
+<code class="docutils literal notranslate"><span class="pre">clf</span></code>, must be able to <code class="docutils literal notranslate"><span class="pre">fit()</span></code> and <code class="docutils literal notranslate"><span class="pre">predict()</span></code> data of this format.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If providing <cite>X</cite> as a <code class="docutils literal notranslate"><span class="pre">tensorflow.data.Dataset</span></code>,
@@ -703,8 +706,11 @@ Specifying <cite>y</cite> has the same effect as specifying <cite>labels</cite>,
 and is offered as an alternative for compatibility with sklearn.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><p><strong>self</strong> (<a class="reference internal" href="#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a>) – Fitted estimator that has all the same methods as any sklearn estimator.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeVar</span></code>(<code class="docutils literal notranslate"><span class="pre">TCleanLearning</span></code>, bound= CleanLearning)</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p><strong>self</strong> (<a class="reference internal" href="#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a>) – Fitted estimator that has all the same methods as any sklearn estimator.</p>
 <p>After calling <code class="docutils literal notranslate"><span class="pre">self.fit()</span></code>, this estimator also stores extra attributes such as:</p>
 <ul class="simple">
 <li><p><em>self.label_issues_df</em>: a <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code> accessible via</p></li>
@@ -748,8 +754,11 @@ This <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</
 For column definitions, see the documentation of
 <a class="reference internal" href="#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.find_label_issues</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code></p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>label_issues_df</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>) – DataFrame with (precomputed) info about label issues for each example.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -772,10 +781,17 @@ contained subobjects that are estimators.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.predict">
 <span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning.predict" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns a vector of predictions.</p>
+<dd><p>Predict class labels using your wrapped classifier <cite>clf</cite>.
+Works just like <code class="docutils literal notranslate"><span class="pre">clf.predict()</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p>
+<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetLike</span></code>) – Test data in the same format expected by your wrapped classifier.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>class_predictions</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Vector of class predictions for the test examples.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -783,11 +799,17 @@ contained subobjects that are estimators.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.predict_proba">
 <span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning.predict_proba" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns a vector of predicted probabilities for each example in X,
-<code class="docutils literal notranslate"><span class="pre">P(true</span> <span class="pre">label=k)</span></code>.</p>
+<dd><p>Predict class probabilities <code class="docutils literal notranslate"><span class="pre">P(true</span> <span class="pre">label=k)</span></code> using your wrapped classifier <cite>clf</cite>.
+Works just like <code class="docutils literal notranslate"><span class="pre">clf.predict_proba()</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p>
+<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetLike</span></code>) – Test data in the same format expected by your wrapped classifier.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – <code class="docutils literal notranslate"><span class="pre">(N</span> <span class="pre">x</span> <span class="pre">K)</span></code> array of predicted class probabilities, one row for each test example.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -805,15 +827,21 @@ After calling this method, certain non-prediction-related attributes/functionali
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.classification.CleanLearning.score">
 <span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/classification.html#CleanLearning.score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.classification.CleanLearning.score" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns the <cite>clf</cite>’s score on a test set <cite>X</cite> with labels <cite>y</cite>.
-Uses the model’s default scoring function.</p>
+<dd><p>Evaluates your wrapped classifier <cite>clf</cite>’s score on a test set <cite>X</cite> with labels <cite>y</cite>.
+Uses your model’s default scoring function, or simply accuracy if your model as no <code class="docutils literal notranslate"><span class="pre">&quot;score&quot;</span></code> attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">...)</span></code> of test data.</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> or <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">1)</span></code> of test labels.</p></li>
-<li><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> or <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">1)</span></code> used to weight each example when computing the score.</p></li>
+<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetLike</span></code>) – Test data in the same format expected by your wrapped classifier.</p></li>
+<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">array_like</span></code>) – Test labels in the same format as labels previously used in <code class="docutils literal notranslate"><span class="pre">fit()</span></code>.</p></li>
+<li><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> or <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">1)</span></code> used to weight each test example when computing the score.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>score</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Number quantifying the performance of this classifier on the test data.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -454,9 +454,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    label_issues_idx : np.ndarray</span>
-<span class="sd">      Return an array of the indices of the label issues, ordered by the label-quality scoring method</span>
-<span class="sd">      passed to `rank_by`.</span>
-
+<span class="sd">      Return an array of the indices of the examples with label issues,</span>
+<span class="sd">      ordered by the label-quality scoring method passed to `rank_by`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -543,14 +542,14 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    label_quality_scores : np.ndarray</span>
-<span class="sd">      Scores are between 0 and 1 where lower scores indicate labels less likely to be correct.</span>
+<span class="sd">      Contains one score (between 0 and 1) per example.</span>
+<span class="sd">      Lower scores indicate more likely mislabeled examples.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    get_self_confidence_for_each_label</span>
 <span class="sd">    get_normalized_margin_for_each_label</span>
 <span class="sd">    get_confidence_weighted_entropy_for_each_label</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># TODO: remove allow_missing_classes once supported</span>
@@ -659,11 +658,12 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    label_quality_scores : np.ndarray</span>
+<span class="sd">      Contains one score (between 0 and 1) per example.</span>
+<span class="sd">      Lower scores indicate more likely mislabeled examples.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    get_label_quality_scores</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">MIN_ALLOWED</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># lower-bound clipping threshold to prevents 0 in logs and division</span>
@@ -819,7 +819,7 @@
 <span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
 <span class="sd">    where lower scores indicate labels less likely to be correct.</span>
 
-<span class="sd">    The self-confidence is the holdout probability that an example belongs to</span>
+<span class="sd">    The self-confidence is the classifier&#39;s predicted probability that an example belongs to</span>
 <span class="sd">    its given class label.</span>
 
 <span class="sd">    Self-confidence can work better than normalized-margin for detecting label errors due to out-of-distribution (OOD) or weird examples</span>
@@ -836,9 +836,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    label_quality_scores : np.ndarray</span>
-<span class="sd">      An array of holdout probabilities that each example in `pred_probs` belongs to its</span>
-<span class="sd">      label.</span>
-
+<span class="sd">      Contains one score (between 0 and 1) per example.</span>
+<span class="sd">      Lower scores indicate more likely mislabeled examples.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># np.mean is used so that this works for multi-labels (list of lists)</span>
@@ -858,9 +857,9 @@
 <span class="sd">    Letting k denote the given label for a datapoint, the normalized margin is</span>
 <span class="sd">    ``(p(label = k) - max(p(label != k)))``, i.e. the probability</span>
 <span class="sd">    of the given label minus the probability of the argmax label that is not</span>
-<span class="sd">    the given label. This gives you an idea of how likely an example is BOTH</span>
-<span class="sd">    its given label AND not another label, and therefore, scores its likelihood</span>
-<span class="sd">    of being a good label or a label error.</span>
+<span class="sd">    the given label (``normalized_margin = prob_label - max_prob_not_label``).</span>
+<span class="sd">    This gives you an idea of how likely an example is BOTH its given label AND not another label,</span>
+<span class="sd">    and therefore, scores its likelihood of being a good label or a label error.</span>
 
 <span class="sd">    Normalized margin works better for finding class conditional label errors where</span>
 <span class="sd">    there is another label in the set of classes that is clearly better than the given label.</span>
@@ -876,8 +875,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    label_quality_scores : np.ndarray</span>
-<span class="sd">      An array of scores (between 0 and 1) for each example of its likelihood of</span>
-<span class="sd">      being correctly labeled. ``normalized_margin = prob_label - max_prob_not_label``</span>
+<span class="sd">      Contains one score (between 0 and 1) per example.</span>
+<span class="sd">      Lower scores indicate more likely mislabeled examples.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">self_confidence</span> <span class="o">=</span> <span class="n">get_self_confidence_for_each_label</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
@@ -909,8 +908,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    label_quality_scores : np.ndarray</span>
-<span class="sd">      An array of scores (between 0 and 1) for each example of its likelihood of</span>
-<span class="sd">      being correctly labeled.</span>
+<span class="sd">      Contains one score (between 0 and 1) per example.</span>
+<span class="sd">      Lower scores indicate more likely mislabeled examples.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">MIN_ALLOWED</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># lower-bound clipping threshold to prevents 0 in logs and division</span>

@@ -396,9 +396,10 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.util</span> <span class="kn">import</span> <span class="n">value_counts</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
 
-<div class="viewcode-block" id="noise_matrix_is_valid"><a class="viewcode-back" href="../../../cleanlab/benchmarking/noise_generation.html#cleanlab.benchmarking.noise_generation.noise_matrix_is_valid">[docs]</a><span class="k">def</span> <span class="nf">noise_matrix_is_valid</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="noise_matrix_is_valid"><a class="viewcode-back" href="../../../cleanlab/benchmarking/noise_generation.html#cleanlab.benchmarking.noise_generation.noise_matrix_is_valid">[docs]</a><span class="k">def</span> <span class="nf">noise_matrix_is_valid</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Given a prior `py` representing ``p(true_label=k)``, checks if the given `noise_matrix` is a</span>
 <span class="sd">    learnable matrix. Learnability means that it is possible to achieve</span>
 <span class="sd">    better than random performance, on average, for the amount of noise in</span>
@@ -418,7 +419,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    bool</span>
+<span class="sd">    is_valid : bool</span>
 <span class="sd">      Whether the noise matrix is a learnable matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -476,7 +477,7 @@
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="generate_noisy_labels"><a class="viewcode-back" href="../../../cleanlab/benchmarking/noise_generation.html#cleanlab.benchmarking.noise_generation.generate_noisy_labels">[docs]</a><span class="k">def</span> <span class="nf">generate_noisy_labels</span><span class="p">(</span><span class="n">true_labels</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="generate_noisy_labels"><a class="viewcode-back" href="../../../cleanlab/benchmarking/noise_generation.html#cleanlab.benchmarking.noise_generation.generate_noisy_labels">[docs]</a><span class="k">def</span> <span class="nf">generate_noisy_labels</span><span class="p">(</span><span class="n">true_labels</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Generates noisy `labels` from perfect labels `true_labels`,</span>
 <span class="sd">    &quot;exactly&quot; yielding the provided `noise_matrix` between `labels` and `true_labels`.</span>
 
@@ -571,7 +572,7 @@
     <span class="n">frac_zero_noise_rates</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Generates a ``K x K`` noise matrix ``P(label=k_s|true_label=k_y)`` with</span>
 <span class="sd">    ``np.sum(np.diagonal(noise_matrix))`` equal to the given `trace`.</span>
 
@@ -729,7 +730,7 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">max_prob</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="n">min_prob</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates `n` random probabilities that sum to `m`.</span>
 
@@ -749,6 +750,11 @@
 
 <span class="sd">    min_prob : float, default=0.0</span>
 <span class="sd">      Minimum probability of any entry in the returned array. Must be between 0 and 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    probabilities : np.ndarray</span>
+<span class="sd">      An array of probabilities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># Imprecision allowed for inequalities with floats</span>
@@ -818,9 +824,9 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">max_balls_per_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">min_balls_per_bin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns a uniformly random numpy integer array of length N that sums</span>
-<span class="sd">    to K.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns a uniformly random numpy integer array of length `N` that sums</span>
+<span class="sd">    to `K`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -835,7 +841,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    np.array</span>
+<span class="sd">    int_array : np.array</span>
+<span class="sd">      Length `N` array that sums to `K`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">N</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>

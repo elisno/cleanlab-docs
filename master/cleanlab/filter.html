@@ -487,13 +487,18 @@ Windows users may see a speed-up with <code class="docutils literal notranslate"
 <li><p><strong>verbose</strong> (<em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, prints when multiprocessing happens.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><p><strong>label_issues</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – A boolean mask for the entire dataset where <code class="docutils literal notranslate"><span class="pre">True</span></code> represents a
-label issue and <code class="docutils literal notranslate"><span class="pre">False</span></code> represents an example that is accurately
-labeled with high confidence.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p><strong>label_issues</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – If <cite>return_indices_ranked_by</cite> left unspecified, returns a boolean <strong>mask</strong> for the entire dataset
+where <code class="docutils literal notranslate"><span class="pre">True</span></code> represents a label issue and <code class="docutils literal notranslate"><span class="pre">False</span></code> represents an example that is
+accurately labeled with high confidence.
+If <cite>return_indices_ranked_by</cite> is specified, returns a shorter array of <strong>indices</strong> of examples identified to have
+label issues (i.e. those indices where the mask would be <code class="docutils literal notranslate"><span class="pre">True</span></code>), sorted by likelihood that the corresponding label is correct.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can also return the <em>indices</em> of the label issues in your dataset by setting
+<p>Obtain the <em>indices</em> of label issues in your dataset by setting
 <cite>return_indices_ranked_by</cite>.</p>
 </div>
 </p>
@@ -528,8 +533,11 @@ prior (given noisy labels) is correct based on the original labels.</p></li>
 <li><p><strong>filter_by</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">'prune_by_noise_rate'</span></code>) – See <cite>filter_by</cite> argument of <a class="reference internal" href="#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_label_issues</span></code></a>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>label_issues_mask</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – A boolean mask for the entire dataset where <code class="docutils literal notranslate"><span class="pre">True</span></code> represents a
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>label_issues_mask</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – A boolean mask for the entire dataset where <code class="docutils literal notranslate"><span class="pre">True</span></code> represents a
 label issue and <code class="docutils literal notranslate"><span class="pre">False</span></code> represents an example that is accurately
 labeled with high confidence.</p>
 </dd>
@@ -548,8 +556,11 @@ labeled with high confidence.</p>
 <li><p><strong>multi_label</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>optional</em>) – Whether each example may have multiple labels or not (see documentation for the <a class="reference internal" href="#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">find_label_issues</span></code></a> function).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>label_issues_mask</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – A boolean mask for the entire dataset where <code class="docutils literal notranslate"><span class="pre">True</span></code> represents a
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>label_issues_mask</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – A boolean mask for the entire dataset where <code class="docutils literal notranslate"><span class="pre">True</span></code> represents a
 label issue and <code class="docutils literal notranslate"><span class="pre">False</span></code> represents an example that is accurately
 labeled with high confidence.</p>
 </dd>

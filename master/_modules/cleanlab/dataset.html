@@ -404,7 +404,7 @@
     <span class="n">joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a Pandas DataFrame with all classes and three overall class label quality scores</span>
 <span class="sd">    (details about each score are listed in the Returns parameter). By default, classes are ordered</span>
@@ -425,8 +425,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    pd.DataFrame</span>
-<span class="sd">        A Pandas DataFrame with cols &quot;Class Index&quot;, &quot;Label Issues&quot;, &quot;Inverse Label Issues&quot;,</span>
+<span class="sd">    overall_label_quality : pd.DataFrame</span>
+<span class="sd">        Pandas DataFrame with cols &quot;Class Index&quot;, &quot;Label Issues&quot;, &quot;Inverse Label Issues&quot;,</span>
 <span class="sd">        &quot;Label Issues&quot;, &quot;Inverse Label Noise&quot;, &quot;Label Quality Score&quot;,</span>
 <span class="sd">        with a description of each of these columns below.</span>
 <span class="sd">        The length of the DataFrame is ``num_classes`` (one row per class).</span>
@@ -483,7 +483,7 @@
     <span class="n">joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns the pairs of classes that are often mislabeled as one another.</span>
 <span class="sd">    Consider merging the top pairs of classes returned by this method each into a single class.</span>
 <span class="sd">    If the dataset is labeled by human annotators, consider clearly defining the</span>
@@ -579,8 +579,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    pd.DataFrame</span>
-<span class="sd">        A Pandas DataFrame with columns &quot;Class Index A&quot;, &quot;Class Index B&quot;,</span>
+<span class="sd">    overlapping_classes : pd.DataFrame</span>
+<span class="sd">        Pandas DataFrame with columns &quot;Class Index A&quot;, &quot;Class Index B&quot;,</span>
 <span class="sd">        &quot;Num Overlapping Examples&quot;, &quot;Joint Probability&quot; and a description of each below.</span>
 <span class="sd">        Each row corresponds to a pair of classes.</span>
 
@@ -631,10 +631,10 @@
     <span class="n">num_overlapping</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Joint Probability&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_examples</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;Num Overlapping Examples&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">num_overlapping</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">class_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
             <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;Class Name A&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Class Index A&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">class_names</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
             <span class="n">loc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="s2">&quot;Class Name B&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Class Index B&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">class_names</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;Joint Probability&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
@@ -649,7 +649,7 @@
     <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns a single score between 0 and 1 measuring the overall quality of all labels in a dataset.</span>
 <span class="sd">    Intuitively, the score is the average correctness of the given labels across all examples in the</span>
 <span class="sd">    dataset. So a score of 1 suggests your data is perfectly labeled and a score of 0.5 suggests</span>
@@ -704,7 +704,7 @@
     <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">):</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Prints a health summary of your datasets including useful statistics like:</span>
 
 <span class="sd">    * The classes with the most and least label issues</span>
@@ -723,7 +723,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    dict</span>
+<span class="sd">    summary : dict</span>
 <span class="sd">        A dictionary containing keys (see the corresponding functions&#39; documentation to understand the values):</span>
 
 <span class="sd">        - ``&quot;overall_label_health_score&quot;``, corresponding to :py:func:`overall_label_health_score &lt;cleanlab.dataset.overall_label_health_score&gt;`</span>
@@ -812,7 +812,7 @@
     <span class="p">}</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_num_examples</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_get_num_examples</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Helper method that finds the number of examples from the parameters or throws an error</span>
 <span class="sd">    if neither parameter is provided.</span>
 

@@ -428,8 +428,8 @@ where lower scores indicate labels less likely to be correct.</p>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of scores (between 0 and 1) for each example of its likelihood of
-being correctly labeled.</p>
+<dd class="field-odd"><p><strong>label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Contains one score (between 0 and 1) per example.
+Lower scores indicate more likely mislabeled examples.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -477,7 +477,8 @@ We will choose the value of t that leads to weights which produce the best log-l
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>)</p>
+<dd class="field-odd"><p><strong>label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Contains one score (between 0 and 1) per example.
+Lower scores indicate more likely mislabeled examples.</p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -540,7 +541,8 @@ See <a class="reference external" href="https://jair.org/index.php/jair/article/
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Scores are between 0 and 1 where lower scores indicate labels less likely to be correct.</p>
+<dd class="field-odd"><p><strong>label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Contains one score (between 0 and 1) per example.
+Lower scores indicate more likely mislabeled examples.</p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -558,9 +560,9 @@ where lower scores indicate labels less likely to be correct.</p>
 <p>Letting k denote the given label for a datapoint, the normalized margin is
 <code class="docutils literal notranslate"><span class="pre">(p(label</span> <span class="pre">=</span> <span class="pre">k)</span> <span class="pre">-</span> <span class="pre">max(p(label</span> <span class="pre">!=</span> <span class="pre">k)))</span></code>, i.e. the probability
 of the given label minus the probability of the argmax label that is not
-the given label. This gives you an idea of how likely an example is BOTH
-its given label AND not another label, and therefore, scores its likelihood
-of being a good label or a label error.</p>
+the given label (<code class="docutils literal notranslate"><span class="pre">normalized_margin</span> <span class="pre">=</span> <span class="pre">prob_label</span> <span class="pre">-</span> <span class="pre">max_prob_not_label</span></code>).
+This gives you an idea of how likely an example is BOTH its given label AND not another label,
+and therefore, scores its likelihood of being a good label or a label error.</p>
 <p>Normalized margin works better for finding class conditional label errors where
 there is another label in the set of classes that is clearly better than the given label.</p>
 <dl class="field-list simple">
@@ -574,8 +576,8 @@ there is another label in the set of classes that is clearly better than the giv
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of scores (between 0 and 1) for each example of its likelihood of
-being correctly labeled. <code class="docutils literal notranslate"><span class="pre">normalized_margin</span> <span class="pre">=</span> <span class="pre">prob_label</span> <span class="pre">-</span> <span class="pre">max_prob_not_label</span></code></p>
+<dd class="field-odd"><p><strong>label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Contains one score (between 0 and 1) per example.
+Lower scores indicate more likely mislabeled examples.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -586,7 +588,7 @@ being correctly labeled. <code class="docutils literal notranslate"><span class=
 <dd><p>Returns the self-confidence label-quality score for each datapoint.</p>
 <p>This is a function to compute label-quality scores for classification datasets,
 where lower scores indicate labels less likely to be correct.</p>
-<p>The self-confidence is the holdout probability that an example belongs to
+<p>The self-confidence is the classifier’s predicted probability that an example belongs to
 its given class label.</p>
 <p>Self-confidence can work better than normalized-margin for detecting label errors due to out-of-distribution (OOD) or weird examples
 vs. label errors in which labels for random examples have been replaced by other classes.</p>
@@ -601,8 +603,8 @@ vs. label errors in which labels for random examples have been replaced by other
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – An array of holdout probabilities that each example in <cite>pred_probs</cite> belongs to its
-label.</p>
+<dd class="field-odd"><p><strong>label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Contains one score (between 0 and 1) per example.
+Lower scores indicate more likely mislabeled examples.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -630,8 +632,8 @@ Accepted args include <cite>adjust_pred_probs</cite>.</p></li>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>label_issues_idx</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Return an array of the indices of the label issues, ordered by the label-quality scoring method
-passed to <cite>rank_by</cite>.</p>
+<dd class="field-odd"><p><strong>label_issues_idx</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – Return an array of the indices of the examples with label issues,
+ordered by the label-quality scoring method passed to <cite>rank_by</cite>.</p>
 </dd>
 </dl>
 </dd></dl>

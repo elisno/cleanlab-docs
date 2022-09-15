@@ -389,11 +389,15 @@
 <span class="sd">Ancillary helper methods used internally throughout this package; mostly related to Confident Learning algorithms.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">cleanlab.typing</span> <span class="kn">import</span> <span class="n">DatasetLike</span><span class="p">,</span> <span class="n">LabelLike</span>
 
 
-<div class="viewcode-block" id="remove_noise_from_class"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.remove_noise_from_class">[docs]</a><span class="k">def</span> <span class="nf">remove_noise_from_class</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">class_without_noise</span><span class="p">):</span>
+<div class="viewcode-block" id="remove_noise_from_class"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.remove_noise_from_class">[docs]</a><span class="k">def</span> <span class="nf">remove_noise_from_class</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">class_without_noise</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A helper function in the setting of PU learning.</span>
 <span class="sd">    Sets all P(label=class_without_noise|true_label=any_other_class) = 0</span>
 <span class="sd">    in noise_matrix for pulearning setting, where we have</span>
@@ -428,7 +432,7 @@
     <span class="k">return</span> <span class="n">x</span></div>
 
 
-<div class="viewcode-block" id="clip_noise_rates"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.clip_noise_rates">[docs]</a><span class="k">def</span> <span class="nf">clip_noise_rates</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="clip_noise_rates"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.clip_noise_rates">[docs]</a><span class="k">def</span> <span class="nf">clip_noise_rates</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Clip all noise rates to proper range [0,1), but</span>
 <span class="sd">    do not modify the diagonal terms because they are not</span>
 <span class="sd">    noise rates.</span>
@@ -443,7 +447,7 @@
 <span class="sd">        Diagonal terms are not noise rates, but are consistency P(label=k|true_label=k)</span>
 <span class="sd">        Assumes columns of noise_matrix sum to 1&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">clip_noise_rate_range</span><span class="p">(</span><span class="n">noise_rate</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">clip_noise_rate_range</span><span class="p">(</span><span class="n">noise_rate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Clip noise rate P(label=k&#39;|true_label=k) or P(true_label=k|label=k&#39;)</span>
 <span class="sd">        into proper range [0,1)&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">noise_rate</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mf">0.9999</span><span class="p">)</span>
@@ -466,7 +470,7 @@
     <span class="k">return</span> <span class="n">noise_matrix</span></div>
 
 
-<div class="viewcode-block" id="clip_values"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.clip_values">[docs]</a><span class="k">def</span> <span class="nf">clip_values</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">new_sum</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="clip_values"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.clip_values">[docs]</a><span class="k">def</span> <span class="nf">clip_values</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">new_sum</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Clip all values in p to range [low,high].</span>
 <span class="sd">    Preserves sum of x.</span>
 
@@ -502,7 +506,7 @@
     <span class="k">return</span> <span class="n">x</span></div>
 
 
-<div class="viewcode-block" id="value_counts"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.value_counts">[docs]</a><span class="k">def</span> <span class="nf">value_counts</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="value_counts"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.value_counts">[docs]</a><span class="k">def</span> <span class="nf">value_counts</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns an np.ndarray of shape (K, 1), with the</span>
 <span class="sd">    value counts for every unique item in the labels list/array,</span>
 <span class="sd">    where K is the number of unique entries in labels.</span>
@@ -538,7 +542,7 @@
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="round_preserving_sum"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.round_preserving_sum">[docs]</a><span class="k">def</span> <span class="nf">round_preserving_sum</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+<div class="viewcode-block" id="round_preserving_sum"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.round_preserving_sum">[docs]</a><span class="k">def</span> <span class="nf">round_preserving_sum</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Rounds an iterable of floats while retaining the original summed value.</span>
 <span class="sd">    The name of each parameter is required. The type and description of each</span>
 <span class="sd">    parameter is optional, but should be included if not obvious.</span>
@@ -573,7 +577,7 @@
     <span class="k">return</span> <span class="n">ints</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="round_preserving_row_totals"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.round_preserving_row_totals">[docs]</a><span class="k">def</span> <span class="nf">round_preserving_row_totals</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">):</span>
+<div class="viewcode-block" id="round_preserving_row_totals"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.round_preserving_row_totals">[docs]</a><span class="k">def</span> <span class="nf">round_preserving_row_totals</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Rounds confident_joint cj to type int</span>
 <span class="sd">    while preserving the totals of reach row.</span>
 <span class="sd">    Assumes that cj is a 2D np.ndarray of type float.</span>
@@ -595,7 +599,7 @@
     <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="int2onehot"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.int2onehot">[docs]</a><span class="k">def</span> <span class="nf">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+<div class="viewcode-block" id="int2onehot"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.int2onehot">[docs]</a><span class="k">def</span> <span class="nf">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Convert list of lists to a onehot matrix for multi-labels</span>
 
 <span class="sd">    Parameters</span>
@@ -610,7 +614,7 @@
     <span class="k">return</span> <span class="n">mlb</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="onehot2int"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.onehot2int">[docs]</a><span class="k">def</span> <span class="nf">onehot2int</span><span class="p">(</span><span class="n">onehot_matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="onehot2int"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.onehot2int">[docs]</a><span class="k">def</span> <span class="nf">onehot2int</span><span class="p">(</span><span class="n">onehot_matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Convert a onehot matrix for multi-labels to a list of lists of ints</span>
 
 <span class="sd">    Parameters</span>
@@ -627,7 +631,7 @@
     <span class="k">return</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">row</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">onehot_matrix</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="estimate_pu_f1"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.estimate_pu_f1">[docs]</a><span class="k">def</span> <span class="nf">estimate_pu_f1</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">prob_s_eq_1</span><span class="p">):</span>
+<div class="viewcode-block" id="estimate_pu_f1"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.estimate_pu_f1">[docs]</a><span class="k">def</span> <span class="nf">estimate_pu_f1</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">prob_s_eq_1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Computes Claesen&#39;s estimate of f1 in the pulearning setting.</span>
 
 <span class="sd">    Parameters</span>
@@ -650,7 +654,7 @@
     <span class="k">return</span> <span class="n">recall</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">frac_positive</span><span class="p">)</span> <span class="k">if</span> <span class="n">frac_positive</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span></div>
 
 
-<div class="viewcode-block" id="confusion_matrix"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.confusion_matrix">[docs]</a><span class="k">def</span> <span class="nf">confusion_matrix</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="n">pred</span><span class="p">):</span>
+<div class="viewcode-block" id="confusion_matrix"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.confusion_matrix">[docs]</a><span class="k">def</span> <span class="nf">confusion_matrix</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="n">pred</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Implements a confusion matrix for true labels</span>
 <span class="sd">    and predicted labels. true and pred MUST BE the same length</span>
 <span class="sd">    and have the same distinct set of class labels represented.</span>
@@ -763,7 +767,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="compress_int_array"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.compress_int_array">[docs]</a><span class="k">def</span> <span class="nf">compress_int_array</span><span class="p">(</span><span class="n">int_array</span><span class="p">,</span> <span class="n">num_possible_values</span><span class="p">):</span>
+<div class="viewcode-block" id="compress_int_array"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.compress_int_array">[docs]</a><span class="k">def</span> <span class="nf">compress_int_array</span><span class="p">(</span><span class="n">int_array</span><span class="p">,</span> <span class="n">num_possible_values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Compresses dtype of np.ndarray&lt;int&gt; if num_possible_values is small enough.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">compressed_type</span> <span class="o">=</span> <span class="kc">None</span>
@@ -778,7 +782,9 @@
         <span class="k">return</span> <span class="n">int_array</span></div>
 
 
-<div class="viewcode-block" id="train_val_split"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.train_val_split">[docs]</a><span class="k">def</span> <span class="nf">train_val_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">holdout_idx</span><span class="p">):</span>
+<div class="viewcode-block" id="train_val_split"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.train_val_split">[docs]</a><span class="k">def</span> <span class="nf">train_val_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">holdout_idx</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">DatasetLike</span><span class="p">,</span> <span class="n">DatasetLike</span><span class="p">,</span> <span class="n">LabelLike</span><span class="p">,</span> <span class="n">LabelLike</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Splits data into training/validation sets based on given indices&quot;&quot;&quot;</span>
     <span class="n">labels_train</span><span class="p">,</span> <span class="n">labels_holdout</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">labels</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span>
@@ -821,14 +827,14 @@
     <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_holdout</span><span class="p">,</span> <span class="n">labels_train</span><span class="p">,</span> <span class="n">labels_holdout</span></div>
 
 
-<div class="viewcode-block" id="subset_X_y"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.subset_X_y">[docs]</a><span class="k">def</span> <span class="nf">subset_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<div class="viewcode-block" id="subset_X_y"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.subset_X_y">[docs]</a><span class="k">def</span> <span class="nf">subset_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">DatasetLike</span><span class="p">,</span> <span class="n">LabelLike</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Extracts subset of features/labels where mask is True&quot;&quot;&quot;</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="n">subset_labels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">subset_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">labels</span></div>
 
 
-<div class="viewcode-block" id="subset_labels"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.subset_labels">[docs]</a><span class="k">def</span> <span class="nf">subset_labels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<div class="viewcode-block" id="subset_labels"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.subset_labels">[docs]</a><span class="k">def</span> <span class="nf">subset_labels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Extracts subset of labels where mask is True&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>  <span class="c1"># filtering labels as if it is array or DataFrame</span>
         <span class="k">return</span> <span class="n">labels</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
@@ -839,22 +845,24 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;labels must be 1D np.ndarray, list, or pd.Series.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="subset_data"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.subset_data">[docs]</a><span class="k">def</span> <span class="nf">subset_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<div class="viewcode-block" id="subset_data"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.subset_data">[docs]</a><span class="k">def</span> <span class="nf">subset_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatasetLike</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Extracts subset of data examples where mask (np.ndarray) is True&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">torch</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
-            <span class="n">mask_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Subset</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mask_idx</span><span class="p">)</span>
+            <span class="n">mask_idx_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Subset</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mask_idx_list</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">pass</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">tensorflow</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+            <span class="kn">import</span> <span class="nn">tensorflow</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">tensorflow</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>  <span class="c1"># special splitting for tensorflow Dataset</span>
-            <span class="n">mask_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">extract_indices_tf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mask_idx</span><span class="p">,</span> <span class="n">allow_shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">tensorflow</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>  <span class="c1"># special splitting for tensorflow Dataset</span>
+                <span class="n">mask_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">extract_indices_tf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mask_idx</span><span class="p">,</span> <span class="n">allow_shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">pass</span>
     <span class="k">try</span><span class="p">:</span>
@@ -863,7 +871,7 @@
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Data features X must be subsettable with boolean mask array: X[mask]&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="extract_indices_tf"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.extract_indices_tf">[docs]</a><span class="k">def</span> <span class="nf">extract_indices_tf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">allow_shuffle</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_indices_tf"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.extract_indices_tf">[docs]</a><span class="k">def</span> <span class="nf">extract_indices_tf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">allow_shuffle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatasetLike</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Extracts subset of tensorflow dataset corresponding to examples at particular indices.</span>
 
 <span class="sd">    Args:</span>
@@ -920,7 +928,7 @@
     <span class="k">return</span> <span class="n">X_subset</span></div>
 
 
-<div class="viewcode-block" id="unshuffle_tensorflow_dataset"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.unshuffle_tensorflow_dataset">[docs]</a><span class="k">def</span> <span class="nf">unshuffle_tensorflow_dataset</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="unshuffle_tensorflow_dataset"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.unshuffle_tensorflow_dataset">[docs]</a><span class="k">def</span> <span class="nf">unshuffle_tensorflow_dataset</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Applies iterative inverse transformations to dataset to get version before ShuffleDataset was created.</span>
 <span class="sd">    If no ShuffleDataset is in the transformation-history of this dataset, returns None.</span>
 
@@ -957,7 +965,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="is_torch_dataset"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.is_torch_dataset">[docs]</a><span class="k">def</span> <span class="nf">is_torch_dataset</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="is_torch_dataset"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.is_torch_dataset">[docs]</a><span class="k">def</span> <span class="nf">is_torch_dataset</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">torch</span>
 
@@ -968,7 +976,7 @@
     <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># assumes this cannot be torch dataset if torch cannot be imported</span></div>
 
 
-<div class="viewcode-block" id="is_tensorflow_dataset"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.is_tensorflow_dataset">[docs]</a><span class="k">def</span> <span class="nf">is_tensorflow_dataset</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<div class="viewcode-block" id="is_tensorflow_dataset"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.is_tensorflow_dataset">[docs]</a><span class="k">def</span> <span class="nf">is_tensorflow_dataset</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">tensorflow</span>
 
@@ -979,7 +987,7 @@
     <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># assumes this cannot be tensorflow dataset if tensorflow cannot be imported</span></div>
 
 
-<div class="viewcode-block" id="csr_vstack"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.csr_vstack">[docs]</a><span class="k">def</span> <span class="nf">csr_vstack</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="csr_vstack"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.csr_vstack">[docs]</a><span class="k">def</span> <span class="nf">csr_vstack</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatasetLike</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Takes in 2 csr_matrices and appends the second one to the bottom of the first one.</span>
 <span class="sd">    Alternative to scipy.sparse.vstack. Returns a sparse matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -990,7 +998,7 @@
     <span class="k">return</span> <span class="n">a</span></div>
 
 
-<div class="viewcode-block" id="append_extra_datapoint"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.append_extra_datapoint">[docs]</a><span class="k">def</span> <span class="nf">append_extra_datapoint</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="n">from_data</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<div class="viewcode-block" id="append_extra_datapoint"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.append_extra_datapoint">[docs]</a><span class="k">def</span> <span class="nf">append_extra_datapoint</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="n">from_data</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatasetLike</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Appends an extra datapoint to the data object ``to_data``.</span>
 <span class="sd">    This datapoint is taken from the data object ``from_data`` at the corresponding index.</span>
 <span class="sd">    One place this could be useful is ensuring no missing classes after train/validation split.</span>
@@ -1001,7 +1009,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">to_data</span><span class="p">,</span> <span class="n">from_data</span><span class="p">[</span><span class="n">index</span><span class="p">]])</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_data</span><span class="p">,</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)):</span>
-        <span class="n">X_extra</span> <span class="o">=</span> <span class="n">from_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="n">index</span><span class="p">]]</span>
+        <span class="n">X_extra</span> <span class="o">=</span> <span class="n">from_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="n">index</span><span class="p">]]</span>  <span class="c1"># type: ignore</span>
         <span class="n">to_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">to_data</span><span class="p">,</span> <span class="n">X_extra</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">to_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1015,7 +1023,7 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Data features X must support: X.append(X[i])&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_num_classes"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.get_num_classes">[docs]</a><span class="k">def</span> <span class="nf">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="get_num_classes"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.get_num_classes">[docs]</a><span class="k">def</span> <span class="nf">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Determines the number of classes based on information considered in a</span>
 <span class="sd">    canonical ordering. label_matrix can be: noise_matrix, inverse_noise_matrix, confident_joint,</span>
 <span class="sd">    or any other K x K matrix where K = number of classes.</span>
@@ -1035,7 +1043,7 @@
     <span class="k">return</span> <span class="n">num_unique_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="num_unique_classes"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.num_unique_classes">[docs]</a><span class="k">def</span> <span class="nf">num_unique_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="num_unique_classes"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.num_unique_classes">[docs]</a><span class="k">def</span> <span class="nf">num_unique_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Finds the number of unique classes for both single-labeled</span>
 <span class="sd">    and multi-labeled labels. If multi_label is set to None (default)</span>
 <span class="sd">    this method will infer if multi_label is True or False based on</span>
