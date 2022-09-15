@@ -399,7 +399,8 @@
     <span class="n">_subtract_confident_thresholds</span><span class="p">,</span>
     <span class="n">get_normalized_entropy</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">cleanlab.internal.validation</span> <span class="kn">import</span> <span class="n">assert_valid_inputs</span>
+<span class="kn">from</span> <span class="nn">cleanlab.internal.validation</span> <span class="kn">import</span> <span class="n">assert_valid_inputs</span><span class="p">,</span> <span class="n">labels_to_array</span>
+<span class="kn">from</span> <span class="nn">cleanlab.typing</span> <span class="kn">import</span> <span class="n">LabelLike</span>
 
 
 <div class="viewcode-block" id="OutOfDistribution"><a class="viewcode-back" href="../../cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution">[docs]</a><span class="k">class</span> <span class="nc">OutOfDistribution</span><span class="p">:</span>
@@ -500,7 +501,7 @@
 <span class="sd">          An array of shape ``(N, K)`` of predicted class probabilities output by a trained classifier.</span>
 <span class="sd">          For details, `pred_probs` in the same format expected by the :py:func:`fit &lt;cleanlab.outlier.OutOfDistribution.fit&gt;` function.</span>
 
-<span class="sd">        labels : np.ndarray, optional</span>
+<span class="sd">        labels : array_like, optional</span>
 <span class="sd">          A discrete array of given class labels for the data of shape ``(N,)``.</span>
 <span class="sd">          For details, `labels` in the same format expected by the :py:func:`fit &lt;cleanlab.outlier.OutOfDistribution.fit&gt;` function.</span>
 
@@ -532,7 +533,7 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">pred_probs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LabelLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -565,8 +566,8 @@
 <span class="sd">          Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating</span>
 <span class="sd">          data that was previously held-out.</span>
 
-<span class="sd">        labels : np.ndarray, optional</span>
-<span class="sd">          A discrete vector of given labels for the data of shape ``(N,)``.</span>
+<span class="sd">        labels : array_like, optional</span>
+<span class="sd">          A discrete vector of given labels for the data of shape ``(N,)``. Supported `array_like` types include: ``np.ndarray`` or ``list``.</span>
 <span class="sd">          *Format requirements*: for dataset with K classes, labels must be in 0, 1, ..., K-1.</span>
 <span class="sd">          All the classes (0, 1, ..., and K-1) MUST be present in ``labels``, such that: ``len(set(labels)) == pred_probs.shape[1]``</span>
 <span class="sd">          If ``params[&quot;adjust_confident_thresholds&quot;]`` was previously set to ``False``, you do not have to pass in `labels`.</span>
@@ -685,7 +686,7 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">features</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">pred_probs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LabelLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -820,7 +821,7 @@
 <span class="k">def</span> <span class="nf">_get_ood_predictions_scores</span><span class="p">(</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LabelLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">confident_thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">adjust_pred_probs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;entropy&quot;</span><span class="p">,</span>
@@ -836,7 +837,7 @@
 <span class="sd">    confident_thresholds : np.ndarray, default = None</span>
 <span class="sd">      For details, see key `confident_thresholds` in the params dict arg of :py:class:`OutOfDistribution &lt;cleanlab.outlier.OutOfDistribution&gt;`.</span>
 
-<span class="sd">    labels : np.ndarray, optional</span>
+<span class="sd">    labels : array_like, optional</span>
 <span class="sd">      `labels` in the same format expected by the :py:func:`fit &lt;cleanlab.outlier.OutOfDistribution.fit&gt;` function.</span>
 
 <span class="sd">    adjust_pred_probs : bool, True</span>
@@ -875,6 +876,7 @@
                     <span class="sa">f</span><span class="s2">&quot;params[&#39;adjusted_pred_probs&#39;] = False. &quot;</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
+                <span class="n">labels</span> <span class="o">=</span> <span class="n">labels_to_array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
                 <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="n">confident_thresholds</span> <span class="o">=</span> <span class="n">get_confident_thresholds</span><span class="p">(</span>
                     <span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span>
