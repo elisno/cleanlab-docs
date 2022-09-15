@@ -372,27 +372,29 @@
 
  <section id="module-cleanlab.experimental.keras">
 <span id="keras"></span><h1>keras<a class="headerlink" href="#module-cleanlab.experimental.keras" title="Permalink to this heading">#</a></h1>
-<p>A wrapper class you can use to make any Keras model compatible with cleanlab and sklearn.
-Use <code class="docutils literal notranslate"><span class="pre">KerasWrapperModel</span></code> to wrap existing functional API code for <code class="docutils literal notranslate"><span class="pre">keras.Model</span></code> objects,
-and <code class="docutils literal notranslate"><span class="pre">KerasWrapperSequential</span></code> to wrap existing <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> objects.
-Most of the instance methods of this class are the same as the ones for the wrapped Keras model,
+<p>Wrapper class you can use to make any Keras model compatible with <a class="reference internal" href="../classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> and sklearn.
+Use <cite>KerasWrapperModel</cite> to wrap existing functional API code for <code class="docutils literal notranslate"><span class="pre">keras.Model</span></code> objects,
+and <cite>KerasWrapperSequential</cite> to wrap existing <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> objects.
+Most of the instance methods of this class work the same as the ones for the wrapped Keras model,
 see the Keras documentation for details.</p>
 <p>This is a good example of making any bespoke neural network compatible with cleanlab.</p>
-<p>You must have Tensorflow installed: <a class="reference external" href="https://www.tensorflow.org/install">https://www.tensorflow.org/install</a></p>
-<p>Note: Tensorflow is only compatible with Python versions &gt;= 3.7: <a class="reference external" href="https://www.tensorflow.org/install/pip#software_requirements">https://www.tensorflow.org/install/pip#software_requirements</a></p>
-<p>Tips:
-* If this class lacks certain functionality, you can alternatively try scikeras: <a class="reference external" href="https://github.com/adriangb/scikeras">https://github.com/adriangb/scikeras</a>
-* Unlike scikeras, this class can operate directly on <code class="docutils literal notranslate"><span class="pre">tensorflow.data.Dataset</span></code> objects (like regular Keras models).
-* To call <code class="docutils literal notranslate"><span class="pre">fit()</span></code> on a Tensorflow Dataset object with a Keras model, the Dataset should already be batched.</p>
+<p>You must have Tensorflow 2 installed: <a class="reference external" href="https://www.tensorflow.org/install">https://www.tensorflow.org/install</a></p>
+<p>Tips:</p>
+<ul class="simple">
+<li><p>If this class lacks certain functionality, you can alternatively try scikeras: <a class="reference external" href="https://github.com/adriangb/scikeras">https://github.com/adriangb/scikeras</a></p></li>
+<li><p>Unlike scikeras, this class can operate directly on <code class="docutils literal notranslate"><span class="pre">tensorflow.data.Dataset</span></code> objects (like regular Keras models).</p></li>
+<li><p>To call <code class="docutils literal notranslate"><span class="pre">fit()</span></code> on a Tensorflow Dataset object with a Keras model, the Dataset should already be batched.</p></li>
+<li><p>Tensorflow 2 is only compatible with Python versions &gt;= 3.7: <a class="reference external" href="https://www.tensorflow.org/install/pip#software_requirements">https://www.tensorflow.org/install/pip#software_requirements</a></p></li>
+</ul>
 <p><strong>Classes:</strong></p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperModel" title="cleanlab.experimental.keras.KerasWrapperModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KerasWrapperModel</span></code></a>(model[, model_kwargs, ...])</p></td>
-<td><p>Takes in a callable function to instantiate a Keras Model (using Keras functional API) that is compatible with <a class="reference internal" href="../classification.html#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>.</p></td>
+<td><p>Takes in a callable function to instantiate a Keras Model (using Keras functional API) that is compatible with <a class="reference internal" href="../classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> and sklearn.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential" title="cleanlab.experimental.keras.KerasWrapperSequential"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KerasWrapperSequential</span></code></a>([layers, name, ...])</p></td>
-<td><p>KerasWrapperSequential is instantiated in the same way as a <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> object, except for extra argument: * <em>compile_kwargs</em>: dict of args to pass into <code class="docutils literal notranslate"><span class="pre">model.compile()</span></code>.</p></td>
+<td><p>Makes any <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> object compatible with <a class="reference internal" href="../classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> and sklearn.</p></td>
 </tr>
 </tbody>
 </table>
@@ -402,15 +404,32 @@ see the Keras documentation for details.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cleanlab.experimental.keras.</span></span><span class="sig-name descname"><span class="pre">KerasWrapperModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_kwargs={}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile_kwargs={'loss':</span> <span class="pre">&lt;keras.losses.SparseCategoricalCrossentropy</span> <span class="pre">object&gt;}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/keras.html#KerasWrapperModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.keras.KerasWrapperModel" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Takes in a callable function to instantiate a Keras Model (using Keras functional API)
-that is compatible with <a class="reference internal" href="../classification.html#cleanlab.classification.CleanLearning.fit" title="cleanlab.classification.CleanLearning.fit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.fit()</span></code></a>.</p>
-<p>The instance methods below work in the same way as those of any <code class="docutils literal notranslate"><span class="pre">keras.Model</span></code> object.
-For instead using Keras sequential API, see the <a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential" title="cleanlab.experimental.keras.KerasWrapperSequential"><code class="xref py py-class docutils literal notranslate"><span class="pre">KerasWrapperSequential</span></code></a> class.</p>
+that is compatible with <a class="reference internal" href="../classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> and sklearn.</p>
+<p>The instance methods of this class work in the same way as those of any <code class="docutils literal notranslate"><span class="pre">keras.Model</span></code> object, see the Keras documentation for details.
+For using Keras sequential instead of functional API, see the <a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential" title="cleanlab.experimental.keras.KerasWrapperSequential"><code class="xref py py-class docutils literal notranslate"><span class="pre">KerasWrapperSequential</span></code></a> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code>) – <p>A callable function to construct the Keras Model (using functional API). Pass in the function here, not the constructed model!</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">num_features</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_features</span><span class="p">,))</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">num_classes</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_keras_model&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</p></li>
+<li><p><strong>model_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>default</em> = <code class="docutils literal notranslate"><span class="pre">{}</span></code>) – Dict of optional keyword arguments to pass into <code class="docutils literal notranslate"><span class="pre">model()</span></code> when instantiating the <code class="docutils literal notranslate"><span class="pre">keras.Model</span></code>.</p></li>
+<li><p><strong>compile_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>default</em> = <code class="docutils literal notranslate"><span class="pre">{&quot;loss&quot;:</span> <span class="pre">tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)}</span></code>) – Dict of optional keyword arguments to pass into <code class="docutils literal notranslate"><span class="pre">model.compile()</span></code> for declaring loss, metrics, optimizer, etc.</p></li>
+</ul>
+</dd>
+</dl>
 <p><strong>Methods:</strong></p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperModel.fit" title="cleanlab.experimental.keras.KerasWrapperModel.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[, y])</p></td>
-<td><p>Note that <code class="docutils literal notranslate"><span class="pre">X</span></code> dataset object must already contain the labels as is required for standard Keras fit.</p></td>
+<td><p>Note that <cite>X</cite> dataset object must already contain the labels as is required for standard Keras fit.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperModel.get_params" title="cleanlab.experimental.keras.KerasWrapperModel.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</p></td>
 <td><p></p></td>
@@ -418,8 +437,8 @@ For instead using Keras sequential API, see the <a class="reference internal" hr
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperModel.predict" title="cleanlab.experimental.keras.KerasWrapperModel.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(X, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperModel.predict_proba" title="cleanlab.experimental.keras.KerasWrapperModel.predict_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_proba</span></code></a>(X[, apply_softmax])</p></td>
-<td><p>Set <cite>apply_softmax</cite> to True to indicate your network only outputs logits not probabilities</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperModel.predict_proba" title="cleanlab.experimental.keras.KerasWrapperModel.predict_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_proba</span></code></a>(X, *[, apply_softmax])</p></td>
+<td><p>Set extra argument <cite>apply_softmax</cite> to True to indicate your network only outputs logits not probabilities.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperModel.summary" title="cleanlab.experimental.keras.KerasWrapperModel.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>(**kwargs)</p></td>
 <td><p></p></td>
@@ -430,8 +449,8 @@ For instead using Keras sequential API, see the <a class="reference internal" hr
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.experimental.keras.KerasWrapperModel.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/keras.html#KerasWrapperModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.keras.KerasWrapperModel.fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Note that <code class="docutils literal notranslate"><span class="pre">X</span></code> dataset object must already contain the labels as is required for standard Keras fit.
-You can provide the labels again here as argument <code class="docutils literal notranslate"><span class="pre">y</span></code> to be compatible with sklearn, but they are ignored.</p>
+<dd><p>Note that <cite>X</cite> dataset object must already contain the labels as is required for standard Keras fit.
+You can optionally provide the labels again here as argument <cite>y</cite> to be compatible with sklearn, but they are ignored.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -446,8 +465,8 @@ You can provide the labels again here as argument <code class="docutils literal 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.experimental.keras.KerasWrapperModel.predict_proba">
-<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_softmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/keras.html#KerasWrapperModel.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.keras.KerasWrapperModel.predict_proba" title="Permalink to this definition">#</a></dt>
-<dd><p>Set <cite>apply_softmax</cite> to True to indicate your network only outputs logits not probabilities</p>
+<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_softmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/keras.html#KerasWrapperModel.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.keras.KerasWrapperModel.predict_proba" title="Permalink to this definition">#</a></dt>
+<dd><p>Set extra argument <cite>apply_softmax</cite> to True to indicate your network only outputs logits not probabilities.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -461,15 +480,25 @@ You can provide the labels again here as argument <code class="docutils literal 
 <dt class="sig sig-object py" id="cleanlab.experimental.keras.KerasWrapperSequential">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cleanlab.experimental.keras.</span></span><span class="sig-name descname"><span class="pre">KerasWrapperSequential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layers=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compile_kwargs={'loss':</span> <span class="pre">&lt;keras.losses.SparseCategoricalCrossentropy</span> <span class="pre">object&gt;}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/keras.html#KerasWrapperSequential"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.keras.KerasWrapperSequential" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>KerasWrapperSequential is instantiated in the same way as a <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> object,
-except for extra argument:
-* <em>compile_kwargs</em>: dict of args to pass into <code class="docutils literal notranslate"><span class="pre">model.compile()</span></code>.</p>
+<p>Makes any <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> object compatible with <a class="reference internal" href="../classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> and sklearn.</p>
+<p><cite>KerasWrapperSequential</cite> is instantiated in the same way as a keras <code class="docutils literal notranslate"><span class="pre">Sequential</span></code>  object, except for optional extra <cite>compile_kwargs</cite> argument.
+Just instantiate this object in the same way as your <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> object (rather than passing in an existing <code class="docutils literal notranslate"><span class="pre">Sequential</span></code> object).
+The instance methods of this class work in the same way as those of any keras <code class="docutils literal notranslate"><span class="pre">Sequential</span></code> object, see the Keras documentation for details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>layers</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list containing the layers to add to the keras <code class="docutils literal notranslate"><span class="pre">Sequential</span></code> model (same as for <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code>).</p></li>
+<li><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>default</em> <code class="xref py py-class docutils literal notranslate"><span class="pre">=</span> <span class="pre">None</span></code>) – Name for the Keras model (same as for <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code>).</p></li>
+<li><p><strong>compile_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <em>default</em> = <code class="docutils literal notranslate"><span class="pre">{&quot;loss&quot;:</span> <span class="pre">tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)}</span></code>) – Dict of optional keyword arguments to pass into <code class="docutils literal notranslate"><span class="pre">model.compile()</span></code> for declaring loss, metrics, optimizer, etc.</p></li>
+</ul>
+</dd>
+</dl>
 <p><strong>Methods:</strong></p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential.fit" title="cleanlab.experimental.keras.KerasWrapperSequential.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[, y])</p></td>
-<td><p>Note that <code class="docutils literal notranslate"><span class="pre">X</span></code> dataset object must already contain the labels as is required for standard Keras fit.</p></td>
+<td><p>Note that <cite>X</cite> dataset object must already contain the labels as is required for standard Keras fit.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential.get_params" title="cleanlab.experimental.keras.KerasWrapperSequential.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</p></td>
 <td><p></p></td>
@@ -477,8 +506,8 @@ except for extra argument:
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential.predict" title="cleanlab.experimental.keras.KerasWrapperSequential.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(X, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential.predict_proba" title="cleanlab.experimental.keras.KerasWrapperSequential.predict_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_proba</span></code></a>(X[, apply_softmax])</p></td>
-<td><p>Set <cite>apply_softmax</cite> to True to indicate your network only outputs logits not probabilities</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential.predict_proba" title="cleanlab.experimental.keras.KerasWrapperSequential.predict_proba"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict_proba</span></code></a>(X, *[, apply_softmax])</p></td>
+<td><p>Set extra argument <cite>apply_softmax</cite> to True to indicate your network only outputs logits not probabilities.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential.summary" title="cleanlab.experimental.keras.KerasWrapperSequential.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summary</span></code></a>(**kwargs)</p></td>
 <td><p></p></td>
@@ -489,8 +518,8 @@ except for extra argument:
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.experimental.keras.KerasWrapperSequential.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/keras.html#KerasWrapperSequential.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.keras.KerasWrapperSequential.fit" title="Permalink to this definition">#</a></dt>
-<dd><p>Note that <code class="docutils literal notranslate"><span class="pre">X</span></code> dataset object must already contain the labels as is required for standard Keras fit.
-You can provide the labels again here as argument <code class="docutils literal notranslate"><span class="pre">y</span></code> to be compatible with sklearn, but they are ignored.</p>
+<dd><p>Note that <cite>X</cite> dataset object must already contain the labels as is required for standard Keras fit.
+You can optionally provide the labels again here as argument <cite>y</cite> to be compatible with sklearn, but they are ignored.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -505,8 +534,8 @@ You can provide the labels again here as argument <code class="docutils literal 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cleanlab.experimental.keras.KerasWrapperSequential.predict_proba">
-<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_softmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/keras.html#KerasWrapperSequential.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.keras.KerasWrapperSequential.predict_proba" title="Permalink to this definition">#</a></dt>
-<dd><p>Set <cite>apply_softmax</cite> to True to indicate your network only outputs logits not probabilities</p>
+<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_softmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/experimental/keras.html#KerasWrapperSequential.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.experimental.keras.KerasWrapperSequential.predict_proba" title="Permalink to this definition">#</a></dt>
+<dd><p>Set extra argument <cite>apply_softmax</cite> to True to indicate your network only outputs logits not probabilities.</p>
 </dd></dl>
 
 <dl class="py method">
