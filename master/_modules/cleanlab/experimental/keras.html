@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>cleanlab.token_classification.filter - cleanlab</title>
+        <title>cleanlab.experimental.keras - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -369,7 +369,7 @@
 
 <!-- End of Version Warning Banner -->
 
- <h1>Source code for cleanlab.token_classification.filter</h1><div class="highlight"><pre>
+ <h1>Source code for cleanlab.experimental.keras</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (C) 2017-2022  Cleanlab Inc.</span>
 <span class="c1"># This file is part of cleanlab.</span>
 <span class="c1">#</span>
@@ -387,71 +387,162 @@
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Methods to find label issues in token classification datasets (text data), where each token in a sentence receives its own class label.</span>
+<span class="sd">A wrapper class you can use to make any Keras model compatible with cleanlab and sklearn.</span>
+<span class="sd">Use ``KerasWrapperModel`` to wrap existing functional API code for ``keras.Model`` objects, </span>
+<span class="sd">and ``KerasWrapperSequential`` to wrap existing ``tf.keras.models.Sequential`` objects.</span>
+<span class="sd">Most of the instance methods of this class are the same as the ones for the wrapped Keras model, </span>
+<span class="sd">see the Keras documentation for details.</span>
+
+<span class="sd">This is a good example of making any bespoke neural network compatible with cleanlab.</span>
+
+<span class="sd">You must have Tensorflow installed: https://www.tensorflow.org/install</span>
+
+<span class="sd">Note: Tensorflow is only compatible with Python versions &gt;= 3.7: https://www.tensorflow.org/install/pip#software_requirements</span>
+
+<span class="sd">Tips:</span>
+<span class="sd">* If this class lacks certain functionality, you can alternatively try scikeras: https://github.com/adriangb/scikeras</span>
+<span class="sd">* Unlike scikeras, this class can operate directly on ``tensorflow.data.Dataset`` objects (like regular Keras models).</span>
+<span class="sd">* To call ``fit()`` on a Tensorflow Dataset object with a Keras model, the Dataset should already be batched.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
-
-<span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span> <span class="k">as</span> <span class="n">find_label_issues_main</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 
 
-<div class="viewcode-block" id="find_label_issues"><a class="viewcode-back" href="../../../cleanlab/token_classification/filter.html#cleanlab.token_classification.filter.find_label_issues">[docs]</a><span class="k">def</span> <span class="nf">find_label_issues</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
-    <span class="n">return_indices_ranked_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Returns issues identified by cleanlab</span>
+<div class="viewcode-block" id="KerasWrapperModel"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel">[docs]</a><span class="k">class</span> <span class="nc">KerasWrapperModel</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Takes in a callable function to instantiate a Keras Model (using Keras functional API)</span>
+<span class="sd">    that is compatible with :py:meth:`CleanLearning.fit()&lt;cleanlab.classification.CleanLearning.fit&gt;`.</span>
 
-<span class="sd">    This is a function to find the label issues for token classification datasets</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    labels:</span>
-<span class="sd">        noisy token labels in nested list format, such that `labels[i]` is a list of token labels of the i&#39;th</span>
-<span class="sd">        sentence. For datasets with `K` classes, each label must be in 0, 1, ..., K-1. All classes must be present.</span>
-
-<span class="sd">    pred_probs:</span>
-<span class="sd">        list of np.arrays, such that `pred_probs[i]` is the model-predicted probabilities for the tokens in</span>
-<span class="sd">        the i&#39;th sentence, and has shape `(N, K)`. Each row of the matrix corresponds to a token `t` and contains</span>
-<span class="sd">        the model-predicted probabilities that `t` belongs to each possible class, for each of the K classes. The</span>
-<span class="sd">        columns must be ordered such that the probabilities correspond to class 0, 1, ..., K-1.</span>
-
-<span class="sd">    return_indices_ranked_by: {&quot;self_confidence&quot;, &quot;normalized_margin&quot;, &quot;confidence_weighted_entropy&quot;}, default=&quot;self_confidence&quot;</span>
-<span class="sd">        Returned indicies are sorted by label quality score. See `cleanlab.filter.find_label_issues` for more details on</span>
-<span class="sd">        each label quality score method.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    ----------</span>
-<span class="sd">    issues:</span>
-<span class="sd">        a list containing all potential issues identified by cleanlab, such that each element is a tuple (i, j), which</span>
-<span class="sd">        corresponds to the j&#39;th token of the i&#39;th sentence.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; from cleanlab.token_classification.filter import find_label_issues</span>
-<span class="sd">    &gt;&gt;&gt; labels = [[0, 0, 1], [0, 1]]</span>
-<span class="sd">    &gt;&gt;&gt; pred_probs = [</span>
-<span class="sd">    ...     np.array([[0.9, 0.1], [0.7, 0.3], [0.05, 0.95]]),</span>
-<span class="sd">    ...     np.array([[0.8, 0.2], [0.8, 0.2]]),</span>
-<span class="sd">    ... ]</span>
-<span class="sd">    &gt;&gt;&gt; find_label_issues(labels, pred_probs)</span>
-<span class="sd">    [(1, 1)]</span>
+<span class="sd">    The instance methods below work in the same way as those of any ``keras.Model`` object.</span>
+<span class="sd">    For instead using Keras sequential API, see the :py:class:`KerasWrapperSequential&lt;cleanlab.experimental.keras.KerasWrapperSequential&gt;` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">labels_flatten</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">label</span><span class="p">]</span>
-    <span class="n">pred_probs_flatten</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pred</span> <span class="k">for</span> <span class="n">pred_prob</span> <span class="ow">in</span> <span class="n">pred_probs</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">pred_prob</span><span class="p">])</span>
 
-    <span class="n">issues_main</span> <span class="o">=</span> <span class="n">find_label_issues_main</span><span class="p">(</span>
-        <span class="n">labels_flatten</span><span class="p">,</span> <span class="n">pred_probs_flatten</span><span class="p">,</span> <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="n">return_indices_ranked_by</span>
-    <span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">model_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">compile_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">},</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model: Callable</span>
+<span class="sd">            A callable function to define the Keras Model (using functional API).</span>
 
-    <span class="n">lengths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
-    <span class="n">mapping</span> <span class="o">=</span> <span class="p">[[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">length</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lengths</span><span class="p">)]</span>
-    <span class="n">mapping_flatten</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span> <span class="k">for</span> <span class="n">indicies</span> <span class="ow">in</span> <span class="n">mapping</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indicies</span><span class="p">]</span>
+<span class="sd">            For example::</span>
 
-    <span class="n">issues</span> <span class="o">=</span> <span class="p">[</span><span class="n">mapping_flatten</span><span class="p">[</span><span class="n">issue</span><span class="p">]</span> <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">issues_main</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">issues</span></div>
+<span class="sd">                def make_model(num_features, num_classes):</span>
+<span class="sd">                    ...</span>
+<span class="sd">                    return model</span>
+<span class="sd">                model = make_model</span>
+
+<span class="sd">        model_kwargs: dict, default = {}</span>
+<span class="sd">            Dict of args to pass into ``model()`` when instantiating the model.</span>
+
+<span class="sd">        complie_kwargs: dict, default = {&quot;loss&quot;: tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)}</span>
+<span class="sd">            Dict of arguments to pass into ``model.compile()``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">model_kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compile_kwargs</span> <span class="o">=</span> <span class="n">compile_kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="KerasWrapperModel.get_params"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel.get_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="s2">&quot;model_kwargs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_kwargs</span><span class="p">,</span>
+            <span class="s2">&quot;compile_kwargs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">compile_kwargs</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="KerasWrapperModel.fit"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Note that ``X`` dataset object must already contain the labels as is required for standard Keras fit.</span>
+<span class="sd">        You can provide the labels again here as argument ``y`` to be compatible with sklearn, but they are ignored.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">model_kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">compile_kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KerasWrapperModel.predict_proba"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel.predict_proba">[docs]</a>    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">apply_softmax</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set `apply_softmax` to True to indicate your network only outputs logits not probabilities&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;must call fit() before predict()&quot;</span><span class="p">)</span>
+        <span class="n">pred_probs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">apply_softmax</span><span class="p">:</span>
+            <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pred_probs</span></div>
+
+<div class="viewcode-block" id="KerasWrapperModel.predict"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">pred_probs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KerasWrapperModel.summary"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="KerasWrapperSequential"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential">[docs]</a><span class="k">class</span> <span class="nc">KerasWrapperSequential</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;KerasWrapperSequential is instantiated in the same way as a ``tf.keras.models.Sequential`` object,</span>
+<span class="sd">    except for extra argument:</span>
+<span class="sd">    * *compile_kwargs*: dict of args to pass into ``model.compile()``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">compile_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">},</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        layers: list</span>
+<span class="sd">            A list containing the layers to add to the Sequential Keras Model.</span>
+
+<span class="sd">        name: str, default = None</span>
+<span class="sd">            Name for the Keras model.</span>
+
+<span class="sd">        complie_kwargs: dict, default = {&quot;loss&quot;: tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)}</span>
+<span class="sd">            Dict of arguments to pass into ``model.compile()``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compile_kwargs</span> <span class="o">=</span> <span class="n">compile_kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="KerasWrapperSequential.get_params"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential.get_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;layers&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;compile_kwargs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">compile_kwargs</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="KerasWrapperSequential.fit"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Note that ``X`` dataset object must already contain the labels as is required for standard Keras fit.</span>
+<span class="sd">        You can provide the labels again here as argument ``y`` to be compatible with sklearn, but they are ignored.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">compile_kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KerasWrapperSequential.predict_proba"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential.predict_proba">[docs]</a>    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">apply_softmax</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set `apply_softmax` to True to indicate your network only outputs logits not probabilities&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;must call fit() before predict()&quot;</span><span class="p">)</span>
+        <span class="n">pred_probs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">apply_softmax</span><span class="p">:</span>
+            <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pred_probs</span></div>
+
+<div class="viewcode-block" id="KerasWrapperSequential.predict"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">pred_probs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KerasWrapperSequential.summary"><a class="viewcode-back" href="../../../cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 </pre></div> 
         </article>
       </div>
