@@ -378,10 +378,10 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.token_classification.rank.get_label_quality_scores" title="cleanlab.token_classification.rank.get_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>(labels, pred_probs, *)</p></td>
-<td><p>Returns overall quality scores for the labels in each sentence (as well as for the individual tokens' labels) This is a function to compute label-quality scores for token classification datasets, where lower scores indicate labels less likely to be correct.</p></td>
+<td><p>Returns overall quality scores for the labels in each sentence, as well as for the individual tokens' labels in a token classification dataset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.token_classification.rank.issues_from_scores" title="cleanlab.token_classification.rank.issues_from_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">issues_from_scores</span></code></a>(sentence_scores[, ...])</p></td>
-<td><p>Converts output from <cite>get_label_quality_score</cite> to list of issues.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.token_classification.rank.issues_from_scores" title="cleanlab.token_classification.rank.issues_from_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">issues_from_scores</span></code></a>(sentence_scores, *[, ...])</p></td>
+<td><p>Converts scores output by <a class="reference internal" href="#cleanlab.token_classification.rank.get_label_quality_scores" title="cleanlab.token_classification.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">token_classification.rank.get_label_quality_scores</span></code></a> to a list of issues of similar format as output by <a class="reference internal" href="filter.html#cleanlab.token_classification.filter.find_label_issues" title="cleanlab.token_classification.filter.find_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">token_classification.filter.find_label_issues</span></code></a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -389,43 +389,51 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.token_classification.rank.get_label_quality_scores">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.token_classification.rank.</span></span><span class="sig-name descname"><span class="pre">get_label_quality_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_score_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'self_confidence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence_score_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentence_score_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/token_classification/rank.html#get_label_quality_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.token_classification.rank.get_label_quality_scores" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns overall quality scores for the labels in each sentence (as well as for the individual tokens’ labels)
-This is a function to compute label-quality scores for token classification datasets, where lower scores
-indicate labels less likely to be correct.
-Score is between 0 and 1.
-1 - clean label (given label is likely correct).
-0 - dirty label (given label is likely incorrect).</p>
+<dd><p>Returns overall quality scores for the labels in each sentence, as well as for the individual tokens’ labels in a token classification dataset.</p>
+<p>Each score is between 0 and 1.</p>
+<p>Lower scores indicate token labels that are less likely to be correct, or sentences that are more likely to contain a mislabeled token.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – noisy token labels in nested list format, such that <cite>labels[i]</cite> is a list of token labels of the i’th
-sentence. For datasets with <cite>K</cite> classes, each label must be in 0, 1, …, K-1. All classes must be present.</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – list of np.arrays, such that <cite>pred_probs[i]</cite> is the model-predicted probabilities for the tokens in
-the i’th sentence, and has shape <cite>(N, K)</cite>. Each row of the matrix corresponds to a token <cite>t</cite> and contains
-the model-predicted probabilities that <cite>t</cite> belongs to each possible class, for each of the K classes. The
-columns must be ordered such that the probabilities correspond to class 0, 1, …, K-1.</p></li>
-<li><p><strong>tokens</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]) – tokens in nested list format, such that <cite>tokens[i]</cite> is a list of tokens for the i’th sentence. See return value
-<cite>token_info</cite> for more info.</p></li>
-<li><p><strong>sentence_score_method</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;min&quot;,</span> <span class="pre">&quot;softmin&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;min&quot;</span></code>) – sentence scoring method to aggregate token scores.
-- <cite>min</cite>: sentence score = minimum token label score of the sentence
-- <cite>softmin</cite>: sentence score = &lt;s, softmax(1-s, t)&gt;, where s denotes the token label scores of the sentence,
-and &lt;a, b&gt; == np.dot(a, b). The parameter <cite>t</cite> controls parameter of softmax, such that when t -&gt; 0, the
-method approaches to <cite>min</cite>. This method is the “softer” version of <cite>min</cite>, which adds some minor weights to
-other scores.</p></li>
-<li><p><strong>token_score_method</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;self_confidence&quot;,</span> <span class="pre">&quot;normalized_margin&quot;,</span> <span class="pre">&quot;confidence_weighted_entropy&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;self_confidence&quot;</span></code>) – label quality scoring method. See <cite>cleanlab.rank.get_label_quality_scores</cite> for more info.</p></li>
-<li><p><strong>sentence_score_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – keyword arguments for <cite>sentence_score_method</cite>. Supports keyword arguments when <cite>sentence_score_method</cite> is “softmin”.
-See <cite>cleanlab.token_classification.rank._softmin_sentence_score</cite> for more info.</p></li>
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – <p>Nested list of given labels for all tokens, such that <cite>labels[i]</cite> is a list of labels, one for each token in the <cite>i</cite>-th sentence.</p>
+<p>For a dataset with K classes, each label must be in 0, 1, …, K-1.</p>
+</p></li>
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – <p>List of np arrays, such that <cite>pred_probs[i]</cite> has shape <code class="docutils literal notranslate"><span class="pre">(T,</span> <span class="pre">K)</span></code> if the <cite>i</cite>-th sentence contains T tokens.</p>
+<p>Each row of <cite>pred_probs[i]</cite> corresponds to a token <cite>t</cite> in the <cite>i</cite>-th sentence,
+and contains model-predicted probabilities that <cite>t</cite> belongs to each of the K possible classes.</p>
+<p>Columns of each <cite>pred_probs[i]</cite> should be ordered such that the probabilities correspond to class 0, 1, …, K-1.</p>
+</p></li>
+<li><p><strong>tokens</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]) – <p>Nested list such that <cite>tokens[i]</cite> is a list of tokens (strings/words) that comprise the <cite>i</cite>-th sentence.</p>
+<p>These strings are used to annotated the returned <cite>token_scores</cite> object, see its documentation for more information.</p>
+</p></li>
+<li><p><strong>sentence_score_method</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;min&quot;,</span> <span class="pre">&quot;softmin&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;min&quot;</span></code>) – <p>Method to aggregate individual token label quality scores into a single score for the sentence.</p>
+<ul>
+<li><p><cite>min</cite>: sentence score = minimum of token scores in the sentence</p></li>
+<li><p><cite>softmin</cite>: sentence score = <code class="docutils literal notranslate"><span class="pre">&lt;s,</span> <span class="pre">softmax(1-s,</span> <span class="pre">t)&gt;</span></code>, where <cite>s</cite> denotes the token label scores of the sentence, and <code class="docutils literal notranslate"><span class="pre">&lt;a,</span> <span class="pre">b&gt;</span> <span class="pre">==</span> <span class="pre">np.dot(a,</span> <span class="pre">b)</span></code>.
+Here parameter <cite>t</cite> controls the softmax temperature, such that the score converges toward <cite>min</cite> as <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">-&gt;</span> <span class="pre">0</span></code>.
+Unlike <cite>min</cite>, <cite>softmin</cite> is affected by the scores of all tokens in the sentence.</p></li>
+</ul>
+</p></li>
+<li><p><strong>token_score_method</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;self_confidence&quot;,</span> <span class="pre">&quot;normalized_margin&quot;,</span> <span class="pre">&quot;confidence_weighted_entropy&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;self_confidence&quot;</span></code>) – <p>Label quality scoring method for each token.</p>
+<p>See <a class="reference internal" href="../rank.html#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">cleanlab.rank.get_label_quality_scores</span></code></a> documentation for more info.</p>
+</p></li>
+<li><p><strong>sentence_score_kwargs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – <p>Optional keyword arguments for <cite>sentence_score_method</cite> function (for advanced users only).</p>
+<p>See <cite>cleanlab.token_classification.rank._softmin_sentence_score</cite> for more info about keyword arguments supported for that scoring method.</p>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]]</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">sentence_scores</span></code> – A vector of sentence scores between 0 and 1, where lower scores indicate sentence is more likely to contain at
-least one label issue.</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">token_info</span></code> – A list of pandas.Series, such that token_info[i] contains the
-token scores for the i’th sentence. If tokens are provided, the series is indexed by the tokens.</p></li>
+<dd class="field-odd"><p><ul>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">sentence_scores</span></code> – Array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">)</span></code> of scores between 0 and 1, one per sentence in the dataset.</p>
+<p>Lower scores indicate sentences more likely to contain a label issue.</p>
+</li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">token_scores</span></code> – List of <code class="docutils literal notranslate"><span class="pre">pd.Series</span></code>, such that <cite>token_info[i]</cite> contains the
+label quality scores for individual tokens in the <cite>i</cite>-th sentence.</p>
+<p>If <cite>tokens</cite> strings were provided, they are used as index for each <code class="docutils literal notranslate"><span class="pre">Series</span></code>.</p>
+</li>
 </ul>
 </p>
 </dd>
@@ -438,10 +446,10 @@ token scores for the i’th sentence. If tokens are provided, the series is inde
 <span class="gp">... </span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">]]),</span>
 <span class="gp">... </span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]]),</span>
 <span class="gp">... </span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence_scores</span><span class="p">,</span> <span class="n">token_info</span> <span class="o">=</span> <span class="n">get_label_quality_scores</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence_scores</span><span class="p">,</span> <span class="n">token_scores</span> <span class="o">=</span> <span class="n">get_label_quality_scores</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentence_scores</span>
 <span class="go">array([0.7, 0.2])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">token_info</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">token_scores</span>
 <span class="go">[0    0.90</span>
 <span class="go">1    0.70</span>
 <span class="go">2    0.95</span>
@@ -454,15 +462,21 @@ token scores for the i’th sentence. If tokens are provided, the series is inde
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.token_classification.rank.issues_from_scores">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.token_classification.rank.</span></span><span class="sig-name descname"><span class="pre">issues_from_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence_scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_scores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/token_classification/rank.html#issues_from_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.token_classification.rank.issues_from_scores" title="Permalink to this definition">#</a></dt>
-<dd><p>Converts output from <cite>get_label_quality_score</cite> to list of issues. Only includes issues with label quality score
-lower than <cite>threshold</cite>. Issues are sorted by token label quality score in ascending order.</p>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.token_classification.rank.</span></span><span class="sig-name descname"><span class="pre">issues_from_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentence_scores</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token_scores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/token_classification/rank.html#issues_from_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.token_classification.rank.issues_from_scores" title="Permalink to this definition">#</a></dt>
+<dd><p>Converts scores output by <a class="reference internal" href="#cleanlab.token_classification.rank.get_label_quality_scores" title="cleanlab.token_classification.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">token_classification.rank.get_label_quality_scores</span></code></a>
+to a list of issues of similar format as output by <a class="reference internal" href="filter.html#cleanlab.token_classification.filter.find_label_issues" title="cleanlab.token_classification.filter.find_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">token_classification.filter.find_label_issues</span></code></a>.</p>
+<p>Only considers as issues those tokens with label quality score lower than <cite>threshold</cite>.</p>
+<p>Issues are sorted by label quality score, from most severe to least.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sentence_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – np.array of shape <cite>(N, )</cite>, where <cite>N</cite> is the number of sentences.</p></li>
-<li><p><strong>token_scores</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]) – token scores in nested list, such that <cite>token_scores[i]</cite> contains the tokens scores for the i’th sentence</p></li>
-<li><p><strong>threshold</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – tokens (or sentences, if <cite>token_scores</cite> is not provided) with quality scores above the threshold are not
+<li><p><strong>sentence_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – <p>Array of shape <cite>(N, )</cite> of overall sentence scores, where <cite>N</cite> is the number of sentences in the dataset.</p>
+<p>Same format as the <cite>sentence_scores</cite> returned by <a class="reference internal" href="#cleanlab.token_classification.rank.get_label_quality_scores" title="cleanlab.token_classification.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">token_classification.rank.get_label_quality_scores</span></code></a>.</p>
+</p></li>
+<li><p><strong>token_scores</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]) – <p>Optional list such that <cite>token_scores[i]</cite> contains the individual token scores for the <cite>i</cite>-th sentence.</p>
+<p>Same format as the <cite>token_scores</cite> returned by <a class="reference internal" href="#cleanlab.token_classification.rank.get_label_quality_scores" title="cleanlab.token_classification.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">token_classification.rank.get_label_quality_scores</span></code></a>.</p>
+</p></li>
+<li><p><strong>threshold</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Tokens (or sentences, if <cite>token_scores</cite> is not provided) with quality scores above the <cite>threshold</cite> are not
 included in the result.</p></li>
 </ul>
 </dd>
@@ -470,9 +484,14 @@ included in the result.</p></li>
 <dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">issues</span></code> – list of tuples <cite>(i, j)</cite>, which indicates the j’th token of the i’th sentence, sorted by token label quality
-score. If <cite>token_scores</cite> is not provided, returns list of indices of sentences with label quality score below
-threshold.</p>
+<dd class="field-odd"><p><p><code class="xref py py-class docutils literal notranslate"><span class="pre">issues</span></code> – List of label issues identified by comparing quality scores to threshold, such that each element is a tuple <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code>, which
+indicates that the <cite>j</cite>-th token of the <cite>i</cite>-th sentence has a label issue.</p>
+<p>These tuples are ordered in <cite>issues</cite> list based on the token label quality score.</p>
+<p>Use <a class="reference internal" href="summary.html#cleanlab.token_classification.summary.display_issues" title="cleanlab.token_classification.summary.display_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">token_classification.summary.display_issues</span></code></a>
+to view these issues within the original sentences.</p>
+<p>If <cite>token_scores</cite> is not provided, returns array of integer indices (rather than tuples) of the sentences whose label quality score
+falls below the <cite>threshold</cite> (also sorted by overall label quality score of each sentence).</p>
+</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -501,7 +520,7 @@ threshold.</p>
 <span class="gp">... </span>    <span class="p">[</span><span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span>
 <span class="gp">... </span>    <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span>
 <span class="gp">... </span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">issues_from_scores</span><span class="p">(</span><span class="n">sentence_scores</span><span class="p">,</span> <span class="n">token_scores</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">issues_from_scores</span><span class="p">(</span><span class="n">sentence_scores</span><span class="p">,</span> <span class="n">token_scores</span><span class="o">=</span><span class="n">token_scores</span><span class="p">)</span>
 <span class="go">[(1, 0), (3, 1), (4, 2), (5, 3), (8, 0)]</span>
 </pre></div>
 </div>

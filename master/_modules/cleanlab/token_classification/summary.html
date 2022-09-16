@@ -399,58 +399,68 @@
 
 <div class="viewcode-block" id="display_issues"><a class="viewcode-back" href="../../../cleanlab/token_classification/summary.html#cleanlab.token_classification.summary.display_issues">[docs]</a><span class="k">def</span> <span class="nf">display_issues</span><span class="p">(</span>
     <span class="n">issues</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
-    <span class="n">given_words</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+    <span class="n">tokens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">exclude</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="n">class_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">top</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Display issues, including sentence with issue token highlighted. Also shows given and predicted label</span>
-<span class="sd">    if possible.</span>
+<span class="sd">    Display token classification label issues, showing sentence with problematic token(s) highlighted.</span>
+
+<span class="sd">    Can also shows given and predicted label for each token identified to have label issue.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    issues:</span>
-<span class="sd">        list of tuples `(i, j)`, which represents the j&#39;th token of the i&#39;th sentence.</span>
+<span class="sd">        List of tuples ``(i, j)`` representing a label issue for the `j`-th token of the `i`-th sentence.</span>
 
-<span class="sd">    given_words:</span>
-<span class="sd">        tokens in a nested-list format, such that `given_words[i]` contains the words of the i&#39;th sentence from</span>
-<span class="sd">        the original file.</span>
+<span class="sd">        Same format as output by :py:func:`token_classification.filter.find_label_issues &lt;cleanlab.token_classification.filter.find_label_issues&gt;`</span>
+<span class="sd">        or :py:func:`token_classification.rank.issues_from_scores &lt;cleanlab.token_classification.rank.issues_from_scores&gt;`.</span>
 
-<span class="sd">    pred_probs:</span>
-<span class="sd">        list of model-predicted probability, such that `pred_probs[i]` contains the model-predicted probability of</span>
-<span class="sd">        the tokens in the i&#39;th sentence, and has shape `(N, K)`, where `N` is the number of given tokens of the i&#39;th</span>
-<span class="sd">        sentence, and `K` is the number of classes predicted by the model. If provided, also displays the predicted</span>
-<span class="sd">        label of the token.</span>
+<span class="sd">    tokens:</span>
+<span class="sd">        Nested list such that `tokens[i]` is a list of tokens (strings/words) that comprise the `i`-th sentence.</span>
 
 <span class="sd">    labels:</span>
-<span class="sd">        list of given labels, such that `labels[i]` is a list containing the given labels of the tokens in the</span>
-<span class="sd">        i&#39;th sentence, and has length equal to the number of given tokens of the i&#39;th sentence. If provided, also</span>
-<span class="sd">        displays the given label of the token.</span>
+<span class="sd">        Optional nested list of given labels for all tokens, such that `labels[i]` is a list of labels, one for each token in the `i`-th sentence.</span>
+<span class="sd">        For a dataset with K classes, each label must be in 0, 1, ..., K-1.</span>
+
+<span class="sd">        If `labels` is provided, this function also displays given label of the token identified with issue.</span>
+
+<span class="sd">    pred_probs:</span>
+<span class="sd">        Optional list of np arrays, such that `pred_probs[i]` has shape ``(T, K)`` if the `i`-th sentence contains T tokens.</span>
+
+<span class="sd">        Each row of `pred_probs[i]` corresponds to a token `t` in the `i`-th sentence,</span>
+<span class="sd">        and contains model-predicted probabilities that `t` belongs to each of the K possible classes.</span>
+
+<span class="sd">        Columns of each `pred_probs[i]` should be ordered such that the probabilities correspond to class 0, 1, ..., K-1.</span>
+
+<span class="sd">        If `pred_probs` is provided, this function also displays predicted label of the token identified with issue.</span>
 
 <span class="sd">    exclude:</span>
-<span class="sd">        list of given/predicted label swaps to be excluded. For example, if `exclude=[(0, 1), (1, 0)]`, swaps between</span>
-<span class="sd">        class 0 and 1 are not displayed.</span>
+<span class="sd">        Optional list of given/predicted label swaps (tuples) to be ignored. For example, if `exclude=[(0, 1), (1, 0)]`,</span>
+<span class="sd">        tokens whose label was likely swapped between class 0 and 1 are not displayed. Class labels must be in 0, 1, ..., K-1.</span>
 
 <span class="sd">    class_names:</span>
-<span class="sd">        name of classes. If not provided, display the integer index for predicted and given labels.</span>
+<span class="sd">        Optional length K list of names of each class, such that `class_names[i]` is the string name of the class corresponding to `labels` with value `i`.</span>
+
+<span class="sd">        If `class_names` is provided, display these string names for predicted and given labels, otherwise display the integer index of classes.</span>
 
 <span class="sd">    top: int, default=20</span>
-<span class="sd">        maximum number of outputs to be printed.</span>
+<span class="sd">        Maximum number of issues to be printed.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from cleanlab.token_classification.summary import display_issues</span>
 <span class="sd">    &gt;&gt;&gt; issues = [(2, 0), (0, 1)]</span>
-<span class="sd">    &gt;&gt;&gt; given_words = [</span>
+<span class="sd">    &gt;&gt;&gt; tokens = [</span>
 <span class="sd">    ...     [&quot;A&quot;, &quot;?weird&quot;, &quot;sentence&quot;],</span>
 <span class="sd">    ...     [&quot;A&quot;, &quot;valid&quot;, &quot;sentence&quot;],</span>
 <span class="sd">    ...     [&quot;An&quot;, &quot;sentence&quot;, &quot;with&quot;, &quot;a&quot;, &quot;typo&quot;],</span>
 <span class="sd">    ... ]</span>
-<span class="sd">    &gt;&gt;&gt; display_issues(issues, given_words)</span>
+<span class="sd">    &gt;&gt;&gt; display_issues(issues, tokens)</span>
 <span class="sd">    Sentence 2, token 0:</span>
 <span class="sd">    ----</span>
 <span class="sd">    An sentence with a typo</span>
@@ -473,8 +483,8 @@
     <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">issues</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">is_tuple</span><span class="p">:</span>
             <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">issue</span>
-            <span class="n">sentence</span> <span class="o">=</span> <span class="n">get_sentence</span><span class="p">(</span><span class="n">given_words</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="n">word</span> <span class="o">=</span> <span class="n">given_words</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">sentence</span> <span class="o">=</span> <span class="n">get_sentence</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
 
             <span class="k">if</span> <span class="n">pred_probs</span><span class="p">:</span>
                 <span class="n">prediction</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
@@ -504,7 +514,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="n">color_sentence</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span> <span class="n">word</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">shown</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">sentence</span> <span class="o">=</span> <span class="n">get_sentence</span><span class="p">(</span><span class="n">given_words</span><span class="p">[</span><span class="n">issue</span><span class="p">])</span>
+            <span class="n">sentence</span> <span class="o">=</span> <span class="n">get_sentence</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="n">issue</span><span class="p">])</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sentence </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">issue</span><span class="p">,</span> <span class="n">sentence</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">shown</span> <span class="o">==</span> <span class="n">top</span><span class="p">:</span>
             <span class="k">break</span>
@@ -513,7 +523,7 @@
 
 <div class="viewcode-block" id="common_label_issues"><a class="viewcode-back" href="../../../cleanlab/token_classification/summary.html#cleanlab.token_classification.summary.common_label_issues">[docs]</a><span class="k">def</span> <span class="nf">common_label_issues</span><span class="p">(</span>
     <span class="n">issues</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span>
-    <span class="n">given_words</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+    <span class="n">tokens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -523,60 +533,67 @@
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Display the most common tokens that are potentially mislabeled.</span>
+<span class="sd">    Display the tokens (words) that most commonly have label issues.</span>
+
+<span class="sd">    These may correspond to words that are ambiguous or systematically misunderstood by the data annotators.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    issues:</span>
-<span class="sd">        list of tuples `(i, j)`, which represents the j&#39;th token of the i&#39;th sentence.</span>
+<span class="sd">        List of tuples ``(i, j)`` representing a label issue for the `j`-th token of the `i`-th sentence.</span>
 
-<span class="sd">    given_words:</span>
-<span class="sd">        tokens in a nested-list format, such that `given_words[i]` contains the words of the i&#39;th sentence from</span>
-<span class="sd">        the original file.</span>
+<span class="sd">        Same format as output by :py:func:`token_classification.filter.find_label_issues &lt;cleanlab.token_classification.filter.find_label_issues&gt;`</span>
+<span class="sd">        or :py:func:`token_classification.rank.issues_from_scores &lt;cleanlab.token_classification.rank.issues_from_scores&gt;`.</span>
+
+<span class="sd">    tokens:</span>
+<span class="sd">        Nested list such that `tokens[i]` is a list of tokens (strings/words) that comprise the `i`-th sentence.</span>
 
 <span class="sd">    labels:</span>
-<span class="sd">        list of given labels, such that `labels[i]` is a list containing the given labels of the tokens in the i&#39;th</span>
-<span class="sd">        sentence, and has length equal to the number of given tokens of the i&#39;th sentence. If provided, also</span>
-<span class="sd">        displays the given label of the token.</span>
+<span class="sd">        Optional nested list of given labels for all tokens in the same format as `labels` for :py:func:`token_classification.summary.display_issues &lt;cleanlab.token_classification.summary.display_issues&gt;`.</span>
+
+<span class="sd">        If `labels` is provided, this function also displays given label of the token identified to commonly suffer from label issues.</span>
 
 <span class="sd">    pred_probs:</span>
-<span class="sd">        list of model-predicted probability, such that `pred_probs[i]` contains the model-predicted probability of</span>
-<span class="sd">        the tokens in the i&#39;th sentence, and has shape `(N, K)`, where `N` is the number of given tokens of the i&#39;th</span>
-<span class="sd">        sentence, and `K` is the number of classes predicted by the model. If both `labels` and `pred_probs` are</span>
-<span class="sd">        provided, also evaluate each type of given/predicted label swap.</span>
+<span class="sd">        Optional list of model-predicted probabilities (np arrays) in the same format as `pred_probs` for</span>
+<span class="sd">        :py:func:`token_classification.summary.display_issues &lt;cleanlab.token_classification.summary.display_issues&gt;`.</span>
+
+<span class="sd">        If both `labels` and `pred_probs` are provided, also reports each type of given/predicted label swap for tokens identified to commonly suffer from label issues.</span>
 
 <span class="sd">    class_names:</span>
-<span class="sd">        name of classes. If not provided, display the integer index for predicted and given labels.</span>
+<span class="sd">        Optional length K list of names of each class, such that `class_names[i]` is the string name of the class corresponding to `labels` with value `i`.</span>
+
+<span class="sd">        If `class_names` is provided, display these string names for predicted and given labels, otherwise display the integer index of classes.</span>
 
 <span class="sd">    top:</span>
-<span class="sd">        maximum number of outputs to be printed.</span>
+<span class="sd">        Maximum number of tokens to print information for.</span>
 
 <span class="sd">    exclude:</span>
-<span class="sd">        list of given/predicted label swaps to be excluded. For example, if `exclude=[(0, 1), (1, 0)]`, swaps between</span>
-<span class="sd">        class 0 and 1 are not displayed.</span>
+<span class="sd">        Optional list of given/predicted label swaps (tuples) to be ignored in the same format as `exclude` for</span>
+<span class="sd">        :py:func:`token_classification.summary.display_issues &lt;cleanlab.token_classification.summary.display_issues&gt;`.</span>
 
 <span class="sd">    verbose:</span>
-<span class="sd">        if set to True, also display each type of given/predicted label swap for each token.</span>
+<span class="sd">        Whether to also print out the token information in the returned DataFrame `df`.</span>
 
 <span class="sd">    Returns</span>
-<span class="sd">    ---------</span>
+<span class="sd">    -------</span>
 <span class="sd">    df:</span>
-<span class="sd">        if both `labels` and `pred_probs` are provided, return a data frame with columns [&#39;token&#39;, &#39;given_label&#39;,</span>
-<span class="sd">        &#39;predicted_label&#39;, &#39;num_label_issues&#39;], and each row contains the information for a specific token and</span>
-<span class="sd">        given/predicted label swap, ordered by the number of label issues in descending order. Otherwise, return</span>
-<span class="sd">        a data frame with columns [&#39;token&#39;, &#39;num_label_issues&#39;], and each row contains the information for a specific</span>
-<span class="sd">        token, ordered by the number of label issues in descending order.</span>
+<span class="sd">        If both `labels` and `pred_probs` are provided, DataFrame `df` contains columns ``[&#39;token&#39;, &#39;given_label&#39;,</span>
+<span class="sd">        &#39;predicted_label&#39;, &#39;num_label_issues&#39;]``, and each row contains information for a specific token and</span>
+<span class="sd">        given/predicted label swap, ordered by the number of label issues inferred for this type of label swap.</span>
+
+<span class="sd">        Otherwise, `df` only has columns [&#39;token&#39;, &#39;num_label_issues&#39;], and each row contains the information for a specific</span>
+<span class="sd">        token, ordered by the number of total label issues involving this token.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from cleanlab.token_classification.summary import common_label_issues</span>
 <span class="sd">    &gt;&gt;&gt; issues = [(2, 0), (0, 1)]</span>
-<span class="sd">    &gt;&gt;&gt; given_words = [</span>
+<span class="sd">    &gt;&gt;&gt; tokens = [</span>
 <span class="sd">    ...     [&quot;A&quot;, &quot;?weird&quot;, &quot;sentence&quot;],</span>
 <span class="sd">    ...     [&quot;A&quot;, &quot;valid&quot;, &quot;sentence&quot;],</span>
 <span class="sd">    ...     [&quot;An&quot;, &quot;sentence&quot;, &quot;with&quot;, &quot;a&quot;, &quot;typo&quot;],</span>
 <span class="sd">    ... ]</span>
-<span class="sd">    &gt;&gt;&gt; df = common_label_issues(issues, given_words)</span>
+<span class="sd">    &gt;&gt;&gt; df = common_label_issues(issues, tokens)</span>
 <span class="sd">    &gt;&gt;&gt; df</span>
 <span class="sd">        token  num_label_issues</span>
 <span class="sd">    0      An                 1</span>
@@ -586,7 +603,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">labels</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">pred_probs</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">issues</span><span class="p">:</span>
             <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">issue</span>
-            <span class="n">word</span> <span class="o">=</span> <span class="n">given_words</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">count</span><span class="p">:</span>
                 <span class="n">count</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">count</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -614,7 +631,7 @@
     <span class="n">n</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">issues</span><span class="p">:</span>
         <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">issue</span>
-        <span class="n">word</span> <span class="o">=</span> <span class="n">given_words</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
         <span class="n">label</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">count</span><span class="p">:</span>
@@ -668,45 +685,47 @@
 
 
 <div class="viewcode-block" id="filter_by_token"><a class="viewcode-back" href="../../../cleanlab/token_classification/summary.html#cleanlab.token_classification.summary.filter_by_token">[docs]</a><span class="k">def</span> <span class="nf">filter_by_token</span><span class="p">(</span>
-    <span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">issues</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">given_words</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">issues</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">tokens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Searches a specific token within all issue tokens</span>
+<span class="sd">    Return subset of label issues involving a particular token.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    token:</span>
-<span class="sd">        the specific token the user is looking for</span>
+<span class="sd">        A specific token you are interested in.</span>
 
 <span class="sd">    issues:</span>
-<span class="sd">        list of tuples `(i, j)`, which represents the j&#39;th token of the i&#39;th sentence.</span>
+<span class="sd">        List of tuples ``(i, j)`` representing a label issue for the `j`-th token of the `i`-th sentence.</span>
+<span class="sd">        Same format as output by :py:func:`token_classification.filter.find_label_issues &lt;cleanlab.token_classification.filter.find_label_issues&gt;`</span>
+<span class="sd">        or :py:func:`token_classification.rank.issues_from_scores &lt;cleanlab.token_classification.rank.issues_from_scores&gt;`.</span>
 
-<span class="sd">    given_words:</span>
-<span class="sd">        tokens in a nested-list format, such that `given_words[i]` contains the words of the i&#39;th sentence from</span>
-<span class="sd">        the original file.</span>
+<span class="sd">    tokens:</span>
+<span class="sd">        Nested list such that `tokens[i]` is a list of tokens (strings/words) that comprise the `i`-th sentence.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    ----------</span>
-<span class="sd">    returned_issues:</span>
-<span class="sd">        list of tuples `(i, j)`, which represents the j&#39;th token of the i&#39;th sentence.</span>
+<span class="sd">    issues_subset:</span>
+<span class="sd">        List of tuples ``(i, j)`` representing a label issue for the `j`-th token of the `i`-th sentence, in the same format as `issues`.</span>
+<span class="sd">        But restricting to only those issues that involve the specified `token`.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from cleanlab.token_classification.summary import filter_by_token</span>
 <span class="sd">    &gt;&gt;&gt; token = &quot;?weird&quot;</span>
 <span class="sd">    &gt;&gt;&gt; issues = [(2, 0), (0, 1)]</span>
-<span class="sd">    &gt;&gt;&gt; given_words = [</span>
+<span class="sd">    &gt;&gt;&gt; tokens = [</span>
 <span class="sd">    ...     [&quot;A&quot;, &quot;?weird&quot;, &quot;sentence&quot;],</span>
 <span class="sd">    ...     [&quot;A&quot;, &quot;valid&quot;, &quot;sentence&quot;],</span>
 <span class="sd">    ...     [&quot;An&quot;, &quot;sentence&quot;, &quot;with&quot;, &quot;a&quot;, &quot;typo&quot;],</span>
 <span class="sd">    ... ]</span>
-<span class="sd">    &gt;&gt;&gt; filter_by_token(token, issues, given_words)</span>
+<span class="sd">    &gt;&gt;&gt; filter_by_token(token, issues, tokens)</span>
 <span class="sd">    [(0, 1)]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">returned_issues</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">issues</span><span class="p">:</span>
         <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">issue</span>
-        <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">given_words</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
             <span class="n">returned_issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">issue</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">returned_issues</span></div>
 </pre></div> 

@@ -399,33 +399,47 @@
 <div class="viewcode-block" id="find_label_issues"><a class="viewcode-back" href="../../../cleanlab/token_classification/filter.html#cleanlab.token_classification.filter.find_label_issues">[docs]</a><span class="k">def</span> <span class="nf">find_label_issues</span><span class="p">(</span>
     <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">return_indices_ranked_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Returns issues identified by cleanlab</span>
+    <span class="sd">&quot;&quot;&quot;Identifies tokens with label issues in a token classification dataset.</span>
 
-<span class="sd">    This is a function to find the label issues for token classification datasets</span>
+<span class="sd">    Tokens identified with issues will be ranked by their individual label quality score.</span>
+
+<span class="sd">    Instead use :py:func:`token_classification.rank.get_label_quality_scores &lt;cleanlab.token_classification.rank.get_label_quality_scores&gt;`</span>
+<span class="sd">    if you prefer to rank the sentences based on their overall label quality.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels:</span>
-<span class="sd">        noisy token labels in nested list format, such that `labels[i]` is a list of token labels of the i&#39;th</span>
-<span class="sd">        sentence. For datasets with `K` classes, each label must be in 0, 1, ..., K-1. All classes must be present.</span>
+<span class="sd">        Nested list of given labels for all tokens, such that `labels[i]` is a list of labels, one for each token in the `i`-th sentence.</span>
+
+<span class="sd">        For a dataset with K classes, each label must be in 0, 1, ..., K-1. All classes must be present in the dataset.</span>
 
 <span class="sd">    pred_probs:</span>
-<span class="sd">        list of np.arrays, such that `pred_probs[i]` is the model-predicted probabilities for the tokens in</span>
-<span class="sd">        the i&#39;th sentence, and has shape `(N, K)`. Each row of the matrix corresponds to a token `t` and contains</span>
-<span class="sd">        the model-predicted probabilities that `t` belongs to each possible class, for each of the K classes. The</span>
-<span class="sd">        columns must be ordered such that the probabilities correspond to class 0, 1, ..., K-1.</span>
+<span class="sd">        List of np arrays, such that `pred_probs[i]` has shape ``(T, K)`` if the `i`-th sentence contains T tokens.</span>
+
+<span class="sd">        Each row of `pred_probs[i]` corresponds to a token `t` in the `i`-th sentence,</span>
+<span class="sd">        and contains model-predicted probabilities that `t` belongs to each of the K possible classes.</span>
+
+<span class="sd">        Columns of each `pred_probs[i]` should be ordered such that the probabilities correspond to class 0, 1, ..., K-1.</span>
 
 <span class="sd">    return_indices_ranked_by: {&quot;self_confidence&quot;, &quot;normalized_margin&quot;, &quot;confidence_weighted_entropy&quot;}, default=&quot;self_confidence&quot;</span>
-<span class="sd">        Returned indicies are sorted by label quality score. See `cleanlab.filter.find_label_issues` for more details on</span>
-<span class="sd">        each label quality score method.</span>
+<span class="sd">        Returned token-indices are sorted by their label quality score.</span>
+
+<span class="sd">        See :py:func:`cleanlab.filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;`</span>
+<span class="sd">        documentation for more details on each label quality scoring method.</span>
 
 <span class="sd">    Returns</span>
-<span class="sd">    ----------</span>
+<span class="sd">    -------</span>
 <span class="sd">    issues:</span>
-<span class="sd">        a list containing all potential issues identified by cleanlab, such that each element is a tuple (i, j), which</span>
-<span class="sd">        corresponds to the j&#39;th token of the i&#39;th sentence.</span>
+<span class="sd">        List of label issues identified by cleanlab, such that each element is a tuple ``(i, j)``, which</span>
+<span class="sd">        indicates that the `j`-th token of the `i`-th sentence has a label issue.</span>
+
+<span class="sd">        These tuples are ordered in `issues` list based on the likelihood that the corresponding token is mislabeled.</span>
+
+<span class="sd">        Use :py:func:`token_classification.summary.display_issues &lt;cleanlab.token_classification.summary.display_issues&gt;`</span>
+<span class="sd">        to view these issues within the original sentences.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>

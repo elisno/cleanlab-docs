@@ -377,36 +377,46 @@
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.token_classification.filter.find_label_issues" title="cleanlab.token_classification.filter.find_label_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_label_issues</span></code></a>(labels, pred_probs[, ...])</p></td>
-<td><p>Returns issues identified by cleanlab</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.token_classification.filter.find_label_issues" title="cleanlab.token_classification.filter.find_label_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_label_issues</span></code></a>(labels, pred_probs, *[, ...])</p></td>
+<td><p>Identifies tokens with label issues in a token classification dataset.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.token_classification.filter.find_label_issues">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.token_classification.filter.</span></span><span class="sig-name descname"><span class="pre">find_label_issues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_indices_ranked_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'self_confidence'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/token_classification/filter.html#find_label_issues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.token_classification.filter.find_label_issues" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns issues identified by cleanlab</p>
-<p>This is a function to find the label issues for token classification datasets</p>
+<span class="sig-prename descclassname"><span class="pre">cleanlab.token_classification.filter.</span></span><span class="sig-name descname"><span class="pre">find_label_issues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_indices_ranked_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'self_confidence'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/token_classification/filter.html#find_label_issues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.token_classification.filter.find_label_issues" title="Permalink to this definition">#</a></dt>
+<dd><p>Identifies tokens with label issues in a token classification dataset.</p>
+<p>Tokens identified with issues will be ranked by their individual label quality score.</p>
+<p>Instead use <a class="reference internal" href="rank.html#cleanlab.token_classification.rank.get_label_quality_scores" title="cleanlab.token_classification.rank.get_label_quality_scores"><code class="xref py py-func docutils literal notranslate"><span class="pre">token_classification.rank.get_label_quality_scores</span></code></a>
+if you prefer to rank the sentences based on their overall label quality.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – noisy token labels in nested list format, such that <cite>labels[i]</cite> is a list of token labels of the i’th
-sentence. For datasets with <cite>K</cite> classes, each label must be in 0, 1, …, K-1. All classes must be present.</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – list of np.arrays, such that <cite>pred_probs[i]</cite> is the model-predicted probabilities for the tokens in
-the i’th sentence, and has shape <cite>(N, K)</cite>. Each row of the matrix corresponds to a token <cite>t</cite> and contains
-the model-predicted probabilities that <cite>t</cite> belongs to each possible class, for each of the K classes. The
-columns must be ordered such that the probabilities correspond to class 0, 1, …, K-1.</p></li>
-<li><p><strong>return_indices_ranked_by</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;self_confidence&quot;,</span> <span class="pre">&quot;normalized_margin&quot;,</span> <span class="pre">&quot;confidence_weighted_entropy&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;self_confidence&quot;</span></code>) – Returned indicies are sorted by label quality score. See <cite>cleanlab.filter.find_label_issues</cite> for more details on
-each label quality score method.</p></li>
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – <p>Nested list of given labels for all tokens, such that <cite>labels[i]</cite> is a list of labels, one for each token in the <cite>i</cite>-th sentence.</p>
+<p>For a dataset with K classes, each label must be in 0, 1, …, K-1. All classes must be present in the dataset.</p>
+</p></li>
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – <p>List of np arrays, such that <cite>pred_probs[i]</cite> has shape <code class="docutils literal notranslate"><span class="pre">(T,</span> <span class="pre">K)</span></code> if the <cite>i</cite>-th sentence contains T tokens.</p>
+<p>Each row of <cite>pred_probs[i]</cite> corresponds to a token <cite>t</cite> in the <cite>i</cite>-th sentence,
+and contains model-predicted probabilities that <cite>t</cite> belongs to each of the K possible classes.</p>
+<p>Columns of each <cite>pred_probs[i]</cite> should be ordered such that the probabilities correspond to class 0, 1, …, K-1.</p>
+</p></li>
+<li><p><strong>return_indices_ranked_by</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;self_confidence&quot;,</span> <span class="pre">&quot;normalized_margin&quot;,</span> <span class="pre">&quot;confidence_weighted_entropy&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;self_confidence&quot;</span></code>) – <p>Returned token-indices are sorted by their label quality score.</p>
+<p>See <a class="reference internal" href="../filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">cleanlab.filter.find_label_issues</span></code></a>
+documentation for more details on each label quality scoring method.</p>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">issues</span></code> – a list containing all potential issues identified by cleanlab, such that each element is a tuple (i, j), which
-corresponds to the j’th token of the i’th sentence.</p>
+<dd class="field-odd"><p><p><code class="xref py py-class docutils literal notranslate"><span class="pre">issues</span></code> – List of label issues identified by cleanlab, such that each element is a tuple <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code>, which
+indicates that the <cite>j</cite>-th token of the <cite>i</cite>-th sentence has a label issue.</p>
+<p>These tuples are ordered in <cite>issues</cite> list based on the likelihood that the corresponding token is mislabeled.</p>
+<p>Use <a class="reference internal" href="summary.html#cleanlab.token_classification.summary.display_issues" title="cleanlab.token_classification.summary.display_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">token_classification.summary.display_issues</span></code></a>
+to view these issues within the original sentences.</p>
+</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
