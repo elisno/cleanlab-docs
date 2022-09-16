@@ -373,18 +373,19 @@
  <section id="module-cleanlab.experimental.keras">
 <span id="keras"></span><h1>keras<a class="headerlink" href="#module-cleanlab.experimental.keras" title="Permalink to this heading">#</a></h1>
 <p>Wrapper class you can use to make any Keras model compatible with <a class="reference internal" href="../classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> and sklearn.
-Use <cite>KerasWrapperModel</cite> to wrap existing functional API code for <code class="docutils literal notranslate"><span class="pre">keras.Model</span></code> objects,
-and <cite>KerasWrapperSequential</cite> to wrap existing <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> objects.
+Use <a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperModel" title="cleanlab.experimental.keras.KerasWrapperModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">KerasWrapperModel</span></code></a> to wrap existing functional API code for <code class="docutils literal notranslate"><span class="pre">keras.Model</span></code> objects,
+and <a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential" title="cleanlab.experimental.keras.KerasWrapperSequential"><code class="xref py py-class docutils literal notranslate"><span class="pre">KerasWrapperSequential</span></code></a> to wrap existing <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> objects.
 Most of the instance methods of this class work the same as the ones for the wrapped Keras model,
-see the Keras documentation for details.</p>
+see the <a class="reference external" href="https://keras.io/">Keras documentation</a> for details.</p>
 <p>This is a good example of making any bespoke neural network compatible with cleanlab.</p>
-<p>You must have Tensorflow 2 installed: <a class="reference external" href="https://www.tensorflow.org/install">https://www.tensorflow.org/install</a></p>
+<p>You must have <a class="reference external" href="https://www.tensorflow.org/install">Tensorflow 2 installed</a> (only compatible with Python versions &gt;= 3.7).</p>
 <p>Tips:</p>
 <ul class="simple">
-<li><p>If this class lacks certain functionality, you can alternatively try scikeras: <a class="reference external" href="https://github.com/adriangb/scikeras">https://github.com/adriangb/scikeras</a></p></li>
-<li><p>Unlike scikeras, this class can operate directly on <code class="docutils literal notranslate"><span class="pre">tensorflow.data.Dataset</span></code> objects (like regular Keras models).</p></li>
-<li><p>To call <code class="docutils literal notranslate"><span class="pre">fit()</span></code> on a Tensorflow Dataset object with a Keras model, the Dataset should already be batched.</p></li>
-<li><p>Tensorflow 2 is only compatible with Python versions &gt;= 3.7: <a class="reference external" href="https://www.tensorflow.org/install/pip#software_requirements">https://www.tensorflow.org/install/pip#software_requirements</a></p></li>
+<li><p>If this class lacks certain functionality, you can alternatively try <a class="reference external" href="https://github.com/adriangb/scikeras">scikeras</a>.</p></li>
+<li><p>Unlike scikeras, our <cite>KerasWrapper</cite> classes can operate directly on <code class="docutils literal notranslate"><span class="pre">tensorflow.data.Dataset</span></code> objects (like regular Keras models).</p></li>
+<li><p>To call <code class="docutils literal notranslate"><span class="pre">fit()</span></code> on a tensorflow <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> object with a Keras model, the <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> should already be batched.</p></li>
+<li><p>Check out our <a href="#id1"><span class="problematic" id="id2">`example &lt;https://github.com/cleanlab/examples/&gt;`_</span></a> using this class: [huggingface_keras_imdb](<a class="reference external" href="https://github.com/cleanlab/examples/blob/master/huggingface_keras_imdb/huggingface_keras_imdb.ipynb">https://github.com/cleanlab/examples/blob/master/huggingface_keras_imdb/huggingface_keras_imdb.ipynb</a>)</p></li>
+<li><p>Our <a class="reference external" href="https://github.com/cleanlab/cleanlab/blob/master/tests/test_frameworks.py">unit tests</a> also provide basic usage examples.</p></li>
 </ul>
 <p><strong>Classes:</strong></p>
 <div class="table-wrapper autosummary longtable docutils container">
