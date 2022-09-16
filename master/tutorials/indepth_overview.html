@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
     
     
 
@@ -183,6 +184,7 @@
 <li class="toctree-l1"><a class="reference internal" href="outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="token_classification.html">Find Label Errors in Token Classification (Text) Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="token_classification.html#Note:-This-pulldown-content-is-for-docs.cleanlab.ai,-if-running-on-local-Jupyter-or-Colab,-please-ignore-it.">Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
@@ -693,99 +695,99 @@ classification</span></a>, and <a class="reference external" href="token_classif
 </section>
 <section id="Create-the-data-(can-skip-these-details)">
 <h2>Create the data (can skip these details)<a class="headerlink" href="#Create-the-data-(can-skip-these-details)" title="Permalink to this heading">#</a></h2>
-<details><p>Below is the code used for data-generation.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.
+<details><p>See the code for data generation <strong>(click to expand)</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
 
-SEED = 0
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">0</span>
 
-def make_data(
-    means=[[3, 2], [7, 7], [0, 8], [0, 10]],
-    covs=[
-        [[5, -1.5], [-1.5, 1]],
-        [[1, 0.5], [0.5, 4]],
-        [[5, 1], [1, 5]],
-        [[3, 1], [1, 1]],
-    ],
-    sizes=[100, 50, 50, 50],
-    avg_trace=0.8,
-    seed=SEED,  # set to None for non-reproducible randomness
-):
-    np.random.seed(seed=SEED)
+<span class="k">def</span> <span class="nf">make_data</span><span class="p">(</span>
+    <span class="n">means</span><span class="o">=</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">]],</span>
+    <span class="n">covs</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[[</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span>
+        <span class="p">[[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]],</span>
+        <span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+    <span class="p">],</span>
+    <span class="n">sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+    <span class="n">avg_trace</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">,</span>  <span class="c1"># set to None for non-reproducible randomness</span>
+<span class="p">):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>
 
-    K = len(means)  # number of classes
-    data = []
-    labels = []
-    test_data = []
-    test_labels = []
+    <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">means</span><span class="p">)</span>  <span class="c1"># number of classes</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">test_labels</span> <span class="o">=</span> <span class="p">[]</span>
 
-    for idx in range(K):
-        data.append(
-            np.random.multivariate_normal(
-                mean=means[idx], cov=covs[idx], size=sizes[idx]
-            )
-        )
-        test_data.append(
-            np.random.multivariate_normal(
-                mean=means[idx], cov=covs[idx], size=sizes[idx]
-            )
-        )
-        labels.append(np.array([idx for i in range(sizes[idx])]))
-        test_labels.append(np.array([idx for i in range(sizes[idx])]))
-    X_train = np.vstack(data)
-    y_train = np.hstack(labels)
-    X_test = np.vstack(test_data)
-    y_test = np.hstack(test_labels)
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span>
+                <span class="n">mean</span><span class="o">=</span><span class="n">means</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">cov</span><span class="o">=</span><span class="n">covs</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">sizes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">test_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span>
+                <span class="n">mean</span><span class="o">=</span><span class="n">means</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">cov</span><span class="o">=</span><span class="n">covs</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">sizes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">idx</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sizes</span><span class="p">[</span><span class="n">idx</span><span class="p">])]))</span>
+        <span class="n">test_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">idx</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sizes</span><span class="p">[</span><span class="n">idx</span><span class="p">])]))</span>
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">test_labels</span><span class="p">)</span>
 
-    # Compute p(y=k) the prior distribution over true labels.
-    py_true = np.bincount(y_train) / float(len(y_train))
+    <span class="c1"># Compute p(y=k) the prior distribution over true labels.</span>
+    <span class="n">py_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
 
-    noise_matrix_true = noise_generation.generate_noise_matrix_from_trace(
-        K,
-        trace=avg_trace * K,
-        py=py_true,
-        valid_noise_matrix=True,
-        seed=SEED,
-    )
+    <span class="n">noise_matrix_true</span> <span class="o">=</span> <span class="n">noise_generation</span><span class="o">.</span><span class="n">generate_noise_matrix_from_trace</span><span class="p">(</span>
+        <span class="n">K</span><span class="p">,</span>
+        <span class="n">trace</span><span class="o">=</span><span class="n">avg_trace</span> <span class="o">*</span> <span class="n">K</span><span class="p">,</span>
+        <span class="n">py</span><span class="o">=</span><span class="n">py_true</span><span class="p">,</span>
+        <span class="n">valid_noise_matrix</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    # Generate our noisy labels using the noise_marix.
-    s = noise_generation.generate_noisy_labels(y_train, noise_matrix_true)
-    s_test = noise_generation.generate_noisy_labels(y_test, noise_matrix_true)
-    ps = np.bincount(s) / float(len(s))  # Prior distribution over noisy labels
+    <span class="c1"># Generate our noisy labels using the noise_marix.</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">noise_generation</span><span class="o">.</span><span class="n">generate_noisy_labels</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">noise_matrix_true</span><span class="p">)</span>
+    <span class="n">s_test</span> <span class="o">=</span> <span class="n">noise_generation</span><span class="o">.</span><span class="n">generate_noisy_labels</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">noise_matrix_true</span><span class="p">)</span>
+    <span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>  <span class="c1"># Prior distribution over noisy labels</span>
 
-    return {
-        &quot;data&quot;: X_train,
-        &quot;true_labels&quot;: y_train,  # You never get to see these perfect labels.
-        &quot;labels&quot;: s,  # Instead, you have these labels, which have some errors.
-        &quot;test_data&quot;: X_test,
-        &quot;test_labels&quot;: y_test,  # Perfect labels used for &quot;true&quot; measure of model&#39;s performance during deployment.
-        &quot;noisy_test_labels&quot;: s_test,  # With IID train/test split, you&#39;d have these labels, which also have some errors.
-        &quot;ps&quot;: ps,
-        &quot;py_true&quot;: py_true,
-        &quot;noise_matrix_true&quot;: noise_matrix_true,
-        &quot;class_names&quot;: [&quot;purple&quot;, &quot;blue&quot;, &quot;seafoam green&quot;, &quot;yellow&quot;],
-    }
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">X_train</span><span class="p">,</span>
+        <span class="s2">&quot;true_labels&quot;</span><span class="p">:</span> <span class="n">y_train</span><span class="p">,</span>  <span class="c1"># You never get to see these perfect labels.</span>
+        <span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span>  <span class="c1"># Instead, you have these labels, which have some errors.</span>
+        <span class="s2">&quot;test_data&quot;</span><span class="p">:</span> <span class="n">X_test</span><span class="p">,</span>
+        <span class="s2">&quot;test_labels&quot;</span><span class="p">:</span> <span class="n">y_test</span><span class="p">,</span>  <span class="c1"># Perfect labels used for &quot;true&quot; measure of model&#39;s performance during deployment.</span>
+        <span class="s2">&quot;noisy_test_labels&quot;</span><span class="p">:</span> <span class="n">s_test</span><span class="p">,</span>  <span class="c1"># With IID train/test split, you&#39;d have these labels, which also have some errors.</span>
+        <span class="s2">&quot;ps&quot;</span><span class="p">:</span> <span class="n">ps</span><span class="p">,</span>
+        <span class="s2">&quot;py_true&quot;</span><span class="p">:</span> <span class="n">py_true</span><span class="p">,</span>
+        <span class="s2">&quot;noise_matrix_true&quot;</span><span class="p">:</span> <span class="n">noise_matrix_true</span><span class="p">,</span>
+        <span class="s2">&quot;class_names&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;purple&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;seafoam green&quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">],</span>
+    <span class="p">}</span>
 
 
-data_dict = make_data()
-for key, val in data_dict.items():  # Map data_dict to variables in namespace
-    exec(key + &quot;=val&quot;)
+<span class="n">data_dict</span> <span class="o">=</span> <span class="n">make_data</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">data_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># Map data_dict to variables in namespace</span>
+    <span class="n">exec</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;=val&quot;</span><span class="p">)</span>
 
-# Display dataset visually using matplotlib
-def plot_data(data, circles, title, alpha=1.0):
-    plt.figure(figsize=(14, 5))
-    plt.scatter(data[:, 0], data[:, 1], c=labels, s=60)
-    for i in circles:
-        plt.plot(
-            data[i][0],
-            data[i][1],
-            &quot;o&quot;,
-            markerfacecolor=&quot;none&quot;,
-            markeredgecolor=&quot;red&quot;,
-            markersize=14,
-            markeredgewidth=2.5,
-            alpha=alpha
-        )
-    _ = plt.title(title, fontsize=25)
+<span class="c1"># Display dataset visually using matplotlib</span>
+<span class="k">def</span> <span class="nf">plot_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">circles</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">circles</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s2">&quot;o&quot;</span><span class="p">,</span>
+            <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+            <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="n">markersize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+            <span class="n">markeredgewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span>
+        <span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 </pre></div>
 </div>
 </details><div class="nbinput docutils container">

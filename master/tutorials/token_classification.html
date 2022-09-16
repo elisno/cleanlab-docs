@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
     
     
 
@@ -183,6 +184,7 @@
 <li class="toctree-l1"><a class="reference internal" href="outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Find Label Errors in Token Classification (Text) Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Note:-This-pulldown-content-is-for-docs.cleanlab.ai,-if-running-on-local-Jupyter-or-Colab,-please-ignore-it.">Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
@@ -706,16 +708,16 @@ entity recognition</a> dataset which contains around 20,000 sentences with 300,0
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2022-09-16 18:40:06--  https://data.deepai.org/conll2003.zip
+--2022-09-16 19:30:15--  https://data.deepai.org/conll2003.zip
 Resolving data.deepai.org (data.deepai.org)... 5.9.140.253
 Connecting to data.deepai.org (data.deepai.org)|5.9.140.253|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 982975 (960K) [application/x-zip-compressed]
 Saving to: ‘conll2003.zip’
 
-conll2003.zip       100%[===================&gt;] 959.94K  1.54MB/s    in 0.6s
+conll2003.zip       100%[===================&gt;] 959.94K  2.01MB/s    in 0.5s
 
-2022-09-16 18:40:08 (1.54 MB/s) - ‘conll2003.zip’ saved [982975/982975]
+2022-09-16 19:30:16 (2.01 MB/s) - ‘conll2003.zip’ saved [982975/982975]
 
 mkdir: cannot create directory ‘data’: File exists
 Archive:  conll2003.zip
@@ -723,16 +725,16 @@ Archive:  conll2003.zip
   inflating: data/test.txt
   inflating: data/train.txt
   inflating: data/valid.txt
---2022-09-16 18:40:08--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
-Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.217.204.49
-Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.217.204.49|:443... connected.
+--2022-09-16 19:30:17--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
+Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.216.136.220
+Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.216.136.220|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 17045998 (16M) [binary/octet-stream]
 Saving to: ‘pred_probs.npz’
 
-pred_probs.npz      100%[===================&gt;]  16.26M  36.9MB/s    in 0.4s
+pred_probs.npz      100%[===================&gt;]  16.26M   107MB/s    in 0.2s
 
-2022-09-16 18:40:09 (36.9 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
+2022-09-16 19:30:17 (107 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
 
 </pre></div></div>
 </div>
@@ -755,15 +757,13 @@ pred_probs.npz      100%[===================&gt;]  16.26M  36.9MB/s    in 0.4s
 <h2>2. Get data, labels, and pred_probs<a class="headerlink" href="#2.-Get-data,-labels,-and-pred_probs" title="Permalink to this heading">#</a></h2>
 <p>In token classification tasks, each token in the dataset is labeled with one of <em>K</em> possible classes. To find label issues, cleanlab requires predicted class probabilities from a trained classifier. These <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> contain a length-<em>K</em> vector for <strong>each</strong> token in the dataset (which sums to 1 for each token). Here we use <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> which are out-of-sample predicted class probabilities for the full CoNLL-2003 dataset (merging training, development, and testing splits), obtained from a
 BERT Transformer fit via cross-validation. Our example notebook <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/entity_recognition/entity_recognition_training.ipynb">“Training Entity Recognition Model for Token Classification”</a> contains the code to produce such <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and save them in a <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file, which we simply load here via a <code class="docutils literal notranslate"><span class="pre">read_npz</span></code> function (can skip these details).</p>
-<details><p>Below is the code used to read the .npz file.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.
-
-def read_npz(filepath):
-    data = dict(np.load(filepath))
-    data = [data[str(i)] for i in range(len(data))]
-    return data
-</pre></div>
-</div>
+<details><p>See the code for reading the <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file <strong>(click to expand)</strong></p>
+</section>
+</section>
+<section id="Note:-This-pulldown-content-is-for-docs.cleanlab.ai,-if-running-on-local-Jupyter-or-Colab,-please-ignore-it.">
+<h1>Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.<a class="headerlink" href="#Note:-This-pulldown-content-is-for-docs.cleanlab.ai,-if-running-on-local-Jupyter-or-Colab,-please-ignore-it." title="Permalink to this heading">#</a></h1>
+<p>def read_npz(filepath): data = dict(np.load(filepath)) data = [data[str(i)] for i in range(len(data))] return data</p>
+<p>```</p>
 </details><div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -783,7 +783,7 @@ def read_npz(filepath):
 <li><p><code class="docutils literal notranslate"><span class="pre">entities</span></code> = [‘O’, ‘MISC’, ‘PER’, ‘ORG’, ‘LOC’]. These are our classes of interest for the token classification task.</p></li>
 </ul>
 <p>We use some helper methods to load the CoNLL data (can skip these details).</p>
-<details><p>Below is the code used for reading the CoNLL data files.</p>
+<details><p>See the code for reading the CoNLL data files <strong>(click to expand)</strong></p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.
 
 given_entities = [&#39;O&#39;, &#39;B-MISC&#39;, &#39;I-MISC&#39;, &#39;B-PER&#39;, &#39;I-PER&#39;, &#39;B-ORG&#39;, &#39;I-ORG&#39;, &#39;B-LOC&#39;, &#39;I-LOC&#39;]
@@ -888,7 +888,6 @@ pred_probs[2]:
 correspond to class 0, 1, …, K-1. These should be out-of-sample <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> obtained from a token classification model via cross-validation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">labels</span></code> is a list whose <code class="docutils literal notranslate"><span class="pre">i</span></code>-th element is a list of integers corresponding to class label of each token in the <code class="docutils literal notranslate"><span class="pre">i</span></code>-th sentence. For dataset with K classes, labels must take values in 0, 1, …, K-1.</p></li>
 </ul>
-</section>
 <section id="3.-Use-cleanlab-to-find-label-issues">
 <h2>3. Use cleanlab to find label issues<a class="headerlink" href="#3.-Use-cleanlab-to-find-label-issues" title="Permalink to this heading">#</a></h2>
 <p>Based on the given labels and out-of-sample predicted probabilities, cleanlab can quickly help us identify label issues in our dataset. Here we request that the indices of the identified label issues be sorted by cleanlab’s self-confidence score, which measures the quality of each given label via the probability assigned to it in our model’s prediction. The returned <code class="docutils literal notranslate"><span class="pre">issues</span></code> are a list of tuples <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code>, which corresponds to the <code class="docutils literal notranslate"><span class="pre">j</span></code>th token of the <code class="docutils literal notranslate"><span class="pre">i</span></code>-th sentence in the dataset. These
@@ -1420,6 +1419,9 @@ Given label: ORG, predicted label according to provided pred_probs: O
 <li><a class="reference internal" href="#">Find Label Errors in Token Classification (Text) Datasets</a><ul>
 <li><a class="reference internal" href="#1.-Install-required-dependencies-and-download-data">1. Install required dependencies and download data</a></li>
 <li><a class="reference internal" href="#2.-Get-data,-labels,-and-pred_probs">2. Get data, labels, and pred_probs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Note:-This-pulldown-content-is-for-docs.cleanlab.ai,-if-running-on-local-Jupyter-or-Colab,-please-ignore-it.">Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</a><ul>
 <li><a class="reference internal" href="#3.-Use-cleanlab-to-find-label-issues">3. Use cleanlab to find label issues</a><ul>
 <li><a class="reference internal" href="#Most-common-word-level-token-mislabels">Most common word-level token mislabels</a></li>
 <li><a class="reference internal" href="#Find-issue-sentences-with-particular-word">Find issue sentences with particular word</a></li>
