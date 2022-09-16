@@ -794,7 +794,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<p>Let us view the first few rows of the data needed for the rest of this tutorial:</p>
+<p>Let’s view the first few rows of the data used for this tutorial. Here are the labels selected by each annotator for the first few examples:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -975,6 +975,7 @@ div.rendered_html tbody tr:hover {
 <p>5 rows × 50 columns</p>
 </div></div>
 </div>
+<p>Here are the corresponding features for these examples:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -996,11 +997,12 @@ array([[ 5.60856743,  1.41693214],
        [ 4.37169848,  0.66031048]])
 </pre></div></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">multiannotator_labels</span></code> contains the labels that each annotator labeled for each example with unlabled examples represented using <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>, whereas <code class="docutils literal notranslate"><span class="pre">X</span></code> contains the features for each example.</p>
+<p><code class="docutils literal notranslate"><span class="pre">multiannotator_labels</span></code> contains the class labels that each annotator chose for each example, with examples that a particular annotator did not label represented using <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>. <code class="docutils literal notranslate"><span class="pre">X</span></code> contains the features for each example, which happen to be numeric in this tutorial but any feature modality can be used with <code class="docutils literal notranslate"><span class="pre">cleanlab.multiannotator</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Bringing Your Own Data (BYOD)?</p>
 <p>You can easily replace the above with your own multiannotator labels and features, then continue with the rest of the tutorial.</p>
-<p><code class="docutils literal notranslate"><span class="pre">multiannotator_labels</span></code> should be a numpy array or pandas DataFrame with each column representing an annotator and each row representing an example. Your labels should be represented as integer indices 0, 1, …, num_classes - 1, where examples that are not annotated by a particular annotator are represented using <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> or <code class="docutils literal notranslate"><span class="pre">pd.NA</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">multiannotator_labels</span></code> should be a numpy array or pandas DataFrame with each column representing an annotator and each row representing an example. Your labels should be represented as integer indices 0, 1, …, num_classes - 1, where examples that are not annotated by a particular annotator are represented using <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> or <code class="docutils literal notranslate"><span class="pre">pd.NA</span></code>. Your features can be represented however you like (since these are not inputs to <code class="docutils literal notranslate"><span class="pre">cleanlab.multiannotator</span></code> methods) as long as you are able to fit a
+classifer to them and obtain its predicted class probabilities!</p>
 </div>
 </section>
 <section id="3.-Get-majority-vote-labels-and-compute-out-of-sample-predicted-probabilites">
