@@ -452,7 +452,13 @@
 <span class="sd">    ... ]</span>
 <span class="sd">    &gt;&gt;&gt; display_issues(issues, given_words)</span>
 <span class="sd">    Sentence 2, token 0:</span>
+<span class="sd">    ----</span>
+<span class="sd">    An sentence with a typo</span>
 <span class="sd">    ...</span>
+<span class="sd">    ...</span>
+<span class="sd">    Sentence 0, token 1:</span>
+<span class="sd">    ----</span>
+<span class="sd">    A ?weird sentence</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">class_names</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span>
@@ -460,6 +466,7 @@
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Specify this argument to see the string names of each class. </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
+    <span class="n">top</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">top</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">issues</span><span class="p">))</span>
     <span class="n">shown</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">is_tuple</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">issues</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">)</span>
 
@@ -483,24 +490,25 @@
                 <span class="n">given</span> <span class="o">=</span> <span class="n">class_names</span><span class="p">[</span><span class="n">given</span><span class="p">]</span>
 
             <span class="n">shown</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sentence </span><span class="si">%d</span><span class="s2">, token </span><span class="si">%d</span><span class="s2">: </span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">color_sentence</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span> <span class="n">word</span><span class="p">)))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sentence </span><span class="si">%d</span><span class="s2">, token </span><span class="si">%d</span><span class="s2">:&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">labels</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pred_probs</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Given label: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">given</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Given label: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">given</span><span class="p">))</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">labels</span> <span class="ow">and</span> <span class="n">pred_probs</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted label according to provided pred_probs: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">prediction</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted label according to provided pred_probs: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">prediction</span><span class="p">))</span>
             <span class="k">elif</span> <span class="n">labels</span> <span class="ow">and</span> <span class="n">pred_probs</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="s2">&quot;Given label: </span><span class="si">%s</span><span class="s2">, predicted label according to provided pred_probs: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;Given label: </span><span class="si">%s</span><span class="s2">, predicted label according to provided pred_probs: </span><span class="si">%s</span><span class="s2">&quot;</span>
                     <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">given</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">prediction</span><span class="p">))</span>
                 <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">color_sentence</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span> <span class="n">word</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">shown</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">sentence</span> <span class="o">=</span> <span class="n">get_sentence</span><span class="p">(</span><span class="n">given_words</span><span class="p">[</span><span class="n">issue</span><span class="p">])</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sentence </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">issue</span><span class="p">,</span> <span class="n">sentence</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sentence </span><span class="si">%d</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">issue</span><span class="p">,</span> <span class="n">sentence</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">shown</span> <span class="o">==</span> <span class="n">top</span><span class="p">:</span>
-            <span class="k">break</span></div>
+            <span class="k">break</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="common_label_issues"><a class="viewcode-back" href="../../../cleanlab/token_classification/summary.html#cleanlab.token_classification.summary.common_label_issues">[docs]</a><span class="k">def</span> <span class="nf">common_label_issues</span><span class="p">(</span>

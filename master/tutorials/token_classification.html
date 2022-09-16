@@ -702,16 +702,16 @@ entity recognition</a> dataset which contains around 20,000 sentences with 300,0
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2022-09-15 23:40:03--  https://data.deepai.org/conll2003.zip
+--2022-09-16 01:30:11--  https://data.deepai.org/conll2003.zip
 Resolving data.deepai.org (data.deepai.org)... 5.9.140.253
 Connecting to data.deepai.org (data.deepai.org)|5.9.140.253|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 982975 (960K) [application/x-zip-compressed]
 Saving to: ‘conll2003.zip’
 
-conll2003.zip       100%[===================&gt;] 959.94K  1.56MB/s    in 0.6s
+conll2003.zip       100%[===================&gt;] 959.94K   442KB/s    in 2.2s
 
-2022-09-15 23:40:05 (1.56 MB/s) - ‘conll2003.zip’ saved [982975/982975]
+2022-09-16 01:30:15 (442 KB/s) - ‘conll2003.zip’ saved [982975/982975]
 
 mkdir: cannot create directory ‘data’: File exists
 Archive:  conll2003.zip
@@ -719,16 +719,16 @@ Archive:  conll2003.zip
   inflating: data/test.txt
   inflating: data/train.txt
   inflating: data/valid.txt
---2022-09-15 23:40:05--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
-Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.216.100.187
-Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.216.100.187|:443... connected.
+--2022-09-16 01:30:15--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
+Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.217.81.156
+Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.217.81.156|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 17045998 (16M) [binary/octet-stream]
 Saving to: ‘pred_probs.npz’
 
-pred_probs.npz      100%[===================&gt;]  16.26M  40.4MB/s    in 0.4s
+pred_probs.npz      100%[===================&gt;]  16.26M  19.9MB/s    in 0.8s
 
-2022-09-15 23:40:06 (40.4 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
+2022-09-16 01:30:17 (19.9 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
 
 </pre></div></div>
 </div>
@@ -931,85 +931,123 @@ The top 20 most likely label errors:
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Sentence 2907, token 0:
-<span class="ansi-red-fg">Little</span> change from today&#39;s weather expected.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Little</span> change from today&#39;s weather expected.
+
 
 Sentence 19392, token 0:
-<span class="ansi-red-fg">Let</span>&#39;s march together,&#34; Scalfaro, a northerner himself, said.
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Let</span>&#39;s march together,&#34; Scalfaro, a northerner himself, said.
+
 
 Sentence 9962, token 4:
-3. Nastja Rysich (<span class="ansi-red-fg">germany</span>) 3.75
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+3. Nastja Rysich (<span class="ansi-red-fg">germany</span>) 3.75
+
 
 Sentence 8904, token 30:
-The Spla has fought Khartoum&#39;s government forces in the south since 1983 for greater autonomy or independence of the mainly Christian and animist region from the Moslem, Arabised <span class="ansi-red-fg">north</span>.
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+The Spla has fought Khartoum&#39;s government forces in the south since 1983 for greater autonomy or independence of the mainly Christian and animist region from the Moslem, Arabised <span class="ansi-red-fg">north</span>.
+
 
 Sentence 12918, token 0:
-<span class="ansi-red-fg">Mayor</span> Antonio Gonzalez Garcia, of the opposition Revolutionary Workers&#39; Party, said in Wednesday&#39;s letter that army troops recently raided several local farms, stole cattle and raped women.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Mayor</span> Antonio Gonzalez Garcia, of the opposition Revolutionary Workers&#39; Party, said in Wednesday&#39;s letter that army troops recently raided several local farms, stole cattle and raped women.
+
 
 Sentence 9256, token 0:
-<span class="ansi-red-fg">Spring</span> Chg Hrw 12pct Chg White Chg
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Spring</span> Chg Hrw 12pct Chg White Chg
+
 
 Sentence 11855, token 20:
-&#34; We have seen the photos but for the moment the palace has no comment,&#34; a spokeswoman for <span class="ansi-red-fg">Prince</span> Rainier told Reuters.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+&#34; We have seen the photos but for the moment the palace has no comment,&#34; a spokeswoman for <span class="ansi-red-fg">Prince</span> Rainier told Reuters.
+
 
 Sentence 18392, token 4:
-Danila 28.5 16<span class="ansi-red-fg">/</span>12 Caribs/ up W224 Mobil.
 Given label: O, predicted label according to provided pred_probs: LOC
+----
+Danila 28.5 16<span class="ansi-red-fg">/</span>12 Caribs/ up W224 Mobil.
+
 
 Sentence 19402, token 21:
-A Reuter consensus survey sees medical equipment group Radiometer reporting largely unchanged earnings when it publishes first half 19996/97 results next <span class="ansi-red-fg">Wednesday</span>.
 Given label: ORG, predicted label according to provided pred_probs: O
+----
+A Reuter consensus survey sees medical equipment group Radiometer reporting largely unchanged earnings when it publishes first half 19996/97 results next <span class="ansi-red-fg">Wednesday</span>.
+
 
 Sentence 83, token 9:
-Listing London Denoms (K) 1-10-100 Sale Limits <span class="ansi-red-fg">Us</span>/ Uk/ Jp/ Fr
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+Listing London Denoms (K) 1-10-100 Sale Limits <span class="ansi-red-fg">Us</span>/ Uk/ Jp/ Fr
+
 
 Sentence 10331, token 3:
-Hapoel Haifa 3 <span class="ansi-red-fg">Maccabi</span> Tel Aviv 1
 Given label: O, predicted label according to provided pred_probs: ORG
+----
+Hapoel Haifa 3 <span class="ansi-red-fg">Maccabi</span> Tel Aviv 1
+
 
 Sentence 9430, token 10:
-The revered Roman Catholic nun was admitted to the Calcutta <span class="ansi-red-fg">hospital</span> a week ago with high fever and severe vomiting.
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+The revered Roman Catholic nun was admitted to the Calcutta <span class="ansi-red-fg">hospital</span> a week ago with high fever and severe vomiting.
+
 
 Sentence 6143, token 25:
-The embattled Afghan government said last week that the Kabul-Salang highway would be opened on Monday or Tuesday following talks with the Supreme Coordination Council <span class="ansi-red-fg">alliance</span> led by Jumbish-i-Milli movement of powerful opposition warlord General Abdul Rashid Dostum.
 Given label: ORG, predicted label according to provided pred_probs: O
+----
+The embattled Afghan government said last week that the Kabul-Salang highway would be opened on Monday or Tuesday following talks with the Supreme Coordination Council <span class="ansi-red-fg">alliance</span> led by Jumbish-i-Milli movement of powerful opposition warlord General Abdul Rashid Dostum.
+
 
 Sentence 18367, token 0:
-<span class="ansi-red-fg">Can</span>/ U.s. Dollar Exchange Rate: 1.3570
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Can</span>/ U.s. Dollar Exchange Rate: 1.3570
+
 
 Sentence 12049, token 0:
-<span class="ansi-red-fg">Born</span> in 1937 in the central province of Anhui, Dai came to Shanghai as a student and remained in the city as a prolific author and teacher of Chinese.
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Born</span> in 1937 in the central province of Anhui, Dai came to Shanghai as a student and remained in the city as a prolific author and teacher of Chinese.
+
 
 Sentence 16764, token 7:
-1990 - British historian Alan John Percivale <span class="ansi-red-fg">(</span>A.j.p.) Taylor died.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+1990 - British historian Alan John Percivale <span class="ansi-red-fg">(</span>A.j.p.) Taylor died.
+
 
 Sentence 20446, token 0:
-<span class="ansi-red-fg">Pace</span> bowler Ian Harvey claimed three for 81 for Victoria.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Pace</span> bowler Ian Harvey claimed three for 81 for Victoria.
+
 
 Sentence 15514, token 16:
-But one must not forget that the Osce only has limited powers there,&#34; said <span class="ansi-red-fg">Cotti</span>, who is also the Swiss foreign minister.&#34;
 Given label: O, predicted label according to provided pred_probs: PER
+----
+But one must not forget that the Osce only has limited powers there,&#34; said <span class="ansi-red-fg">Cotti</span>, who is also the Swiss foreign minister.&#34;
+
 
 Sentence 7525, token 12:
-Specter met Crown Prince Abdullah and Minister of Defence and Aviation Prince <span class="ansi-red-fg">Sultan</span> in Jeddah, Saudi state television and the official Saudi Press Agency reported.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+Specter met Crown Prince Abdullah and Minister of Defence and Aviation Prince <span class="ansi-red-fg">Sultan</span> in Jeddah, Saudi state television and the official Saudi Press Agency reported.
+
 
 Sentence 2288, token 0:
-<span class="ansi-red-fg">Sporting</span> his customary bright green outfit, the U.s. champion clocked 10.03 seconds despite damp conditions to take the scalp of Canada&#39;s reigning Olympic champion Donovan Bailey, 1992 champion Linford Christie of Britain and American 1984 and 1988 champion Carl Lewis.
 Given label: ORG, predicted label according to provided pred_probs: O
-
+----
+<span class="ansi-red-fg">Sporting</span> his customary bright green outfit, the U.s. champion clocked 10.03 seconds despite damp conditions to take the scalp of Canada&#39;s reigning Olympic champion Donovan Bailey, 1992 champion Linford Christie of Britain and American 1984 and 1988 champion Carl Lewis.
 </pre></div></div>
 </div>
 <p>More than half of the potential label issues correspond to tokens that are incorrectly labeled. As shown above, some examples are ambigious and may require more thoughful handling. cleanlab has also discovered some edge cases such as tokens which are simply punctuations such as <code class="docutils literal notranslate"><span class="pre">/</span></code> and <code class="docutils literal notranslate"><span class="pre">(</span></code>.</p>
@@ -1116,29 +1154,39 @@ labeled as class `LOC` but predicted to actually be class `ORG` 1 times
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Sentence 471, token 8:
-Soccer - Keane Signs Four-year Contract With Manchester <span class="ansi-red-fg">United</span>.
 Given label: LOC, predicted label according to provided pred_probs: ORG
+----
+Soccer - Keane Signs Four-year Contract With Manchester <span class="ansi-red-fg">United</span>.
+
 
 Sentence 19072, token 5:
-The Humane Society of the <span class="ansi-red-fg">United</span> States estimates that between 500,000 and one million bites are delivered by dogs each year, more than half of which are suffered by children.
 Given label: LOC, predicted label according to provided pred_probs: ORG
+----
+The Humane Society of the <span class="ansi-red-fg">United</span> States estimates that between 500,000 and one million bites are delivered by dogs each year, more than half of which are suffered by children.
+
 
 Sentence 19910, token 5:
-His father Clarence Woolmer represented <span class="ansi-red-fg">United</span> Province, now renamed Uttar Pradesh, in India&#39;s Ranji Trophy national championship and captained the state during 1949.
 Given label: LOC, predicted label according to provided pred_probs: ORG
+----
+His father Clarence Woolmer represented <span class="ansi-red-fg">United</span> Province, now renamed Uttar Pradesh, in India&#39;s Ranji Trophy national championship and captained the state during 1949.
+
 
 Sentence 15658, token 0:
-<span class="ansi-red-fg">United</span> Nations 1996-08-29
 Given label: ORG, predicted label according to provided pred_probs: LOC
+----
+<span class="ansi-red-fg">United</span> Nations 1996-08-29
+
 
 Sentence 19879, token 1:
-1. <span class="ansi-red-fg">United</span> States Iii (Brian Shimer, Randy Jones) one
 Given label: ORG, predicted label according to provided pred_probs: LOC
+----
+1. <span class="ansi-red-fg">United</span> States Iii (Brian Shimer, Randy Jones) one
+
 
 Sentence 19104, token 0:
-<span class="ansi-red-fg">United</span> Nations 1996-12-06
 Given label: ORG, predicted label according to provided pred_probs: LOC
-
+----
+<span class="ansi-red-fg">United</span> Nations 1996-12-06
 </pre></div></div>
 </div>
 </section>
@@ -1163,85 +1211,123 @@ This may be a superior approach if high precision (or high recall) is specifical
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Sentence 2907, token 0:
-<span class="ansi-red-fg">Little</span> change from today&#39;s weather expected.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Little</span> change from today&#39;s weather expected.
+
 
 Sentence 19392, token 0:
-<span class="ansi-red-fg">Let</span>&#39;s march together,&#34; Scalfaro, a northerner himself, said.
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Let</span>&#39;s march together,&#34; Scalfaro, a northerner himself, said.
+
 
 Sentence 9962, token 4:
-3. Nastja Rysich (<span class="ansi-red-fg">germany</span>) 3.75
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+3. Nastja Rysich (<span class="ansi-red-fg">germany</span>) 3.75
+
 
 Sentence 8904, token 30:
-The Spla has fought Khartoum&#39;s government forces in the south since 1983 for greater autonomy or independence of the mainly Christian and animist region from the Moslem, Arabised <span class="ansi-red-fg">north</span>.
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+The Spla has fought Khartoum&#39;s government forces in the south since 1983 for greater autonomy or independence of the mainly Christian and animist region from the Moslem, Arabised <span class="ansi-red-fg">north</span>.
+
 
 Sentence 12918, token 0:
-<span class="ansi-red-fg">Mayor</span> Antonio Gonzalez Garcia, of the opposition Revolutionary Workers&#39; Party, said in Wednesday&#39;s letter that army troops recently raided several local farms, stole cattle and raped women.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Mayor</span> Antonio Gonzalez Garcia, of the opposition Revolutionary Workers&#39; Party, said in Wednesday&#39;s letter that army troops recently raided several local farms, stole cattle and raped women.
+
 
 Sentence 9256, token 0:
-<span class="ansi-red-fg">Spring</span> Chg Hrw 12pct Chg White Chg
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Spring</span> Chg Hrw 12pct Chg White Chg
+
 
 Sentence 11855, token 20:
-&#34; We have seen the photos but for the moment the palace has no comment,&#34; a spokeswoman for <span class="ansi-red-fg">Prince</span> Rainier told Reuters.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+&#34; We have seen the photos but for the moment the palace has no comment,&#34; a spokeswoman for <span class="ansi-red-fg">Prince</span> Rainier told Reuters.
+
 
 Sentence 18392, token 4:
-Danila 28.5 16<span class="ansi-red-fg">/</span>12 Caribs/ up W224 Mobil.
 Given label: O, predicted label according to provided pred_probs: LOC
+----
+Danila 28.5 16<span class="ansi-red-fg">/</span>12 Caribs/ up W224 Mobil.
+
 
 Sentence 19402, token 21:
-A Reuter consensus survey sees medical equipment group Radiometer reporting largely unchanged earnings when it publishes first half 19996/97 results next <span class="ansi-red-fg">Wednesday</span>.
 Given label: ORG, predicted label according to provided pred_probs: O
+----
+A Reuter consensus survey sees medical equipment group Radiometer reporting largely unchanged earnings when it publishes first half 19996/97 results next <span class="ansi-red-fg">Wednesday</span>.
+
 
 Sentence 83, token 9:
-Listing London Denoms (K) 1-10-100 Sale Limits <span class="ansi-red-fg">Us</span>/ Uk/ Jp/ Fr
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+Listing London Denoms (K) 1-10-100 Sale Limits <span class="ansi-red-fg">Us</span>/ Uk/ Jp/ Fr
+
 
 Sentence 10331, token 3:
-Hapoel Haifa 3 <span class="ansi-red-fg">Maccabi</span> Tel Aviv 1
 Given label: O, predicted label according to provided pred_probs: ORG
+----
+Hapoel Haifa 3 <span class="ansi-red-fg">Maccabi</span> Tel Aviv 1
+
 
 Sentence 9430, token 10:
-The revered Roman Catholic nun was admitted to the Calcutta <span class="ansi-red-fg">hospital</span> a week ago with high fever and severe vomiting.
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+The revered Roman Catholic nun was admitted to the Calcutta <span class="ansi-red-fg">hospital</span> a week ago with high fever and severe vomiting.
+
 
 Sentence 6143, token 25:
-The embattled Afghan government said last week that the Kabul-Salang highway would be opened on Monday or Tuesday following talks with the Supreme Coordination Council <span class="ansi-red-fg">alliance</span> led by Jumbish-i-Milli movement of powerful opposition warlord General Abdul Rashid Dostum.
 Given label: ORG, predicted label according to provided pred_probs: O
+----
+The embattled Afghan government said last week that the Kabul-Salang highway would be opened on Monday or Tuesday following talks with the Supreme Coordination Council <span class="ansi-red-fg">alliance</span> led by Jumbish-i-Milli movement of powerful opposition warlord General Abdul Rashid Dostum.
+
 
 Sentence 18367, token 0:
-<span class="ansi-red-fg">Can</span>/ U.s. Dollar Exchange Rate: 1.3570
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Can</span>/ U.s. Dollar Exchange Rate: 1.3570
+
 
 Sentence 12049, token 0:
-<span class="ansi-red-fg">Born</span> in 1937 in the central province of Anhui, Dai came to Shanghai as a student and remained in the city as a prolific author and teacher of Chinese.
 Given label: LOC, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Born</span> in 1937 in the central province of Anhui, Dai came to Shanghai as a student and remained in the city as a prolific author and teacher of Chinese.
+
 
 Sentence 16764, token 7:
-1990 - British historian Alan John Percivale <span class="ansi-red-fg">(</span>A.j.p.) Taylor died.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+1990 - British historian Alan John Percivale <span class="ansi-red-fg">(</span>A.j.p.) Taylor died.
+
 
 Sentence 20446, token 0:
-<span class="ansi-red-fg">Pace</span> bowler Ian Harvey claimed three for 81 for Victoria.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+<span class="ansi-red-fg">Pace</span> bowler Ian Harvey claimed three for 81 for Victoria.
+
 
 Sentence 15514, token 16:
-But one must not forget that the Osce only has limited powers there,&#34; said <span class="ansi-red-fg">Cotti</span>, who is also the Swiss foreign minister.&#34;
 Given label: O, predicted label according to provided pred_probs: PER
+----
+But one must not forget that the Osce only has limited powers there,&#34; said <span class="ansi-red-fg">Cotti</span>, who is also the Swiss foreign minister.&#34;
+
 
 Sentence 7525, token 12:
-Specter met Crown Prince Abdullah and Minister of Defence and Aviation Prince <span class="ansi-red-fg">Sultan</span> in Jeddah, Saudi state television and the official Saudi Press Agency reported.
 Given label: PER, predicted label according to provided pred_probs: O
+----
+Specter met Crown Prince Abdullah and Minister of Defence and Aviation Prince <span class="ansi-red-fg">Sultan</span> in Jeddah, Saudi state television and the official Saudi Press Agency reported.
+
 
 Sentence 2288, token 0:
-<span class="ansi-red-fg">Sporting</span> his customary bright green outfit, the U.s. champion clocked 10.03 seconds despite damp conditions to take the scalp of Canada&#39;s reigning Olympic champion Donovan Bailey, 1992 champion Linford Christie of Britain and American 1984 and 1988 champion Carl Lewis.
 Given label: ORG, predicted label according to provided pred_probs: O
-
+----
+<span class="ansi-red-fg">Sporting</span> his customary bright green outfit, the U.s. champion clocked 10.03 seconds despite damp conditions to take the scalp of Canada&#39;s reigning Olympic champion Donovan Bailey, 1992 champion Linford Christie of Britain and American 1984 and 1988 champion Carl Lewis.
 </pre></div></div>
 </div>
 </section>
