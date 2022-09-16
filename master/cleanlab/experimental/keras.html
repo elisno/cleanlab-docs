@@ -384,7 +384,7 @@ see the <a class="reference external" href="https://keras.io/">Keras documentati
 <li><p>If this class lacks certain functionality, you can alternatively try <a class="reference external" href="https://github.com/adriangb/scikeras">scikeras</a>.</p></li>
 <li><p>Unlike scikeras, our <cite>KerasWrapper</cite> classes can operate directly on <code class="docutils literal notranslate"><span class="pre">tensorflow.data.Dataset</span></code> objects (like regular Keras models).</p></li>
 <li><p>To call <code class="docutils literal notranslate"><span class="pre">fit()</span></code> on a tensorflow <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> object with a Keras model, the <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> should already be batched.</p></li>
-<li><p>Check out our <a href="#id1"><span class="problematic" id="id2">`example &lt;https://github.com/cleanlab/examples/&gt;`_</span></a> using this class: [huggingface_keras_imdb](<a class="reference external" href="https://github.com/cleanlab/examples/blob/master/huggingface_keras_imdb/huggingface_keras_imdb.ipynb">https://github.com/cleanlab/examples/blob/master/huggingface_keras_imdb/huggingface_keras_imdb.ipynb</a>)</p></li>
+<li><p>Check out our <a class="reference external" href="https://github.com/cleanlab/examples">example</a> using this class: <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/huggingface_keras_imdb/huggingface_keras_imdb.ipynb">huggingface_keras_imdb</a></p></li>
 <li><p>Our <a class="reference external" href="https://github.com/cleanlab/cleanlab/blob/master/tests/test_frameworks.py">unit tests</a> also provide basic usage examples.</p></li>
 </ul>
 <p><strong>Classes:</strong></p>
@@ -406,7 +406,7 @@ see the <a class="reference external" href="https://keras.io/">Keras documentati
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Takes in a callable function to instantiate a Keras Model (using Keras functional API)
 that is compatible with <a class="reference internal" href="../classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> and sklearn.</p>
-<p>The instance methods of this class work in the same way as those of any <code class="docutils literal notranslate"><span class="pre">keras.Model</span></code> object, see the Keras documentation for details.
+<p>The instance methods of this class work in the same way as those of any <code class="docutils literal notranslate"><span class="pre">keras.Model</span></code> object, see the <a class="reference external" href="https://keras.io/">Keras documentation</a> for details.
 For using Keras sequential instead of functional API, see the <a class="reference internal" href="#cleanlab.experimental.keras.KerasWrapperSequential" title="cleanlab.experimental.keras.KerasWrapperSequential"><code class="xref py py-class docutils literal notranslate"><span class="pre">KerasWrapperSequential</span></code></a> class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -484,7 +484,7 @@ You can optionally provide the labels again here as argument <cite>y</cite> to b
 <p>Makes any <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> object compatible with <a class="reference internal" href="../classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> and sklearn.</p>
 <p><cite>KerasWrapperSequential</cite> is instantiated in the same way as a keras <code class="docutils literal notranslate"><span class="pre">Sequential</span></code>  object, except for optional extra <cite>compile_kwargs</cite> argument.
 Just instantiate this object in the same way as your <code class="docutils literal notranslate"><span class="pre">tf.keras.models.Sequential</span></code> object (rather than passing in an existing <code class="docutils literal notranslate"><span class="pre">Sequential</span></code> object).
-The instance methods of this class work in the same way as those of any keras <code class="docutils literal notranslate"><span class="pre">Sequential</span></code> object, see the Keras documentation for details.</p>
+The instance methods of this class work in the same way as those of any keras <code class="docutils literal notranslate"><span class="pre">Sequential</span></code> object, see the <a class="reference external" href="https://keras.io/">Keras documentation</a> for details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
