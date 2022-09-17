@@ -391,27 +391,55 @@ labels in data that was previously held-out.</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_confidence_weighted_entropy_for_each_label" title="cleanlab.rank.get_confidence_weighted_entropy_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_confidence_weighted_entropy_for_each_label</span></code></a>(...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.find_top_issues" title="cleanlab.rank.find_top_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_top_issues</span></code></a>(quality_scores, *[, top])</p></td>
+<td><p>Returns the sorted indices of the <cite>top</cite> issues in <cite>quality_scores</cite>, ordered from smallest to largest quality score (i.e., from most to least likely to be an issue).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_confidence_weighted_entropy_for_each_label" title="cleanlab.rank.get_confidence_weighted_entropy_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_confidence_weighted_entropy_for_each_label</span></code></a>(...)</p></td>
 <td><p>Returns the &quot;confidence weighted entropy&quot; label-quality score for each datapoint.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_ensemble_scores" title="cleanlab.rank.get_label_quality_ensemble_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_ensemble_scores</span></code></a>(labels, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_ensemble_scores" title="cleanlab.rank.get_label_quality_ensemble_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_ensemble_scores</span></code></a>(labels, ...)</p></td>
 <td><p>Returns label quality scores based on predictions from an ensemble of models.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>(labels, pred_probs, *)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>(labels, pred_probs, *)</p></td>
 <td><p>Returns label quality scores for each datapoint.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_normalized_margin_for_each_label" title="cleanlab.rank.get_normalized_margin_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normalized_margin_for_each_label</span></code></a>(labels, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_normalized_margin_for_each_label" title="cleanlab.rank.get_normalized_margin_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normalized_margin_for_each_label</span></code></a>(labels, ...)</p></td>
 <td><p>Returns the &quot;normalized margin&quot; label-quality score for each datapoint.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_self_confidence_for_each_label" title="cleanlab.rank.get_self_confidence_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_self_confidence_for_each_label</span></code></a>(labels, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_self_confidence_for_each_label" title="cleanlab.rank.get_self_confidence_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_self_confidence_for_each_label</span></code></a>(labels, ...)</p></td>
 <td><p>Returns the self-confidence label-quality score for each datapoint.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.order_label_issues" title="cleanlab.rank.order_label_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">order_label_issues</span></code></a>(label_issues_mask, ...[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.order_label_issues" title="cleanlab.rank.order_label_issues"><code class="xref py py-obj docutils literal notranslate"><span class="pre">order_label_issues</span></code></a>(label_issues_mask, ...[, ...])</p></td>
 <td><p>Sorts label issues by label quality score.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<dl class="py function">
+<dt class="sig sig-object py" id="cleanlab.rank.find_top_issues">
+<span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">find_top_issues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quality_scores</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/rank.html#find_top_issues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.find_top_issues" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the sorted indices of the <cite>top</cite> issues in <cite>quality_scores</cite>, ordered from smallest to largest quality score
+(i.e., from most to least likely to be an issue). For example, the first value returned is the index corresponding
+to the smallest value in <cite>quality_scores</cite> (most likely to be an issue). The second value in the returned array is
+the index corresponding to the second smallest value in <cite>quality-scores</cite> (second-most likely to be an issue), and so forth.</p>
+<p>This method assumes that <cite>quality_scores</cite> shares an index with some dataset such that the indices returned by this method
+map to the examples in that dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – Array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code>, where N is the number of examples, containing one quality score for each example in the dataset.</p></li>
+<li><p><strong>top</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The number of indices to return.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">top_issue_indices</span></code> – Indices of top examples most likely to suffer from an issue (ranked by issue severity).</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.rank.get_confidence_weighted_entropy_for_each_label">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_confidence_weighted_entropy_for_each_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_confidence_weighted_entropy_for_each_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_confidence_weighted_entropy_for_each_label" title="Permalink to this definition">#</a></dt>

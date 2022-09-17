@@ -582,20 +582,11 @@
 
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="c1"># check if any classes no longer appear in the set of consensus labels</span>
-            <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
-                <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">_check_consensus_label_classes</span><span class="p">(</span>
+                <span class="n">labels_multiannotator</span><span class="o">=</span><span class="n">labels_multiannotator</span><span class="p">,</span>
+                <span class="n">consensus_label</span><span class="o">=</span><span class="n">consensus_label</span><span class="p">,</span>
+                <span class="n">consensus_method</span><span class="o">=</span><span class="n">curr_method</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">unique_ma_labels</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)]</span>
-            <span class="n">labels_set_difference</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">consensus_label</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_set_difference</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;CAUTION: Number of unique classes has been reduced from the original data when establishing consensus labels</span>
-<span class="s2">                    using consensus method &quot;</span><span class="si">{</span><span class="n">curr_method</span><span class="si">}</span><span class="s2">&quot;, likely due to some classes being rarely annotated.</span>
-<span class="s2">                    If training a classifier on these consensus labels, it will never see any of the omitted classes unless you</span>
-<span class="s2">                    manually replace some of the consensus labels.</span>
-<span class="s2">                    Classes in the original data but not in consensus labels: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">labels_set_difference</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
-                <span class="p">)</span>
 
         <span class="c1"># saving stats into dataframe, computing additional stats if specified</span>
         <span class="k">if</span> <span class="n">main_method</span><span class="p">:</span>
@@ -790,20 +781,43 @@
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="c1"># check if any classes no longer appear in the set of consensus labels</span>
-        <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
-        <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">unique_ma_labels</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)]</span>
-        <span class="n">labels_set_difference</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">majority_vote_label</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_set_difference</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;CAUTION: Number of unique classes has been reduced from the original data when establishing consensus labels,</span>
-<span class="s2">                likely due to some classes being rarely annotated. If training a classifier on these consensus labels,</span>
-<span class="s2">                it will never see any of the omitted classes unless you manually replace some of the consensus labels.</span>
-
-<span class="s2">                Classes in the original data but not in consensus labels: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">labels_set_difference</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
-            <span class="p">)</span>
+        <span class="n">_check_consensus_label_classes</span><span class="p">(</span>
+            <span class="n">labels_multiannotator</span><span class="o">=</span><span class="n">labels_multiannotator</span><span class="p">,</span>
+            <span class="n">consensus_label</span><span class="o">=</span><span class="n">majority_vote_label</span><span class="p">,</span>
+            <span class="n">consensus_method</span><span class="o">=</span><span class="s2">&quot;majority_vote&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">majority_vote_label</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convert_long_to_wide_dataset"><a class="viewcode-back" href="../../cleanlab/multiannotator.html#cleanlab.multiannotator.convert_long_to_wide_dataset">[docs]</a><span class="k">def</span> <span class="nf">convert_long_to_wide_dataset</span><span class="p">(</span>
+    <span class="n">labels_multiannotator_long</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Converts a long format dataset to wide format which is suitable for passing into</span>
+<span class="sd">    :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
+
+<span class="sd">    Dataframe must contain three columns named:</span>
+
+<span class="sd">    #. ``task`` representing each example labeled by the annotators</span>
+<span class="sd">    #. ``annotator`` representing each annotator</span>
+<span class="sd">    #. ``label`` representing the label given by an annotator for the corresponding task (i.e. example)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    labels_multiannotator_long : pd.DataFrame</span>
+<span class="sd">        pandas DataFrame in long format with three columns named ``task``, ``annotator`` and ``label``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    labels_multiannotator_wide : pd.DataFrame</span>
+<span class="sd">        pandas DataFrame of the proper format to be passed as ``labels_multiannotator`` for the other ``cleanlab.multiannotator`` functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">labels_multiannotator_wide</span> <span class="o">=</span> <span class="n">labels_multiannotator_long</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="s2">&quot;task&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;annotator&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;label&quot;</span>
+    <span class="p">)</span>
+    <span class="n">labels_multiannotator_wide</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">labels_multiannotator_wide</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">labels_multiannotator_wide</span></div>
 
 
 <span class="k">def</span> <span class="nf">_get_consensus_stats</span><span class="p">(</span>
@@ -1427,34 +1441,24 @@
     <span class="k">return</span> <span class="n">worst_class</span>
 
 
-<div class="viewcode-block" id="convert_long_to_wide_dataset"><a class="viewcode-back" href="../../cleanlab/multiannotator.html#cleanlab.multiannotator.convert_long_to_wide_dataset">[docs]</a><span class="k">def</span> <span class="nf">convert_long_to_wide_dataset</span><span class="p">(</span>
-    <span class="n">labels_multiannotator_long</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Converts a long format dataset to wide format which is suitable for passing into</span>
-<span class="sd">    :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
+<span class="k">def</span> <span class="nf">_check_consensus_label_classes</span><span class="p">(</span>
+    <span class="n">labels_multiannotator</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">consensus_label</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">consensus_method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Check if any classes no longer appear in the set of consensus labels (established using the consensus_method stated)&quot;&quot;&quot;</span>
+    <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+    <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">unique_ma_labels</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)]</span>
+    <span class="n">labels_set_difference</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">consensus_label</span><span class="p">)</span>
 
-<span class="sd">    Dataframe must contain three columns named:</span>
-
-<span class="sd">    #. ``task`` representing each example labeled by the annotators</span>
-<span class="sd">    #. ``annotator`` representing each annotator</span>
-<span class="sd">    #. ``label`` representing the label given by an annotator for the corresponding task (i.e. example)</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    labels_multiannotator_long : pd.DataFrame</span>
-<span class="sd">        pandas DataFrame in long format with three columns named ``task``, ``annotator`` and ``label``</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    labels_multiannotator_wide : pd.DataFrame</span>
-<span class="sd">        pandas DataFrame of the proper format to be passed as ``labels_multiannotator`` for the other ``cleanlab.multiannotator`` functions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">labels_multiannotator_wide</span> <span class="o">=</span> <span class="n">labels_multiannotator_long</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span>
-        <span class="n">index</span><span class="o">=</span><span class="s2">&quot;task&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;annotator&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;label&quot;</span>
-    <span class="p">)</span>
-    <span class="n">labels_multiannotator_wide</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">labels_multiannotator_wide</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="n">labels_multiannotator_wide</span></div>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_set_difference</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;CAUTION: Number of unique classes has been reduced from the original data when establishing consensus labels</span>
+<span class="s2">            using consensus method &quot;</span><span class="si">{</span><span class="n">consensus_method</span><span class="si">}</span><span class="s2">&quot;, likely due to some classes being rarely annotated.</span>
+<span class="s2">            If training a classifier on these consensus labels, it will never see any of the omitted classes unless you</span>
+<span class="s2">            manually replace some of the consensus labels.</span>
+<span class="s2">            Classes in the original data but not in consensus labels: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">labels_set_difference</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="p">)</span>
 </pre></div> 
         </article>
       </div>
