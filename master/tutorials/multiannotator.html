@@ -708,8 +708,8 @@ div.rendered_html tbody tr:hover {
 <p>For this tutorial we will generate a toy dataset that has 50 annotators and 300 examples. There are three possible classes, <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p>
 <p>Each annotator annotates approximately 10% of the examples. We also synthetically made the last 5 annotators in our toy dataset have much noisier labels than the rest of the annotators.</p>
 <p>Solely for evaluating cleanlab’s consensus labels against other consensus methods, we here also generate the true labels for this example dataset. However, true labels are not required for any cleanlab multiannotator functions (and they usually are not available in real applications). To generate our multiannotator data, we define a <code class="docutils literal notranslate"><span class="pre">make_data()</span></code> method (can skip these details).</p>
-<details><p>See the code for data generation <strong>(click to expand)</strong></p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
+<details><summary><p>See the code for data generation <strong>(click to expand)</strong></p>
+</summary><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
 
 <span class="kn">from</span> <span class="nn">cleanlab.benchmarking.noise_generation</span> <span class="kn">import</span> <span class="n">generate_noise_matrix_from_trace</span>
 <span class="kn">from</span> <span class="nn">cleanlab.benchmarking.noise_generation</span> <span class="kn">import</span> <span class="n">generate_noisy_labels</span>

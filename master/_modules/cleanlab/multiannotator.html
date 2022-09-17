@@ -388,7 +388,7 @@
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Methods for analysis of classification data labeled by multiple annotators, including computation of: </span>
+<span class="sd">Methods for analysis of classification data labeled by multiple annotators, including computation of:</span>
 
 <span class="sd">* A consensus label for each example that aggregates the individual annotations more accurately than alternative aggregation via majority-vote or other algorithms used in crowdsourcing.</span>
 <span class="sd">* A quality score for each consensus label which measures our confidence that this label is correct.</span>
@@ -403,6 +403,7 @@
 
 <span class="kn">from</span> <span class="nn">cleanlab.rank</span> <span class="kn">import</span> <span class="n">get_label_quality_scores</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.util</span> <span class="kn">import</span> <span class="n">get_num_classes</span>
+<span class="kn">from</span> <span class="nn">cleanlab.internal.validation</span> <span class="kn">import</span> <span class="n">assert_valid_inputs_multiannotator</span>
 
 
 <div class="viewcode-block" id="get_label_quality_multiannotator"><a class="viewcode-back" href="../../cleanlab/multiannotator.html#cleanlab.multiannotator.get_label_quality_multiannotator">[docs]</a><span class="k">def</span> <span class="nf">get_label_quality_multiannotator</span><span class="p">(</span>
@@ -465,7 +466,7 @@
 <span class="sd">    return_annotator_stats : bool, default = True</span>
 <span class="sd">        Boolean to specify if `annotator_stats` is returned.</span>
 <span class="sd">    verbose : bool, default = True</span>
-<span class="sd">        Certain warnings and notes will be printed if ``verbose`` is set to ``True``.</span>
+<span class="sd">        Important warnings and other printed statements may be suppressed if ``verbose`` is set to ``False``.</span>
 <span class="sd">    label_quality_score_kwargs : dict, optional</span>
 <span class="sd">        Keyword arguments to pass into :py:func:`get_label_quality_scores &lt;cleanlab.rank.get_label_quality_scores&gt;`.</span>
 
@@ -499,40 +500,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">labels_multiannotator</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="p">)</span>
 
-    <span class="c1"># Raise error if labels_multiannotator has NaN rows</span>
-    <span class="k">if</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;labels_multiannotator cannot have rows with all NaN.&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Raise error if labels_multiannotator has NaN columns</span>
-    <span class="k">if</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="n">nan_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-            <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span>
-        <span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;labels_multiannotator cannot have columns with all NaN.</span>
-<span class="s2">            Annotators </span><span class="si">{</span><span class="n">nan_columns</span><span class="si">}</span><span class="s2"> did not label any examples.&quot;&quot;&quot;</span>
-        <span class="p">)</span>
-
-    <span class="c1"># Raise error if labels_multiannotator has &lt;= 1 column</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sd">&quot;&quot;&quot;labels_multiannotator must have more than one column. </span>
-<span class="sd">            If there is only one annotator, use cleanlab.rank.get_label_quality_scores instead&quot;&quot;&quot;</span>
-        <span class="p">)</span>
-
-    <span class="c1"># Raise error if labels_multiannotator only has 1 label per example</span>
-    <span class="k">if</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sd">&quot;&quot;&quot;Each example only has one label, collapse the labels into a 1-D array and use</span>
-<span class="sd">            cleanlab.rank.get_label_quality_scores instead&quot;&quot;&quot;</span>
-        <span class="p">)</span>
-
-    <span class="c1"># Raise warning if no examples with 2 or more annotators agree</span>
-    <span class="c1"># TODO: might shift this later in the code to avoid extra compute</span>
-    <span class="k">if</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span> <span class="n">s</span><span class="o">.</span><span class="n">dropna</span><span class="p">()),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Annotators do not agree on any example. Check input data.&quot;</span><span class="p">)</span>
+    <span class="n">assert_valid_inputs_multiannotator</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
 
     <span class="c1"># Count number of non-NaN values for each example</span>
     <span class="n">num_annotations</span> <span class="o">=</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
@@ -544,6 +512,7 @@
         <span class="n">majority_vote_label</span> <span class="o">=</span> <span class="n">get_majority_vote_label</span><span class="p">(</span>
             <span class="n">labels_multiannotator</span><span class="o">=</span><span class="n">labels_multiannotator</span><span class="p">,</span>
             <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="p">(</span>
             <span class="n">MV_annotator_agreement</span><span class="p">,</span>
@@ -586,6 +555,7 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">consensus_label</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">majority_vote_label</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">consensus_label</span> <span class="o">=</span> <span class="n">consensus_label</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span>  <span class="c1"># convert all label types to int</span>
+
             <span class="p">(</span>
                 <span class="n">annotator_agreement</span><span class="p">,</span>
                 <span class="n">consensus_quality_score</span><span class="p">,</span>
@@ -609,6 +579,23 @@
 <span class="s2">                Please choose a valid consensus_method: </span><span class="si">{</span><span class="n">valid_methods</span><span class="si">}</span><span class="s2"></span>
 <span class="s2">                &quot;&quot;&quot;</span>
             <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="c1"># check if any classes no longer appear in the set of consensus labels</span>
+            <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+                <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">unique_ma_labels</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)]</span>
+            <span class="n">labels_set_difference</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">consensus_label</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_set_difference</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;CAUTION: Number of unique classes has been reduced from the original data when establishing consensus labels</span>
+<span class="s2">                    using consensus method &quot;</span><span class="si">{</span><span class="n">curr_method</span><span class="si">}</span><span class="s2">&quot;, likely due to some classes being rarely annotated.</span>
+<span class="s2">                    If training a classifier on these consensus labels, it will never see any of the omitted classes unless you</span>
+<span class="s2">                    manually replace some of the consensus labels.</span>
+<span class="s2">                    Classes in the original data but not in consensus labels: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">labels_set_difference</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+                <span class="p">)</span>
 
         <span class="c1"># saving stats into dataframe, computing additional stats if specified</span>
         <span class="k">if</span> <span class="n">main_method</span><span class="p">:</span>
@@ -691,6 +678,7 @@
 <div class="viewcode-block" id="get_majority_vote_label"><a class="viewcode-back" href="../../cleanlab/multiannotator.html#cleanlab.multiannotator.get_majority_vote_label">[docs]</a><span class="k">def</span> <span class="nf">get_majority_vote_label</span><span class="p">(</span>
     <span class="n">labels_multiannotator</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns the majority vote label for each example, aggregated from the labels given by multiple annotators.</span>
 
@@ -703,7 +691,8 @@
 <span class="sd">    pred_probs : np.ndarray, optional</span>
 <span class="sd">        An array of shape ``(N, K)`` of model-predicted probabilities, ``P(label=k|x)``.</span>
 <span class="sd">        For details, predicted probabilities in the same format expected by the :py:func:`get_label_quality_multiannotator &lt;cleanlab.multiannotator.get_label_quality_multiannotator&gt;`.</span>
-
+<span class="sd">    verbose : bool, optional</span>
+<span class="sd">        Important warnings and other printed statements may be suppressed if ``verbose`` is set to ``False``.</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    consensus_label: np.ndarray</span>
@@ -718,6 +707,8 @@
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">labels_multiannotator</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="p">)</span>
+
+    <span class="n">assert_valid_inputs_multiannotator</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
 
     <span class="n">majority_vote_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
     <span class="n">mode_labels_multiannotator</span> <span class="o">=</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -796,6 +787,21 @@
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">label_mode</span> <span class="ow">in</span> <span class="n">tied_idx</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">majority_vote_label</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">label_mode</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="c1"># check if any classes no longer appear in the set of consensus labels</span>
+        <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+        <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">unique_ma_labels</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)]</span>
+        <span class="n">labels_set_difference</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">majority_vote_label</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_set_difference</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;CAUTION: Number of unique classes has been reduced from the original data when establishing consensus labels,</span>
+<span class="s2">                likely due to some classes being rarely annotated. If training a classifier on these consensus labels,</span>
+<span class="s2">                it will never see any of the omitted classes unless you manually replace some of the consensus labels.</span>
+
+<span class="s2">                Classes in the original data but not in consensus labels: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">labels_set_difference</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+            <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">majority_vote_label</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span></div>
 
