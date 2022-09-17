@@ -184,7 +184,6 @@
 <li class="toctree-l1"><a class="reference internal" href="outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Find Label Errors in Token Classification (Text) Datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#Note:-This-pulldown-content-is-for-docs.cleanlab.ai,-if-running-on-local-Jupyter-or-Colab,-please-ignore-it.">Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
@@ -708,16 +707,16 @@ entity recognition</a> dataset which contains around 20,000 sentences with 300,0
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2022-09-16 22:28:07--  https://data.deepai.org/conll2003.zip
+--2022-09-17 02:29:22--  https://data.deepai.org/conll2003.zip
 Resolving data.deepai.org (data.deepai.org)... 5.9.140.253
 Connecting to data.deepai.org (data.deepai.org)|5.9.140.253|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 982975 (960K) [application/x-zip-compressed]
 Saving to: ‘conll2003.zip’
 
-conll2003.zip       100%[===================&gt;] 959.94K  1.51MB/s    in 0.6s
+conll2003.zip       100%[===================&gt;] 959.94K  2.00MB/s    in 0.5s
 
-2022-09-16 22:28:08 (1.51 MB/s) - ‘conll2003.zip’ saved [982975/982975]
+2022-09-17 02:29:23 (2.00 MB/s) - ‘conll2003.zip’ saved [982975/982975]
 
 mkdir: cannot create directory ‘data’: File exists
 Archive:  conll2003.zip
@@ -725,16 +724,16 @@ Archive:  conll2003.zip
   inflating: data/test.txt
   inflating: data/train.txt
   inflating: data/valid.txt
---2022-09-16 22:28:09--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
-Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.217.170.113
-Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.217.170.113|:443... connected.
+--2022-09-17 02:29:24--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
+Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 52.216.206.11
+Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|52.216.206.11|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 17045998 (16M) [binary/octet-stream]
 Saving to: ‘pred_probs.npz’
 
-pred_probs.npz      100%[===================&gt;]  16.26M  30.1MB/s    in 0.5s
+pred_probs.npz      100%[===================&gt;]  16.26M  --.-KB/s    in 0.08s
 
-2022-09-16 22:28:09 (30.1 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
+2022-09-17 02:29:24 (207 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
 
 </pre></div></div>
 </div>
@@ -758,12 +757,14 @@ pred_probs.npz      100%[===================&gt;]  16.26M  30.1MB/s    in 0.5s
 <p>In token classification tasks, each token in the dataset is labeled with one of <em>K</em> possible classes. To find label issues, cleanlab requires predicted class probabilities from a trained classifier. These <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> contain a length-<em>K</em> vector for <strong>each</strong> token in the dataset (which sums to 1 for each token). Here we use <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> which are out-of-sample predicted class probabilities for the full CoNLL-2003 dataset (merging training, development, and testing splits), obtained from a
 BERT Transformer fit via cross-validation. Our example notebook <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/entity_recognition/entity_recognition_training.ipynb">“Training Entity Recognition Model for Token Classification”</a> contains the code to produce such <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and save them in a <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file, which we simply load here via a <code class="docutils literal notranslate"><span class="pre">read_npz</span></code> function (can skip these details).</p>
 <details><p>See the code for reading the <code class="docutils literal notranslate"><span class="pre">.npz</span></code> file <strong>(click to expand)</strong></p>
-</section>
-</section>
-<section id="Note:-This-pulldown-content-is-for-docs.cleanlab.ai,-if-running-on-local-Jupyter-or-Colab,-please-ignore-it.">
-<h1>Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.<a class="headerlink" href="#Note:-This-pulldown-content-is-for-docs.cleanlab.ai,-if-running-on-local-Jupyter-or-Colab,-please-ignore-it." title="Permalink to this heading">#</a></h1>
-<p>def read_npz(filepath): data = dict(np.load(filepath)) data = [data[str(i)] for i in range(len(data))] return data</p>
-<p>```</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
+
+<span class="k">def</span> <span class="nf">read_npz</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))]</span>
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+</div>
 </details><div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
@@ -784,34 +785,34 @@ BERT Transformer fit via cross-validation. Our example notebook <a class="refere
 </ul>
 <p>We use some helper methods to load the CoNLL data (can skip these details).</p>
 <details><p>See the code for reading the CoNLL data files <strong>(click to expand)</strong></p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
 
-given_entities = [&#39;O&#39;, &#39;B-MISC&#39;, &#39;I-MISC&#39;, &#39;B-PER&#39;, &#39;I-PER&#39;, &#39;B-ORG&#39;, &#39;I-ORG&#39;, &#39;B-LOC&#39;, &#39;I-LOC&#39;]
-entities = [&#39;O&#39;, &#39;MISC&#39;, &#39;PER&#39;, &#39;ORG&#39;, &#39;LOC&#39;]
-entity_map = {entity: i for i, entity in enumerate(given_entities)}
+<span class="n">given_entities</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;B-MISC&#39;</span><span class="p">,</span> <span class="s1">&#39;I-MISC&#39;</span><span class="p">,</span> <span class="s1">&#39;B-PER&#39;</span><span class="p">,</span> <span class="s1">&#39;I-PER&#39;</span><span class="p">,</span> <span class="s1">&#39;B-ORG&#39;</span><span class="p">,</span> <span class="s1">&#39;I-ORG&#39;</span><span class="p">,</span> <span class="s1">&#39;B-LOC&#39;</span><span class="p">,</span> <span class="s1">&#39;I-LOC&#39;</span><span class="p">]</span>
+<span class="n">entities</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;MISC&#39;</span><span class="p">,</span> <span class="s1">&#39;PER&#39;</span><span class="p">,</span> <span class="s1">&#39;ORG&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC&#39;</span><span class="p">]</span>
+<span class="n">entity_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">entity</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">entity</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">given_entities</span><span class="p">)}</span>
 
-def readfile(filepath, sep=&#39; &#39;):
-    lines = open(filepath)
-    data, sentence, label = [], [], []
-    for line in lines:
-        if len(line) == 0 or line.startswith(&#39;-DOCSTART&#39;) or line[0] == &#39;\n&#39;:
-            if len(sentence) &gt; 0:
-                data.append((sentence, label))
-                sentence, label = [], []
-            continue
-        splits = line.split(sep)
-        word = splits[0]
-        if len(word) &gt; 0 and word[0].isalpha() and word.isupper():
-            word = word[0] + word[1:].lower()
-        sentence.append(word)
-        label.append(entity_map[splits[-1][:-1]])
+<span class="k">def</span> <span class="nf">readfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">sentence</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;-DOCSTART&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sentence</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
+                <span class="n">sentence</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+            <span class="k">continue</span>
+        <span class="n">splits</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">splits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()</span> <span class="ow">and</span> <span class="n">word</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">sentence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entity_map</span><span class="p">[</span><span class="n">splits</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
 
-    if len(sentence) &gt; 0:
-        data.append((sentence, label))
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sentence</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
 
-    tokens = [d[0] for d in data]
-    given_labels = [d[1] for d in data]
-    return tokens, given_labels
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+    <span class="n">given_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">tokens</span><span class="p">,</span> <span class="n">given_labels</span>
 </pre></div>
 </div>
 </details><div class="nbinput nblast docutils container">
@@ -888,6 +889,7 @@ pred_probs[2]:
 correspond to class 0, 1, …, K-1. These should be out-of-sample <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> obtained from a token classification model via cross-validation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">labels</span></code> is a list whose <code class="docutils literal notranslate"><span class="pre">i</span></code>-th element is a list of integers corresponding to class label of each token in the <code class="docutils literal notranslate"><span class="pre">i</span></code>-th sentence. For dataset with K classes, labels must take values in 0, 1, …, K-1.</p></li>
 </ul>
+</section>
 <section id="3.-Use-cleanlab-to-find-label-issues">
 <h2>3. Use cleanlab to find label issues<a class="headerlink" href="#3.-Use-cleanlab-to-find-label-issues" title="Permalink to this heading">#</a></h2>
 <p>Based on the given labels and out-of-sample predicted probabilities, cleanlab can quickly help us identify label issues in our dataset. Here we request that the indices of the identified label issues be sorted by cleanlab’s self-confidence score, which measures the quality of each given label via the probability assigned to it in our model’s prediction. The returned <code class="docutils literal notranslate"><span class="pre">issues</span></code> are a list of tuples <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code>, which corresponds to the <code class="docutils literal notranslate"><span class="pre">j</span></code>th token of the <code class="docutils literal notranslate"><span class="pre">i</span></code>-th sentence in the dataset. These
@@ -1419,9 +1421,6 @@ Given label: ORG, predicted label according to provided pred_probs: O
 <li><a class="reference internal" href="#">Find Label Errors in Token Classification (Text) Datasets</a><ul>
 <li><a class="reference internal" href="#1.-Install-required-dependencies-and-download-data">1. Install required dependencies and download data</a></li>
 <li><a class="reference internal" href="#2.-Get-data,-labels,-and-pred_probs">2. Get data, labels, and pred_probs</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#Note:-This-pulldown-content-is-for-docs.cleanlab.ai,-if-running-on-local-Jupyter-or-Colab,-please-ignore-it.">Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</a><ul>
 <li><a class="reference internal" href="#3.-Use-cleanlab-to-find-label-issues">3. Use cleanlab to find label issues</a><ul>
 <li><a class="reference internal" href="#Most-common-word-level-token-mislabels">Most common word-level token mislabels</a></li>
 <li><a class="reference internal" href="#Find-issue-sentences-with-particular-word">Find issue sentences with particular word</a></li>
