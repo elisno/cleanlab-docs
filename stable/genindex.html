@@ -1,17 +1,18 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/><title>Index - cleanlab</title>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/><title>Index - cleanlab</title>
 <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
     
     
 
@@ -22,24 +23,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -168,13 +173,17 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/indepth_overview.html">Cleanlab 2.0: The Workflows of Data-centric AI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/indepth_overview.html">The Workflows of Data-centric AI for Classification with Noisy Labels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/image.html">Image Classification with PyTorch and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/text.html">Text Classification with TensorFlow, Keras, and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tabular.html">Classification with Tabular Data using Scikit-Learn and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/audio.html">Audio Classification with SpeechBrain and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/token_classification.html">Find Label Errors in Token Classification (Text) Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/faq.html">FAQ</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -183,27 +192,38 @@
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/rank.html">rank</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/count.html">count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/dataset.html">dataset</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="cleanlab/outlier.html">outlier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleanlab/multiannotator.html">multiannotator</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/token_classification/index.html">token_classification</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/token_classification/filter.html">filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/token_classification/rank.html">rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/token_classification/summary.html">summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/benchmarking/noise_generation.html">noise_generation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/experimental/keras.html">keras</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/experimental/fasttext.html">fasttext</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/experimental/mnist_pytorch.html">mnist_pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/experimental/coteaching.html">coteaching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/experimental/cifar_cnn.html">cifar_cnn</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/token_classification_utils.html">token_classification_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/validation.html">validation</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="migrating/migrate_v2.html">Migrating to v2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migrating/migrate_v2.html">Migrating to v2.x</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -290,7 +310,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -307,7 +328,7 @@
           
 <section class="genindex-section">
   <h1 id="index">Index</h1>
-  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#X"><strong>X</strong></a> | <a href="#Z"><strong>Z</strong></a></div>
+  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#X"><strong>X</strong></a> | <a href="#Z"><strong>Z</strong></a></div>
 </section>
 <section id="_" class="genindex-section">
   <h2>_</h2>
@@ -335,15 +356,25 @@
         </ul></li>
         <li><a href="cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.adjust_learning_rate">adjust_learning_rate() (in module cleanlab.experimental.coteaching)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.append_extra_datapoint">append_extra_datapoint() (in module cleanlab.internal.util)</a>
+</li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.apply">apply() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.apply">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
-        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.assert_inputs_are_valid">assert_inputs_are_valid() (in module cleanlab.internal.util)</a>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.assert_indexing_works">assert_indexing_works() (in module cleanlab.internal.validation)</a>
+</li>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.assert_nonempty_input">assert_nonempty_input() (in module cleanlab.internal.validation)</a>
+</li>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.assert_valid_class_labels">assert_valid_class_labels() (in module cleanlab.internal.validation)</a>
+</li>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.assert_valid_inputs">assert_valid_inputs() (in module cleanlab.internal.validation)</a>
+</li>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.assert_valid_inputs_multiannotator">assert_valid_inputs_multiannotator() (in module cleanlab.internal.validation)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -451,6 +482,13 @@
 </li>
         </ul></li>
         <li>
+    cleanlab.experimental.keras
+
+        <ul>
+          <li><a href="cleanlab/experimental/keras.html#module-cleanlab.experimental.keras">module</a>
+</li>
+        </ul></li>
+        <li>
     cleanlab.experimental.mnist_pytorch
 
         <ul>
@@ -471,8 +509,6 @@
           <li><a href="cleanlab/internal/index.html#module-cleanlab.internal">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cleanlab.internal.label_quality_utils
 
@@ -488,10 +524,40 @@
 </li>
         </ul></li>
         <li>
+    cleanlab.internal.token_classification_utils
+
+        <ul>
+          <li><a href="cleanlab/internal/token_classification_utils.html#module-cleanlab.internal.token_classification_utils">module</a>
+</li>
+        </ul></li>
+        <li>
     cleanlab.internal.util
 
         <ul>
           <li><a href="cleanlab/internal/util.html#module-cleanlab.internal.util">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    cleanlab.internal.validation
+
+        <ul>
+          <li><a href="cleanlab/internal/validation.html#module-cleanlab.internal.validation">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.multiannotator
+
+        <ul>
+          <li><a href="cleanlab/multiannotator.html#module-cleanlab.multiannotator">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.outlier
+
+        <ul>
+          <li><a href="cleanlab/outlier.html#module-cleanlab.outlier">module</a>
 </li>
         </ul></li>
         <li>
@@ -499,6 +565,34 @@
 
         <ul>
           <li><a href="cleanlab/rank.html#module-cleanlab.rank">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.token_classification
+
+        <ul>
+          <li><a href="cleanlab/token_classification/index.html#module-cleanlab.token_classification">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.token_classification.filter
+
+        <ul>
+          <li><a href="cleanlab/token_classification/filter.html#module-cleanlab.token_classification.filter">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.token_classification.rank
+
+        <ul>
+          <li><a href="cleanlab/token_classification/rank.html#module-cleanlab.token_classification.rank">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.token_classification.summary
+
+        <ul>
+          <li><a href="cleanlab/token_classification/summary.html#module-cleanlab.token_classification.summary">module</a>
 </li>
         </ul></li>
         <li><a href="cleanlab/classification.html#cleanlab.classification.CleanLearning">CleanLearning (class in cleanlab.classification)</a>
@@ -513,6 +607,10 @@
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN">(class in cleanlab.experimental.mnist_pytorch)</a>
 </li>
         </ul></li>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.color_sentence">color_sentence() (in module cleanlab.internal.token_classification_utils)</a>
+</li>
+        <li><a href="cleanlab/token_classification/summary.html#cleanlab.token_classification.summary.common_label_issues">common_label_issues() (in module cleanlab.token_classification.summary)</a>
+</li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.compress_int_array">compress_int_array() (in module cleanlab.internal.util)</a>
 </li>
         <li><a href="cleanlab/count.html#cleanlab.count.compute_confident_joint">compute_confident_joint() (in module cleanlab.count)</a>
@@ -531,12 +629,16 @@
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.confusion_matrix">confusion_matrix() (in module cleanlab.internal.util)</a>
 </li>
+        <li><a href="cleanlab/multiannotator.html#cleanlab.multiannotator.convert_long_to_wide_dataset">convert_long_to_wide_dataset() (in module cleanlab.multiannotator)</a>
+</li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.cpu">cpu() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.cpu">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.csr_vstack">csr_vstack() (in module cleanlab.internal.util)</a>
+</li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.cuda">cuda() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
@@ -555,14 +657,16 @@
 </li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.dataset">dataset (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
 </li>
+        <li><a href="cleanlab/token_classification/summary.html#cleanlab.token_classification.summary.display_issues">display_issues() (in module cleanlab.token_classification.summary)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.double">double() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.double">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.dump_patches">dump_patches (cleanlab.experimental.cifar_cnn.CNN attribute)</a>
 
         <ul>
@@ -611,6 +715,8 @@
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.extra_repr">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.extract_indices_tf">extract_indices_tf() (in module cleanlab.internal.util)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -621,10 +727,16 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/experimental/fasttext.html#cleanlab.experimental.fasttext.FastTextClassifier">FastTextClassifier (class in cleanlab.experimental.fasttext)</a>
 </li>
+        <li><a href="cleanlab/token_classification/summary.html#cleanlab.token_classification.summary.filter_by_token">filter_by_token() (in module cleanlab.token_classification.summary)</a>
+</li>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.filter_sentence">filter_sentence() (in module cleanlab.internal.token_classification_utils)</a>
+</li>
         <li><a href="cleanlab/classification.html#cleanlab.classification.CleanLearning.find_label_issues">find_label_issues() (cleanlab.classification.CleanLearning method)</a>
 
         <ul>
           <li><a href="cleanlab/filter.html#cleanlab.filter.find_label_issues">(in module cleanlab.filter)</a>
+</li>
+          <li><a href="cleanlab/token_classification/filter.html#cleanlab.token_classification.filter.find_label_issues">(in module cleanlab.token_classification.filter)</a>
 </li>
         </ul></li>
         <li><a href="cleanlab/filter.html#cleanlab.filter.find_label_issues_using_argmax_confusion_matrix">find_label_issues_using_argmax_confusion_matrix() (in module cleanlab.filter)</a>
@@ -633,16 +745,26 @@
 </li>
         <li><a href="cleanlab/filter.html#cleanlab.filter.find_predicted_neq_given">find_predicted_neq_given() (in module cleanlab.filter)</a>
 </li>
+        <li><a href="cleanlab/rank.html#cleanlab.rank.find_top_issues">find_top_issues() (in module cleanlab.rank)</a>
+</li>
         <li><a href="cleanlab/classification.html#cleanlab.classification.CleanLearning.fit">fit() (cleanlab.classification.CleanLearning method)</a>
 
         <ul>
           <li><a href="cleanlab/experimental/fasttext.html#cleanlab.experimental.fasttext.FastTextClassifier.fit">(cleanlab.experimental.fasttext.FastTextClassifier method)</a>
 </li>
+          <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel.fit">(cleanlab.experimental.keras.KerasWrapperModel method)</a>
+</li>
+          <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential.fit">(cleanlab.experimental.keras.KerasWrapperSequential method)</a>
+</li>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.fit">(cleanlab.experimental.mnist_pytorch.CNN method)</a>, <a href="cleanlab/experimental/mnist_pytorch.html#id0">[1]</a>
+</li>
+          <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.fit">(cleanlab.outlier.OutOfDistribution method)</a>
 </li>
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.fit_score">fit_score() (cleanlab.outlier.OutOfDistribution method)</a>
+</li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.float">float() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
@@ -691,7 +813,15 @@
 </li>
         <li><a href="cleanlab/rank.html#cleanlab.rank.get_label_quality_ensemble_scores">get_label_quality_ensemble_scores() (in module cleanlab.rank)</a>
 </li>
+        <li><a href="cleanlab/multiannotator.html#cleanlab.multiannotator.get_label_quality_multiannotator">get_label_quality_multiannotator() (in module cleanlab.multiannotator)</a>
+</li>
         <li><a href="cleanlab/rank.html#cleanlab.rank.get_label_quality_scores">get_label_quality_scores() (in module cleanlab.rank)</a>
+
+        <ul>
+          <li><a href="cleanlab/token_classification/rank.html#cleanlab.token_classification.rank.get_label_quality_scores">(in module cleanlab.token_classification.rank)</a>
+</li>
+        </ul></li>
+        <li><a href="cleanlab/multiannotator.html#cleanlab.multiannotator.get_majority_vote_label">get_majority_vote_label() (in module cleanlab.multiannotator)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
@@ -700,6 +830,8 @@
         <li><a href="cleanlab/internal/label_quality_utils.html#cleanlab.internal.label_quality_utils.get_normalized_entropy">get_normalized_entropy() (in module cleanlab.internal.label_quality_utils)</a>
 </li>
         <li><a href="cleanlab/rank.html#cleanlab.rank.get_normalized_margin_for_each_label">get_normalized_margin_for_each_label() (in module cleanlab.rank)</a>
+</li>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.get_num_classes">get_num_classes() (in module cleanlab.internal.util)</a>
 </li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.get_parameter">get_parameter() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
@@ -712,10 +844,16 @@
         <ul>
           <li><a href="cleanlab/experimental/fasttext.html#cleanlab.experimental.fasttext.FastTextClassifier.get_params">(cleanlab.experimental.fasttext.FastTextClassifier method)</a>
 </li>
+          <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel.get_params">(cleanlab.experimental.keras.KerasWrapperModel method)</a>
+</li>
+          <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential.get_params">(cleanlab.experimental.keras.KerasWrapperSequential method)</a>
+</li>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.get_params">(cleanlab.experimental.mnist_pytorch.CNN method)</a>
 </li>
         </ul></li>
         <li><a href="cleanlab/rank.html#cleanlab.rank.get_self_confidence_for_each_label">get_self_confidence_for_each_label() (in module cleanlab.rank)</a>
+</li>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.get_sentence">get_sentence() (in module cleanlab.internal.token_classification_utils)</a>
 </li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.get_sklearn_digits_dataset">get_sklearn_digits_dataset() (in module cleanlab.experimental.mnist_pytorch)</a>
 </li>
@@ -753,9 +891,29 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.initialize_lr_scheduler">initialize_lr_scheduler() (in module cleanlab.experimental.coteaching)</a>
 </li>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.int2onehot">int2onehot() (in module cleanlab.internal.util)</a>
+</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.int2onehot">int2onehot() (in module cleanlab.internal.util)</a>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.is_tensorflow_dataset">is_tensorflow_dataset() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.is_torch_dataset">is_torch_dataset() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/token_classification/rank.html#cleanlab.token_classification.rank.issues_from_scores">issues_from_scores() (in module cleanlab.token_classification.rank)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="K" class="genindex-section">
+  <h2>K</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel">KerasWrapperModel (class in cleanlab.experimental.keras)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential">KerasWrapperSequential (class in cleanlab.experimental.keras)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -765,16 +923,18 @@
   <h2>L</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/internal/validation.html#cleanlab.internal.validation.labels_to_array">labels_to_array() (in module cleanlab.internal.validation)</a>
+</li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.load_state_dict">load_state_dict() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.load_state_dict">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
-        <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.loader">loader (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.loader">loader (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
+</li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.log_interval">log_interval (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
 </li>
         <li><a href="cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.loss_coteaching">loss_coteaching() (in module cleanlab.experimental.coteaching)</a>
@@ -789,6 +949,10 @@
   <h2>M</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.mapping">mapping() (in module cleanlab.internal.token_classification_utils)</a>
+</li>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.merge_probs">merge_probs() (in module cleanlab.internal.token_classification_utils)</a>
+</li>
         <li>
     module
 
@@ -811,6 +975,8 @@
 </li>
           <li><a href="cleanlab/experimental/fasttext.html#module-cleanlab.experimental.fasttext">cleanlab.experimental.fasttext</a>
 </li>
+          <li><a href="cleanlab/experimental/keras.html#module-cleanlab.experimental.keras">cleanlab.experimental.keras</a>
+</li>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#module-cleanlab.experimental.mnist_pytorch">cleanlab.experimental.mnist_pytorch</a>
 </li>
           <li><a href="cleanlab/filter.html#module-cleanlab.filter">cleanlab.filter</a>
@@ -821,9 +987,25 @@
 </li>
           <li><a href="cleanlab/internal/latent_algebra.html#module-cleanlab.internal.latent_algebra">cleanlab.internal.latent_algebra</a>
 </li>
+          <li><a href="cleanlab/internal/token_classification_utils.html#module-cleanlab.internal.token_classification_utils">cleanlab.internal.token_classification_utils</a>
+</li>
           <li><a href="cleanlab/internal/util.html#module-cleanlab.internal.util">cleanlab.internal.util</a>
 </li>
+          <li><a href="cleanlab/internal/validation.html#module-cleanlab.internal.validation">cleanlab.internal.validation</a>
+</li>
+          <li><a href="cleanlab/multiannotator.html#module-cleanlab.multiannotator">cleanlab.multiannotator</a>
+</li>
+          <li><a href="cleanlab/outlier.html#module-cleanlab.outlier">cleanlab.outlier</a>
+</li>
           <li><a href="cleanlab/rank.html#module-cleanlab.rank">cleanlab.rank</a>
+</li>
+          <li><a href="cleanlab/token_classification/index.html#module-cleanlab.token_classification">cleanlab.token_classification</a>
+</li>
+          <li><a href="cleanlab/token_classification/filter.html#module-cleanlab.token_classification.filter">cleanlab.token_classification.filter</a>
+</li>
+          <li><a href="cleanlab/token_classification/rank.html#module-cleanlab.token_classification.rank">cleanlab.token_classification.rank</a>
+</li>
+          <li><a href="cleanlab/token_classification/summary.html#module-cleanlab.token_classification.summary">cleanlab.token_classification.summary</a>
 </li>
         </ul></li>
     </ul></td>
@@ -876,6 +1058,8 @@
 </li>
         <li><a href="cleanlab/count.html#cleanlab.count.num_label_issues">num_label_issues() (in module cleanlab.count)</a>
 </li>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.num_unique_classes">num_unique_classes() (in module cleanlab.internal.util)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -886,9 +1070,11 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.onehot2int">onehot2int() (in module cleanlab.internal.util)</a>
 </li>
+        <li><a href="cleanlab/rank.html#cleanlab.rank.order_label_issues">order_label_issues() (in module cleanlab.rank)</a>
+</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="cleanlab/rank.html#cleanlab.rank.order_label_issues">order_label_issues() (in module cleanlab.rank)</a>
+        <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution">OutOfDistribution (class in cleanlab.outlier)</a>
 </li>
         <li><a href="cleanlab/dataset.html#cleanlab.dataset.overall_label_health_score">overall_label_health_score() (in module cleanlab.dataset)</a>
 </li>
@@ -911,6 +1097,10 @@
         <ul>
           <li><a href="cleanlab/experimental/fasttext.html#cleanlab.experimental.fasttext.FastTextClassifier.predict">(cleanlab.experimental.fasttext.FastTextClassifier method)</a>
 </li>
+          <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel.predict">(cleanlab.experimental.keras.KerasWrapperModel method)</a>
+</li>
+          <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential.predict">(cleanlab.experimental.keras.KerasWrapperSequential method)</a>
+</li>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.predict">(cleanlab.experimental.mnist_pytorch.CNN method)</a>, <a href="cleanlab/experimental/mnist_pytorch.html#id1">[1]</a>
 </li>
         </ul></li>
@@ -918,6 +1108,10 @@
 
         <ul>
           <li><a href="cleanlab/experimental/fasttext.html#cleanlab.experimental.fasttext.FastTextClassifier.predict_proba">(cleanlab.experimental.fasttext.FastTextClassifier method)</a>
+</li>
+          <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel.predict_proba">(cleanlab.experimental.keras.KerasWrapperModel method)</a>
+</li>
+          <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential.predict_proba">(cleanlab.experimental.keras.KerasWrapperSequential method)</a>
 </li>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.predict_proba">(cleanlab.experimental.mnist_pytorch.CNN method)</a>, <a href="cleanlab/experimental/mnist_pytorch.html#id2">[1]</a>
 </li>
@@ -931,6 +1125,8 @@
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.print_noise_matrix">print_noise_matrix() (in module cleanlab.internal.util)</a>
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.print_square_matrix">print_square_matrix() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/internal/token_classification_utils.html#cleanlab.internal.token_classification_utils.process_token">process_token() (in module cleanlab.internal.token_classification_utils)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -1015,6 +1211,8 @@
         <ul>
           <li><a href="cleanlab/experimental/fasttext.html#cleanlab.experimental.fasttext.FastTextClassifier.score">(cleanlab.experimental.fasttext.FastTextClassifier method)</a>
 </li>
+          <li><a href="cleanlab/outlier.html#cleanlab.outlier.OutOfDistribution.score">(cleanlab.outlier.OutOfDistribution method)</a>
+</li>
         </ul></li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.seed">seed (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
 </li>
@@ -1048,6 +1246,18 @@
 
         <ul>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.state_dict">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
+</li>
+        </ul></li>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.subset_data">subset_data() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.subset_labels">subset_labels() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.subset_X_y">subset_X_y() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperModel.summary">summary() (cleanlab.experimental.keras.KerasWrapperModel method)</a>
+
+        <ul>
+          <li><a href="cleanlab/experimental/keras.html#cleanlab.experimental.keras.KerasWrapperSequential.summary">(cleanlab.experimental.keras.KerasWrapperSequential method)</a>
 </li>
         </ul></li>
     </ul></td>
@@ -1088,6 +1298,8 @@
           <li><a href="cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.train">(in module cleanlab.experimental.coteaching)</a>
 </li>
         </ul></li>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.train_val_split">train_val_split() (in module cleanlab.internal.util)</a>
+</li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.training">training (cleanlab.experimental.cifar_cnn.CNN attribute)</a>
 
         <ul>
@@ -1100,6 +1312,16 @@
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.type">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="U" class="genindex-section">
+  <h2>U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.unshuffle_tensorflow_dataset">unshuffle_tensorflow_dataset() (in module cleanlab.internal.util)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -1197,6 +1419,7 @@
 </div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/furo.js"></script>
     <script src="_static/clipboard.min.js"></script>

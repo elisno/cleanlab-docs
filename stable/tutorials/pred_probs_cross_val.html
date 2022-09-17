@@ -1,18 +1,20 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="classification" href="../cleanlab/classification.html" /><link rel="prev" title="Find Dataset-level Issues for Dataset Curation" href="dataset_health.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="FAQ" href="faq.html" /><link rel="prev" title="Find Label Errors in Token Classification (Text) Datasets" href="token_classification.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Computing Out-of-Sample Predicted Probabilities with Cross-Validation - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
     
     
 
@@ -23,24 +25,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -169,13 +175,17 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="indepth_overview.html">Cleanlab 2.0: The Workflows of Data-centric AI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indepth_overview.html">The Workflows of Data-centric AI for Classification with Noisy Labels</a></li>
 <li class="toctree-l1"><a class="reference internal" href="image.html">Image Classification with PyTorch and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text.html">Text Classification with TensorFlow, Keras, and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tabular.html">Classification with Tabular Data using Scikit-Learn and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio Classification with SpeechBrain and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="token_classification.html">Find Label Errors in Token Classification (Text) Datasets</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -184,27 +194,38 @@
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/rank.html">rank</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/count.html">count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/dataset.html">dataset</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/outlier.html">outlier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/multiannotator.html">multiannotator</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/token_classification/index.html">token_classification</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/filter.html">filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/rank.html">rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/summary.html">summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/benchmarking/noise_generation.html">noise_generation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/keras.html">keras</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/fasttext.html">fasttext</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/mnist_pytorch.html">mnist_pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/coteaching.html">coteaching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/cifar_cnn.html">cifar_cnn</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/token_classification_utils.html">token_classification_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/validation.html">validation</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../migrating/migrate_v2.html">Migrating to v2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migrating/migrate_v2.html">Migrating to v2.x</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -291,7 +312,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -339,7 +361,7 @@
             document.getElementById("doc_ver_warning").innerHTML =
             `<div class="admonition warning">
             <p class="admonition-title">Warning</p>
-            <p>This documentation is for an old version (<code class="docutils literal notranslate"><span class="pre">v2.0.0</span></code>) of <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>. To see the documentation for the latest stable version (<code class="docutils literal notranslate"><span class="pre">` + version_number + `</span></code>), click <a href="/">here</a>.</p>
+            <p>This documentation is for an old version (<code class="docutils literal notranslate"><span class="pre">v2.1.0</span></code>) of <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>. To see the documentation for the latest stable version (<code class="docutils literal notranslate"><span class="pre">` + version_number + `</span></code>), click <a href="/">here</a>.</p>
             </div>`;
         } else {
             document.getElementById("doc_ver_warning").remove();
@@ -349,19 +371,19 @@
 
 <!-- End of Version Warning Banner -->
 
- <div class="section" id="computing-out-of-sample-predicted-probabilities-with-cross-validation">
-<span id="pred-probs-cross-val"></span><h1>Computing Out-of-Sample Predicted Probabilities with Cross-Validation<a class="headerlink" href="#computing-out-of-sample-predicted-probabilities-with-cross-validation" title="Permalink to this headline">#</a></h1>
+ <section id="computing-out-of-sample-predicted-probabilities-with-cross-validation">
+<span id="pred-probs-cross-val"></span><h1>Computing Out-of-Sample Predicted Probabilities with Cross-Validation<a class="headerlink" href="#computing-out-of-sample-predicted-probabilities-with-cross-validation" title="Permalink to this heading">#</a></h1>
 <p>Recall that cleanlab finds label issues in any dataset using some model’s predicted class probabilities output. However, predicted probabilities from your model must be out-of-sample! You should never provide predictions on the same datapoints used to train the model, as these will be overfitted and unsuitable for finding label issues. It is ok if your model was trained on a separate dataset and you are only using cleanlab to evaluate labels in data that was previously held out (e.g., only searching for label issues in the test data).</p>
 <p>To find label issues across all your data requires obtaining out-of-sample predicted probabilities for every datapoint in your dataset. This can be done via K-fold cross-validation as described below. Conventionally, <a class="reference external" href="https://scikit-learn.org/stable/modules/cross_validation">cross-validation</a> is used for model evaluation, but we’ll use it to compute out-of-sample predicted probabilities for the entire dataset.</p>
-<div class="section" id="out-of-sample-predicted-probabilities">
-<h2>Out-of-sample predicted probabilities?<a class="headerlink" href="#out-of-sample-predicted-probabilities" title="Permalink to this headline">#</a></h2>
+<section id="out-of-sample-predicted-probabilities">
+<h2>Out-of-sample predicted probabilities?<a class="headerlink" href="#out-of-sample-predicted-probabilities" title="Permalink to this heading">#</a></h2>
 <p><strong>Predicted probabilities</strong> refer to a trained classification model’s probabilistic estimate of the correct label for each datapoint. For example, a model trained to classify images of cats vs. dogs may predict that a new image is a cat with 90% confidence and a dog with 10% confidence — these are the model’s predicted probabilities for one datapoint. Whichever label with the highest predicted probability is often considered the model’s class prediction (i.e., cat for the aforementioned hypothetical image).</p>
 <p><strong>Out-of-sample</strong> predicted probabilities refer to the model’s probabilistic predictions made only on datapoints that were not shown to the model during training. In contrast, in-sample predicted probabilities on the model’s training data will often be way overconfident and cannot be trusted. For example, in a traditional train-test split of the data, the train set will be shown to the model during its training, whereas the test set will only be used to evaluate the model’s performance after training. Predicted probabilities generated for the test set can thus be considered as out-of-sample.</p>
 <p>When using cleanlab, we will typically want to find label issues in all labeled data rather than just the test data. We can use K-fold cross-validation to generate out-of-sample predicted probabilities for every datapoint.</p>
-</div>
-<div class="section" id="what-is-k-fold-cross-validation">
-<h2>What is K-fold cross-validation?<a class="headerlink" href="#what-is-k-fold-cross-validation" title="Permalink to this headline">#</a></h2>
-<img alt="Computing Out-of-Sample Predicted Probabilities from K-Fold Cross-Validation" src="https://raw.githubusercontent.com/cleanlab/assets/master/cleanlab/pred_probs_cross_val.png"/>
+</section>
+<section id="what-is-k-fold-cross-validation">
+<h2>What is K-fold cross-validation?<a class="headerlink" href="#what-is-k-fold-cross-validation" title="Permalink to this heading">#</a></h2>
+<img alt="Computing Out-of-Sample Predicted Probabilities from K-Fold Cross-Validation" src="https://raw.githubusercontent.com/cleanlab/assets/master/cleanlab/pred_probs_cross_val.png" />
 <p>The diagram above depicts K-fold cross-validation with K = 5. K-fold cross-validation partitions the entire dataset into <em>K</em> disjoint subsets of data called <em>folds</em>. <em>K</em> independent copies of our model are trained, where for each model copy, one fold of the data is held out from its training (the data in this fold may be viewed as a <em>validation set</em> for this copy of the model). Each copy of the model has a different validation set for which we can obtain out-of-sample predicted probabilities from this copy of the model. Since each datapoint is held-out from one copy of the model, this process allows us to get out-of-sample predictions for every datapoint! We recommend applying <em>stratified</em> cross-validation, which tries to ensure the proportions of data from each class match across different folds.</p>
 <p>This method of producing out-of-sample predictions via cross-validation is also referred to as cross-validated prediction, out-of-folds predictions, and K-fold bagging. It can be easily applied to any <cite>sklearn</cite>-compatible model by invoking <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_predict.html">cross_val_predict</a>. An additional benefit is that cross-validation produces <a class="reference external" href="https://towardsdatascience.com/5-reasons-why-you-should-use-cross-validation-in-your-data-science-project-8163311a1e79">significantly superior estimates</a> of how the model will perform on new data.</p>
 <p>Here is pseudocode for manually implementing K-fold cross-validation with K = 3:</p>
@@ -392,31 +414,31 @@
 <span class="p">])</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
  
         </article>
       </div>
       <footer>
          
         <div class="related-pages">
-          <a class="next-page" href="../cleanlab/classification.html">
+          <a class="next-page" href="faq.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">classification</div>
+                <div class="title">FAQ</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="dataset_health.html">
+          <a class="prev-page" href="token_classification.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Find Dataset-level Issues for Dataset Curation</div>
+                <div class="title">Find Label Errors in Token Classification (Text) Datasets</div>
                 
               </div>
             </a>
@@ -487,6 +509,7 @@
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>

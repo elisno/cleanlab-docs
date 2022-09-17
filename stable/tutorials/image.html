@@ -1,18 +1,20 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Text Classification with TensorFlow, Keras, and Cleanlab" href="text.html" /><link rel="prev" title="Cleanlab 2.0: The Workflows of Data-centric AI" href="indepth_overview.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Text Classification with TensorFlow, Keras, and Cleanlab" href="text.html" /><link rel="prev" title="The Workflows of Data-centric AI for Classification with Noisy Labels" href="indepth_overview.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-4.4.0, furo 2022.02.23"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Image Classification with PyTorch and Cleanlab - cleanlab</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=3c656993158f05539f962c5cea52a5e6c184bb8c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
     
     
 
@@ -23,24 +25,28 @@
   --color-code-foreground: black;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -169,13 +175,17 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="indepth_overview.html">Cleanlab 2.0: The Workflows of Data-centric AI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indepth_overview.html">The Workflows of Data-centric AI for Classification with Noisy Labels</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Image Classification with PyTorch and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text.html">Text Classification with TensorFlow, Keras, and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tabular.html">Classification with Tabular Data using Scikit-Learn and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio Classification with SpeechBrain and Cleanlab</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="token_classification.html">Find Label Errors in Token Classification (Text) Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
@@ -184,27 +194,38 @@
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/rank.html">rank</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/count.html">count</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/dataset.html">dataset</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/outlier.html">outlier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/multiannotator.html">multiannotator</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/token_classification/index.html">token_classification</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/filter.html">filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/rank.html">rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/summary.html">summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/benchmarking/noise_generation.html">noise_generation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/keras.html">keras</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/fasttext.html">fasttext</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/mnist_pytorch.html">mnist_pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/coteaching.html">coteaching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/cifar_cnn.html">cifar_cnn</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/token_classification_utils.html">token_classification_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/validation.html">validation</a></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../migrating/migrate_v2.html">Migrating to v2.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migrating/migrate_v2.html">Migrating to v2.x</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
 <ul>
@@ -291,7 +312,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -339,7 +361,7 @@
             document.getElementById("doc_ver_warning").innerHTML =
             `<div class="admonition warning">
             <p class="admonition-title">Warning</p>
-            <p>This documentation is for an old version (<code class="docutils literal notranslate"><span class="pre">v2.0.0</span></code>) of <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>. To see the documentation for the latest stable version (<code class="docutils literal notranslate"><span class="pre">` + version_number + `</span></code>), click <a href="/">here</a>.</p>
+            <p>This documentation is for an old version (<code class="docutils literal notranslate"><span class="pre">v2.1.0</span></code>) of <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>. To see the documentation for the latest stable version (<code class="docutils literal notranslate"><span class="pre">` + version_number + `</span></code>), click <a href="/">here</a>.</p>
             </div>`;
         } else {
             document.getElementById("doc_ver_warning").remove();
@@ -616,12 +638,13 @@ div.rendered_html tbody tr:hover {
         color:black;
     }
 </style>
+
 <script type="text/javascript">
     window.addEventListener('load', () => {
         const h1_element = document.getElementsByTagName("h1");
         h1_element[0].insertAdjacentHTML("afterend", `
         <p>
-            <a style="background-color:white;color:black;padding:4px 12px;text-decoration:none;display:inline-block;border-radius:8px;box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)" href="https://colab.research.google.com/github/cleanlab/cleanlab-docs/blob/master/v2.0.0/tutorials/image.ipynb" target="_blank">
+            <a style="background-color:white;color:black;padding:4px 12px;text-decoration:none;display:inline-block;border-radius:8px;box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)" href="https://colab.research.google.com/github/cleanlab/cleanlab-docs/blob/master/v2.1.0/tutorials/image.ipynb" target="_blank">
             <img src="https://colab.research.google.com/img/colab_favicon_256px.png" alt="" style="width:40px;height:40px;vertical-align:middle">
             <span style="vertical-align:middle">Run in Google Colab</span>
             </a>
@@ -629,8 +652,8 @@ div.rendered_html tbody tr:hover {
         `);
     })
 
-</script><div class="section" id="Image-Classification-with-PyTorch-and-Cleanlab">
-<h1>Image Classification with PyTorch and Cleanlab<a class="headerlink" href="#Image-Classification-with-PyTorch-and-Cleanlab" title="Permalink to this headline">#</a></h1>
+</script><section id="Image-Classification-with-PyTorch-and-Cleanlab">
+<h1>Image Classification with PyTorch and Cleanlab<a class="headerlink" href="#Image-Classification-with-PyTorch-and-Cleanlab" title="Permalink to this heading">#</a></h1>
 <p>This 5-minute quickstart tutorial demonstrates how to find potential label errors in image classification data. Here we use the MNIST dataset containing 70,000 images of handwritten digits from 0 to 9.</p>
 <p><strong>Overview of what we’ll do in this tutorial:</strong></p>
 <ul class="simple">
@@ -638,8 +661,21 @@ div.rendered_html tbody tr:hover {
 <li><p>Use this model to compute out-of-sample predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, via cross-validation.</p></li>
 <li><p>Compute a list of potential label errors with cleanlab’s <code class="docutils literal notranslate"><span class="pre">find_label_issues</span></code> method.</p></li>
 </ul>
-<div class="section" id="1.-Install-the-required-dependencies">
-<h2>1. Install the required dependencies<a class="headerlink" href="#1.-Install-the-required-dependencies" title="Permalink to this headline">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Quickstart</p>
+<p>Already have a <code class="docutils literal notranslate"><span class="pre">model</span></code>? Run cross-validation to get out-of-sample <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> and then the code below to get label issue indices ranked by their inferred severity.</p>
+<div class="markdown" style="background:white;margin:16px"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
+
+<span class="n">ranked_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
+    <span class="n">labels</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">,</span>
+    <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div><section id="1.-Install-and-import-required-dependencies">
+<h2>1. Install and import required dependencies<a class="headerlink" href="#1.-Install-and-import-required-dependencies" title="Permalink to this heading">#</a></h2>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install all packages required for this tutorial as follows:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install matplotlib torch torchvision skorch
 <span class="o">!</span>pip install cleanlab
@@ -648,60 +684,50 @@ div.rendered_html tbody tr:hover {
 <span class="c1">#     !pip install git+https://github.com/cleanlab/cleanlab.git</span>
 </pre></div>
 </div>
-<p>Let’s first set some seeds for reproducibility.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-
-<span class="n">SEED</span> <span class="o">=</span> <span class="mi">123</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="s2">"Lazy modules are a new feature.*"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_predict</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">skorch</span> <span class="kn">import</span> <span class="n">NeuralNetClassifier</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="2.-Fetch-and-scale-the-MNIST-dataset">
-<h2>2. Fetch and scale the MNIST dataset<a class="headerlink" href="#2.-Fetch-and-scale-the-MNIST-dataset" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="2.-Fetch-and-scale-the-MNIST-dataset">
+<h2>2. Fetch and scale the MNIST dataset<a class="headerlink" href="#2.-Fetch-and-scale-the-MNIST-dataset" title="Permalink to this heading">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mnist</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;mnist_784&quot;</span><span class="p">)</span>  <span class="c1"># Fetch the MNIST dataset</span>
 
-<span class="n">mnist</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">"mnist_784"</span><span class="p">)</span>  <span class="c1"># Fetch the MNIST dataset</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"float32"</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="c1"># 2D array (images are flattened into 1D)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="c1"># 2D array (images are flattened into 1D)</span>
 <span class="n">X</span> <span class="o">/=</span> <span class="mf">255.0</span>  <span class="c1"># Scale the features to the [0, 1] range</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>  <span class="c1"># reshape into [N, C, H, W] for PyTorch</span>
 
-<span class="n">y</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"int64"</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>  <span class="c1"># 1D array of labels</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>  <span class="c1"># 1D array of given labels</span>
 </pre></div>
 </div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Bringing Your Own Data (BYOD)?</p>
-<p>Assign your data’s features to variable <code class="docutils literal notranslate"><span class="pre">X</span></code> and its labels to variable <code class="docutils literal notranslate"><span class="pre">y</span></code> instead.</p>
-<p>Your classes (and entries of <code class="docutils literal notranslate"><span class="pre">y</span></code>) should be represented as integer indices 0, 1, …, num_classes - 1.</p>
+<p>Assign your data’s features to variable <code class="docutils literal notranslate"><span class="pre">X</span></code> and its labels to variable <code class="docutils literal notranslate"><span class="pre">labels</span></code> instead.</p>
+<p>Your classes (and entries of <code class="docutils literal notranslate"><span class="pre">labels</span></code>) should be represented as integer indices 0, 1, …, num_classes - 1. For example, if your dataset has 7 examples from 3 classes, <code class="docutils literal notranslate"><span class="pre">labels</span></code> might be: <code class="docutils literal notranslate"><span class="pre">np.array([2,0,0,1,2,0,1])</span></code></p>
 </div>
-</div>
-<div class="section" id="3.-Define-a-classification-model">
-<h2>3. Define a classification model<a class="headerlink" href="#3.-Define-a-classification-model" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="3.-Define-a-classification-model">
+<h2>3. Define a classification model<a class="headerlink" href="#3.-Define-a-classification-model" title="Permalink to this heading">#</a></h2>
 <p>Here, we define a simple neural network with PyTorch.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
-
-<span class="k">class</span> <span class="nc">ClassifierModule</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ClassifierModule</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
@@ -730,37 +756,33 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="4.-Ensure-your-classifier-is-scikit-learn-compatible">
-<h2>4. Ensure your classifier is scikit-learn compatible<a class="headerlink" href="#4.-Ensure-your-classifier-is-scikit-learn-compatible" title="Permalink to this headline">#</a></h2>
+</section>
+<section id="4.-Ensure-your-classifier-is-scikit-learn-compatible">
+<h2>4. Ensure your classifier is scikit-learn compatible<a class="headerlink" href="#4.-Ensure-your-classifier-is-scikit-learn-compatible" title="Permalink to this heading">#</a></h2>
 <p>As some cleanlab features require scikit-learn compatibility, we adapt the above PyTorch neural net accordingly. <a class="reference external" href="https://skorch.readthedocs.io">skorch</a> is a convenient package that helps with this. Alternatively, you can also easily wrap an arbitrary model to be scikit-learn compatible as demonstrated <a class="reference external" href="https://github.com/cleanlab/cleanlab#use-cleanlab-with-any-model-tensorflow-pytorch-sklearn-xgboost-etc">here</a>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skorch</span> <span class="kn">import</span> <span class="n">NeuralNetClassifier</span>
-
-<span class="n">model_skorch</span> <span class="o">=</span> <span class="n">NeuralNetClassifier</span><span class="p">(</span><span class="n">ClassifierModule</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="5.-Compute-out-of-sample-predicted-probabilities">
-<h2>5. Compute out-of-sample predicted probabilities<a class="headerlink" href="#5.-Compute-out-of-sample-predicted-probabilities" title="Permalink to this headline">#</a></h2>
-<p>If we’d like cleanlab to identify potential label errors in the whole dataset and not just the training set, we can consider using the entire dataset when computing the out-of-sample predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, via cross-validation.</p>
-<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_predict</span>
-
-<span class="n">num_crossval_folds</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># for efficiency; values like 5 or 10 will generally work better</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_skorch</span> <span class="o">=</span> <span class="n">NeuralNetClassifier</span><span class="p">(</span><span class="n">ClassifierModule</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="5.-Compute-out-of-sample-predicted-probabilities">
+<h2>5. Compute out-of-sample predicted probabilities<a class="headerlink" href="#5.-Compute-out-of-sample-predicted-probabilities" title="Permalink to this heading">#</a></h2>
+<p>If we’d like cleanlab to identify potential label errors in the whole dataset and not just the training set, we can consider using the entire dataset when computing the out-of-sample predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, via cross-validation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_crossval_folds</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># for efficiency; values like 5 or 10 will generally work better</span>
 <span class="n">pred_probs</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
     <span class="n">model_skorch</span><span class="p">,</span>
     <span class="n">X</span><span class="p">,</span>
-    <span class="n">y</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">,</span>
     <span class="n">cv</span><span class="o">=</span><span class="n">num_crossval_folds</span><span class="p">,</span>
-    <span class="n">method</span><span class="o">=</span><span class="s2">"predict_proba"</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;predict_proba&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -772,52 +794,50 @@ div.rendered_html tbody tr:hover {
 <div class="highlight"><pre>
   epoch    train_loss    valid_acc    valid_loss     dur
 -------  ------------  -----------  ------------  ------
-      1        <span class="ansi-cyan-fg">0.6908</span>       <span class="ansi-green-fg">0.9136</span>        <span class="ansi-magenta-fg">0.3099</span>  3.8333
-      2        <span class="ansi-cyan-fg">0.2112</span>       <span class="ansi-green-fg">0.9412</span>        <span class="ansi-magenta-fg">0.1999</span>  3.5987
-      3        <span class="ansi-cyan-fg">0.1521</span>       <span class="ansi-green-fg">0.9514</span>        <span class="ansi-magenta-fg">0.1575</span>  3.7921
-      4        <span class="ansi-cyan-fg">0.1240</span>       <span class="ansi-green-fg">0.9593</span>        <span class="ansi-magenta-fg">0.1332</span>  3.8446
-      5        <span class="ansi-cyan-fg">0.1066</span>       <span class="ansi-green-fg">0.9634</span>        <span class="ansi-magenta-fg">0.1178</span>  3.8152
-      6        <span class="ansi-cyan-fg">0.0948</span>       <span class="ansi-green-fg">0.9661</span>        <span class="ansi-magenta-fg">0.1072</span>  3.6773
-      7        <span class="ansi-cyan-fg">0.0860</span>       <span class="ansi-green-fg">0.9683</span>        <span class="ansi-magenta-fg">0.0995</span>  3.7374
-      8        <span class="ansi-cyan-fg">0.0792</span>       <span class="ansi-green-fg">0.9703</span>        <span class="ansi-magenta-fg">0.0933</span>  3.8420
-      9        <span class="ansi-cyan-fg">0.0737</span>       <span class="ansi-green-fg">0.9724</span>        <span class="ansi-magenta-fg">0.0887</span>  4.0832
-     10        <span class="ansi-cyan-fg">0.0691</span>       <span class="ansi-green-fg">0.9736</span>        <span class="ansi-magenta-fg">0.0848</span>  3.6481
+      1        <span class="ansi-cyan-fg">0.6908</span>       <span class="ansi-green-fg">0.9136</span>        <span class="ansi-magenta-fg">0.3099</span>  3.4794
+      2        <span class="ansi-cyan-fg">0.2112</span>       <span class="ansi-green-fg">0.9412</span>        <span class="ansi-magenta-fg">0.1999</span>  3.3444
+      3        <span class="ansi-cyan-fg">0.1521</span>       <span class="ansi-green-fg">0.9514</span>        <span class="ansi-magenta-fg">0.1575</span>  3.3182
+      4        <span class="ansi-cyan-fg">0.1240</span>       <span class="ansi-green-fg">0.9593</span>        <span class="ansi-magenta-fg">0.1332</span>  3.2790
+      5        <span class="ansi-cyan-fg">0.1066</span>       <span class="ansi-green-fg">0.9634</span>        <span class="ansi-magenta-fg">0.1178</span>  3.2705
+      6        <span class="ansi-cyan-fg">0.0948</span>       <span class="ansi-green-fg">0.9661</span>        <span class="ansi-magenta-fg">0.1072</span>  3.3206
+      7        <span class="ansi-cyan-fg">0.0860</span>       <span class="ansi-green-fg">0.9683</span>        <span class="ansi-magenta-fg">0.0995</span>  3.2932
+      8        <span class="ansi-cyan-fg">0.0792</span>       <span class="ansi-green-fg">0.9703</span>        <span class="ansi-magenta-fg">0.0933</span>  3.2933
+      9        <span class="ansi-cyan-fg">0.0737</span>       <span class="ansi-green-fg">0.9724</span>        <span class="ansi-magenta-fg">0.0887</span>  3.2843
+     10        <span class="ansi-cyan-fg">0.0691</span>       <span class="ansi-green-fg">0.9736</span>        <span class="ansi-magenta-fg">0.0848</span>  3.2871
   epoch    train_loss    valid_acc    valid_loss     dur
 -------  ------------  -----------  ------------  ------
-      1        <span class="ansi-cyan-fg">0.7043</span>       <span class="ansi-green-fg">0.9249</span>        <span class="ansi-magenta-fg">0.2786</span>  3.7278
-      2        <span class="ansi-cyan-fg">0.1907</span>       <span class="ansi-green-fg">0.9465</span>        <span class="ansi-magenta-fg">0.1817</span>  3.6730
-      3        <span class="ansi-cyan-fg">0.1355</span>       <span class="ansi-green-fg">0.9561</span>        <span class="ansi-magenta-fg">0.1476</span>  3.6867
-      4        <span class="ansi-cyan-fg">0.1100</span>       <span class="ansi-green-fg">0.9616</span>        <span class="ansi-magenta-fg">0.1290</span>  3.6845
-      5        <span class="ansi-cyan-fg">0.0943</span>       <span class="ansi-green-fg">0.9644</span>        <span class="ansi-magenta-fg">0.1168</span>  3.7497
-      6        <span class="ansi-cyan-fg">0.0834</span>       <span class="ansi-green-fg">0.9685</span>        <span class="ansi-magenta-fg">0.1079</span>  3.7851
-      7        <span class="ansi-cyan-fg">0.0752</span>       <span class="ansi-green-fg">0.9701</span>        <span class="ansi-magenta-fg">0.1015</span>  3.7732
-      8        <span class="ansi-cyan-fg">0.0687</span>       <span class="ansi-green-fg">0.9711</span>        <span class="ansi-magenta-fg">0.0965</span>  3.6264
-      9        <span class="ansi-cyan-fg">0.0634</span>       <span class="ansi-green-fg">0.9724</span>        <span class="ansi-magenta-fg">0.0921</span>  3.6344
-     10        <span class="ansi-cyan-fg">0.0589</span>       <span class="ansi-green-fg">0.9734</span>        <span class="ansi-magenta-fg">0.0889</span>  3.6933
+      1        <span class="ansi-cyan-fg">0.7043</span>       <span class="ansi-green-fg">0.9249</span>        <span class="ansi-magenta-fg">0.2786</span>  3.3388
+      2        <span class="ansi-cyan-fg">0.1907</span>       <span class="ansi-green-fg">0.9465</span>        <span class="ansi-magenta-fg">0.1817</span>  3.3251
+      3        <span class="ansi-cyan-fg">0.1355</span>       <span class="ansi-green-fg">0.9561</span>        <span class="ansi-magenta-fg">0.1476</span>  3.3516
+      4        <span class="ansi-cyan-fg">0.1100</span>       <span class="ansi-green-fg">0.9616</span>        <span class="ansi-magenta-fg">0.1290</span>  3.3854
+      5        <span class="ansi-cyan-fg">0.0943</span>       <span class="ansi-green-fg">0.9644</span>        <span class="ansi-magenta-fg">0.1168</span>  3.3591
+      6        <span class="ansi-cyan-fg">0.0834</span>       <span class="ansi-green-fg">0.9685</span>        <span class="ansi-magenta-fg">0.1079</span>  3.3578
+      7        <span class="ansi-cyan-fg">0.0752</span>       <span class="ansi-green-fg">0.9701</span>        <span class="ansi-magenta-fg">0.1015</span>  3.3299
+      8        <span class="ansi-cyan-fg">0.0687</span>       <span class="ansi-green-fg">0.9711</span>        <span class="ansi-magenta-fg">0.0965</span>  3.3365
+      9        <span class="ansi-cyan-fg">0.0634</span>       <span class="ansi-green-fg">0.9724</span>        <span class="ansi-magenta-fg">0.0921</span>  3.3721
+     10        <span class="ansi-cyan-fg">0.0589</span>       <span class="ansi-green-fg">0.9734</span>        <span class="ansi-magenta-fg">0.0889</span>  3.3485
   epoch    train_loss    valid_acc    valid_loss     dur
 -------  ------------  -----------  ------------  ------
-      1        <span class="ansi-cyan-fg">0.7931</span>       <span class="ansi-green-fg">0.9115</span>        <span class="ansi-magenta-fg">0.3373</span>  3.6931
-      2        <span class="ansi-cyan-fg">0.2282</span>       <span class="ansi-green-fg">0.9487</span>        <span class="ansi-magenta-fg">0.1950</span>  3.6519
-      3        <span class="ansi-cyan-fg">0.1533</span>       <span class="ansi-green-fg">0.9589</span>        <span class="ansi-magenta-fg">0.1499</span>  3.7697
-      4        <span class="ansi-cyan-fg">0.1218</span>       <span class="ansi-green-fg">0.9642</span>        <span class="ansi-magenta-fg">0.1277</span>  3.7316
-      5        <span class="ansi-cyan-fg">0.1032</span>       <span class="ansi-green-fg">0.9680</span>        <span class="ansi-magenta-fg">0.1136</span>  3.7115
-      6        <span class="ansi-cyan-fg">0.0904</span>       <span class="ansi-green-fg">0.9704</span>        <span class="ansi-magenta-fg">0.1038</span>  3.6836
-      7        <span class="ansi-cyan-fg">0.0809</span>       <span class="ansi-green-fg">0.9731</span>        <span class="ansi-magenta-fg">0.0963</span>  4.1410
-      8        <span class="ansi-cyan-fg">0.0736</span>       <span class="ansi-green-fg">0.9745</span>        <span class="ansi-magenta-fg">0.0905</span>  3.7695
-      9        <span class="ansi-cyan-fg">0.0678</span>       <span class="ansi-green-fg">0.9762</span>        <span class="ansi-magenta-fg">0.0859</span>  3.8166
-     10        <span class="ansi-cyan-fg">0.0630</span>       <span class="ansi-green-fg">0.9766</span>        <span class="ansi-magenta-fg">0.0826</span>  3.8172
+      1        <span class="ansi-cyan-fg">0.7931</span>       <span class="ansi-green-fg">0.9115</span>        <span class="ansi-magenta-fg">0.3373</span>  3.3827
+      2        <span class="ansi-cyan-fg">0.2282</span>       <span class="ansi-green-fg">0.9487</span>        <span class="ansi-magenta-fg">0.1950</span>  3.3616
+      3        <span class="ansi-cyan-fg">0.1533</span>       <span class="ansi-green-fg">0.9589</span>        <span class="ansi-magenta-fg">0.1499</span>  3.3795
+      4        <span class="ansi-cyan-fg">0.1218</span>       <span class="ansi-green-fg">0.9642</span>        <span class="ansi-magenta-fg">0.1277</span>  3.4283
+      5        <span class="ansi-cyan-fg">0.1032</span>       <span class="ansi-green-fg">0.9680</span>        <span class="ansi-magenta-fg">0.1136</span>  3.3882
+      6        <span class="ansi-cyan-fg">0.0904</span>       <span class="ansi-green-fg">0.9704</span>        <span class="ansi-magenta-fg">0.1038</span>  3.4080
+      7        <span class="ansi-cyan-fg">0.0809</span>       <span class="ansi-green-fg">0.9731</span>        <span class="ansi-magenta-fg">0.0963</span>  3.4286
+      8        <span class="ansi-cyan-fg">0.0736</span>       <span class="ansi-green-fg">0.9745</span>        <span class="ansi-magenta-fg">0.0905</span>  3.3843
+      9        <span class="ansi-cyan-fg">0.0678</span>       <span class="ansi-green-fg">0.9762</span>        <span class="ansi-magenta-fg">0.0859</span>  3.3939
+     10        <span class="ansi-cyan-fg">0.0630</span>       <span class="ansi-green-fg">0.9766</span>        <span class="ansi-magenta-fg">0.0826</span>  3.3706
 </pre></div></div>
 </div>
 <p>An additional benefit of cross-validation is that it facilitates more reliable evaluation of our model than a single training/validation split.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
-
-<span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cross-validated estimate of accuracy on held-out data: </span><span class="si">{</span><span class="n">acc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predicted_labels</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predicted_labels</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cross-validated estimate of accuracy on held-out data: </span><span class="si">{</span><span class="n">acc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -829,24 +849,25 @@ div.rendered_html tbody tr:hover {
 Cross-validated estimate of accuracy on held-out data: 0.9752142857142857
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="6.-Use-cleanlab-to-find-label-issues">
-<h2>6. Use cleanlab to find label issues<a class="headerlink" href="#6.-Use-cleanlab-to-find-label-issues" title="Permalink to this headline">#</a></h2>
-<p>Based on the given labels and out-of-sample predicted probabilities, cleanlab can quickly help us identify label issues in our dataset. Here we request that the indices of the identified label issues be sorted by cleanlab’s self-confidence score, which measures the quality of each given label via the probability assigned to it in our model’s prediction.</p>
+</section>
+<section id="6.-Use-cleanlab-to-find-label-issues">
+<h2>6. Use cleanlab to find label issues<a class="headerlink" href="#6.-Use-cleanlab-to-find-label-issues" title="Permalink to this heading">#</a></h2>
+<p>Based on the given labels and out-of-sample predicted probabilities, cleanlab can quickly help us identify label issues in our dataset. For a dataset with N examples from K classes, the labels should be a 1D array of length N and predicted probabilities should be a 2D (N x K) array. Here we request that the indices of the identified label issues be sorted by cleanlab’s self-confidence score, which measures the quality of each given label via the probability assigned to it in our model’s
+prediction.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
 
 <span class="n">ranked_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
-    <span class="n">y</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">,</span>
-    <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">"self_confidence"</span><span class="p">,</span>
+    <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cleanlab found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ranked_label_issues</span><span class="p">)</span><span class="si">}</span><span class="s2"> label issues."</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Top 15 most likely label errors: </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">ranked_label_issues</span><span class="p">[:</span><span class="mi">15</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cleanlab found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ranked_label_issues</span><span class="p">)</span><span class="si">}</span><span class="s2"> label issues.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Top 15 most likely label errors: </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">ranked_label_issues</span><span class="p">[:</span><span class="mi">15</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -862,24 +883,24 @@ Top 15 most likely label errors:
 </pre></div></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">ranked_label_issues</span></code> is a list of indices corresponding to examples that are worth inspecting more closely. To help visualize specific examples, we define a <code class="docutils literal notranslate"><span class="pre">plot_examples</span></code> function (can skip these details).</p>
-<details><p>Below is the code used for plotting.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.
+<details><summary><p>See the implementation of <code class="docutils literal notranslate"><span class="pre">plot_examples</span></code> <strong>(click to expand)</strong></p>
+</summary><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
 
-import matplotlib.pyplot as plt
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-def plot_examples(id_iter, nrows=1, ncols=1):
-    for count, id in enumerate(id_iter):
-        plt.subplot(nrows, ncols, count + 1)
-        plt.imshow(X[id].reshape(28, 28), cmap="gray")
-        plt.title(f"id: {id} \n label: {y[id]}")
-        plt.axis("off")
+<span class="k">def</span> <span class="nf">plot_examples</span><span class="p">(</span><span class="n">id_iter</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">id_iter</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;id: </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> label: </span><span class="si">{</span><span class="n">y</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
 
-    plt.tight_layout(h_pad=2.0)
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
 </pre></div>
 </div>
 </details><p>Let’s look at the top 15 examples cleanlab thinks are most likely to be incorrectly labeled. We can see a few label errors and odd edge cases. Feel free to change the values below to display more/fewer examples.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_examples</span><span class="p">(</span><span class="n">ranked_label_issues</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">)],</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -890,13 +911,13 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_image_28_0.png" src="../_images/tutorials_image_28_0.png"/>
+<img alt="../_images/tutorials_image_29_0.png" src="../_images/tutorials_image_29_0.png" />
 </div>
 </div>
 <p>Let’s zoom into some specific examples from the above set:</p>
 <p>Given label is <strong>4</strong> but looks more like a <strong>7</strong>:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_examples</span><span class="p">([</span><span class="mi">59915</span><span class="p">])</span>
@@ -907,12 +928,12 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_image_31_0.png" src="../_images/tutorials_image_31_0.png"/>
+<img alt="../_images/tutorials_image_32_0.png" src="../_images/tutorials_image_32_0.png" />
 </div>
 </div>
 <p>Given label is <strong>4</strong> but also looks like <strong>9</strong>:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_examples</span><span class="p">([</span><span class="mi">24798</span><span class="p">])</span>
@@ -923,12 +944,12 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_image_33_0.png" src="../_images/tutorials_image_33_0.png"/>
+<img alt="../_images/tutorials_image_34_0.png" src="../_images/tutorials_image_34_0.png" />
 </div>
 </div>
 <p>A very odd looking <strong>5</strong>:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_examples</span><span class="p">([</span><span class="mi">59701</span><span class="p">])</span>
@@ -939,12 +960,12 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_image_35_0.png" src="../_images/tutorials_image_35_0.png"/>
+<img alt="../_images/tutorials_image_36_0.png" src="../_images/tutorials_image_36_0.png" />
 </div>
 </div>
 <p>Given label is <strong>3</strong> but could be a <strong>7</strong>:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_examples</span><span class="p">([</span><span class="mi">50340</span><span class="p">])</span>
@@ -955,13 +976,13 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_image_37_0.png" src="../_images/tutorials_image_37_0.png"/>
+<img alt="../_images/tutorials_image_38_0.png" src="../_images/tutorials_image_38_0.png" />
 </div>
 </div>
 <p>cleanlab has shortlisted the most likely label errors to speed up your data cleaning process. With this list, you can decide whether to fix label issues or prune some of these examples from the dataset.</p>
 <p>You can see that even widely-used datasets like MNIST contain problematic labels. Never blindly trust your data! You should always check it for potential issues, many of which can be easily identified by cleanlab.</p>
-</div>
-</div>
+</section>
+</section>
  
         </article>
       </div>
@@ -984,7 +1005,7 @@ def plot_examples(id_iter, nrows=1, ncols=1):
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Cleanlab 2.0: The Workflows of Data-centric AI</div>
+                <div class="title">The Workflows of Data-centric AI for Classification with Noisy Labels</div>
                 
               </div>
             </a>
@@ -1039,7 +1060,7 @@ def plot_examples(id_iter, nrows=1, ncols=1):
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Image Classification with PyTorch and Cleanlab</a><ul>
-<li><a class="reference internal" href="#1.-Install-the-required-dependencies">1. Install the required dependencies</a></li>
+<li><a class="reference internal" href="#1.-Install-and-import-required-dependencies">1. Install and import required dependencies</a></li>
 <li><a class="reference internal" href="#2.-Fetch-and-scale-the-MNIST-dataset">2. Fetch and scale the MNIST dataset</a></li>
 <li><a class="reference internal" href="#3.-Define-a-classification-model">3. Define a classification model</a></li>
 <li><a class="reference internal" href="#4.-Ensure-your-classifier-is-scikit-learn-compatible">4. Ensure your classifier is scikit-learn compatible</a></li>
@@ -1059,6 +1080,7 @@ def plot_examples(id_iter, nrows=1, ncols=1):
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>
