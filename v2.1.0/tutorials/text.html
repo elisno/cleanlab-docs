@@ -1,0 +1,1575 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Classification with Tabular Data using Scikit-Learn and Cleanlab" href="tabular.html" /><link rel="prev" title="Image Classification with PyTorch and Cleanlab" href="image.html" />
+
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
+        <title>Text Classification with TensorFlow, Keras, and Cleanlab - cleanlab</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">cleanlab</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a style="padding-bottom: 0px;" class="sidebar-brand centered" href="../index.html">
+    
+    <div class="sidebar-logo-container">
+        <img class="sidebar-logo" src="https://raw.githubusercontent.com/cleanlab/assets/master/cleanlab/cleanlab_logo_only.png" alt="Logo" />
+    </div>
+    
+    <span style="margin-bottom:0px" class="sidebar-brand-text">
+        cleanlab
+    </span>
+    
+</a>
+
+<div class="centered">
+    <a style="margin-top: 6px;" class="github-button" href="https://github.com/cleanlab/cleanlab" data-size="large" data-show-count="true"
+    aria-label="Star cleanlab/cleanlab on GitHub">Star</a>
+</div>
+<form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Quickstart</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="indepth_overview.html">The Workflows of Data-centric AI for Classification with Noisy Labels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="image.html">Image Classification with PyTorch and Cleanlab</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Text Classification with TensorFlow, Keras, and Cleanlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tabular.html">Classification with Tabular Data using Scikit-Learn and Cleanlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio Classification with SpeechBrain and Cleanlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="token_classification.html">Find Label Errors in Token Classification (Text) Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/classification.html">classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/filter.html">filter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/rank.html">rank</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/count.html">count</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/dataset.html">dataset</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/outlier.html">outlier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/multiannotator.html">multiannotator</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/token_classification/index.html">token_classification</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/filter.html">filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/rank.html">rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/summary.html">summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/benchmarking/noise_generation.html">noise_generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/keras.html">keras</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/fasttext.html">fasttext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/mnist_pytorch.html">mnist_pytorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/coteaching.html">coteaching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/cifar_cnn.html">cifar_cnn</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/util.html">util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/token_classification_utils.html">token_classification_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/validation.html">validation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../migrating/migrate_v2.html">Migrating to v2.x</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://cleanlab.ai">Website</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/cleanlab/cleanlab">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/cleanlab/">PyPI</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://anaconda.org/Cleanlab/cleanlab">Conda</a></li>
+</ul>
+
+</div>
+
+
+<!-- Start of versioning -->
+
+<div class="sidebar-tree">
+    <p class="caption" role="heading">
+        <span class="caption-text">Versions</span>
+    </p>
+    <ul>
+        <li class="toctree-l1">
+            <a
+                id="version_number"
+                class="reference internal"
+                href="/"
+                >stable</a
+            >
+        </li>
+        <li class="toctree-l1">
+            <a
+                id="commit_hash"
+                class="reference internal"
+                href="/master/"
+                >developer</a
+            >
+        </li>
+        <li class="toctree-l1">
+            <a
+                id="v1.0.1"
+                class="reference internal"
+                href="/v1.0.1/"
+                >v1.0.1</a
+            >
+        </li>
+    </ul>
+</div>
+
+<br>
+<br>
+
+<script
+    type="text/javascript"
+    src="/versioning.js"
+></script>
+
+<script type="text/javascript">
+    window.addEventListener("load", () => {
+        const version_number = Version.version_number;
+        const commit_hash = Version.commit_hash;
+
+        document.getElementById("version_number").innerHTML =
+            "stable <code class='docutils literal notranslate'><span class='pre'> (" +
+            version_number +
+            ")</span></code>";
+        document.getElementById("commit_hash").innerHTML =
+            "master <code class='docutils literal notranslate'><span class='pre'> (" +
+            commit_hash.slice(0, 7) +
+            "&hellip;)</span></code>";
+    });
+</script>
+
+<!-- End of versioning -->
+
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          
+
+<noscript>
+  <div class="admonition warning">
+    <p class="admonition-title">Warning</p>
+    <p>Parts of this site uses JavaScript, but your browser does not support it.</p>
+  </div>
+</noscript>
+
+
+
+<!-- Start of Version Warning Banner -->
+
+<p id="doc_ver_warning"></p>
+
+<script
+    type="text/javascript"
+    src="/versioning.js"
+></script>
+<script type="text/javascript">
+    window.addEventListener("load", () => {
+        const version_number = Version.version_number;
+        const path_arr = window.location.pathname.split("/");
+
+        if (path_arr.includes("master")) {
+            document.getElementById("doc_ver_warning").innerHTML =
+            `<div class="admonition warning">
+            <p class="admonition-title">Warning</p>
+            <p>This version of the documentation corresponds to the master branch of <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> source code from <a href="https://github.com/cleanlab/cleanlab/">GitHub</a>. To see the documentation for the latest <code class="docutils literal notranslate"><span class="pre">pip</span></code>-installed version, click <a href="/">here</a>.</p>
+            </div>`;
+        } else if (!path_arr.includes(version_number) && !path_arr.includes("stable")) {
+            document.getElementById("doc_ver_warning").innerHTML =
+            `<div class="admonition warning">
+            <p class="admonition-title">Warning</p>
+            <p>This documentation is for an old version (<code class="docutils literal notranslate"><span class="pre">v2.1.0</span></code>) of <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>. To see the documentation for the latest stable version (<code class="docutils literal notranslate"><span class="pre">` + version_number + `</span></code>), click <a href="/">here</a>.</p>
+            </div>`;
+        } else {
+            document.getElementById("doc_ver_warning").remove();
+        }
+    });
+</script>
+
+<!-- End of Version Warning Banner -->
+
+ 
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+</style>
+<style>
+    .nbinput .prompt,
+    .nboutput .prompt {
+        display: none;
+    }
+
+    .output_area {
+        max-height: 300px;
+        overflow: auto;
+    }
+
+    .dataframe {
+        background: #D7D7D7;
+    }
+
+    th {
+        color:black;
+    }
+</style>
+
+<script type="text/javascript">
+    window.addEventListener('load', () => {
+        const h1_element = document.getElementsByTagName("h1");
+        h1_element[0].insertAdjacentHTML("afterend", `
+        <p>
+            <a style="background-color:white;color:black;padding:4px 12px;text-decoration:none;display:inline-block;border-radius:8px;box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)" href="https://colab.research.google.com/github/cleanlab/cleanlab-docs/blob/master/v2.1.0/tutorials/text.ipynb" target="_blank">
+            <img src="https://colab.research.google.com/img/colab_favicon_256px.png" alt="" style="width:40px;height:40px;vertical-align:middle">
+            <span style="vertical-align:middle">Run in Google Colab</span>
+            </a>
+        </p>
+        `);
+    })
+
+</script><section id="Text-Classification-with-TensorFlow,-Keras,-and-Cleanlab">
+<h1>Text Classification with TensorFlow, Keras, and Cleanlab<a class="headerlink" href="#Text-Classification-with-TensorFlow,-Keras,-and-Cleanlab" title="Permalink to this heading">#</a></h1>
+<p>In this quick-start tutorial, we use cleanlab to find potential label errors in the <a class="reference external" href="https://ai.stanford.edu/~amaas/data/sentiment/">IMDb movie review text classification dataset</a>. This dataset contains 50,000 text reviews, each labeled with a binary sentiment polarity label indicating whether the review is positive (1) or negative (0). cleanlab will shortlist <em>hundreds</em> of examples that confuse our ML model the most; many of which are potential label errors, edge cases, or otherwise
+ambiguous examples.</p>
+<p><strong>Overview of what we’ll do in this tutorial:</strong></p>
+<ul class="simple">
+<li><p>Build a simple TensorFlow &amp; Keras neural net and wrap it with <a class="reference external" href="https://www.adriangb.com/scikeras/">SciKeras</a> to make it scikit-learn compatible.</p></li>
+<li><p>Use this classifier to compute out-of-sample predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, via cross validation.</p></li>
+<li><p>Identify potential label errors in the data with cleanlab’s <code class="docutils literal notranslate"><span class="pre">find_label_issues</span></code> method.</p></li>
+<li><p>Train a more robust version of the same neural net via cleanlab’s <code class="docutils literal notranslate"><span class="pre">CleanLearning</span></code> wrapper.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Quickstart</p>
+<p>Already have an sklearn compatible <code class="docutils literal notranslate"><span class="pre">model</span></code>, text <code class="docutils literal notranslate"><span class="pre">data</span></code> and given <code class="docutils literal notranslate"><span class="pre">labels</span></code>? Run the code below to train your <code class="docutils literal notranslate"><span class="pre">model</span></code> and get label issues.</p>
+<div class="markdown" style="background:white;margin:16px"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.classification</span> <span class="kn">import</span> <span class="n">CleanLearning</span>
+
+<span class="n">cl</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="n">label_issues</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">get_label_issues</span><span class="p">()</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span> <span class="c1"># predictions from a version of your model</span>
+                              <span class="c1"># trained on auto-cleaned data</span>
+</pre></div>
+</div>
+</div>
+<p>Is your model/data not compatible with <code class="docutils literal notranslate"><span class="pre">CleanLearning</span></code>? You can instead run cross-validation on your model to get out-of-sample <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>. Then run the code below to get label issue indices ranked by their inferred severity.</p>
+<div class="markdown" style="background:white;margin:16px"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
+
+<span class="n">ranked_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
+    <span class="n">labels</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">,</span>
+    <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div></div><section id="1.-Install-required-dependencies">
+<h2><strong>1. Install required dependencies</strong><a class="headerlink" href="#1.-Install-required-dependencies" title="Permalink to this heading">#</a></h2>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install all packages required for this tutorial as follows:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install sklearn tensorflow tensorflow-datasets scikeras
+<span class="o">!</span>pip install cleanlab
+<span class="c1"># Make sure to install the version corresponding to this tutorial</span>
+<span class="c1"># E.g. if viewing master branch documentation:</span>
+<span class="c1">#     !pip install git+https://github.com/cleanlab/cleanlab.git</span>
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">log_loss</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_predict</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras</span> <span class="kn">import</span> <span class="n">layers</span>
+<span class="kn">import</span> <span class="nn">tensorflow_datasets</span> <span class="k">as</span> <span class="nn">tfds</span>
+<span class="kn">from</span> <span class="nn">scikeras.wrappers</span> <span class="kn">import</span> <span class="n">KerasClassifier</span>
+
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">123456</span>  <span class="c1"># for reproducibility</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="2.-Load-and-preprocess-the-IMDb-text-dataset">
+<h2><strong>2. Load and preprocess the IMDb text dataset</strong><a class="headerlink" href="#2.-Load-and-preprocess-the-IMDb-text-dataset" title="Permalink to this heading">#</a></h2>
+<p>This dataset is provided in TensorFlow’s Datasets.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+
+<span class="n">raw_full_ds</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;imdb_reviews&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;train+test&quot;</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">as_supervised</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">raw_full_texts</span><span class="p">,</span> <span class="n">full_labels</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">as_numpy</span><span class="p">(</span><span class="n">raw_full_ds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2022-09-17 07:54:28.636009: W tensorflow/core/platform/cloud/google_auth_provider.cc:184] All attempts to get a Google authentication bearer token failed, returning an empty token. Retrieving token from files failed with &#34;NOT_FOUND: Could not locate the credentials file.&#34;. Retrieving token from GCE failed with &#34;FAILED_PRECONDITION: Error executing an HTTP request: libcurl code 6 meaning &#39;Couldn&#39;t resolve host name&#39;, error details: Could not resolve host: metadata&#34;.
+2022-09-17 07:55:11.713982: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcuda.so.1&#39;; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.13/x64/lib
+2022-09-17 07:55:11.714012: W tensorflow/stream_executor/cuda/cuda_driver.cc:269] failed call to cuInit: UNKNOWN ERROR (303)
+2022-09-17 07:55:11.714031: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (fv-az152-47): /proc/driver/nvidia/version does not exist
+2022-09-17 07:55:11.715172: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">full_labels</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Classes: </span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="n">full_labels</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Classes: {0, 1}
+</pre></div></div>
+</div>
+<p>Let’s print the first example.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Example Label: </span><span class="si">{</span><span class="n">full_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Example Text: </span><span class="si">{</span><span class="n">raw_full_texts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Example Label: 0
+Example Text: b&#34;This was an absolutely terrible movie. Don&#39;t be lured in by Christopher Walken or Michael Ironside. Both are great actors, but this must simply be their worst role in history. Even their great acting could not redeem this movie&#39;s ridiculous storyline. This movie is an early nineties US propaganda piece. The most pathetic scenes were those when the Columbian rebels were making their cases for revolutions. Maria Conchita Alonso appeared phony, and her pseudo-love affair with Walken was nothing but a pathetic emotional plug in a movie that was devoid of any real meaning. I am disappointed that there are movies like this, ruining actor&#39;s like Christopher Walken&#39;s good name. I could barely sit through it.&#34;
+</pre></div></div>
+</div>
+<p>The data are stored as two numpy arrays:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">raw_full_texts</span></code> for the movie reviews in text format,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">full_labels</span></code> for the labels.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Bringing Your Own Data (BYOD)?</p>
+<p>You can easily replace the above with your own text dataset, and continue with the rest of the tutorial.</p>
+<p>Your classes (and entries of <code class="docutils literal notranslate"><span class="pre">full_labels</span></code>) should be represented as integer indices 0, 1, …, num_classes - 1. For example, if your dataset has 7 examples from 3 classes, <code class="docutils literal notranslate"><span class="pre">full_labels</span></code> might be: <code class="docutils literal notranslate"><span class="pre">np.array([2,0,0,1,2,0,1])</span></code></p>
+</div>
+<p>Define a function to preprocess the text data by:</p>
+<ol class="arabic simple">
+<li><p>Converting it to lower case</p></li>
+<li><p>Removing the HTML break tags: <code class="docutils literal notranslate"><span class="pre">&lt;br</span> <span class="pre">/&gt;</span></code></p></li>
+<li><p>Removing any punctuation marks</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_text</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
+    <span class="n">lowercase</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">lower</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+    <span class="n">stripped_html</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">regex_replace</span><span class="p">(</span><span class="n">lowercase</span><span class="p">,</span> <span class="s2">&quot;&lt;br /&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">strings</span><span class="o">.</span><span class="n">regex_replace</span><span class="p">(</span><span class="n">stripped_html</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We use a <code class="docutils literal notranslate"><span class="pre">TextVectorization</span></code> layer to preprocess, tokenize, and vectorize our text data, thus making it suitable as input for a neural network.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_features</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">sequence_length</span> <span class="o">=</span> <span class="mi">250</span>
+
+<span class="n">vectorize_layer</span> <span class="o">=</span> <span class="n">layers</span><span class="o">.</span><span class="n">TextVectorization</span><span class="p">(</span>
+    <span class="n">standardize</span><span class="o">=</span><span class="n">preprocess_text</span><span class="p">,</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="n">max_features</span><span class="p">,</span>
+    <span class="n">output_mode</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">,</span>
+    <span class="n">output_sequence_length</span><span class="o">=</span><span class="n">sequence_length</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Adapting <code class="docutils literal notranslate"><span class="pre">vectorize_layer</span></code> to the text data creates a mapping of each token (i.e. word) to an integer index. Subsequently, we can vectorize our text data by using this mapping. Finally, we’ll also convert our text data into a numpy array as required by cleanlab.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+
+<span class="n">vectorize_layer</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">raw_full_texts</span><span class="p">)</span>
+<span class="n">full_texts</span> <span class="o">=</span> <span class="n">vectorize_layer</span><span class="p">(</span><span class="n">raw_full_texts</span><span class="p">)</span>
+<span class="n">full_texts</span> <span class="o">=</span> <span class="n">full_texts</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2022-09-17 07:55:20.426267: W tensorflow/core/framework/cpu_allocator_impl.cc:82] Allocation of 273575424 exceeds 10% of free system memory.
+</pre></div></div>
+</div>
+</section>
+<section id="3.-Define-a-classification-model-and-compute-out-of-sample-predicted-probabilities">
+<h2><strong>3. Define a classification model and compute out-of-sample predicted probabilities</strong><a class="headerlink" href="#3.-Define-a-classification-model-and-compute-out-of-sample-predicted-probabilities" title="Permalink to this heading">#</a></h2>
+<p>Here, we build a simple neural network for classification with TensorFlow and Keras.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_net</span><span class="p">():</span>
+    <span class="n">net</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int64&quot;</span><span class="p">),</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">max_features</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">),</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">GlobalAveragePooling1D</span><span class="p">(),</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">),</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">num_classes</span><span class="p">),</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">Softmax</span><span class="p">()</span>
+        <span class="p">]</span>
+    <span class="p">)</span>  <span class="c1"># outputs probability that text belongs to class 1</span>
+
+    <span class="n">net</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+        <span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">(),</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">CategoricalAccuracy</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">net</span>
+</pre></div>
+</div>
+</div>
+<p>As some of cleanlab’s feature requires scikit-learn compatibility, we will need to adapt the above TensorFlow &amp; Keras neural net accordingly. <a class="reference external" href="https://www.adriangb.com/scikeras/stable/">SciKeras</a> is a convenient package that makes this really easy.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">KerasClassifier</span><span class="p">(</span><span class="n">get_net</span><span class="p">(),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>To identify label issues, cleanlab requires a probabilistic prediction from your model for every datapoint that should be considered. However these predictions will be <em>overfit</em> (and thus unreliable) for datapoints the model was previously trained on. cleanlab is intended to only be used with <strong>out-of-sample</strong> predicted probabilities, i.e. on datapoints held-out from the model during the training.</p>
+<p>K-fold cross-validation is a straightforward way to produce out-of-sample predicted probabilities for every datapoint in the dataset, by training K copies of our model on different data subsets and using each copy to predict on the subset of data it did not see during training. We can obtain cross-validated out-of-sample predicted probabilities from any classifier via a scikit-learn simple wrapper:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_crossval_folds</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># for efficiency; values like 5 or 10 will generally work better</span>
+<span class="n">pred_probs</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span>
+    <span class="n">full_texts</span><span class="p">,</span>
+    <span class="n">full_labels</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="n">num_crossval_folds</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;predict_proba&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch 1/10
+1042/1042 [==============================] - 4s 3ms/step - loss: 0.5955 - categorical_accuracy: 0.4451
+Epoch 2/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.3968 - categorical_accuracy: 0.4869
+Epoch 3/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.3183 - categorical_accuracy: 0.4902
+Epoch 4/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2795 - categorical_accuracy: 0.4928
+Epoch 5/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2533 - categorical_accuracy: 0.4937
+Epoch 6/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2339 - categorical_accuracy: 0.4956
+Epoch 7/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2185 - categorical_accuracy: 0.4958
+Epoch 8/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2075 - categorical_accuracy: 0.4948
+Epoch 9/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.1961 - categorical_accuracy: 0.4956
+Epoch 10/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.1885 - categorical_accuracy: 0.4957
+521/521 [==============================] - 1s 1ms/step
+Epoch 1/10
+1042/1042 [==============================] - 4s 3ms/step - loss: 0.5966 - categorical_accuracy: 0.4631
+Epoch 2/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.3980 - categorical_accuracy: 0.4871
+Epoch 3/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.3184 - categorical_accuracy: 0.4897
+Epoch 4/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2799 - categorical_accuracy: 0.4912
+Epoch 5/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2532 - categorical_accuracy: 0.4935
+Epoch 6/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2333 - categorical_accuracy: 0.4929
+Epoch 7/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2187 - categorical_accuracy: 0.4943
+Epoch 8/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2064 - categorical_accuracy: 0.4944
+Epoch 9/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.1955 - categorical_accuracy: 0.4957
+Epoch 10/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.1872 - categorical_accuracy: 0.4955
+521/521 [==============================] - 1s 1ms/step
+Epoch 1/10
+1042/1042 [==============================] - 4s 3ms/step - loss: 0.5977 - categorical_accuracy: 0.3976
+Epoch 2/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.3960 - categorical_accuracy: 0.4897
+Epoch 3/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.3171 - categorical_accuracy: 0.4923
+Epoch 4/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2767 - categorical_accuracy: 0.4929
+Epoch 5/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2519 - categorical_accuracy: 0.4932
+Epoch 6/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2333 - categorical_accuracy: 0.4939
+Epoch 7/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2174 - categorical_accuracy: 0.4956
+Epoch 8/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.2051 - categorical_accuracy: 0.4948
+Epoch 9/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.1944 - categorical_accuracy: 0.4945
+Epoch 10/10
+1042/1042 [==============================] - 3s 3ms/step - loss: 0.1852 - categorical_accuracy: 0.4944
+521/521 [==============================] - 1s 1ms/step
+</pre></div></div>
+</div>
+<p>An additional benefit of cross-validation is that it facilitates more reliable evaluation of our model than a single training/validation split.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">log_loss</span><span class="p">(</span><span class="n">full_labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>  <span class="c1"># score to evaluate probabilistic predictions, lower values are better</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cross-validated estimate of log loss: </span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Cross-validated estimate of log loss: 0.289
+</pre></div></div>
+</div>
+</section>
+<section id="4.-Use-cleanlab-to-find-potential-label-errors">
+<h2><strong>4. Use cleanlab to find potential label errors</strong><a class="headerlink" href="#4.-Use-cleanlab-to-find-potential-label-errors" title="Permalink to this heading">#</a></h2>
+<p>Based on the given labels and out-of-sample predicted probabilities, cleanlab can quickly help us identify label issues in our dataset. For a dataset with N examples from K classes, the labels should be a 1D array of length N and predicted probabilities should be a 2D (N x K) array. Here we request that the indices of the identified label issues should be sorted by cleanlab’s self-confidence score, which measures the quality of each given label via the probability assigned it in our model’s
+prediction.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
+
+<span class="n">ranked_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">full_labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s2">&quot;self_confidence&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s review some of the most likely label errors:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;cleanlab found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ranked_label_issues</span><span class="p">)</span><span class="si">}</span><span class="s2"> potential label errors.</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;Here are indices of the top 10 most likely errors: </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">ranked_label_issues</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cleanlab found 2588 potential label errors.
+Here are indices of the top 10 most likely errors:
+ [10404 44582 30151 43777 16633 13853 21165 21348 22370 13912]
+</pre></div></div>
+</div>
+<p>To help us inspect these datapoints, we define a method to print any example from the dataset. We then display some of the top-ranked label issues identified by <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_as_df</span><span class="p">(</span><span class="n">index</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;texts&quot;</span><span class="p">:</span> <span class="n">raw_full_texts</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="n">full_labels</span><span class="p">[</span><span class="n">index</span><span class="p">]},</span>
+        <span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Here’s a review labeled as positive (1), but it should be negative (0). Some noteworthy snippets extracted from the review text:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>“…incredibly <strong>awful</strong> score…”</p></li>
+<li><p>“…<strong>worst</strong> Foley work ever done.”</p></li>
+<li><p>“…script is <strong>incomprehensible</strong>…”</p></li>
+<li><p>“…editing is just <strong>bizarre</strong>.”</p></li>
+<li><p>“…<strong>atrocious</strong> pan and scan…”</p></li>
+<li><p>“…<strong>incoherent mess</strong>…”</p></li>
+<li><p>“…<strong>amateur</strong> directing there.”</p></li>
+</ul>
+</div></blockquote>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_as_df</span><span class="p">(</span><span class="mi">44582</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>texts</th>
+      <th>labels</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>44582</th>
+      <td>b'This movie is stuffed full of stock Horror movie goodies: chained lunatics, pre-meditated murder, a mad (vaguely lesbian) female scientist with an even madder father who wears a mask because of his horrible disfigurement, poisoning, spooky castles, werewolves (male and female), adultery, slain lovers, Tibetan mystics, the half-man/half-plant victim of some unnamed experiment, grave robbing, mind control, walled up bodies, a car crash on a lonely road, electrocution, knights in armour - the lot, all topped off with an incredibly awful score and some of the worst Foley work ever done.&lt;br /&gt;&lt;br /&gt;The script is incomprehensible (even by badly dubbed Spanish Horror movie standards) and some of the editing is just bizarre. In one scene where the lead female evil scientist goes to visit our heroine in her bedroom for one of the badly dubbed: "That is fantastical. I do not understand. Explain to me again how this is..." exposition scenes that litter this movie, there is a sudden hand held cutaway of the girl\'s thighs as she gets out of bed for no apparent reason at all other than to cover a cut in the bad scientist\'s "Mwahaha! All your werewolfs belong mine!" speech. Though why they went to the bother I don\'t know because there are plenty of other jarring jump cuts all over the place - even allowing for the atrocious pan and scan of the print I saw.&lt;br /&gt;&lt;br /&gt;The Director was, according to one interview with the star, drunk for most of the shoot and the film looks like it. It is an incoherent mess. It\'s made even more incoherent by the inclusion of werewolf rampage footage from a different film The Mark of the Wolf Man (made 4 years earlier, featuring the same actor but playing the part with more aggression and with a different shirt and make up - IS there a word in Spanish for "Continuity"?) and more padding of another actor in the wolfman get-up ambling about in long shot.&lt;br /&gt;&lt;br /&gt;The music is incredibly bad varying almost at random from full orchestral creepy house music, to bosannova, to the longest piano and gong duet ever recorded. (Thinking about it, it might not have been a duet. It might have been a solo. The piano part was so simple it could have been picked out with one hand while the player whacked away at the gong with the other.) &lt;br /&gt;&lt;br /&gt;This is one of the most bewilderedly trance-state inducing bad movies of the year so far for me. Enjoy.&lt;br /&gt;&lt;br /&gt;Favourite line: "Ilona! This madness and perversity will turn against you!" How true.&lt;br /&gt;&lt;br /&gt;Favourite shot: The lover, discovering his girlfriend slain, dropping the candle in a cartoon-like demonstration of surprise. Rank amateur directing there.'</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Here’s a review labeled as positive (1), but it should be negative (0). Some noteworthy snippets extracted from the review text:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>“…film seems <strong>cheap</strong>.”</p></li>
+<li><p>“…unbelievably <strong>bad</strong>…”</p></li>
+<li><p>“…cinematography is <strong>badly</strong> lit…”</p></li>
+<li><p>“…everything looking <strong>grainy</strong> and <strong>ugly</strong>.”</p></li>
+<li><p>“…sound is so <strong>terrible</strong>…”</p></li>
+</ul>
+</div></blockquote>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_as_df</span><span class="p">(</span><span class="mi">10404</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>texts</th>
+      <th>labels</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>10404</th>
+      <td>b'This low-budget erotic thriller that has some good points, but a lot more bad one. The plot revolves around a female lawyer trying to clear her lover who is accused of murdering his wife. Being a soft-core film, that entails her going undercover at a strip club and having sex with possible suspects. As plots go for this type of genre, not to bad. The script is okay, and the story makes enough sense for someone up at 2 AM watching this not to notice too many plot holes. But everything else in the film seems cheap. The lead actors aren\'t that bad, but pretty much all the supporting ones are unbelievably bad (one girl seems like she is drunk and/or high). The cinematography is badly lit, with everything looking grainy and ugly. The sound is so terrible that you can barely hear what people are saying. The worst thing in this movie is the reason you\'re watching it-the sex. The reason people watch these things is for hot sex scenes featuring really hot girls in Red Shoe Diary situations. The sex scenes aren\'t hot they\'re sleazy, shot in that porno style where everything is just a master shot of two people going at it. The woman also look like they are refuges from a porn shoot. I\'m not trying to be rude or mean here, but they all have that breast implants and a burned out/weathered look. Even the title, "Deviant Obsession", sounds like a Hardcore flick. Not that I don\'t have anything against porn - in fact I love it. But I want my soft-core and my hard-core separate. What ever happened to actresses like Shannon Tweed, Jacqueline Lovell, Shannon Whirry and Kim Dawson? Women that could act and who would totally arouse you? And what happened to B erotic thrillers like Body Chemistry, Nighteyes and even Stripped to Kill. Sure, none of these where masterpieces, but at least they felt like movies. Plus, they were pushing the envelope, going beyond Hollywood\'s relatively prude stance on sex, sexual obsessions and perversions. Now they just make hard-core films without the hard-core sex.'</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Here’s a review labeled as positive (1), but it should be negative (0). Some noteworthy snippets extracted from the review text:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>“…hard to imagine a <strong>boring</strong> shark movie…”</p></li>
+<li><p>“<strong>Poor focus</strong> in some scenes made the production seems <strong>amateurish</strong>.”</p></li>
+<li><p>“…<strong>do nothing</strong> to take advantage of…”</p></li>
+<li><p>“…<strong>far too few</strong> scenes of any depth or variety.”</p></li>
+<li><p>“…just <strong>look flat</strong>…no contrast of depth…”</p></li>
+<li><p>“…<strong>introspective</strong> and <strong>dull</strong>…constant <strong>disappointment</strong>.”</p></li>
+</ul>
+</div></blockquote>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_as_df</span><span class="p">(</span><span class="mi">30151</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>texts</th>
+      <th>labels</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>30151</th>
+      <td>b'Like the gentle giants that make up the latter half of this film\'s title, Michael Oblowitz\'s latest production has grace, but it\'s also slow and ponderous. The producer\'s last outing, "Mosquitoman-3D" had the same problem. It\'s hard to imagine a boring shark movie, but they somehow managed it. The only draw for Hammerhead: Shark Frenzy was it\'s passable animatronix, which is always fun when dealing with wondrous worlds beneath the ocean\'s surface. But even that was only passable. Poor focus in some scenes made the production seems amateurish. With Dolphins and Whales, the technology is all but wasted. Cloudy scenes and too many close-ups of the film\'s giant subjects do nothing to take advantage of IMAX\'s stunning 3D capabilities. There are far too few scenes of any depth or variety. Close-ups of these awesome creatures just look flat and there is often only one creature in the cameras field, so there is no contrast of depth. Michael Oblowitz is trying to follow in his father\'s footsteps, but when you\'ve got Shark-Week on cable, his introspective and dull treatment of his subjects is a constant disappointment.'</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>cleanlab has shortlisted the most likely label errors to speed up your data cleaning process. With this list, you can decide whether to fix these label issues or remove ambiguous examples from the dataset.</p>
+</section>
+<section id="5.-Train-a-more-robust-model-from-noisy-labels">
+<h2><strong>5. Train a more robust model from noisy labels</strong><a class="headerlink" href="#5.-Train-a-more-robust-model-from-noisy-labels" title="Permalink to this heading">#</a></h2>
+<p>Fixing the label issues manually may be time-consuming, but at least cleanlab can filter these noisy examples and train a model on the remaining clean data for you automatically. To demonstrate this, we first reload the dataset, this time with separate train and test splits.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">raw_train_ds</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;imdb_reviews&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">as_supervised</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">raw_test_ds</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;imdb_reviews&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">as_supervised</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">raw_train_texts</span><span class="p">,</span> <span class="n">train_labels</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">as_numpy</span><span class="p">(</span><span class="n">raw_train_ds</span><span class="p">)</span>
+<span class="n">raw_test_texts</span><span class="p">,</span> <span class="n">test_labels</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">as_numpy</span><span class="p">(</span><span class="n">raw_test_ds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We featurize the raw text using the same <code class="docutils literal notranslate"><span class="pre">vectorize_layer</span></code> as before, but first, reset its state and adapt it only on the train set (as is proper ML practice). We finally convert the vectorized text data in the train/test sets into numpy arrays.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vectorize_layer</span><span class="o">.</span><span class="n">reset_state</span><span class="p">()</span>
+<span class="n">vectorize_layer</span><span class="o">.</span><span class="n">adapt</span><span class="p">(</span><span class="n">raw_train_texts</span><span class="p">)</span>
+
+<span class="n">train_texts</span> <span class="o">=</span> <span class="n">vectorize_layer</span><span class="p">(</span><span class="n">raw_train_texts</span><span class="p">)</span>
+<span class="n">test_texts</span> <span class="o">=</span> <span class="n">vectorize_layer</span><span class="p">(</span><span class="n">raw_test_texts</span><span class="p">)</span>
+
+<span class="n">train_texts</span> <span class="o">=</span> <span class="n">train_texts</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">test_texts</span> <span class="o">=</span> <span class="n">test_texts</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s now train and evaluate our original neural network model.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">KerasClassifier</span><span class="p">(</span><span class="n">get_net</span><span class="p">(),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_texts</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+
+<span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_texts</span><span class="p">)</span>
+<span class="n">acc_og</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Test accuracy of original neural net: </span><span class="si">{</span><span class="n">acc_og</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch 1/10
+782/782 [==============================] - 3s 3ms/step - loss: 0.6233 - categorical_accuracy: 0.4679
+Epoch 2/10
+782/782 [==============================] - 3s 3ms/step - loss: 0.4392 - categorical_accuracy: 0.4874
+Epoch 3/10
+782/782 [==============================] - 2s 3ms/step - loss: 0.3453 - categorical_accuracy: 0.4928
+Epoch 4/10
+782/782 [==============================] - 2s 3ms/step - loss: 0.2984 - categorical_accuracy: 0.4941
+Epoch 5/10
+782/782 [==============================] - 2s 3ms/step - loss: 0.2669 - categorical_accuracy: 0.4940
+Epoch 6/10
+782/782 [==============================] - 2s 3ms/step - loss: 0.2440 - categorical_accuracy: 0.4956
+Epoch 7/10
+782/782 [==============================] - 2s 3ms/step - loss: 0.2256 - categorical_accuracy: 0.4938
+Epoch 8/10
+782/782 [==============================] - 2s 3ms/step - loss: 0.2092 - categorical_accuracy: 0.4962
+Epoch 9/10
+782/782 [==============================] - 3s 3ms/step - loss: 0.1968 - categorical_accuracy: 0.4963
+Epoch 10/10
+782/782 [==============================] - 2s 3ms/step - loss: 0.1833 - categorical_accuracy: 0.4968
+782/782 [==============================] - 1s 980us/step
+
+ Test accuracy of original neural net: 0.8738
+</pre></div></div>
+</div>
+<p>cleanlab provides a wrapper class that can easily be applied to any scikit-learn compatible model. Once wrapped, the resulting model can still be used in the exact same manner, but it will now train more robustly if the data have noisy labels.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.classification</span> <span class="kn">import</span> <span class="n">CleanLearning</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">KerasClassifier</span><span class="p">(</span><span class="n">get_net</span><span class="p">(),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Note we first re-instantiate the model</span>
+<span class="n">cl</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">clf</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">SEED</span><span class="p">)</span>  <span class="c1"># cl has same methods/attributes as model</span>
+</pre></div>
+</div>
+</div>
+<p>When we train the cleanlab-wrapped model, the following operations take place: The original model is trained in a cross-validated fashion to produce out-of-sample predicted probabilities. Then, these predicted probabilities are used to identify label issues, which are then removed from the dataset. Finally, the original model is trained once more on the remaining clean subset of the data.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_texts</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch 1/10
+625/625 [==============================] - 3s 3ms/step - loss: 0.6444 - categorical_accuracy: 0.4897
+Epoch 2/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.4863 - categorical_accuracy: 0.4859
+Epoch 3/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.3807 - categorical_accuracy: 0.4920
+Epoch 4/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.3243 - categorical_accuracy: 0.4929
+Epoch 5/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2878 - categorical_accuracy: 0.4927
+Epoch 6/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.2611 - categorical_accuracy: 0.4960
+Epoch 7/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2391 - categorical_accuracy: 0.4945
+Epoch 8/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.2226 - categorical_accuracy: 0.4961
+Epoch 9/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.2062 - categorical_accuracy: 0.4965
+Epoch 10/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.1920 - categorical_accuracy: 0.4963
+157/157 [==============================] - 0s 1ms/step
+Epoch 1/10
+625/625 [==============================] - 3s 4ms/step - loss: 0.6442 - categorical_accuracy: 0.4123
+Epoch 2/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.4836 - categorical_accuracy: 0.4827
+Epoch 3/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.3773 - categorical_accuracy: 0.4904
+Epoch 4/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.3216 - categorical_accuracy: 0.4933
+Epoch 5/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2846 - categorical_accuracy: 0.4938
+Epoch 6/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2583 - categorical_accuracy: 0.4938
+Epoch 7/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.2368 - categorical_accuracy: 0.4956
+Epoch 8/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2187 - categorical_accuracy: 0.4956
+Epoch 9/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.2043 - categorical_accuracy: 0.4965
+Epoch 10/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.1917 - categorical_accuracy: 0.4953
+157/157 [==============================] - 0s 1ms/step
+Epoch 1/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.6448 - categorical_accuracy: 0.4358
+Epoch 2/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.4857 - categorical_accuracy: 0.4897
+Epoch 3/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.3797 - categorical_accuracy: 0.4917
+Epoch 4/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.3237 - categorical_accuracy: 0.4940
+Epoch 5/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2872 - categorical_accuracy: 0.4953
+Epoch 6/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.2610 - categorical_accuracy: 0.4967
+Epoch 7/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.2402 - categorical_accuracy: 0.4956
+Epoch 8/10
+625/625 [==============================] - 2s 4ms/step - loss: 0.2215 - categorical_accuracy: 0.4970
+Epoch 9/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2059 - categorical_accuracy: 0.4972
+Epoch 10/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.1940 - categorical_accuracy: 0.4966
+157/157 [==============================] - 0s 1ms/step
+Epoch 1/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.6455 - categorical_accuracy: 0.4367
+Epoch 2/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.4855 - categorical_accuracy: 0.4849
+Epoch 3/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.3778 - categorical_accuracy: 0.4904
+Epoch 4/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.3234 - categorical_accuracy: 0.4934
+Epoch 5/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2863 - categorical_accuracy: 0.4938
+Epoch 6/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2588 - categorical_accuracy: 0.4958
+Epoch 7/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2391 - categorical_accuracy: 0.4959
+Epoch 8/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2219 - categorical_accuracy: 0.4965
+Epoch 9/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2081 - categorical_accuracy: 0.4960
+Epoch 10/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.1925 - categorical_accuracy: 0.4956
+157/157 [==============================] - 0s 1ms/step
+Epoch 1/10
+625/625 [==============================] - 3s 4ms/step - loss: 0.6451 - categorical_accuracy: 0.4056
+Epoch 2/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.4852 - categorical_accuracy: 0.4873
+Epoch 3/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.3770 - categorical_accuracy: 0.4908
+Epoch 4/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.3214 - categorical_accuracy: 0.4929
+Epoch 5/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2848 - categorical_accuracy: 0.4969
+Epoch 6/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2575 - categorical_accuracy: 0.4963
+Epoch 7/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2356 - categorical_accuracy: 0.4956
+Epoch 8/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2191 - categorical_accuracy: 0.4970
+Epoch 9/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.2026 - categorical_accuracy: 0.4976
+Epoch 10/10
+625/625 [==============================] - 2s 3ms/step - loss: 0.1898 - categorical_accuracy: 0.4952
+157/157 [==============================] - 0s 1ms/step
+Epoch 1/10
+744/744 [==============================] - 3s 3ms/step - loss: 0.6462 - categorical_accuracy: 0.4647
+Epoch 2/10
+744/744 [==============================] - 2s 3ms/step - loss: 0.4202 - categorical_accuracy: 0.4854
+Epoch 3/10
+744/744 [==============================] - 2s 3ms/step - loss: 0.2948 - categorical_accuracy: 0.4926
+Epoch 4/10
+744/744 [==============================] - 2s 3ms/step - loss: 0.2294 - categorical_accuracy: 0.4940
+Epoch 5/10
+744/744 [==============================] - 2s 3ms/step - loss: 0.1864 - categorical_accuracy: 0.4939
+Epoch 6/10
+744/744 [==============================] - 2s 3ms/step - loss: 0.1568 - categorical_accuracy: 0.4955
+Epoch 7/10
+744/744 [==============================] - 2s 3ms/step - loss: 0.1333 - categorical_accuracy: 0.4976
+Epoch 8/10
+744/744 [==============================] - 2s 3ms/step - loss: 0.1150 - categorical_accuracy: 0.4975
+Epoch 9/10
+744/744 [==============================] - 2s 3ms/step - loss: 0.1003 - categorical_accuracy: 0.4964
+Epoch 10/10
+744/744 [==============================] - 2s 3ms/step - loss: 0.0868 - categorical_accuracy: 0.4974
+</pre></div></div>
+</div>
+<p>We can get predictions from the resulting cleanlab model and evaluate them, just like we did for our original neural network.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_labels</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_texts</span><span class="p">)</span>
+<span class="n">acc_cl</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">pred_labels</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test accuracy of cleanlab&#39;s neural net: </span><span class="si">{</span><span class="n">acc_cl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+782/782 [==============================] - 1s 999us/step
+Test accuracy of cleanlab&#39;s neural net: 0.87548
+</pre></div></div>
+</div>
+<p>We can see that the test set accuracy slightly improved as a result of the data cleaning. Note that this will not always be the case, especially when we are evaluating on test data that are themselves noisy. The best practice is to run cleanlab to identify potential label issues and then manually review them, before blindly trusting any accuracy metrics. In particular, the most effort should be made to ensure high-quality test data, which is supposed to reflect the expected performance of our
+model during deployment.</p>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"284df92f97364d52a434be65862a52df": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": "20px"}}, "ef0e68aa323e4e59862dc3c75bf08936": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "27fd965831f341aca426186538df32c9": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_284df92f97364d52a434be65862a52df", "max": 1.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_ef0e68aa323e4e59862dc3c75bf08936", "value": 1.0}}, "6af1da08d8864e44b18f695d19c9904c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "dfb5ee5cd1e2422dafdc7a98faf71884": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "334c5e14384a49409b5b30f6fb059b31": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_6af1da08d8864e44b18f695d19c9904c", "placeholder": "\u200b", "style": "IPY_MODEL_dfb5ee5cd1e2422dafdc7a98faf71884", "value": "Dl Completed...: 100%"}}, "42d2ed88841c4625b4abc57ea7ef5281": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c1941c46b37d4ef29af1af5f80898633": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "fedfe812fcd94825bba993220095872d": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_42d2ed88841c4625b4abc57ea7ef5281", "placeholder": "\u200b", "style": "IPY_MODEL_c1941c46b37d4ef29af1af5f80898633", "value": " 1/1 [00:06&lt;00:00,  6.04s/ url]"}}, "6d80352ff097451e8127131e748522bd": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "b72d57f398e3489db8fd3743a3c0b5cf": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_334c5e14384a49409b5b30f6fb059b31", "IPY_MODEL_27fd965831f341aca426186538df32c9", "IPY_MODEL_fedfe812fcd94825bba993220095872d"], "layout": "IPY_MODEL_6d80352ff097451e8127131e748522bd"}}, "7edcef428d1a427e8b882960e1fbef6a": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": "20px"}}, "5eb5d72d006c46dab6acd6a9ef82d0e9": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "3795e02720c94bd9a5fcb6ec1f964e1b": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_7edcef428d1a427e8b882960e1fbef6a", "max": 1.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_5eb5d72d006c46dab6acd6a9ef82d0e9", "value": 1.0}}, "0b50490add124f3989b3c14adcff1814": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "381185e0d6324a12b90ab57111c8f817": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "11df5398435f4737afa12df374fabede": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_0b50490add124f3989b3c14adcff1814", "placeholder": "\u200b", "style": "IPY_MODEL_381185e0d6324a12b90ab57111c8f817", "value": "Dl Size...: 100%"}}, "55df9002e80440e6a322e8879dda9fca": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "541da16a28924a9086e2f711a10fc2fa": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "3a308e5bb5f340a2b9a629cf429cbf43": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_55df9002e80440e6a322e8879dda9fca", "placeholder": "\u200b", "style": "IPY_MODEL_541da16a28924a9086e2f711a10fc2fa", "value": " 80/80 [00:06&lt;00:00, 33.54 MiB/s]"}}, "167f4c2687f14ef2b9ad95e290c90a9f": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "dfc6ea3a06d84f2e84d14f44c7174e4a": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_11df5398435f4737afa12df374fabede", "IPY_MODEL_3795e02720c94bd9a5fcb6ec1f964e1b", "IPY_MODEL_3a308e5bb5f340a2b9a629cf429cbf43"], "layout": "IPY_MODEL_167f4c2687f14ef2b9ad95e290c90a9f"}}, "e83935a923f74c56a0a7d54e901b6335": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "4f5788271d59479d93cd42430cf1db86": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "0ba172977711498887db50c33c44e7cd": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_e83935a923f74c56a0a7d54e901b6335", "max": 3.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_4f5788271d59479d93cd42430cf1db86", "value": 3.0}}, "486720f472fb41238bf05df43d272c8e": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "12dde395b0804f3998e9dcdd0983b294": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "8eff0ea5e7e74ea9b9a70b20c030fca7": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_486720f472fb41238bf05df43d272c8e", "placeholder": "\u200b", "style": "IPY_MODEL_12dde395b0804f3998e9dcdd0983b294", "value": "Generating splits...: 100%"}}, "5290b88a886c488dbd8c5fece589738f": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c695b5ecd67348ecaf5e8c160e7962ba": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "176343caa45a4605acd3ca8ec8cb56fd": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_5290b88a886c488dbd8c5fece589738f", "placeholder": "\u200b", "style": "IPY_MODEL_c695b5ecd67348ecaf5e8c160e7962ba", "value": " 3/3 [00:36&lt;00:00, 12.43s/ splits]"}}, "f7b9fcee8c914529b21dc685ce011ab0": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "52ba9a95fd1e428abd185658d30f44ee": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_8eff0ea5e7e74ea9b9a70b20c030fca7", "IPY_MODEL_0ba172977711498887db50c33c44e7cd", "IPY_MODEL_176343caa45a4605acd3ca8ec8cb56fd"], "layout": "IPY_MODEL_f7b9fcee8c914529b21dc685ce011ab0"}}, "69836a80d1174957af5763113788fd35": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "df93903fadba44bd9471b1fc2558eb8b": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "0b8782795cce4dfc84367fa491bc9e8d": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_69836a80d1174957af5763113788fd35", "max": 25000.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_df93903fadba44bd9471b1fc2558eb8b", "value": 25000.0}}, "ec84b0a7e09142c0b66cc6cdc2ddb2ee": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "396863f963ef4640857749ea125c2f3f": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "56211986c0f84d0d9e461bba032ef0ce": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_ec84b0a7e09142c0b66cc6cdc2ddb2ee", "placeholder": "\u200b", "style": "IPY_MODEL_396863f963ef4640857749ea125c2f3f", "value": "Generating train examples...:  99%"}}, "b006cc5337e045eba4d2e5b4f06984c4": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "bd2766aff5454344be3d022f4c0350fc": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "0b8d7a3fee66408b827768baf131770e": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_b006cc5337e045eba4d2e5b4f06984c4", "placeholder": "\u200b", "style": "IPY_MODEL_bd2766aff5454344be3d022f4c0350fc", "value": " 24714/25000 [00:07&lt;00:00, 5101.49 examples/s]"}}, "cd9c33ef489849b08b3237cfffc9edda": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "7a32e791a95f4b4ea8e0cfb2d1ebe979": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_56211986c0f84d0d9e461bba032ef0ce", "IPY_MODEL_0b8782795cce4dfc84367fa491bc9e8d", "IPY_MODEL_0b8d7a3fee66408b827768baf131770e"], "layout": "IPY_MODEL_cd9c33ef489849b08b3237cfffc9edda"}}, "d48c3bae0e3e4098a8d551e0452c0295": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "a67f1dc5ba274bf086afda081c0daf0e": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "b087d8dd5df046c48ce1b0cbd800c2f7": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_d48c3bae0e3e4098a8d551e0452c0295", "max": 25000.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_a67f1dc5ba274bf086afda081c0daf0e", "value": 25000.0}}, "d72ed5966185441aa4db55fdf29bd4e1": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "3d9a13e1f8c645d6b4afac1b58b6da62": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "8558ebd14f054a69bcf779e43e4d97b7": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_d72ed5966185441aa4db55fdf29bd4e1", "placeholder": "\u200b", "style": "IPY_MODEL_3d9a13e1f8c645d6b4afac1b58b6da62", "value": "Shuffling /home/runner/tensorflow_datasets/imdb_reviews/plain_text/1.0.0.incompleteSBLAED/imdb_reviews-train.tfrecord*...:  69%"}}, "a6e142b300734d6e858180eae6fc4ca6": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "fd23a746219148628fb897b21cede7fe": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "3917556537d444d4b830a69c46bec52f": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_a6e142b300734d6e858180eae6fc4ca6", "placeholder": "\u200b", "style": "IPY_MODEL_fd23a746219148628fb897b21cede7fe", "value": " 17357/25000 [00:00&lt;00:00, 173512.25 examples/s]"}}, "5232d42863a1482f9b958ceb573b92ad": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "9e801d2302f44c47bba951ca8857c9d5": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_8558ebd14f054a69bcf779e43e4d97b7", "IPY_MODEL_b087d8dd5df046c48ce1b0cbd800c2f7", "IPY_MODEL_3917556537d444d4b830a69c46bec52f"], "layout": "IPY_MODEL_5232d42863a1482f9b958ceb573b92ad"}}, "1646f1d4bb644d72a08a37b5b2dcf928": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "f23870cdd05f415abf9125350a8579be": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "48d676bb808b48019067cfaa6233b596": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_1646f1d4bb644d72a08a37b5b2dcf928", "max": 25000.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_f23870cdd05f415abf9125350a8579be", "value": 25000.0}}, "5c7e14a5dd354fcda3f81da64cd19b16": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "339ef756e0264b77a03a9f21cdb584c4": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "d4bc9425f8604294a716f115a6333f90": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_5c7e14a5dd354fcda3f81da64cd19b16", "placeholder": "\u200b", "style": "IPY_MODEL_339ef756e0264b77a03a9f21cdb584c4", "value": "Generating test examples...:  99%"}}, "8a2c5ea59030441ea22120fbd6450191": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "bfb3b9feace74516ae6ef7db1c99ffe6": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "1e7c87d064854b7482d71f5a99407f03": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_8a2c5ea59030441ea22120fbd6450191", "placeholder": "\u200b", "style": "IPY_MODEL_bfb3b9feace74516ae6ef7db1c99ffe6", "value": " 24684/25000 [00:05&lt;00:00, 5173.73 examples/s]"}}, "bce303afcc9541258b5ca53022b2b8c7": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "88e76bcb25c54199a692a9ea649681ed": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_d4bc9425f8604294a716f115a6333f90", "IPY_MODEL_48d676bb808b48019067cfaa6233b596", "IPY_MODEL_1e7c87d064854b7482d71f5a99407f03"], "layout": "IPY_MODEL_bce303afcc9541258b5ca53022b2b8c7"}}, "57942d29eb5e4a6db2abdc0fd7957221": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "5cf73821a9f94c58b25d512c201c3a01": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "3d3ba1f17db34470aa36e1c4b5d5fc3f": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_57942d29eb5e4a6db2abdc0fd7957221", "max": 25000.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_5cf73821a9f94c58b25d512c201c3a01", "value": 25000.0}}, "8d2fdddf4541426691499ffd5538ba17": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "4e6e7a23b3824f369fb2f19b9a8692ac": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "0465af80356e493ea40cdeab85ec7900": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_8d2fdddf4541426691499ffd5538ba17", "placeholder": "\u200b", "style": "IPY_MODEL_4e6e7a23b3824f369fb2f19b9a8692ac", "value": "Shuffling /home/runner/tensorflow_datasets/imdb_reviews/plain_text/1.0.0.incompleteSBLAED/imdb_reviews-test.tfrecord*...:  70%"}}, "2fddb12024f8426ba1f870889b4515fb": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "258f21535bf0492582153925ec2f66fe": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "91aaf1ea16264006b29477797355ff34": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_2fddb12024f8426ba1f870889b4515fb", "placeholder": "\u200b", "style": "IPY_MODEL_258f21535bf0492582153925ec2f66fe", "value": " 17431/25000 [00:00&lt;00:00, 174281.50 examples/s]"}}, "cddc73deda2e4cb4b38bc6392a393e35": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "b0234652168241b2b54bc61a5d112a7b": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_0465af80356e493ea40cdeab85ec7900", "IPY_MODEL_3d3ba1f17db34470aa36e1c4b5d5fc3f", "IPY_MODEL_91aaf1ea16264006b29477797355ff34"], "layout": "IPY_MODEL_cddc73deda2e4cb4b38bc6392a393e35"}}, "a6d8ebea3de84188a15ceb4afa8b1c50": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "a268e76271ac48f7a4bbe2757a81f56e": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "baadc63ba80147dda4cec805ae4ec30c": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_a6d8ebea3de84188a15ceb4afa8b1c50", "max": 50000.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_a268e76271ac48f7a4bbe2757a81f56e", "value": 50000.0}}, "9334452c5f8b444aa849483baa7669dd": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "be299c48fab746b5a0dea65c5273d1f5": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "1d923b4c636d46aea16df224e09ac155": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_9334452c5f8b444aa849483baa7669dd", "placeholder": "\u200b", "style": "IPY_MODEL_be299c48fab746b5a0dea65c5273d1f5", "value": "Generating unsupervised examples...: 100%"}}, "a7b1dd7c2e41452f9264f47ec8a9122c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d8fe77e3cc8143f4aaa1986ad128ecc1": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "5c67405f4f4946048f95060960bd73ce": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_a7b1dd7c2e41452f9264f47ec8a9122c", "placeholder": "\u200b", "style": "IPY_MODEL_d8fe77e3cc8143f4aaa1986ad128ecc1", "value": " 49861/50000 [00:13&lt;00:00, 5189.03 examples/s]"}}, "ee7a812e9eb3443296d54f31d0f1a645": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "58fb636e87d6480c8cd48d46a470f208": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_1d923b4c636d46aea16df224e09ac155", "IPY_MODEL_baadc63ba80147dda4cec805ae4ec30c", "IPY_MODEL_5c67405f4f4946048f95060960bd73ce"], "layout": "IPY_MODEL_ee7a812e9eb3443296d54f31d0f1a645"}}, "533c775518bb4215b601c9da31acad44": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "b424e7655ca943e5ab3befef7cd0930a": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "84b0b14808504532b279b7871ccc488b": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_533c775518bb4215b601c9da31acad44", "max": 50000.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_b424e7655ca943e5ab3befef7cd0930a", "value": 50000.0}}, "e292ae7f4e014bc394b4acd27fce63c2": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "ba7ab4e28c174b10aac5883322f9645e": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "4578422ffe724a99959d6f45236eb07b": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_e292ae7f4e014bc394b4acd27fce63c2", "placeholder": "\u200b", "style": "IPY_MODEL_ba7ab4e28c174b10aac5883322f9645e", "value": "Shuffling /home/runner/tensorflow_datasets/imdb_reviews/plain_text/1.0.0.incompleteSBLAED/imdb_reviews-unsupervised.tfrecord*...:  74%"}}, "38397753e6754f3897bf2d42d5f99e5e": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "f667c58e8f4742e5a7acbb304e785688": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "abfc1ef39ee742a3ab77b8f53e0e296b": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_38397753e6754f3897bf2d42d5f99e5e", "placeholder": "\u200b", "style": "IPY_MODEL_f667c58e8f4742e5a7acbb304e785688", "value": " 36867/50000 [00:00&lt;00:00, 197081.19 examples/s]"}}, "3258df1528c74271851f6ee04862ef14": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "4dcaffc8d821411e818fdf9cba8d525d": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_4578422ffe724a99959d6f45236eb07b", "IPY_MODEL_84b0b14808504532b279b7871ccc488b", "IPY_MODEL_abfc1ef39ee742a3ab77b8f53e0e296b"], "layout": "IPY_MODEL_3258df1528c74271851f6ee04862ef14"}}}, "version_major": 2, "version_minor": 0}
+</script></section>
+</section>
+ 
+        </article>
+      </div>
+      <footer>
+         
+        <div class="related-pages">
+          <a class="next-page" href="tabular.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Classification with Tabular Data using Scikit-Learn and Cleanlab</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="image.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Image Classification with PyTorch and Cleanlab</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Cleanlab Inc.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/cleanlab/cleanlab" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+
+<script type="text/javascript">
+    window.addEventListener("load", () => {
+        let elements = document.getElementsByClassName("left-details");
+
+        elements[0].insertAdjacentHTML(
+            "afterbegin",
+            `<code class="docutils literal notranslate"><span class="pre">cleanlab</span></code> is distributed on <a href="https://pypi.org/project/cleanlab/">PyPI</a> and <a href="https://anaconda.org/conda-forge/cleanlab">conda</a>.`
+        );
+    });
+</script>
+
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Text Classification with TensorFlow, Keras, and Cleanlab</a><ul>
+<li><a class="reference internal" href="#1.-Install-required-dependencies"><strong>1. Install required dependencies</strong></a></li>
+<li><a class="reference internal" href="#2.-Load-and-preprocess-the-IMDb-text-dataset"><strong>2. Load and preprocess the IMDb text dataset</strong></a></li>
+<li><a class="reference internal" href="#3.-Define-a-classification-model-and-compute-out-of-sample-predicted-probabilities"><strong>3. Define a classification model and compute out-of-sample predicted probabilities</strong></a></li>
+<li><a class="reference internal" href="#4.-Use-cleanlab-to-find-potential-label-errors"><strong>4. Use cleanlab to find potential label errors</strong></a></li>
+<li><a class="reference internal" href="#5.-Train-a-more-robust-model-from-noisy-labels"><strong>5. Train a more robust model from noisy labels</strong></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+</html>
