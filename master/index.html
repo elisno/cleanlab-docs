@@ -396,20 +396,27 @@
 </section>
 <section id="find-label-errors-in-your-data">
 <h2>2. Find label errors in your data<a class="headerlink" href="#find-label-errors-in-your-data" title="Permalink to this heading">#</a></h2>
-<p>cleanlab’s <a class="reference internal" href="cleanlab/filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_label_issues</span></code></a> function tells you which examples in your dataset are likely mislabeled. At a minimum, it expects two inputs — your data’s given labels, <cite>labels</cite>, and predicted probabilities, <cite>pred_probs</cite>, from some trained classification model. These must be out-of-sample predictions where the data points were held out from the model during training, which can be <a class="reference internal" href="tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">obtained via cross-validation</span></a>.</p>
-<p>Setting <cite>return_indices_ranked_by</cite> in this function instructs cleanlab to return the indices of potential mislabeled examples, ordered by the likelihood of their given label being incorrect. This is estimated via a <em>label quality score</em>, which for example can be specified as <code class="docutils literal notranslate"><span class="pre">'self_confidence'</span></code> (predicted probability the given label).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
+<p>cleanlab finds issues in <em>any dataset that a classifier can be trained on</em>. The cleanlab package <em>works with any model</em> by using model outputs (predicted probabilities) as input – it doesn’t depend on which model created those outputs.</p>
+<p>If you’re using a scikit-learn-compatible model (option 1), you don’t need to train a model – you can pass the model, data, and labels into <a class="reference internal" href="cleanlab/classification.html#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.find_label_issues</span></code></a> and cleanlab will handle model training for you. If you want to use any non-sklearn-compatible model (option 2), you can input the trained model’s out-of-sample predicted probabilities into <a class="reference internal" href="cleanlab/filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_label_issues</span></code></a>. Examples for both options are below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.classification</span> <span class="kn">import</span> <span class="n">CleanLearning</span>
+<span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
 
+<span class="c1"># Option 1 - works with sklearn-compatible models - just input the data and labels ツ</span>
+<span class="n">label_issues_info</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">clf</span><span class="o">=</span><span class="n">sklearn_compatible_model</span><span class="p">)</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># Option 2 - works with ANY ML model - just input the model&#39;s predicted probabilities</span>
 <span class="n">ordered_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>  <span class="c1"># out-of-sample predicted probabilities from any model</span>
     <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s1">&#39;self_confidence&#39;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
+<p><a class="reference internal" href="cleanlab/classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> (option 1) also works with models from most standard ML frameworks by wrapping the model for scikit-learn compliance, e.g. huggingface/tensorflow/keras (using our KerasWrapperModel), pytorch (using skorch package), etc.</p>
+<p>By default, <a class="reference internal" href="cleanlab/filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_label_issues</span></code></a> returns a boolean mask of label issues. You can instead return the indices of potential mislabeled examples by setting <cite>return_indices_ranked_by</cite> in <a class="reference internal" href="cleanlab/filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_label_issues</span></code></a>. The indices are ordered by likelihood of a label error (estimated via <a class="reference internal" href="cleanlab/rank.html#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rank.get_label_quality_scores</span></code></a>).</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>The predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, from your model <strong>must be out-of-sample</strong>! You should never provide predictions on the same data points used to train the model as these predictions are overfit and  unsuitable for finding label errors. To compute out-of-sample predicted probabilities for your entire dataset, you can use <a class="reference internal" href="tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">cross-validation</span></a>.</p>
+<p>The predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, from your model <strong>must be out-of-sample</strong>. Never provide predictions on the same data points used to train the model – these predictions are overfit and unsuitable for finding label errors. Details on how to compute out-of-sample predicted probabilities for your entire dataset are <a class="reference internal" href="tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">here</span></a>.</p>
 </div>
 </section>
 <section id="train-robust-models-with-noisy-labels">
@@ -419,9 +426,11 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
 <span class="kn">from</span> <span class="nn">cleanlab.classification</span> <span class="kn">import</span> <span class="n">CleanLearning</span>
 
-<span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span> <span class="c1"># any classifier implementing the sklearn API</span>
-<span class="n">cl</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">clf</span><span class="o">=</span><span class="n">clf</span><span class="p">)</span>
-<span class="n">cl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">cl</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">clf</span><span class="o">=</span><span class="n">LogisticRegression</span><span class="p">())</span>  <span class="c1"># any sklearn-compatible classifier</span>
+<span class="n">cl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># Estimate the predictions you would have gotten if you trained without mislabeled data.</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
