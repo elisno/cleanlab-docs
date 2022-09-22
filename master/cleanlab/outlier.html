@@ -512,19 +512,12 @@ For details see <a class="reference internal" href="#cleanlab.outlier.OutOfDistr
 <li><p><strong>features</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – Feature array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">M)</span></code>, where N is the number of examples and M is the number of features used to represent each example.
 All features should be <strong>numeric</strong>. For less structured data (eg. images, text, categorical values, …), you should provide
 vector embeddings to represent each example (eg. extracted from some pretrained neural network).</p></li>
-<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – <p>An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds
 to an example <cite>x</cite> and contains the model-predicted probabilities that
 <cite>x</cite> belongs to each possible class, for each of the K classes. The
 columns must be ordered such that these probabilities correspond to
-class 0, 1, …, K-1.</p>
-<p><strong>Caution</strong>: <cite>pred_probs</cite> from your model must be out-of-sample!
-You should never provide predictions on the same examples used to train the model,
-as these will be overfit and unsuitable for finding label-errors.
-To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">cross-validation</span></a>.
-Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating
-data that was previously held-out.</p>
-</p></li>
+class 0, 1, …, K-1.</p></li>
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">array_like</span></code>, <em>optional</em>) – A discrete vector of given labels for the data of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code>. Supported <cite>array_like</cite> types include: <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> or <code class="docutils literal notranslate"><span class="pre">list</span></code>.
 <em>Format requirements</em>: for dataset with K classes, labels must be in 0, 1, …, K-1.
 All the classes (0, 1, …, and K-1) MUST be present in <code class="docutils literal notranslate"><span class="pre">labels</span></code>, such that: <code class="docutils literal notranslate"><span class="pre">len(set(labels))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1]</span></code>

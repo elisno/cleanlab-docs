@@ -583,13 +583,6 @@
 <span class="sd">          columns must be ordered such that these probabilities correspond to</span>
 <span class="sd">          class 0, 1, ..., K-1.</span>
 
-<span class="sd">          **Caution**: `pred_probs` from your model must be out-of-sample!</span>
-<span class="sd">          You should never provide predictions on the same examples used to train the model,</span>
-<span class="sd">          as these will be overfit and unsuitable for finding label-errors.</span>
-<span class="sd">          To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use :ref:`cross-validation &lt;pred_probs_cross_val&gt;`.</span>
-<span class="sd">          Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating</span>
-<span class="sd">          data that was previously held-out.</span>
-
 <span class="sd">        labels : array_like, optional</span>
 <span class="sd">          A discrete vector of given labels for the data of shape ``(N,)``. Supported `array_like` types include: ``np.ndarray`` or ``list``.</span>
 <span class="sd">          *Format requirements*: for dataset with K classes, labels must be in 0, 1, ..., K-1.</span>
