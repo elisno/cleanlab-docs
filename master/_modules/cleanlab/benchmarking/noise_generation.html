@@ -415,10 +415,10 @@
 <span class="sd">generating noisy labels given a noise matrix, generating valid noise matrices with a specific trace value, and more.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.util</span> <span class="kn">import</span> <span class="n">value_counts</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
 
 <div class="viewcode-block" id="noise_matrix_is_valid"><a class="viewcode-back" href="../../../cleanlab/benchmarking/noise_generation.html#cleanlab.benchmarking.noise_generation.noise_matrix_is_valid">[docs]</a><span class="k">def</span> <span class="nf">noise_matrix_is_valid</span><span class="p">(</span><span class="n">noise_matrix</span><span class="p">,</span> <span class="n">py</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>

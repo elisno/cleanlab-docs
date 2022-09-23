@@ -735,7 +735,7 @@
                 <span class="p">)</span>  <span class="c1"># lower-bound clipping threshold to prevents 0 in logs when calculating log loss</span>
                 <span class="n">pred_probs_clipped</span> <span class="o">/=</span> <span class="n">pred_probs_clipped</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>  <span class="c1"># renormalize</span>
 
-                <span class="n">neg_log_loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">log_loss</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs_clipped</span><span class="p">)))</span>
+                <span class="n">neg_log_loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">log_loss</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs_clipped</span><span class="p">))</span>
                 <span class="n">neg_log_loss_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">neg_log_loss</span><span class="p">)</span>
 
             <span class="c1"># weights using negative log loss</span>
