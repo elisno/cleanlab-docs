@@ -706,7 +706,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div></div><section id="1.-Install-required-dependencies">
-<h2><strong>1. Install required dependencies</strong><a class="headerlink" href="#1.-Install-required-dependencies" title="Permalink to this heading">#</a></h2>
+<h2>1. Install required dependencies<a class="headerlink" href="#1.-Install-required-dependencies" title="Permalink to this heading">#</a></h2>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install all packages required for this tutorial as follows:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install sklearn
 <span class="o">!</span>pip install cleanlab
@@ -731,28 +731,19 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="2.-Load-and-process-the-data">
-<h2><strong>2. Load and process the data</strong><a class="headerlink" href="#2.-Load-and-process-the-data" title="Permalink to this heading">#</a></h2>
+<h2>2. Load and process the data<a class="headerlink" href="#2.-Load-and-process-the-data" title="Permalink to this heading">#</a></h2>
 <p>We first load the data features and labels.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;credit-g&quot;</span><span class="p">)</span>  <span class="c1"># get the credit data from OpenML</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;credit-g&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># get the credit data from OpenML</span>
 <span class="n">X_raw</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># features (pandas DataFrame)</span>
 <span class="n">labels_raw</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>  <span class="c1"># labels (pandas Series)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/opt/hostedtoolcache/Python/3.8.13/x64/lib/python3.8/site-packages/sklearn/datasets/_openml.py:292: UserWarning: Multiple active versions of the dataset matching the name credit-g exist. Versions may be fundamentally different, returning version 1.
-  warn(
-</pre></div></div>
 </div>
 <p>Next we preprocess the data. Here we apply one-hot encoding to features with categorical data, and standardize features with numeric data. We also perform label encoding on the labels — “bad” is encoded as 0 and “good” is encoded as 1.</p>
 <div class="nbinput nblast docutils container">
@@ -784,7 +775,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="3.-Select-a-classification-model-and-compute-out-of-sample-predicted-probabilities">
-<h2><strong>3. Select a classification model and compute out-of-sample predicted probabilities</strong><a class="headerlink" href="#3.-Select-a-classification-model-and-compute-out-of-sample-predicted-probabilities" title="Permalink to this heading">#</a></h2>
+<h2>3. Select a classification model and compute out-of-sample predicted probabilities<a class="headerlink" href="#3.-Select-a-classification-model-and-compute-out-of-sample-predicted-probabilities" title="Permalink to this heading">#</a></h2>
 <p>Here we use a simple logistic regression model, but you can choose any suitable scikit-learn model for this tutorial.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -818,7 +809,7 @@ classifier via a simple scikit-learn wrapper:</p>
 </div>
 </section>
 <section id="4.-Use-cleanlab-to-find-label-issues">
-<h2><strong>4. Use cleanlab to find label issues</strong><a class="headerlink" href="#4.-Use-cleanlab-to-find-label-issues" title="Permalink to this heading">#</a></h2>
+<h2>4. Use cleanlab to find label issues<a class="headerlink" href="#4.-Use-cleanlab-to-find-label-issues" title="Permalink to this heading">#</a></h2>
 <p>Based on the given labels and out-of-sample predicted probabilities, cleanlab can quickly help us identify label issues in our dataset. For a dataset with N examples from K classes, the labels should be a 1D array of length N and predicted probabilities should be a 2D (N x K) array. Here we request that the indices of the identified label issues be sorted by cleanlab’s self-confidence score, which measures the quality of each given label via the probability assigned to it in our model’s
 prediction.</p>
 <div class="nbinput docutils container">
@@ -1027,7 +1018,7 @@ Cleanlab found 173 potential label errors.
 <p>These examples appear the most suspicious to our model and should be carefully re-examined. Perhaps the original annotators missed something when deciding on the labels for these individuals.</p>
 </section>
 <section id="5.-Train-a-more-robust-model-from-noisy-labels">
-<h2><strong>5. Train a more robust model from noisy labels</strong><a class="headerlink" href="#5.-Train-a-more-robust-model-from-noisy-labels" title="Permalink to this heading">#</a></h2>
+<h2>5. Train a more robust model from noisy labels<a class="headerlink" href="#5.-Train-a-more-robust-model-from-noisy-labels" title="Permalink to this heading">#</a></h2>
 <p>Following proper ML practice, let’s split our data into train and test sets.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -1202,11 +1193,11 @@ during deployment.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Classification with Tabular Data using Scikit-Learn and Cleanlab</a><ul>
-<li><a class="reference internal" href="#1.-Install-required-dependencies"><strong>1. Install required dependencies</strong></a></li>
-<li><a class="reference internal" href="#2.-Load-and-process-the-data"><strong>2. Load and process the data</strong></a></li>
-<li><a class="reference internal" href="#3.-Select-a-classification-model-and-compute-out-of-sample-predicted-probabilities"><strong>3. Select a classification model and compute out-of-sample predicted probabilities</strong></a></li>
-<li><a class="reference internal" href="#4.-Use-cleanlab-to-find-label-issues"><strong>4. Use cleanlab to find label issues</strong></a></li>
-<li><a class="reference internal" href="#5.-Train-a-more-robust-model-from-noisy-labels"><strong>5. Train a more robust model from noisy labels</strong></a></li>
+<li><a class="reference internal" href="#1.-Install-required-dependencies">1. Install required dependencies</a></li>
+<li><a class="reference internal" href="#2.-Load-and-process-the-data">2. Load and process the data</a></li>
+<li><a class="reference internal" href="#3.-Select-a-classification-model-and-compute-out-of-sample-predicted-probabilities">3. Select a classification model and compute out-of-sample predicted probabilities</a></li>
+<li><a class="reference internal" href="#4.-Use-cleanlab-to-find-label-issues">4. Use cleanlab to find label issues</a></li>
+<li><a class="reference internal" href="#5.-Train-a-more-robust-model-from-noisy-labels">5. Train a more robust model from noisy labels</a></li>
 </ul>
 </li>
 </ul>
