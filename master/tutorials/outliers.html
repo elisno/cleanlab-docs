@@ -727,13 +727,12 @@ div.rendered_html tbody tr:hover {
 <span class="c1">#     !pip install git+https://github.com/cleanlab/cleanlab.git</span>
 </pre></div>
 </div>
-<p>Let’s first import the required packages and set some seeds for reproducibility</p>
+<p>Let’s first import the required packages</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">pylab</span> <span class="kn">import</span> <span class="n">rcParams</span>
 <span class="kn">import</span> <span class="nn">torch</span>
@@ -744,17 +743,8 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">BaggingClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 
-<span class="kn">import</span> <span class="nn">cleanlab</span>
 <span class="kn">from</span> <span class="nn">cleanlab.outlier</span> <span class="kn">import</span> <span class="n">OutOfDistribution</span>
 <span class="kn">from</span> <span class="nn">cleanlab.rank</span> <span class="kn">import</span> <span class="n">find_top_issues</span>
-
-<span class="n">SEED</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
-<span class="c1"># warnings.filterwarnings(&quot;ignore&quot;, &quot;Lazy modules are a new feature.*&quot;)</span>
 </pre></div>
 </div>
 </div>
@@ -764,7 +754,7 @@ div.rendered_html tbody tr:hover {
 <p>Each image in the original <a class="reference external" href="https://www.cs.toronto.edu/~kriz/cifar.html">cifar10 dataset</a> belongs to 1 of 10 classes: <code class="docutils literal notranslate"><span class="pre">[airplane,</span> <span class="pre">automobile,</span> <span class="pre">bird,</span> <span class="pre">cat,</span> <span class="pre">deer,</span> <span class="pre">dog,</span> <span class="pre">frog,</span> <span class="pre">horse,</span> <span class="pre">ship,</span> <span class="pre">truck]</span></code>. After loading the data and processing the images, we manually remove some classes from the training dataset thereby making images from these classes outliers in the test dataset. Here we to remove all classes that are not an animal, such that test images from the following classes would be
 out-of-distribution: <code class="docutils literal notranslate"><span class="pre">[airplane,</span> <span class="pre">automobile,</span> <span class="pre">ship,</span> <span class="pre">truck]</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load cifar10 images into tensors for training (rescales pixel values to [0,1] interval):</span>
@@ -806,7 +796,7 @@ Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to ./data/ci
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "98445ff22e2340a5817e92d602d7676b"}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "406409e68f3d4bdf9a45667e19564a5f"}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -822,7 +812,7 @@ test_data length: 1000
 <section id="Visualize-some-of-the-training-and-test-examples">
 <h3>Visualize some of the training and test examples<a class="headerlink" href="#Visualize-some-of-the-training-and-test-examples" title="Permalink to this heading">#</a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">txt_classes</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;airplane&#39;</span><span class="p">,</span>
@@ -858,7 +848,7 @@ test_data length: 1000
 </div>
 <p>Observe how there are only animals left in our <code class="docutils literal notranslate"><span class="pre">train_data</span></code>:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_images</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">show_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -869,12 +859,12 @@ test_data length: 1000
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_11_0.png" src="../_images/tutorials_outliers_11_0.png" />
+<img alt="../_images/tutorials_outliers_12_0.png" src="../_images/tutorials_outliers_12_0.png" />
 </div>
 </div>
 <p>If we consider <code class="docutils literal notranslate"><span class="pre">train_data</span></code> to be representative of the typical data distribution, then non-animal images in <code class="docutils literal notranslate"><span class="pre">test_data</span></code> become outliers:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_images</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">show_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -885,7 +875,7 @@ test_data length: 1000
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_13_0.png" src="../_images/tutorials_outliers_13_0.png" />
+<img alt="../_images/tutorials_outliers_14_0.png" src="../_images/tutorials_outliers_14_0.png" />
 </div>
 </div>
 </section>
@@ -895,7 +885,7 @@ test_data length: 1000
 <p>We can pass images through a neural network to generate vector embeddings via its hidden layer representation. Here we use a <code class="docutils literal notranslate"><span class="pre">resnet50</span></code> network from <a class="reference external" href="https://timm.fast.ai/">timm</a>, which has been pretrained on a large corpus of other images. Note that cleanlab’s outlier detection can be applied to numeric feature embeddings generated from any model (or to the raw data features if they are already numeric vectors). Outlier detection works best with feature vectors whose values along each
 dimension are of a similar scale.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generates 2048-dimensional feature embeddings from images</span>
@@ -912,7 +902,7 @@ dimension are of a similar scale.</p>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load pretrained neural network</span>
@@ -952,7 +942,7 @@ Test embeddings pooled shape: (1000, 2048)
 <p>Fitting cleanlab’s <code class="docutils literal notranslate"><span class="pre">OutOfDistribution</span></code> class on <code class="docutils literal notranslate"><span class="pre">feature_embeddings</span></code> will find any naturally occuring outliers in a given dataset. These examples are atypical images that look strange or different from the majority of examples in the dataset. In our case, these correspond to odd-looking images of animals that do not resemble typical animals depicted in <strong>cifar10</strong>. This method produces a score in [0,1] for each example, where lower values correspond to more atypical examples (more likely
 out-of-distribution).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ood</span> <span class="o">=</span> <span class="n">OutOfDistribution</span><span class="p">()</span>
@@ -975,12 +965,12 @@ Fitting OOD estimator based on provided features ...
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_18_1.png" src="../_images/tutorials_outliers_18_1.png" />
+<img alt="../_images/tutorials_outliers_19_1.png" src="../_images/tutorials_outliers_19_1.png" />
 </div>
 </div>
 <p>For fun, let’s see what cleanlab considers the least likely outliers in the dataset! We can do this by calling <code class="docutils literal notranslate"><span class="pre">find_top_issues</span></code> on the negated outlier scores. These examples look quite homogeneous as each one is similar to many other training images.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bottom_train_ood_features_idxs</span> <span class="o">=</span> <span class="n">find_top_issues</span><span class="p">(</span><span class="n">quality_scores</span><span class="o">=-</span><span class="n">train_ood_features_scores</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
@@ -992,12 +982,12 @@ Fitting OOD estimator based on provided features ...
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_20_0.png" src="../_images/tutorials_outliers_20_0.png" />
+<img alt="../_images/tutorials_outliers_21_0.png" src="../_images/tutorials_outliers_21_0.png" />
 </div>
 </div>
 <p>Now suppose we want to find outlier images in some never before seen test data, in particular images unlikely to stem from the same distribution as the training data. We can use our already fitted <code class="docutils literal notranslate"><span class="pre">OutOfDistribution</span></code> estimator to score how typical each new test example would be under the training data distribution and visualize the most severe outliers in this additional data.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_ood_features_scores</span> <span class="o">=</span> <span class="n">ood</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="n">test_feature_embeddings</span><span class="p">)</span>
@@ -1011,7 +1001,7 @@ Fitting OOD estimator based on provided features ...
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_22_0.png" src="../_images/tutorials_outliers_22_0.png" />
+<img alt="../_images/tutorials_outliers_23_0.png" src="../_images/tutorials_outliers_23_0.png" />
 </div>
 </div>
 <p>Many outliers identified in <code class="docutils literal notranslate"><span class="pre">test_data</span></code> depict (non-animal) classes not present in the training set. These non-animal images have very different feature embeddings than the animal-only images in the training data.</p>
@@ -1019,7 +1009,7 @@ Fitting OOD estimator based on provided features ...
 <p>Inevitably this has some true positive / false positive trade-off, so let’s suppose we want to ensure around at most 5% false positives. We can use the 5th percentile of the distribution of <code class="docutils literal notranslate"><span class="pre">train_ood_features_scores</span></code> (assuming the training data are in-distribution examples without outliers) as a hard score threshold below which to consider a test example an outlier.</p>
 <p>Let’s plot the 5th percentile of the training outlier score distribution (shown as red line).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fifth_percentile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">train_ood_features_scores</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># 5th percentile of the train_data distribution</span>
@@ -1043,13 +1033,13 @@ Fitting OOD estimator based on provided features ...
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_25_0.png" src="../_images/tutorials_outliers_25_0.png" />
+<img alt="../_images/tutorials_outliers_26_0.png" src="../_images/tutorials_outliers_26_0.png" />
 </div>
 </div>
 <p>All test examples whose <code class="docutils literal notranslate"><span class="pre">test_ood_features_scores</span></code> fall left of the red line will be marked as an outlier.</p>
 <p>Let’s plot the least-certain outliers of our <code class="docutils literal notranslate"><span class="pre">test_data</span></code> (i.e. 15 images with outlier scores right along the threshold). These are the images immediately to the left of that cutoff threshold (red line). The majority of them are still truly out-of-distribution non-animal images, but there are a few atypical-looking animals that are now erroneously identified as outliers as well.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_idxs</span> <span class="o">=</span> <span class="n">test_ood_features_scores</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
@@ -1064,7 +1054,7 @@ Fitting OOD estimator based on provided features ...
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_outliers_27_0.png" src="../_images/tutorials_outliers_27_0.png" />
+<img alt="../_images/tutorials_outliers_28_0.png" src="../_images/tutorials_outliers_28_0.png" />
 </div>
 </div>
 <p>Outlier scores are defined relative to the average distance (computed over feature values) between each example and its K nearest neighbors in the training data. Such scores have been found to be particularly effective for out-of-distribution detection, see this paper for more details:</p>
@@ -1077,7 +1067,7 @@ Fitting OOD estimator based on provided features ...
 <p>To get <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> here, a Logistic Regression classifier is fit on the already generated <code class="docutils literal notranslate"><span class="pre">train_feature_embeddings</span></code> (from our pretrained timm network) and the given label for each training image. We use a simple classifier here to quickly generate <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, but in practice <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/outlier_detection_cifar10/outlier_detection_cifar10.ipynb">fine-tuning the entire neural network for classification</a> will be more effective (our approach here is
 equivalent to only training an extra output layer appended on top of the pretrained network).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preprocess data</span>
@@ -1092,7 +1082,7 @@ equivalent to only training an extra output layer appended on top of the pretrai
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Our classifier employs bagging to better account for epistemic uncertainty</span>
@@ -1116,7 +1106,7 @@ Model accuracy on held-out train_data 0.9702
 </div>
 <p>We can use these <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> to again compute out-of-distribution scores for each image in our dataset using cleanlab’s <code class="docutils literal notranslate"><span class="pre">OutOfDistribution</span></code> class.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ood</span> <span class="o">=</span> <span class="n">OutOfDistribution</span><span class="p">()</span>
@@ -1134,7 +1124,7 @@ Fitting OOD estimator based on provided pred_probs ...
 </div>
 <p>We can repeat this for additional test data, to identify test images that do not stem from the training data distribution.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_pred_probs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">test_feature_embeddings_scaled</span><span class="p">)</span>
@@ -1142,7 +1132,7 @@ Fitting OOD estimator based on provided pred_probs ...
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_ood_predictions_scores</span> <span class="o">=</span> <span class="n">ood</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">pred_probs</span><span class="o">=</span><span class="n">test_pred_probs</span><span class="p">)</span>
@@ -1152,7 +1142,7 @@ Fitting OOD estimator based on provided pred_probs ...
 <p>Detecting outliers based on feature embeddings can be done for arbitrary unlabeled datasets, but requires a meaningful numerical representation of the data. Detecting outliers based on predicted probabilities applies mainly for labeled classification datasets, but can be done with any effective classifier. The effectiveness of the latter approach depends on: how much auxiliary information captured in the feature values is lost in the predicted probabilities (determined by the particular set of
 labels in the classification task), the accuracy of our classifier, and how properly its predictions reflect epistemic uncertainty.</p>
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"3fff79d4b53d4851906a3de949386645": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "643244a0a4d24d0dbec084c0afef8716": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "d8606dba3a06494b95f7290697876769": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_3fff79d4b53d4851906a3de949386645", "max": 170498071.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_643244a0a4d24d0dbec084c0afef8716", "value": 170498071.0}}, "85345ccbd8b342fd994c05bc9351d8c5": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6599c71f16704389831f385d69815a65": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "e3fdea5471ae41ec9c713746c4ef9c76": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_85345ccbd8b342fd994c05bc9351d8c5", "placeholder": "\u200b", "style": "IPY_MODEL_6599c71f16704389831f385d69815a65", "value": ""}}, "03c659f9a1034836b0ac05392bf2ed86": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "da914bd51a0241aa912e303dd577edd3": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "26fc692659e14ff8a3f486ae9595cb20": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_03c659f9a1034836b0ac05392bf2ed86", "placeholder": "\u200b", "style": "IPY_MODEL_da914bd51a0241aa912e303dd577edd3", "value": " 170499072/? [00:03&lt;00:00, 50742715.79it/s]"}}, "3f9ccbbb682e473cbfb75028e8842449": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "98445ff22e2340a5817e92d602d7676b": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_e3fdea5471ae41ec9c713746c4ef9c76", "IPY_MODEL_d8606dba3a06494b95f7290697876769", "IPY_MODEL_26fc692659e14ff8a3f486ae9595cb20"], "layout": "IPY_MODEL_3f9ccbbb682e473cbfb75028e8842449"}}}, "version_major": 2, "version_minor": 0}
+{"state": {"0fda9de3929044fcba6d54d0df251e9f": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "5c91a5b8c2ed4700a8d30eb93b2924de": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "42fd6232a2ce401583ea6adb1adf6f7f": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_0fda9de3929044fcba6d54d0df251e9f", "max": 170498071.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_5c91a5b8c2ed4700a8d30eb93b2924de", "value": 170498071.0}}, "858beb70aa1a4b7cb0df0a55308b1321": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "4039e222e2df43a1945bd452e513f8a7": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "35c8191d4a484d4ca8cf041a1e6135f1": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_858beb70aa1a4b7cb0df0a55308b1321", "placeholder": "\u200b", "style": "IPY_MODEL_4039e222e2df43a1945bd452e513f8a7", "value": ""}}, "610ed6438b62479196cb598d6c8e11ee": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "1147b6d11674407d8761901675475fc6": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "07585602737f4da68865ee8628f6a36b": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_610ed6438b62479196cb598d6c8e11ee", "placeholder": "\u200b", "style": "IPY_MODEL_1147b6d11674407d8761901675475fc6", "value": " 170499072/? [00:05&lt;00:00, 58600693.54it/s]"}}, "86557230c0eb4f1fb354b785a1cc6cf6": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "406409e68f3d4bdf9a45667e19564a5f": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_35c8191d4a484d4ca8cf041a1e6135f1", "IPY_MODEL_42fd6232a2ce401583ea6adb1adf6f7f", "IPY_MODEL_07585602737f4da68865ee8628f6a36b"], "layout": "IPY_MODEL_86557230c0eb4f1fb354b785a1cc6cf6"}}}, "version_major": 2, "version_minor": 0}
 </script></section>
 </section>
  
