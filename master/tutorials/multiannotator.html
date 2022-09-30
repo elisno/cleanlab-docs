@@ -1541,6 +1541,11 @@ Accuracy of better quality examples = 0.9857651245551602
 </div>
 <p>You can also repeatedly iterate this process of getting better consensus labels using the model’s out-of-sample predicted probabilites and then retraining the model with the improved labels to get even better predicted probabilities!</p>
 <p>For details, see our <a class="reference external" href="https://github.com/cleanlab/examples">examples</a> notebook on <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/multiannotator_cifar10/multiannotator_cifar10.ipynb">Iterative use of Cleanlab to Improve Classification Models (and Consensus Labels) from Data Labeled by Multiple Annotators</a>.</p>
+<section id="How-does-cleanlab.multiannotator-work?">
+<h3>How does cleanlab.multiannotator work?<a class="headerlink" href="#How-does-cleanlab.multiannotator-work?" title="Permalink to this heading">#</a></h3>
+<p>All estimates above are produced via the CROWDLAB algorithm, described and benchmarked in this paper:</p>
+<p><a class="reference external" href="https://cleanlab.github.io/multiannotator-benchmarks/paper.pdf">Utilizing supervised models to infer consensus labels and their quality from data with multiple annotators</a></p>
+</section>
 </section>
 </section>
  
@@ -1628,7 +1633,10 @@ Accuracy of better quality examples = 0.9857651245551602
 <li><a class="reference internal" href="#Inspecting-consensus-quality-scores-to-find-potential-consensus-label-errors">Inspecting consensus quality scores to find potential consensus label errors</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#5.-Retrain-model-using-improved-consensus-labels">5. Retrain model using improved consensus labels</a></li>
+<li><a class="reference internal" href="#5.-Retrain-model-using-improved-consensus-labels">5. Retrain model using improved consensus labels</a><ul>
+<li><a class="reference internal" href="#How-does-cleanlab.multiannotator-work?">How does cleanlab.multiannotator work?</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
