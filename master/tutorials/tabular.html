@@ -733,7 +733,7 @@ div.rendered_html tbody tr:hover {
 <section id="2.-Load-and-process-the-data">
 <h2>2. Load and process the data<a class="headerlink" href="#2.-Load-and-process-the-data" title="Permalink to this heading">#</a></h2>
 <p>We first load the data features and labels.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
@@ -744,6 +744,15 @@ div.rendered_html tbody tr:hover {
 <span class="n">labels_raw</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>  <span class="c1"># labels (pandas Series)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/opt/hostedtoolcache/Python/3.8.14/x64/lib/python3.8/site-packages/sklearn/datasets/_openml.py:91: UserWarning: A network error occurred while downloading https://openml.org/api/v1/json/data/list/data_name/credit-g/limit/2/data_version/1. Retrying...
+  warn(
+</pre></div></div>
 </div>
 <p>Next we preprocess the data. Here we apply one-hot encoding to features with categorical data, and standardize features with numeric data. We also perform label encoding on the labels — “bad” is encoded as 0 and “good” is encoded as 1.</p>
 <div class="nbinput nblast docutils container">
