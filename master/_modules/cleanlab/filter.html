@@ -413,22 +413,24 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MultiLabelBinarizer</span>
 <span class="kn">import</span> <span class="nn">multiprocessing</span>
 <span class="kn">from</span> <span class="nn">multiprocessing.sharedctypes</span> <span class="kn">import</span> <span class="n">RawArray</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 <span class="kn">from</span> <span class="nn">cleanlab.count</span> <span class="kn">import</span> <span class="n">calibrate_confident_joint</span>
-<span class="kn">from</span> <span class="nn">cleanlab.rank</span> <span class="kn">import</span> <span class="n">order_label_issues</span>
+<span class="kn">from</span> <span class="nn">cleanlab.rank</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">order_label_issues</span><span class="p">,</span>
+    <span class="n">get_label_quality_scores</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.validation</span> <span class="kn">import</span> <span class="n">assert_valid_inputs</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.util</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">value_counts</span><span class="p">,</span>
     <span class="n">round_preserving_row_totals</span><span class="p">,</span>
-    <span class="n">onehot2int</span><span class="p">,</span>
     <span class="n">int2onehot</span><span class="p">,</span>
     <span class="n">get_num_classes</span><span class="p">,</span>
+    <span class="n">_binarize_pred_probs_slice</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># tqdm is a module used to print time-to-complete when multiprocessing is used.</span>
@@ -529,8 +531,11 @@
 <span class="sd">    multi_label : bool, optional</span>
 <span class="sd">      If ``True``, labels should be an iterable (e.g. list) of iterables, containing a</span>
 <span class="sd">      list of labels for each example, instead of just a single label.</span>
-<span class="sd">      The multi-label setting supports classification tasks where an example has 1 or more labels.</span>
-<span class="sd">      Example of a multi-labeled `labels` input: ``[[0,1], [1], [0,2], [0,1,2], [0], [1], ...]``.</span>
+<span class="sd">      The multi-label setting supports classification tasks where an example can belong to more than 1 class (rather than exactly one class as in standard multi-class classification).</span>
+<span class="sd">      Example of a multi-labeled `labels` input: ``[[0,1], [1], [0,2], [0,1,2], [0], [1], ...]``. This says the first example in dataset belongs to both class 0 and class 1, according to its given label.</span>
+<span class="sd">      Confident joint should be an array of shape ``(K, 2, 2)`` in multi-label settings.</span>
+<span class="sd">      Each row of `pred_probs` no longer needs to sum to 1 in multi-label settings, since one example can now belong to multiple classes simultaneously.</span>
+
 
 <span class="sd">    frac_noise : float, default=1.0</span>
 <span class="sd">      Used to only return the &quot;top&quot; ``frac_noise * num_label_issues``. The choice of which &quot;top&quot;</span>
@@ -542,6 +547,7 @@
 <span class="sd">      When ``frac_noise=1.0``, return all &quot;confident&quot; estimated noise indices (recommended).</span>
 
 <span class="sd">      frac_noise * number_of_mislabeled_examples_in_class_k.</span>
+<span class="sd">      Note: specifying `frac_noise` is not yet supported if `multi_label` is True.</span>
 
 <span class="sd">    num_to_remove_per_class : array_like</span>
 <span class="sd">      An iterable of length K, the number of classes.</span>
@@ -569,6 +575,7 @@
 <span class="sd">      Entry ``(j, k)`` in the matrix is the number of examples confidently counted into the pair of ``(noisy label=j, true label=k)`` classes.</span>
 <span class="sd">      The `confident_joint` can be computed using :py:func:`count.compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;`.</span>
 <span class="sd">      If not provided, it is computed from the given (noisy) `labels` and `pred_probs`.</span>
+<span class="sd">      If `multi_label` is True, `confident_joint` should instead be a one-vs-rest array with shape ``(K, 2, 2)``.</span>
 
 <span class="sd">    n_jobs : optional</span>
 <span class="sd">      Number of processing threads used by multiprocessing. Default ``None``</span>
@@ -628,7 +635,20 @@
 
     <span class="c1"># Number of examples in each class of labels</span>
     <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
-        <span class="n">label_counts</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">lst</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">_find_label_issues_multilabel</span><span class="p">(</span>
+            <span class="n">labels</span><span class="p">,</span>
+            <span class="n">pred_probs</span><span class="p">,</span>
+            <span class="n">return_indices_ranked_by</span><span class="p">,</span>
+            <span class="n">rank_by_kwargs</span><span class="p">,</span>
+            <span class="n">filter_by</span><span class="p">,</span>
+            <span class="n">frac_noise</span><span class="p">,</span>
+            <span class="n">num_to_remove_per_class</span><span class="p">,</span>
+            <span class="n">min_examples_per_class</span><span class="p">,</span>
+            <span class="n">confident_joint</span><span class="p">,</span>
+            <span class="n">n_jobs</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="p">,</span>
+        <span class="p">)</span>
+
     <span class="k">else</span><span class="p">:</span>
         <span class="n">label_counts</span> <span class="o">=</span> <span class="n">value_counts</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
     <span class="c1"># Number of classes</span>
@@ -669,10 +689,7 @@
 
         <span class="c1"># Prepare multiprocessing shared data</span>
         <span class="k">if</span> <span class="n">n_jobs</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
-                <span class="n">_labels</span> <span class="o">=</span> <span class="n">RawArray</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="n">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>  <span class="c1"># type: ignore</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">_labels</span> <span class="o">=</span> <span class="n">RawArray</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="n">_labels</span> <span class="o">=</span> <span class="n">RawArray</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
             <span class="n">_label_counts</span> <span class="o">=</span> <span class="n">RawArray</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="n">label_counts</span><span class="p">)</span>
             <span class="n">_prune_count_matrix</span> <span class="o">=</span> <span class="n">RawArray</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="n">prune_count_matrix</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>  <span class="c1"># type: ignore</span>
             <span class="n">_pred_probs</span> <span class="o">=</span> <span class="n">RawArray</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
@@ -761,18 +778,9 @@
         <span class="n">label_issues_mask</span> <span class="o">=</span> <span class="n">find_predicted_neq_given</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span><span class="p">)</span>
 
     <span class="c1"># Remove label issues if given label == model prediction</span>
-    <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">_multiclass_crossval_predict</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="n">MultiLabelBinarizer</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pred_label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pred</span><span class="p">):</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">multi_label</span>
-            <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">pred_label</span> <span class="o">==</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="ow">or</span> <span class="ow">not</span> <span class="n">multi_label</span>
-            <span class="ow">and</span> <span class="n">pred_label</span> <span class="o">==</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="p">):</span>
+        <span class="k">if</span> <span class="n">pred_label</span> <span class="o">==</span> <span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
             <span class="n">label_issues_mask</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
@@ -789,6 +797,190 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">er</span>
     <span class="k">return</span> <span class="n">label_issues_mask</span></div>
+
+
+<span class="k">def</span> <span class="nf">_find_label_issues_multilabel</span><span class="p">(</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">return_indices_ranked_by</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">rank_by_kwargs</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">filter_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;prune_by_noise_rate&quot;</span><span class="p">,</span>
+    <span class="n">frac_noise</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">num_to_remove_per_class</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">min_examples_per_class</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">confident_joint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Finds label issues in multi-label classification data where each example can belong to more than one class. This is done via a one-vs-rest reduction for each class and the  results are subsequently aggregated across all classes.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">per_class_issues</span> <span class="o">=</span> <span class="n">_find_multilabel_issues_per_class</span><span class="p">(</span>
+        <span class="n">labels</span><span class="p">,</span>
+        <span class="n">pred_probs</span><span class="p">,</span>
+        <span class="n">return_indices_ranked_by</span><span class="p">,</span>
+        <span class="n">rank_by_kwargs</span><span class="p">,</span>
+        <span class="n">filter_by</span><span class="p">,</span>
+        <span class="n">frac_noise</span><span class="p">,</span>
+        <span class="n">num_to_remove_per_class</span><span class="p">,</span>
+        <span class="n">min_examples_per_class</span><span class="p">,</span>
+        <span class="n">confident_joint</span><span class="p">,</span>
+        <span class="n">n_jobs</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_indices_ranked_by</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">per_class_issues</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">per_class_issues</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">label_issues_list</span><span class="p">,</span> <span class="n">labels_list</span><span class="p">,</span> <span class="n">pred_probs_list</span> <span class="o">=</span> <span class="n">per_class_issues</span>
+        <span class="n">label_issues_idx</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">union1d</span><span class="p">,</span> <span class="n">label_issues_list</span><span class="p">)</span>
+        <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
+        <span class="n">label_quality_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+            <span class="n">label_quality_scores</span> <span class="o">+=</span> <span class="n">get_label_quality_scores</span><span class="p">(</span>
+                <span class="n">labels</span><span class="o">=</span><span class="n">labels_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="n">method</span><span class="o">=</span><span class="n">return_indices_ranked_by</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">rank_by_kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">label_quality_scores</span> <span class="o">/=</span> <span class="n">num_classes</span>
+        <span class="n">label_quality_scores_issues</span> <span class="o">=</span> <span class="n">label_quality_scores</span><span class="p">[</span><span class="n">label_issues_idx</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">label_issues_idx</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">label_quality_scores_issues</span><span class="p">)]</span>
+
+
+<span class="k">def</span> <span class="nf">_find_multilabel_issues_per_class</span><span class="p">(</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">return_indices_ranked_by</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">rank_by_kwargs</span><span class="o">=</span><span class="p">{},</span>
+    <span class="n">filter_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;prune_by_noise_rate&quot;</span><span class="p">,</span>
+    <span class="n">frac_noise</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">num_to_remove_per_class</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">min_examples_per_class</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">confident_joint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    labels : list</span>
+<span class="sd">      List of noisy labels for multi-label classification where each example can belong to multiple classes (e.g. ``labels = [[1,2],[1],[0],..]`` indicates the first example in dataset belongs to both class 1 and class 2.</span>
+<span class="sd">      For multi-label settings, your `labels` should instead satisfy: ``len(set(k for l in labels for k in l)) == pred_probs.shape[1])``.</span>
+
+
+<span class="sd">    pred_probs : np.ndarray</span>
+<span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
+<span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
+<span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
+<span class="sd">      `x` belongs to each possible class, for each of the K classes. The</span>
+<span class="sd">      columns must be ordered such that these probabilities correspond to</span>
+<span class="sd">      class 0, 1, ..., K-1. They need not sum to 1.0</span>
+
+
+<span class="sd">    return_indices_ranked_by : {None, &#39;self_confidence&#39;, &#39;normalized_margin&#39;, &#39;confidence_weighted_entropy&#39;}, default=None</span>
+<span class="sd">      Refer to documentation for this argument in filter.find_label_issues() for details.</span>
+
+<span class="sd">    rank_by_kwargs : dict, optional</span>
+<span class="sd">      Refer to documentation for this argument in filter.find_label_issues() for details.</span>
+
+<span class="sd">    filter_by : {&#39;prune_by_class&#39;, &#39;prune_by_noise_rate&#39;, &#39;both&#39;, &#39;confident_learning&#39;, &#39;predicted_neq_given&#39;}, default=&#39;prune_by_noise_rate&#39;</span>
+<span class="sd">      Refer to documentation for this argument in filter.find_label_issues() for details.</span>
+
+<span class="sd">    frac_noise : float, default=1.0</span>
+<span class="sd">      Refer to documentation for this argument in filter.find_label_issues() for details.</span>
+
+<span class="sd">    num_to_remove_per_class : array_like</span>
+<span class="sd">      Refer to documentation for this argument in filter.find_label_issues() for details.</span>
+
+<span class="sd">    min_examples_per_class : int, default=1</span>
+<span class="sd">      Refer to documentation for this argument in filter.find_label_issues() for details.</span>
+
+<span class="sd">    confident_joint : np.ndarray, optional</span>
+<span class="sd">      An array of shape ``(K, 2, 2)`` representing a one-vs-rest formatted confident joint.</span>
+<span class="sd">      Entry ``(c, i, j)`` in this array is the number of examples confidently counted into a ``(class c, noisy label=i, true label=j)`` bin,</span>
+<span class="sd">      where `i, j` are either 0 or 1 to denote whether this example belongs to class `c` or not</span>
+<span class="sd">      (recall examples can belong to multiple classes in multi-label classification).</span>
+<span class="sd">      The `confident_joint` can be computed using :py:func:`count.compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;`.</span>
+<span class="sd">      If not provided, it is computed from the given (noisy) `labels` and `pred_probs`.</span>
+
+<span class="sd">    n_jobs : optional</span>
+<span class="sd">      Refer to documentation for this argument in filter.find_label_issues() for details.</span>
+
+<span class="sd">    verbose : optional</span>
+<span class="sd">      If ``True``, prints when multiprocessing happens.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    per_class_label_issues : list(np.ndarray)</span>
+<span class="sd">      If `return_indices_ranked_by` left unspecified, returns a list of boolean **masks** for the entire dataset</span>
+<span class="sd">      where ``True`` represents a label issue and ``False`` represents an example that is</span>
+<span class="sd">      accurately labeled with high confidence.</span>
+<span class="sd">      If `return_indices_ranked_by` is specified, returns a list of shorter arrays of **indices** of examples identified to have</span>
+<span class="sd">      label issues (i.e. those indices where the mask would be ``True``), sorting by likelihood that the corresponding label is correct is not supported yet.</span>
+
+<span class="sd">      Note</span>
+<span class="sd">      ----</span>
+<span class="sd">      Obtain the *indices* of label issues in your dataset by setting</span>
+<span class="sd">      `return_indices_ranked_by`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">y_one</span> <span class="o">=</span> <span class="n">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;wrong format for labels, should be a list of list[indices], please check the documentation in find_label_issues for further information&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_indices_ranked_by</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bissues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">label_issues_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">labels_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pred_probs_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">confident_joint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">confident_joint_shape</span> <span class="o">=</span> <span class="n">confident_joint</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="n">confident_joint_shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">num_classes</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The new recommended format for `confident_joint` in multi_label settings is (num_classes,2,2) as output by compute_confident_joint(...,multi_label=True). Your K x K confident_joint in the old format is being ignored.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">confident_joint</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">confident_joint_shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">num_classes</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;confident_joint should be of shape (num_classes, 2, 2)&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">class_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+        <span class="n">pred_probabilitites</span> <span class="o">=</span> <span class="n">_binarize_pred_probs_slice</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">class_num</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">confident_joint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">conf</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">conf</span> <span class="o">=</span> <span class="n">confident_joint</span><span class="p">[</span><span class="n">class_num</span><span class="p">]</span>
+        <span class="n">binary_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
+            <span class="n">labels</span><span class="o">=</span><span class="n">y_one</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">],</span>
+            <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probabilitites</span><span class="p">,</span>
+            <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="n">return_indices_ranked_by</span><span class="p">,</span>
+            <span class="n">frac_noise</span><span class="o">=</span><span class="n">frac_noise</span><span class="p">,</span>
+            <span class="n">rank_by_kwargs</span><span class="o">=</span><span class="n">rank_by_kwargs</span><span class="p">,</span>
+            <span class="n">filter_by</span><span class="o">=</span><span class="n">filter_by</span><span class="p">,</span>
+            <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">num_to_remove_per_class</span><span class="o">=</span><span class="n">num_to_remove_per_class</span><span class="p">,</span>
+            <span class="n">min_examples_per_class</span><span class="o">=</span><span class="n">min_examples_per_class</span><span class="p">,</span>
+            <span class="n">confident_joint</span><span class="o">=</span><span class="n">conf</span><span class="p">,</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_indices_ranked_by</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bissues</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">binary_label_issues</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">label_issues_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">binary_label_issues</span><span class="p">)</span>
+            <span class="n">labels_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_one</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">])</span>
+            <span class="n">pred_probs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_probabilitites</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_indices_ranked_by</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bissues</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">label_issues_list</span><span class="p">,</span> <span class="n">labels_list</span><span class="p">,</span> <span class="n">pred_probs_list</span>
 
 
 <span class="k">def</span> <span class="nf">_keep_at_least_n_per_class</span><span class="p">(</span><span class="n">prune_count_matrix</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">frac_noise</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -912,11 +1104,44 @@
 
     <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
-        <span class="c1"># TODO: This needs to be tested.</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[</span><span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">[</span><span class="n">i</span><span class="p">])[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">j</span><span class="p">)]</span> <span class="o">==</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">j</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">)]</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_find_predicted_neq_given_multilabel</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_find_predicted_neq_given_multilabel</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">     ----------</span>
+<span class="sd">     labels : list</span>
+<span class="sd">       List of noisy labels for multi-label classification where each example can belong to multiple classes (e.g. ``labels = [[1,2],[1],[0],..]`` indicates the first example in dataset belongs to both class 1 and class 2.</span>
+<span class="sd">       For multi-label settings, your `labels` should instead satisfy: ``len(set(k for l in labels for k in l)) == pred_probs.shape[1])``.</span>
+
+<span class="sd">     pred_probs : np.ndarray</span>
+<span class="sd">       Predicted-probabilities in the same format expected by the :py:func:`find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
+
+<span class="sd">     Returns</span>
+<span class="sd">     -------</span>
+<span class="sd">     label_issues_mask : np.ndarray</span>
+<span class="sd">       A boolean mask for the entire dataset where ``True`` represents a</span>
+<span class="sd">       label issue and ``False`` represents an example that is accurately</span>
+<span class="sd">       labeled with high confidence.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">y_one</span> <span class="o">=</span> <span class="n">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;wrong format for labels, should be a list of list[indices], please check the documentation in find_label_issues for further information&quot;</span>
+        <span class="p">)</span>
+    <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
+    <span class="n">pred_neq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">class_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_classes</span><span class="p">):</span>
+        <span class="n">pred_probabilitites</span> <span class="o">=</span> <span class="n">_binarize_pred_probs_slice</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">class_num</span><span class="p">)</span>
+        <span class="n">pred_neq</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_predicted_neq_given</span><span class="p">(</span>
+            <span class="n">labels</span><span class="o">=</span><span class="n">y_one</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">],</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probabilitites</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">pred_neq</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span>
 
 
 <div class="viewcode-block" id="find_label_issues_using_argmax_confusion_matrix"><a class="viewcode-back" href="../../cleanlab/filter.html#cleanlab.filter.find_label_issues_using_argmax_confusion_matrix">[docs]</a><span class="k">def</span> <span class="nf">find_label_issues_using_argmax_confusion_matrix</span><span class="p">(</span>
@@ -965,6 +1190,10 @@
 <span class="sd">      A boolean mask for the entire dataset where ``True`` represents a</span>
 <span class="sd">      label issue and ``False`` represents an example that is accurately</span>
 <span class="sd">      labeled with high confidence.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    Multi-label classification is not supported in this method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1032,15 +1261,7 @@
     <span class="p">)</span>
     <span class="n">min_examples_per_class</span> <span class="o">=</span> <span class="n">mp_params</span><span class="p">[</span><span class="s2">&quot;min_examples_per_class&quot;</span><span class="p">]</span>
     <span class="n">multi_label</span> <span class="o">=</span> <span class="n">mp_params</span><span class="p">[</span><span class="s2">&quot;multi_label&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>  <span class="c1"># Shared data is passed as one-hot encoded matrix</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="n">onehot2int</span><span class="p">(</span>
-            <span class="n">_to_np_array</span><span class="p">(</span>
-                <span class="n">mp_arr</span><span class="o">=</span><span class="n">mp_params</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">],</span>
-                <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="n">_to_np_array</span><span class="p">(</span><span class="n">mp_params</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">])</span>  <span class="c1"># type: ignore</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">_to_np_array</span><span class="p">(</span><span class="n">mp_params</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">])</span>  <span class="c1"># type: ignore</span>
     <span class="k">return</span> <span class="p">(</span>
         <span class="n">labels</span><span class="p">,</span>
         <span class="n">label_counts</span><span class="p">,</span>
@@ -1145,43 +1366,6 @@
             <span class="n">cut</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="o">-</span><span class="n">margin</span><span class="p">[</span><span class="n">label_filter</span><span class="p">],</span> <span class="n">num2prune</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)[</span><span class="n">num2prune</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
             <span class="n">label_issues_mask</span> <span class="o">=</span> <span class="n">label_issues_mask</span> <span class="o">|</span> <span class="p">(</span><span class="n">label_filter</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">margin</span> <span class="o">&gt;=</span> <span class="n">cut</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">label_issues_mask</span>
-
-
-<span class="k">def</span> <span class="nf">_multiclass_crossval_predict</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pyx</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Returns a numpy 2D array of one-hot encoded</span>
-<span class="sd">    multiclass predictions. Each row in the array</span>
-<span class="sd">    provides the predictions for a particular example.</span>
-<span class="sd">    The boundary condition used to threshold predictions</span>
-<span class="sd">    is computed by maximizing the F1 ROC curve.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    labels : list of lists (length N)</span>
-<span class="sd">      These are multiclass labels. Each list in the list contains all the</span>
-<span class="sd">      labels for that example.</span>
-
-<span class="sd">    pyx : np.ndarray (shape (N, K))</span>
-<span class="sd">        P(label=k|x) is a matrix with K model-predicted probabilities.</span>
-<span class="sd">        Each row of this matrix corresponds to an example `x` and contains the model-predicted</span>
-<span class="sd">        probabilities that `x` belongs to each possible class.</span>
-<span class="sd">        The columns must be ordered such that these probabilities correspond to class 0,1,2,...</span>
-<span class="sd">        `pred_probs` should have been computed using 3 (or higher) fold cross-validation.&quot;&quot;&quot;</span>
-
-    <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span>
-
-    <span class="n">boundaries</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
-    <span class="n">labels_one_hot</span> <span class="o">=</span> <span class="n">MultiLabelBinarizer</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-    <span class="n">f1s</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">f1_score</span><span class="p">(</span>
-            <span class="n">labels_one_hot</span><span class="p">,</span>
-            <span class="p">(</span><span class="n">pyx</span> <span class="o">&gt;</span> <span class="n">boundary</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">),</span>
-            <span class="n">average</span><span class="o">=</span><span class="s2">&quot;micro&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="n">boundaries</span>
-    <span class="p">]</span>
-    <span class="n">boundary</span> <span class="o">=</span> <span class="n">boundaries</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">f1s</span><span class="p">)]</span>
-    <span class="n">pred</span> <span class="o">=</span> <span class="p">(</span><span class="n">pyx</span> <span class="o">&gt;</span> <span class="n">boundary</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">pred</span>
 </pre></div> 
         </article>
       </div>
