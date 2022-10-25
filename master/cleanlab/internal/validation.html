@@ -410,10 +410,7 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.validation.assert_valid_inputs" title="cleanlab.internal.validation.assert_valid_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_valid_inputs</span></code></a>(X, y[, pred_probs, ...])</p></td>
 <td><p>Checks that <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> are correctly formatted.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.validation.assert_valid_inputs_multiannotator" title="cleanlab.internal.validation.assert_valid_inputs_multiannotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_valid_inputs_multiannotator</span></code></a>(...[, ...])</p></td>
-<td><p>Validate multi-annotator labels</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.validation.labels_to_array" title="cleanlab.internal.validation.labels_to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">labels_to_array</span></code></a>(y)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.validation.labels_to_array" title="cleanlab.internal.validation.labels_to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">labels_to_array</span></code></a>(y)</p></td>
 <td><p>Converts different types of label objects to 1D numpy array and checks their validity.</p></td>
 </tr>
 </tbody>
@@ -461,17 +458,6 @@ Assumes <code class="docutils literal notranslate"><span class="pre">labels</spa
 <dt class="sig sig-object py" id="cleanlab.internal.validation.assert_valid_inputs">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.internal.validation.</span></span><span class="sig-name descname"><span class="pre">assert_valid_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_missing_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/validation.html#assert_valid_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.validation.assert_valid_inputs" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks that <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">labels</span></code>, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> are correctly formatted.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cleanlab.internal.validation.assert_valid_inputs_multiannotator">
-<span class="sig-prename descclassname"><span class="pre">cleanlab.internal.validation.</span></span><span class="sig-name descname"><span class="pre">assert_valid_inputs_multiannotator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels_multiannotator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/validation.html#assert_valid_inputs_multiannotator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.validation.assert_valid_inputs_multiannotator" title="Permalink to this definition">#</a></dt>
-<dd><p>Validate multi-annotator labels</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
