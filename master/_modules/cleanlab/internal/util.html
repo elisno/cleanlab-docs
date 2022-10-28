@@ -217,6 +217,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cleanlab/internal/multilabel_utils.html">multilabel_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cleanlab/internal/multilabel_scorer.html">multilabel_scorer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cleanlab/internal/token_classification_utils.html">token_classification_utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cleanlab/internal/validation.html">validation</a></li>
 </ul>
@@ -1106,13 +1108,6 @@
     <span class="n">inverse_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">label</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">label_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
     <span class="k">return</span> <span class="n">formatted_labels</span><span class="p">,</span> <span class="n">inverse_map</span></div>
-
-
-<span class="k">def</span> <span class="nf">_binarize_pred_probs_slice</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">class_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Binarize predicted probabilities of a particular class, in the form of a one-vs-rest setting&quot;&quot;&quot;</span>
-    <span class="n">pred_probs_class</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">]</span>
-    <span class="n">pred_probabilities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pred_probs_class</span><span class="p">,</span> <span class="n">pred_probs_class</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
-    <span class="k">return</span> <span class="n">pred_probabilities</span>
 
 
 <div class="viewcode-block" id="smart_display_dataframe"><a class="viewcode-back" href="../../../cleanlab/internal/util.html#cleanlab.internal.util.smart_display_dataframe">[docs]</a><span class="k">def</span> <span class="nf">smart_display_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>

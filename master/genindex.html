@@ -216,6 +216,8 @@
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/multilabel_utils.html">multilabel_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/multilabel_scorer.html">multilabel_scorer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/token_classification_utils.html">token_classification_utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/validation.html">validation</a></li>
 </ul>
@@ -360,6 +362,12 @@
         <ul>
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.__call__">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
+          <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.Aggregator.__call__">(cleanlab.internal.multilabel_scorer.Aggregator method)</a>
+</li>
+          <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.ClassLabelScorer.__call__">(cleanlab.internal.multilabel_scorer.ClassLabelScorer method)</a>
+</li>
+          <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.MultilabelScorer.__call__">(cleanlab.internal.multilabel_scorer.MultilabelScorer method)</a>
+</li>
         </ul></li>
     </ul></td>
   </tr></table>
@@ -376,6 +384,8 @@
 </li>
         </ul></li>
         <li><a href="cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.adjust_learning_rate">adjust_learning_rate() (in module cleanlab.experimental.coteaching)</a>
+</li>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.Aggregator">Aggregator (class in cleanlab.internal.multilabel_scorer)</a>
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.append_extra_datapoint">append_extra_datapoint() (in module cleanlab.internal.util)</a>
 </li>
@@ -439,6 +449,8 @@
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.children">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.ClassLabelScorer">ClassLabelScorer (class in cleanlab.internal.multilabel_scorer)</a>
+</li>
         <li>
     cleanlab.benchmarking
 
@@ -552,12 +564,28 @@
 </li>
         </ul></li>
         <li>
+    cleanlab.internal.multilabel_scorer
+
+        <ul>
+          <li><a href="cleanlab/internal/multilabel_scorer.html#module-cleanlab.internal.multilabel_scorer">module</a>
+</li>
+        </ul></li>
+        <li>
+    cleanlab.internal.multilabel_utils
+
+        <ul>
+          <li><a href="cleanlab/internal/multilabel_utils.html#module-cleanlab.internal.multilabel_utils">module</a>
+</li>
+        </ul></li>
+        <li>
     cleanlab.internal.token_classification_utils
 
         <ul>
           <li><a href="cleanlab/internal/token_classification_utils.html#module-cleanlab.internal.token_classification_utils">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cleanlab.internal.util
 
@@ -565,8 +593,6 @@
           <li><a href="cleanlab/internal/util.html#module-cleanlab.internal.util">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cleanlab.internal.validation
 
@@ -655,6 +681,8 @@
 </li>
         <li><a href="cleanlab/internal/latent_algebra.html#cleanlab.internal.latent_algebra.compute_pyx">compute_pyx() (in module cleanlab.internal.latent_algebra)</a>
 </li>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.ClassLabelScorer.CONFIDENCE_WEIGHTED_ENTROPY">CONFIDENCE_WEIGHTED_ENTROPY (cleanlab.internal.multilabel_scorer.ClassLabelScorer attribute)</a>
+</li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.confusion_matrix">confusion_matrix() (in module cleanlab.internal.util)</a>
 </li>
         <li><a href="cleanlab/multiannotator.html#cleanlab.multiannotator.convert_long_to_wide_dataset">convert_long_to_wide_dataset() (in module cleanlab.multiannotator)</a>
@@ -723,10 +751,10 @@
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.estimate_pu_f1">estimate_pu_f1() (in module cleanlab.internal.util)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/count.html#cleanlab.count.estimate_py_and_noise_matrices_from_probabilities">estimate_py_and_noise_matrices_from_probabilities() (in module cleanlab.count)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="cleanlab/count.html#cleanlab.count.estimate_py_noise_matrices_and_cv_pred_proba">estimate_py_noise_matrices_and_cv_pred_proba() (in module cleanlab.count)</a>
 </li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.eval">eval() (cleanlab.experimental.cifar_cnn.CNN method)</a>
@@ -736,6 +764,8 @@
 </li>
         </ul></li>
         <li><a href="cleanlab/experimental/coteaching.html#cleanlab.experimental.coteaching.evaluate">evaluate() (in module cleanlab.experimental.coteaching)</a>
+</li>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.exponential_moving_average">exponential_moving_average() (in module cleanlab.internal.multilabel_scorer)</a>
 </li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.extra_repr">extra_repr() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
@@ -811,6 +841,8 @@
           <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet.forward">(cleanlab.experimental.mnist_pytorch.SimpleNet method)</a>
 </li>
         </ul></li>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.ClassLabelScorer.from_str">from_str() (cleanlab.internal.multilabel_scorer.ClassLabelScorer class method)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -835,6 +867,8 @@
 </li>
         <li><a href="cleanlab/count.html#cleanlab.count.get_confident_thresholds">get_confident_thresholds() (in module cleanlab.count)</a>
 </li>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.get_cross_validated_multilabel_pred_probs">get_cross_validated_multilabel_pred_probs() (in module cleanlab.internal.multilabel_scorer)</a>
+</li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.get_extra_state">get_extra_state() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
@@ -847,9 +881,11 @@
 </li>
         <li><a href="cleanlab/multiannotator.html#cleanlab.multiannotator.get_label_quality_multiannotator">get_label_quality_multiannotator() (in module cleanlab.multiannotator)</a>
 </li>
-        <li><a href="cleanlab/rank.html#cleanlab.rank.get_label_quality_scores">get_label_quality_scores() (in module cleanlab.rank)</a>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.get_label_quality_scores">get_label_quality_scores() (in module cleanlab.internal.multilabel_scorer)</a>
 
         <ul>
+          <li><a href="cleanlab/rank.html#cleanlab.rank.get_label_quality_scores">(in module cleanlab.rank)</a>
+</li>
           <li><a href="cleanlab/token_classification/rank.html#cleanlab.token_classification.rank.get_label_quality_scores">(in module cleanlab.token_classification.rank)</a>
 </li>
         </ul></li>
@@ -864,6 +900,8 @@
         <li><a href="cleanlab/rank.html#cleanlab.rank.get_normalized_margin_for_each_label">get_normalized_margin_for_each_label() (in module cleanlab.rank)</a>
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.get_num_classes">get_num_classes() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/internal/multilabel_utils.html#cleanlab.internal.multilabel_utils.get_onehot_num_classes">get_onehot_num_classes() (in module cleanlab.internal.multilabel_utils)</a>
 </li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.get_parameter">get_parameter() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
@@ -1021,6 +1059,10 @@
 </li>
           <li><a href="cleanlab/internal/multiannotator_utils.html#module-cleanlab.internal.multiannotator_utils">cleanlab.internal.multiannotator_utils</a>
 </li>
+          <li><a href="cleanlab/internal/multilabel_scorer.html#module-cleanlab.internal.multilabel_scorer">cleanlab.internal.multilabel_scorer</a>
+</li>
+          <li><a href="cleanlab/internal/multilabel_utils.html#module-cleanlab.internal.multilabel_utils">cleanlab.internal.multilabel_utils</a>
+</li>
           <li><a href="cleanlab/internal/token_classification_utils.html#module-cleanlab.internal.token_classification_utils">cleanlab.internal.token_classification_utils</a>
 </li>
           <li><a href="cleanlab/internal/util.html#module-cleanlab.internal.util">cleanlab.internal.util</a>
@@ -1051,6 +1093,10 @@
 </li>
         </ul></li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.momentum">momentum (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
+</li>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.multilabel_py">multilabel_py() (in module cleanlab.internal.multilabel_scorer)</a>
+</li>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.MultilabelScorer">MultilabelScorer (class in cleanlab.internal.multilabel_scorer)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -1089,6 +1135,8 @@
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.no_cuda">no_cuda (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
 </li>
         <li><a href="cleanlab/benchmarking/noise_generation.html#cleanlab.benchmarking.noise_generation.noise_matrix_is_valid">noise_matrix_is_valid() (in module cleanlab.benchmarking.noise_generation)</a>
+</li>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.ClassLabelScorer.NORMALIZED_MARGIN">NORMALIZED_MARGIN (cleanlab.internal.multilabel_scorer.ClassLabelScorer attribute)</a>
 </li>
         <li><a href="cleanlab/count.html#cleanlab.count.num_label_issues">num_label_issues() (in module cleanlab.count)</a>
 </li>
@@ -1250,6 +1298,8 @@
         </ul></li>
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.CNN.seed">seed (cleanlab.experimental.mnist_pytorch.CNN attribute)</a>
 </li>
+        <li><a href="cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.ClassLabelScorer.SELF_CONFIDENCE">SELF_CONFIDENCE (cleanlab.internal.multilabel_scorer.ClassLabelScorer attribute)</a>
+</li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.set_extra_state">set_extra_state() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 
         <ul>
@@ -1275,6 +1325,8 @@
         <li><a href="cleanlab/experimental/mnist_pytorch.html#cleanlab.experimental.mnist_pytorch.SimpleNet">SimpleNet (class in cleanlab.experimental.mnist_pytorch)</a>
 </li>
         <li><a href="cleanlab/internal/util.html#cleanlab.internal.util.smart_display_dataframe">smart_display_dataframe() (in module cleanlab.internal.util)</a>
+</li>
+        <li><a href="cleanlab/internal/multilabel_utils.html#cleanlab.internal.multilabel_utils.stack_complement">stack_complement() (in module cleanlab.internal.multilabel_utils)</a>
 </li>
         <li><a href="cleanlab/experimental/cifar_cnn.html#cleanlab.experimental.cifar_cnn.CNN.state_dict">state_dict() (cleanlab.experimental.cifar_cnn.CNN method)</a>
 

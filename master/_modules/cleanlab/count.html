@@ -217,6 +217,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cleanlab/internal/multilabel_utils.html">multilabel_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cleanlab/internal/multilabel_scorer.html">multilabel_scorer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cleanlab/internal/token_classification_utils.html">token_classification_utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cleanlab/internal/validation.html">validation</a></li>
 </ul>
@@ -437,9 +439,9 @@
     <span class="n">get_num_classes</span><span class="p">,</span>
     <span class="n">is_torch_dataset</span><span class="p">,</span>
     <span class="n">is_tensorflow_dataset</span><span class="p">,</span>
-    <span class="n">int2onehot</span><span class="p">,</span>
-    <span class="n">_binarize_pred_probs_slice</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">cleanlab.internal.multilabel_utils</span> <span class="kn">import</span> <span class="n">stack_complement</span><span class="p">,</span> <span class="n">get_onehot_num_classes</span>
+
 <span class="kn">from</span> <span class="nn">cleanlab.internal.latent_algebra</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">compute_inv_noise_matrix</span><span class="p">,</span>
     <span class="n">compute_py</span><span class="p">,</span>
@@ -623,20 +625,13 @@
 <span class="sd">    calibrated_cj : np.ndarray</span>
 <span class="sd">      An array of shape ``(K, 2, 2)`` of type float representing a valid</span>
 <span class="sd">      estimate of the joint *counts* of noisy and true labels in a one-vs-rest fashion.&quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">y_one</span> <span class="o">=</span> <span class="n">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;wrong format for labels, should be a list of list[indices], please check the documentation in find_label_issues for further information&quot;</span>
-        <span class="p">)</span>
+    <span class="n">y_one</span><span class="p">,</span> <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_onehot_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
     <span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">)</span>
     <span class="n">calibrate_confident_joint_list</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span>
         <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_classes</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span>
     <span class="p">)</span>
-    <span class="k">for</span> <span class="n">class_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
-        <span class="n">calibrate_confident_joint_list</span><span class="p">[</span><span class="n">class_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">calibrate_confident_joint</span><span class="p">(</span>
-            <span class="n">confident_joint</span><span class="p">[</span><span class="n">class_num</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="n">y_one</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">]</span>
-        <span class="p">)</span>
+    <span class="k">for</span> <span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="n">cj</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">y_one</span><span class="o">.</span><span class="n">T</span><span class="p">)):</span>
+        <span class="n">calibrate_confident_joint_list</span><span class="p">[</span><span class="n">class_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">calibrate_confident_joint</span><span class="p">(</span><span class="n">cj</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">calibrate_confident_joint_list</span>
 
@@ -730,13 +725,7 @@
 <span class="sd">       An array of shape ``(K, 2, 2)`` representing an</span>
 <span class="sd">       estimate of the true joint distribution of noisy and true labels for each class, in a one-vs-rest format employed for multi-label settings.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">y_one</span> <span class="o">=</span> <span class="n">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;wrong format for labels, should be a list of list[indices], please check the documentation in find_label_issues for further information&quot;</span>
-        <span class="p">)</span>
+    <span class="n">y_one</span><span class="p">,</span> <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_onehot_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">confident_joint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">calibrated_cj</span> <span class="o">=</span> <span class="n">compute_confident_joint</span><span class="p">(</span>
             <span class="n">labels</span><span class="p">,</span>
@@ -747,10 +736,10 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">calibrated_cj</span> <span class="o">=</span> <span class="n">confident_joint</span>
     <span class="n">calibrated_cf</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">num_classes</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">class_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_classes</span><span class="p">):</span>
-        <span class="n">pred_probabilitites</span> <span class="o">=</span> <span class="n">_binarize_pred_probs_slice</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">class_num</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_prob</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">T</span><span class="p">)):</span>
+        <span class="n">pred_probabilitites</span> <span class="o">=</span> <span class="n">stack_complement</span><span class="p">(</span><span class="n">pred_prob</span><span class="p">)</span>
         <span class="n">calibrated_cf</span><span class="p">[</span><span class="n">class_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimate_joint</span><span class="p">(</span>
-            <span class="n">labels</span><span class="o">=</span><span class="n">y_one</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">],</span>
+            <span class="n">labels</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
             <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probabilitites</span><span class="p">,</span>
             <span class="n">confident_joint</span><span class="o">=</span><span class="n">calibrated_cj</span><span class="p">[</span><span class="n">class_num</span><span class="p">],</span>
         <span class="p">)</span>
@@ -993,20 +982,14 @@
 <span class="sd">    where `indices_off_diagonal` is a list of arrays (one per class) and each array contains the indices of examples counted in off-diagonals of confident joint for that class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">y_one</span> <span class="o">=</span> <span class="n">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;wrong format for labels, should be a list of list[indices], please check the documentation in find_label_issues for further information&quot;</span>
-        <span class="p">)</span>
+    <span class="n">y_one</span><span class="p">,</span> <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_onehot_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
     <span class="n">confident_joint_list</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_classes</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
     <span class="n">indices_off_diagonal</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">class_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
-        <span class="n">pred_probabilitites</span> <span class="o">=</span> <span class="n">_binarize_pred_probs_slice</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">class_num</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_prob</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">T</span><span class="p">)):</span>
+        <span class="n">pred_probabilitites</span> <span class="o">=</span> <span class="n">stack_complement</span><span class="p">(</span><span class="n">pred_prob</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">return_indices_of_off_diagonals</span><span class="p">:</span>
             <span class="n">cj</span><span class="p">,</span> <span class="n">ind</span> <span class="o">=</span> <span class="n">compute_confident_joint</span><span class="p">(</span>
-                <span class="n">labels</span><span class="o">=</span><span class="n">y_one</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">],</span>
+                <span class="n">labels</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
                 <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probabilitites</span><span class="p">,</span>
                 <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
@@ -1016,7 +999,7 @@
             <span class="n">indices_off_diagonal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">cj</span> <span class="o">=</span> <span class="n">compute_confident_joint</span><span class="p">(</span>
-                <span class="n">labels</span><span class="o">=</span><span class="n">y_one</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">],</span>
+                <span class="n">labels</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
                 <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probabilitites</span><span class="p">,</span>
                 <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
@@ -1789,18 +1772,12 @@
 <span class="sd">    confident_thresholds : np.ndarray</span>
 <span class="sd">      An array of shape ``(K, 2, 2)`` where `K` is the number of classes, in a one-vs-rest format.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">y_one</span> <span class="o">=</span> <span class="n">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;wrong format for labels, should be a list of list[indices], please check the documentation in find_label_issues for further information&quot;</span>
-        <span class="p">)</span>
+    <span class="n">y_one</span><span class="p">,</span> <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_onehot_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
     <span class="n">confident_thresholds</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">num_classes</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">class_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_classes</span><span class="p">):</span>
-        <span class="n">pred_probabilitites</span> <span class="o">=</span> <span class="n">_binarize_pred_probs_slice</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">class_num</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_prob</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">T</span><span class="p">)):</span>
+        <span class="n">pred_probabilitites</span> <span class="o">=</span> <span class="n">stack_complement</span><span class="p">(</span><span class="n">pred_prob</span><span class="p">)</span>
         <span class="n">confident_thresholds</span><span class="p">[</span><span class="n">class_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_confident_thresholds</span><span class="p">(</span>
-            <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probabilitites</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">y_one</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">]</span>
+            <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probabilitites</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">confident_thresholds</span>
 </pre></div> 
