@@ -645,13 +645,38 @@
 <span class="sd">    &#39;This is a \x1b[31msentence\x1b[0m. This is another \x1b[31msentence\x1b[0m.&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">colored_word</span> <span class="o">=</span> <span class="n">colored</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
-    <span class="n">colored_sentence</span><span class="p">,</span> <span class="n">number_of_substitions</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">subn</span><span class="p">(</span>
-        <span class="sa">r</span><span class="s2">&quot;\b</span><span class="si">{}</span><span class="s2">\b&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">word</span><span class="p">)),</span> <span class="n">colored_word</span><span class="p">,</span> <span class="n">sentence</span>
+    <span class="k">return</span> <span class="n">_replace_sentence</span><span class="p">(</span><span class="n">sentence</span><span class="o">=</span><span class="n">sentence</span><span class="p">,</span> <span class="n">word</span><span class="o">=</span><span class="n">word</span><span class="p">,</span> <span class="n">new_word</span><span class="o">=</span><span class="n">colored_word</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_replace_sentence</span><span class="p">(</span><span class="n">sentence</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Searches for a given token in the sentence and returns the sentence where the given token has been replaced by</span>
+<span class="sd">    `new_word`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sentence:</span>
+<span class="sd">        a sentence where the word is searched</span>
+
+<span class="sd">    word:</span>
+<span class="sd">        keyword to find in `sentence`. Assumes the word exists in the sentence.</span>
+
+<span class="sd">    new_word:</span>
+<span class="sd">        the word to replace the keyword with</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    new_sentence:</span>
+<span class="sd">        `sentence` where the every occurrence of the word is replaced by `colored_word`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">new_sentence</span><span class="p">,</span> <span class="n">number_of_substitions</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">subn</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;\b</span><span class="si">{}</span><span class="s2">\b&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">word</span><span class="p">)),</span> <span class="n">new_word</span><span class="p">,</span> <span class="n">sentence</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">number_of_substitions</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># Use basic string manipulation if regex fails</span>
-        <span class="n">colored_sentence</span> <span class="o">=</span> <span class="n">sentence</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">colored_word</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">colored_sentence</span></div>
+        <span class="n">new_sentence</span> <span class="o">=</span> <span class="n">sentence</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">new_word</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_sentence</span>
 </pre></div> 
         </article>
       </div>
