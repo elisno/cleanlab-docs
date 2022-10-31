@@ -454,7 +454,7 @@
     <span class="sd">&quot;&quot;&quot;Returns OneHot encoding of MultiLabel Data, and number of classes&quot;&quot;&quot;</span>
     <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">y_one</span> <span class="o">=</span> <span class="n">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+        <span class="n">y_one</span> <span class="o">=</span> <span class="n">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">num_classes</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;wrong format for labels, should be a list of list[indices], please check the documentation in find_label_issues for further information&quot;</span>

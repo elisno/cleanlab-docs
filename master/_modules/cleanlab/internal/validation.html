@@ -421,13 +421,12 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
-<span class="c1"># TODO: remove allow_missing_classes once supported</span>
 <div class="viewcode-block" id="assert_valid_inputs"><a class="viewcode-back" href="../../../cleanlab/internal/validation.html#cleanlab.internal.validation.assert_valid_inputs">[docs]</a><span class="k">def</span> <span class="nf">assert_valid_inputs</span><span class="p">(</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">DatasetLike</span><span class="p">,</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">LabelLike</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">allow_missing_classes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">allow_missing_classes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Checks that ``X``, ``labels``, ``pred_probs`` are correctly formatted.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)):</span>
@@ -481,30 +480,19 @@
         <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Values in pred_probs must be between 0 and 1.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;When X and pred_probs are both provided, former may be ignored.&quot;</span><span class="p">)</span>
-        <span class="c1"># TODO: can remove this clause once missing classes are supported</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_missing_classes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">multi_label</span><span class="p">:</span>
-            <span class="n">num_unique_labels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
-            <span class="k">if</span> <span class="n">num_unique_labels</span> <span class="o">!=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;All classes in (0,1,2,...,K-1) must be present in labels &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;with K = pred_probs.shape[1] = </span><span class="si">{</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> in your case, &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;but your labels only contain </span><span class="si">{</span><span class="n">num_unique_labels</span><span class="si">}</span><span class="s2"> unique values.&quot;</span>
-                <span class="p">)</span></div>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;When X and pred_probs are both provided, the former may be ignored.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="assert_valid_class_labels"><a class="viewcode-back" href="../../../cleanlab/internal/validation.html#cleanlab.internal.validation.assert_valid_class_labels">[docs]</a><span class="k">def</span> <span class="nf">assert_valid_class_labels</span><span class="p">(</span>
     <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">allow_missing_classes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Checks that ``labels`` is properly formatted, i.e. a 1D array that is</span>
-<span class="sd">    zero-indexed (first label is 0) with all classes present (if ``allow_missing_classes is False``).</span>
-<span class="sd">    Assumes ``labels`` is a 1D numpy array (not multi-label).</span>
+    <span class="sd">&quot;&quot;&quot;Checks that ``labels`` is properly formatted, i.e. a 1D numpy array where labels are zero-based</span>
+<span class="sd">    integers (not multi-label).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;labels must be 1D numpy array.&quot;</span><span class="p">)</span>
 
-    <span class="c1"># TODO: can remove this clause once missing classes are supported</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_missing_classes</span><span class="p">:</span>
         <span class="n">unique_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_classes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -548,7 +536,7 @@
         <span class="k">try</span><span class="p">:</span>  <span class="c1"># check if X is pytorch Dataset object using lazy import</span>
             <span class="kn">import</span> <span class="nn">torch</span>
 
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>  <span class="c1"># special indexing for pytorch Dataset</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>  <span class="c1"># indexing for pytorch Dataset</span>
                 <span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Subset</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>  <span class="c1"># type: ignore[call-overload]</span>
                 <span class="n">is_indexed</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
@@ -558,7 +546,7 @@
             <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
-                <span class="n">is_indexed</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># skip check for tensorflow Dataset (too compute-intensive)</span>
+                <span class="n">is_indexed</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># skip check for tensorflow Dataset (too expensive)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">pass</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_indexed</span><span class="p">:</span>
