@@ -433,9 +433,9 @@
     <span class="n">value_counts_fill_missing_classes</span><span class="p">,</span>
     <span class="n">round_preserving_row_totals</span><span class="p">,</span>
     <span class="n">get_num_classes</span><span class="p">,</span>
-    <span class="n">int2onehot</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">cleanlab.internal.multilabel_utils</span> <span class="kn">import</span> <span class="n">stack_complement</span><span class="p">,</span> <span class="n">get_onehot_num_classes</span>
+
+<span class="kn">from</span> <span class="nn">cleanlab.internal.multilabel_utils</span> <span class="kn">import</span> <span class="n">stack_complement</span><span class="p">,</span> <span class="n">get_onehot_num_classes</span><span class="p">,</span> <span class="n">int2onehot</span>
 
 <span class="c1"># tqdm is a module used to print time-to-complete when multiprocessing is used.</span>
 <span class="c1"># This module is not necessary, and therefore is not a package dependency, but</span>
@@ -949,15 +949,15 @@
             <span class="n">confident_joint</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">elif</span> <span class="n">confident_joint_shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">num_classes</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;confident_joint should be of shape (num_classes, 2, 2)&quot;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_prob</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">T</span><span class="p">)):</span>
-        <span class="n">pred_probabilitites</span> <span class="o">=</span> <span class="n">stack_complement</span><span class="p">(</span><span class="n">pred_prob</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_prob_for_class</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">T</span><span class="p">)):</span>
+        <span class="n">pred_probs_binary</span> <span class="o">=</span> <span class="n">stack_complement</span><span class="p">(</span><span class="n">pred_prob_for_class</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">confident_joint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">conf</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">conf</span> <span class="o">=</span> <span class="n">confident_joint</span><span class="p">[</span><span class="n">class_num</span><span class="p">]</span>
         <span class="n">binary_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
             <span class="n">labels</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-            <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probabilitites</span><span class="p">,</span>
+            <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs_binary</span><span class="p">,</span>
             <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="n">return_indices_ranked_by</span><span class="p">,</span>
             <span class="n">frac_noise</span><span class="o">=</span><span class="n">frac_noise</span><span class="p">,</span>
             <span class="n">rank_by_kwargs</span><span class="o">=</span><span class="n">rank_by_kwargs</span><span class="p">,</span>
@@ -975,7 +975,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">label_issues_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">binary_label_issues</span><span class="p">)</span>
             <span class="n">labels_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
-            <span class="n">pred_probs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_probabilitites</span><span class="p">)</span>
+            <span class="n">pred_probs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred_probs_binary</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">return_indices_ranked_by</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bissues</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1133,10 +1133,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">y_one</span><span class="p">,</span> <span class="n">num_classes</span> <span class="o">=</span> <span class="n">get_onehot_num_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
     <span class="n">pred_neq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_prob</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">T</span><span class="p">)):</span>
-        <span class="n">pred_probabilitites</span> <span class="o">=</span> <span class="n">stack_complement</span><span class="p">(</span><span class="n">pred_prob</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_prob_for_class</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">T</span><span class="p">)):</span>
+        <span class="n">pred_probs_binary</span> <span class="o">=</span> <span class="n">stack_complement</span><span class="p">(</span><span class="n">pred_prob_for_class</span><span class="p">)</span>
         <span class="n">pred_neq</span><span class="p">[:,</span> <span class="n">class_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_predicted_neq_given</span><span class="p">(</span>
-            <span class="n">labels</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probabilitites</span>
+            <span class="n">labels</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs_binary</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">pred_neq</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span>
 
