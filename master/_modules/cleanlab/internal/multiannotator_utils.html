@@ -427,21 +427,29 @@
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Validate format of multi-annotator labels&quot;&quot;&quot;</span>
+    <span class="c1"># Raise error if labels are not formatted properly</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Labels cannot be strings, they must be zero-indexed integers corresponding to class indices.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">all_labels_flatten</span> <span class="o">=</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">all_labels_flatten</span> <span class="o">=</span> <span class="n">all_labels_flatten</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">all_labels_flatten</span><span class="p">)]</span>
+    <span class="n">assert_valid_class_labels</span><span class="p">(</span><span class="n">all_labels_flatten</span><span class="p">,</span> <span class="n">allow_one_class</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
     <span class="c1"># Raise error if number of classes in labels_multiannoator does not match number of classes in pred_probs</span>
     <span class="k">if</span> <span class="n">pred_probs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">num_classes</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
-        <span class="n">unique_ma_labels</span> <span class="o">=</span> <span class="n">unique_ma_labels</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="n">num_classes</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_ma_labels</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sd">&quot;&quot;&quot;The number of unique classes in labels_multiannotator do not match the number of classes in pred_probs.</span>
-<span class="sd">                Perhaps some rarely-annotated classes were lost while establishing consensus labels used to train your classifier.&quot;&quot;&quot;</span>
-            <span class="p">)</span>
+        <span class="n">highest_class</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">)</span>
 
-    <span class="c1"># Raise error if labels are not formatted properly</span>
-    <span class="n">all_labels_flatten</span> <span class="o">=</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
-    <span class="n">all_labels_flatten</span> <span class="o">=</span> <span class="n">all_labels_flatten</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">all_labels_flatten</span><span class="p">)]</span>
-    <span class="n">assert_valid_class_labels</span><span class="p">(</span><span class="n">all_labels_flatten</span><span class="p">,</span> <span class="n">allow_missing_classes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allow_one_class</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># this allows for missing labels, but not missing columns in pred_probs</span>
+        <span class="k">if</span> <span class="n">num_classes</span> <span class="o">&lt;</span> <span class="n">highest_class</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;pred_probs must have at least </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">highest_class</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns based on the largest class label which appears in labels_multiannotator.</span>
+<span class="s2">            Perhaps some rarely-annotated classes were lost while establishing consensus labels used to train your classifier.&quot;&quot;&quot;</span>
+            <span class="p">)</span>
 
     <span class="c1"># Raise error if labels_multiannotator has NaN rows</span>
     <span class="k">if</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
@@ -454,21 +462,21 @@
         <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;&quot;&quot;labels_multiannotator cannot have columns with all NaN.</span>
-<span class="s2">            Annotators </span><span class="si">{</span><span class="n">nan_columns</span><span class="si">}</span><span class="s2"> did not label any examples.&quot;&quot;&quot;</span>
+<span class="s2">        Annotators </span><span class="si">{</span><span class="n">nan_columns</span><span class="si">}</span><span class="s2"> did not label any examples.&quot;&quot;&quot;</span>
         <span class="p">)</span>
 
     <span class="c1"># Raise error if labels_multiannotator has &lt;= 1 column</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="sd">&quot;&quot;&quot;labels_multiannotator must have more than one column. </span>
-<span class="sd">            If there is only one annotator, use cleanlab.rank.get_label_quality_scores instead&quot;&quot;&quot;</span>
+<span class="sd">        If there is only one annotator, use cleanlab.rank.get_label_quality_scores instead&quot;&quot;&quot;</span>
         <span class="p">)</span>
 
     <span class="c1"># Raise error if labels_multiannotator only has 1 label per example</span>
     <span class="k">if</span> <span class="n">labels_multiannotator</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="sd">&quot;&quot;&quot;Each example only has one label, collapse the labels into a 1-D array and use</span>
-<span class="sd">            cleanlab.rank.get_label_quality_scores instead&quot;&quot;&quot;</span>
+<span class="sd">        cleanlab.rank.get_label_quality_scores instead&quot;&quot;&quot;</span>
         <span class="p">)</span>
 
     <span class="c1"># Raise warning if no examples with 2 or more annotators agree</span>
