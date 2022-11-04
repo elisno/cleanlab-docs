@@ -614,7 +614,18 @@
         <span class="s2">&quot;confident_learning&quot;</span><span class="p">,</span>
         <span class="s2">&quot;predicted_neq_given&quot;</span><span class="p">,</span>
     <span class="p">]</span>  <span class="c1"># TODO: change default to confident_learning ?</span>
-    <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span><span class="p">)</span>
+    <span class="n">allow_one_class</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">lab</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">lab</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="mi">0</span><span class="p">}:</span>  <span class="c1"># occurs with missing classes in multi-label settings</span>
+            <span class="n">allow_one_class</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">assert_valid_inputs</span><span class="p">(</span>
+        <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+        <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
+        <span class="n">multi_label</span><span class="o">=</span><span class="n">multi_label</span><span class="p">,</span>
+        <span class="n">allow_one_class</span><span class="o">=</span><span class="n">allow_one_class</span><span class="p">,</span>
+    <span class="p">)</span>
+
     <span class="k">if</span> <span class="n">filter_by</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;confident_learning&quot;</span><span class="p">,</span> <span class="s2">&quot;predicted_neq_given&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="p">(</span>
         <span class="n">frac_noise</span> <span class="o">!=</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="n">num_to_remove_per_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="p">):</span>

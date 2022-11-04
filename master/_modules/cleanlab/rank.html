@@ -483,7 +483,17 @@
 <span class="sd">      ordered by the label-quality scoring method passed to `rank_by`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">assert_valid_inputs</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">allow_one_class</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">lab</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">lab</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="mi">0</span><span class="p">}:</span>  <span class="c1"># occurs with missing classes in multi-label settings</span>
+            <span class="n">allow_one_class</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">assert_valid_inputs</span><span class="p">(</span>
+        <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+        <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
+        <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">allow_one_class</span><span class="o">=</span><span class="n">allow_one_class</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># Convert bool mask to index mask</span>
     <span class="n">label_issues_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))[</span><span class="n">label_issues_mask</span><span class="p">]</span>
