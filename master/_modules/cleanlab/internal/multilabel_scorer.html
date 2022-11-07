@@ -611,7 +611,7 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        \\text{EMA}_t = \\alpha \cdot s_t + (1 - \\alpha) \cdot \\text{EMA}_{t-1},</span>
+<span class="sd">        \\text{EMA}_t = \\alpha \cdot s_t + (1 - \\alpha) \cdot \\text{EMA}_{t-1}, \\qquad 0 \\leq \\alpha \\leq 1</span>
 
 <span class="sd">    We set :math:`\\text{EMA}_1 = s_1` as the largest score in the sorted vector s.</span>
 
@@ -627,6 +627,8 @@
 <span class="sd">        Discount factor that determines the weight of the previous EMA score.</span>
 <span class="sd">        Higher alpha means that the previous EMA score has a lower weight while</span>
 <span class="sd">        the current score has a higher weight.</span>
+
+<span class="sd">        Its value must be in the interval [0, 1].</span>
 
 <span class="sd">        If alpha is None, it is set to 2 / (K + 1) where K is the number of scores.</span>
 
@@ -651,6 +653,8 @@
     <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># One conventional choice for alpha is 2/(K + 1), where K is the number of periods in the moving average.</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">K</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">alpha</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;alpha must be in the interval [0, 1], got </span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">s_T</span> <span class="o">=</span> <span class="n">s_sorted</span><span class="o">.</span><span class="n">T</span>
     <span class="n">s_ema</span><span class="p">,</span> <span class="n">s_next</span> <span class="o">=</span> <span class="n">s_T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s_T</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
     <span class="k">for</span> <span class="n">s_i</span> <span class="ow">in</span> <span class="n">s_next</span><span class="p">:</span>
