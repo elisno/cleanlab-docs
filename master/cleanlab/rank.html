@@ -404,12 +404,8 @@ every example. You can then do something like: <code class="docutils literal not
 indices of individual datapoints based on their quality.</p>
 <p>Note: multi-label classification is not supported by most methods in this module,
 each example must belong to a single class, e.g. format: <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">np.ndarray([1,0,2,1,1,0...])</span></code>.</p>
-<p>CAUTION: These label quality scores are computed based on <cite>pred_probs</cite> from your model that must be out-of-sample!
-You should never provide predictions on the same examples used to train the model,
-as these will be overfit and unsuitable for finding label-errors.
-To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">cross-validation</span></a>.
-Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating
-labels in data that was previously held-out.</p>
+<p>Note: Label quality scores are most accurate when they are computed based on out-of-sample <cite>pred_probs</cite> from your model.
+To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">cross-validation</span></a>. This is encouraged to get better results.</p>
 <p><strong>Functions:</strong></p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
@@ -562,12 +558,9 @@ to an example <cite>x</cite> and contains the model-predicted probabilities that
 <cite>x</cite> belongs to each possible class, for each of the K classes. The
 columns must be ordered such that these probabilities correspond to
 class 0, 1, …, K-1.</p>
-<p><strong>Caution</strong>: <cite>pred_probs</cite> from your model must be out-of-sample!
-You should never provide predictions on the same examples used to train the model,
-as these will be overfit and unsuitable for finding label-errors.
+<p><strong>Note</strong>: Returned label issues are most accurate when they are computed based on out-of-sample <cite>pred_probs</cite> from your model.
 To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">cross-validation</span></a>.
-Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating
-data that was previously held-out.</p>
+This is encouraged to get better results.</p>
 </p></li>
 <li><p><strong>method</strong> (<code class="docutils literal notranslate"><span class="pre">{&quot;self_confidence&quot;,</span> <span class="pre">&quot;normalized_margin&quot;,</span> <span class="pre">&quot;confidence_weighted_entropy&quot;}</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">&quot;self_confidence&quot;</span></code>) – <p>Label quality scoring method.</p>
 <p>Letting <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">=</span> <span class="pre">labels[i]</span></code> and <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">=</span> <span class="pre">pred_probs[i]</span></code> denote the given label and predicted class-probabilities

@@ -430,7 +430,7 @@
 <span class="c1"># Option 2 - works with ANY ML model - just input the model&#39;s predicted probabilities</span>
 <span class="n">ordered_label_issues</span> <span class="o">=</span> <span class="n">find_label_issues</span><span class="p">(</span>
     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>  <span class="c1"># out-of-sample predicted probabilities from any model</span>
+    <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>  <span class="c1"># predicted probabilities from any model (ideally out-of-sample predictions)</span>
     <span class="n">return_indices_ranked_by</span><span class="o">=</span><span class="s1">&#39;self_confidence&#39;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -439,7 +439,7 @@
 <p>By default, <a class="reference internal" href="cleanlab/filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_label_issues</span></code></a> returns a boolean mask of label issues. You can instead return the indices of potential mislabeled examples by setting <cite>return_indices_ranked_by</cite> in <a class="reference internal" href="cleanlab/filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_label_issues</span></code></a>. The indices are ordered by likelihood of a label error (estimated via <a class="reference internal" href="cleanlab/rank.html#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rank.get_label_quality_scores</span></code></a>).</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>The predicted probabilities, <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code>, from your model <strong>must be out-of-sample</strong>. Never provide predictions on the same data points used to train the model – these predictions are overfit and unsuitable for finding label errors. Details on how to compute out-of-sample predicted probabilities for your entire dataset are <a class="reference internal" href="tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">here</span></a>.</p>
+<p>Cleanlab performs better if the <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> from your model are <strong>out-of-sample</strong>. Details on how to compute out-of-sample predicted probabilities for your entire dataset are <a class="reference internal" href="tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">here</span></a>.</p>
 </div>
 </section>
 <section id="train-robust-models-with-noisy-labels">

@@ -422,12 +422,8 @@
 <span class="sd">Note: multi-label classification is not supported by most methods in this module,</span>
 <span class="sd">each example must belong to a single class, e.g. format: ``labels = np.ndarray([1,0,2,1,1,0...])``.</span>
 
-<span class="sd">CAUTION: These label quality scores are computed based on `pred_probs` from your model that must be out-of-sample!</span>
-<span class="sd">You should never provide predictions on the same examples used to train the model,</span>
-<span class="sd">as these will be overfit and unsuitable for finding label-errors.</span>
-<span class="sd">To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use :ref:`cross-validation &lt;pred_probs_cross_val&gt;`.</span>
-<span class="sd">Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating</span>
-<span class="sd">labels in data that was previously held-out.</span>
+<span class="sd">Note: Label quality scores are most accurate when they are computed based on out-of-sample `pred_probs` from your model.</span>
+<span class="sd">To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use :ref:`cross-validation &lt;pred_probs_cross_val&gt;`. This is encouraged to get better results.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -542,12 +538,9 @@
 <span class="sd">      columns must be ordered such that these probabilities correspond to</span>
 <span class="sd">      class 0, 1, ..., K-1.</span>
 
-<span class="sd">      **Caution**: `pred_probs` from your model must be out-of-sample!</span>
-<span class="sd">      You should never provide predictions on the same examples used to train the model,</span>
-<span class="sd">      as these will be overfit and unsuitable for finding label-errors.</span>
+<span class="sd">      **Note**: Returned label issues are most accurate when they are computed based on out-of-sample `pred_probs` from your model.</span>
 <span class="sd">      To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use :ref:`cross-validation &lt;pred_probs_cross_val&gt;`.</span>
-<span class="sd">      Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating</span>
-<span class="sd">      data that was previously held-out.</span>
+<span class="sd">      This is encouraged to get better results.</span>
 
 <span class="sd">    method : {&quot;self_confidence&quot;, &quot;normalized_margin&quot;, &quot;confidence_weighted_entropy&quot;}, default=&quot;self_confidence&quot;</span>
 <span class="sd">      Label quality scoring method.</span>

@@ -442,12 +442,9 @@ to an example <cite>x</cite> and contains the model-predicted probabilities that
 <cite>x</cite> belongs to each possible class, for each of the K classes. The
 columns must be ordered such that these probabilities correspond to
 class 0, 1, …, K-1.</p>
-<p><strong>Caution</strong>: <cite>pred_probs</cite> from your model must be out-of-sample!
-You should never provide predictions on the same examples used to train the model,
-as these will be overfit and unsuitable for finding label-errors.
+<p><strong>Note</strong>: Returned label issues are most accurate when they are computed based on out-of-sample <cite>pred_probs</cite> from your model.
 To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">cross-validation</span></a>.
-Alternatively it is ok if your model was trained on a separate dataset and you are only evaluating
-data that was previously held-out.</p>
+This is encouraged to get better results.</p>
 </p></li>
 <li><p><strong>return_indices_ranked_by</strong> (<code class="docutils literal notranslate"><span class="pre">{None,</span> <span class="pre">'self_confidence',</span> <span class="pre">'normalized_margin',</span> <span class="pre">'confidence_weighted_entropy'}</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>) – <p>Determines what is returned by this method: either a boolean mask or list of indices np.ndarray.
 If <code class="docutils literal notranslate"><span class="pre">None</span></code>, this function returns a boolean mask (<code class="docutils literal notranslate"><span class="pre">True</span></code> if example at index is label error).
