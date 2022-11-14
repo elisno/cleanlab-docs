@@ -916,9 +916,9 @@ cross-validation).</p>
 labels for first 3 examples in cleanlab format:
 [[0], [1, 2], [0]]
 pred_probs for first 3 examples in cleanlab format:
-[[1.   0.01 0.06]
- [0.98 0.13 0.02]
- [0.96 0.02 0.01]]
+[[1.   0.02 0.01]
+ [1.   0.28 0.02]
+ [0.97 0.   0.01]]
 </pre></div></div>
 </div>
 </section>
@@ -946,8 +946,8 @@ pred_probs for first 3 examples in cleanlab format:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-11-14 13:57:04.698063: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.14/x64/lib
-2022-11-14 13:57:04.698097: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-11-14 15:31:53.608472: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.14/x64/lib
+2022-11-14 15:31:53.608513: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -956,8 +956,8 @@ pred_probs for first 3 examples in cleanlab format:
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Indices of examples with label issues:
-[216  65 229 276   1 175 172  21 278 251 102 188 176 143 214 184 266 167
- 253  19  47 240 140 234 164  80   9  44 120  14 159]
+[216 276  65   1 229  21 172 175 278 188 176 251 143 214 184 102 140 253
+  19 266 240  47 167 234  44 120   9 194 107  14]
 </pre></div></div>
 </div>
 <p>Note we specified the <code class="docutils literal notranslate"><span class="pre">multi_label</span></code> option above to distinguish the task from <em>multi-class classification</em> (otherwise assumed as the default task).</p>

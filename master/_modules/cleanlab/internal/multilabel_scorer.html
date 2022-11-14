@@ -416,7 +416,6 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -817,7 +816,7 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; import cleanlab.internal.multilabel_utils as ml_scorer</span>
+<span class="sd">    &gt;&gt;&gt; import cleanlab.internal.multilabel_scorer as ml_scorer</span>
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; labels = np.array([[0, 1, 0], [1, 0, 1]])</span>
 <span class="sd">    &gt;&gt;&gt; pred_probs = np.array([[0.1, 0.9, 0.1], [0.4, 0.1, 0.9]])</span>
@@ -847,40 +846,35 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    py :</span>
-<span class="sd">        A 1d array of prior probabilities of shape (2**K,) where 2**K is the number of possible class-assignment configurations.</span>
+<span class="sd">        A 2d array of prior probabilities of shape (K,2) where the first column is the probability of the label being 0</span>
+<span class="sd">        and the second column is the probability of the label being 1 for each class.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from cleanlab.internal.multilabel_scorer import multilabel_py</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; y = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])</span>
 <span class="sd">    &gt;&gt;&gt; multilabel_py(y)</span>
-<span class="sd">    array([0.25, 0.25, 0.25, 0.25])</span>
-<span class="sd">    &gt;&gt;&gt; y = np.array([[0, 0], [0, 1], [1, 0], [1, 1], [1, 0]])</span>
+<span class="sd">    array([[0.5, 0.5],</span>
+<span class="sd">           [0.5, 0.5]])</span>
+<span class="sd">    &gt;&gt;&gt; y = np.array([[0, 0], [0, 1], [1, 0], [1, 0], [1, 0]])</span>
 <span class="sd">    &gt;&gt;&gt; multilabel_py(y)</span>
-<span class="sd">    array([0.2, 0.2, 0.4, 0.2])</span>
+<span class="sd">    array([[0.4, 0.6],</span>
+<span class="sd">           [0.8, 0.2]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Count the number of unique class-assignment configurations/labels</span>
-    <span class="c1"># and the number of times each configuration occurs.</span>
-    <span class="n">N</span><span class="p">,</span> <span class="n">K</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">unique_labels</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">counts</span> <span class="o">=</span> <span class="n">_fix_missing_class_count</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">unique_labels</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span>
-    <span class="n">py</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">/</span> <span class="n">N</span>
+
+    <span class="k">def</span> <span class="nf">compute_class_py</span><span class="p">(</span><span class="n">y_slice</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="c1"># Should only consider a single class at a time</span>
+        <span class="k">assert</span> <span class="n">y_slice</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">unique_values</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_slice</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">y_slice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Should be 0 and 1, pad with 0 probability if either is missing.</span>
+            <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">]</span> <span class="k">if</span> <span class="n">unique_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="p">[</span><span class="n">N</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">counts</span> <span class="o">/</span> <span class="n">N</span>
+
+    <span class="n">py</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">compute_class_py</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">arr</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">py</span></div>
-
-
-<span class="k">def</span> <span class="nf">_fix_missing_class_count</span><span class="p">(</span><span class="n">K</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">unique_labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">counts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;If there are missing configurations, i.e. fewer than 2**K unique label, add them with a count of 0.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">unique_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">**</span><span class="n">K</span><span class="p">:</span>
-        <span class="c1"># Get the missing labels.</span>
-        <span class="n">all_configurations</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="n">K</span><span class="p">)</span>
-        <span class="n">missing_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">all_configurations</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">unique_labels</span><span class="p">))))</span>
-        <span class="c1"># Add the missing labels with a count of 0.</span>
-        <span class="n">unique_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">unique_labels</span><span class="p">,</span> <span class="n">missing_labels</span><span class="p">))</span>
-        <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">counts</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">missing_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
-        <span class="c1"># Sort the labels and counts by binary representation in</span>
-        <span class="c1"># &#39;big&#39; bit order:  [0, 0] &lt; [0, 1] &lt; [1, 0] &lt; [1, 1])</span>
-        <span class="n">sorted_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">unique_labels</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">K</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-        <span class="n">counts</span> <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">sorted_ids</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">counts</span>
 
 
 <span class="c1"># Cross-validation helpers</span>
