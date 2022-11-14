@@ -726,7 +726,7 @@ tagging (or document tagging), where multiple tags can be appropriate for a sing
 </pre></div>
 </div>
 </div>
-<p>Here we generate a small multi-label classification dataset for a quick demo. To see cleanlab applied to a real image tagging dataset, check out our <a class="reference external" href="https://github.com/cleanlab/examples">example</a> notebook <a class="reference external" href="https://github.com/cleanlab/examples/blob/multilabel_tutorial/multilabel_classification/image_tagging.ipynb">“Find Label Errors in Multi-Label Classification Data (CelebA Image Tagging)”</a>.</p>
+<p>Here we generate a small multi-label classification dataset for a quick demo. To see cleanlab applied to a real image tagging dataset, check out our <a class="reference external" href="https://github.com/cleanlab/examples">example</a> notebook <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/multilabel_classification/image_tagging.ipynb">“Find Label Errors in Multi-Label Classification Data (CelebA Image Tagging)”</a>.</p>
 <details><summary><p>Code to generate dataset (can skip these details) <strong>(click to expand)</strong></p>
 </summary><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
 
@@ -915,9 +915,9 @@ cross-validation).</p>
 labels for first 3 examples in cleanlab format:
 [[0], [1, 2], [0]]
 pred_probs for first 3 examples in cleanlab format:
-[[1.   0.   0.04]
- [0.97 0.19 0.02]
- [0.98 0.02 0.  ]]
+[[0.99 0.04 0.01]
+ [0.98 0.2  0.01]
+ [0.97 0.01 0.  ]]
 </pre></div></div>
 </div>
 </section>
@@ -945,8 +945,8 @@ pred_probs for first 3 examples in cleanlab format:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-2022-11-12 01:24:06.406223: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.14/x64/lib
-2022-11-12 01:24:06.406253: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-11-14 13:37:44.651113: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library &#39;libcudart.so.11.0&#39;; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.14/x64/lib
+2022-11-14 13:37:44.651144: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -955,8 +955,8 @@ pred_probs for first 3 examples in cleanlab format:
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Indices of examples with label issues:
-[216  65 276   1 229 175 172 143 251  21 278 188 176 214 184 102 266 167
-  47 253  19 240 140 234 120  16 159  27   9]
+[188  65 216 276 229   1  21 175 176 172 251 253 143 278 102 184 266 140
+ 214 240  47 167  19  80 164 234 120  16  44 107  14]
 </pre></div></div>
 </div>
 <p>Note we specified the <code class="docutils literal notranslate"><span class="pre">multi_label</span></code> option above to distinguish the task from <em>multi-class classification</em> (otherwise assumed as the default task).</p>
@@ -990,7 +990,7 @@ Indices of examples with label issues:
 </pre></div>
 </div>
 </div>
-<p>To see cleanlab applied to a real image tagging dataset, check out our <a class="reference external" href="https://github.com/cleanlab/examples">example</a> notebook <a class="reference external" href="https://github.com/cleanlab/examples/blob/multilabel_tutorial/multilabel_classification/image_tagging.ipynb">“Find Label Errors in Multi-Label Classification Data (CelebA Image Tagging)”</a>. That example also demonstrates how to use a state-of-the-art Pytorch neural network for multi-label classification with image data.</p>
+<p>To see cleanlab applied to a real image tagging dataset, check out our <a class="reference external" href="https://github.com/cleanlab/examples">example</a> notebook <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/multilabel_classification/image_tagging.ipynb">“Find Label Errors in Multi-Label Classification Data (CelebA Image Tagging)”</a>. That example also demonstrates how to use a state-of-the-art Pytorch neural network for multi-label classification with image data.</p>
 </section>
 </section>
 </section>
