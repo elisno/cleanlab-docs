@@ -731,9 +731,8 @@ tagging (or document tagging), where multiple tags can be appropriate for a sing
 <details><summary><p>Code to generate dataset (can skip these details) <strong>(click to expand)</strong></p>
 </summary><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note: This pulldown content is for docs.cleanlab.ai, if running on local Jupyter or Colab, please ignore it.</span>
 
-<span class="n">m</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1">#num_classes</span>
 <span class="k">def</span> <span class="nf">make_multilabel_data</span><span class="p">(</span>
-    <span class="n">means</span><span class="o">=</span><span class="p">[[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span>
+    <span class="n">means</span><span class="o">=</span><span class="p">[[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span>
     <span class="n">covs</span><span class="o">=</span><span class="p">[[[</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="p">[[</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]],</span>
     <span class="n">boxes_coordinates</span><span class="o">=</span><span class="p">[[</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span>
     <span class="n">box_multilabels</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]],</span>
@@ -866,14 +865,15 @@ tagging (or document tagging), where multiple tags can be appropriate for a sing
 </section>
 <section id="2.-Format-data,-labels,-and-model-predictions">
 <h2>2. Format data, labels, and model predictions<a class="headerlink" href="#2.-Format-data,-labels,-and-model-predictions" title="Permalink to this heading">#</a></h2>
-<p>In multi-label classification, each example in the dataset is labeled as belonging to one <strong>or more</strong> of <em>K</em> possible classes. To find label issues, cleanlab requires predicted class probabilities from a trained classifier. Here we produce out-of-sample <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> by employing cross-validation to fit a multi-label <strong>RandomForestClassifier</strong> model via sklearn’s <code class="docutils literal notranslate"><span class="pre">`OneVsRestClassifier</span></code> &lt;<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html">https://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html</a>&gt;`__
-framework. <code class="docutils literal notranslate"><span class="pre">OneVsRestClassifier</span></code> offers an easy way to apply any multi-class classifier model from sklearn to multi-label classification tasks.</p>
+<p>In multi-label classification, each example in the dataset is labeled as belonging to one <strong>or more</strong> of <em>K</em> possible classes. To find label issues, cleanlab requires predicted class probabilities from a trained classifier. Here we produce out-of-sample <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> by employing cross-validation to fit a multi-label <strong>RandomForestClassifier</strong> model via sklearn’s <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html">OneVsRestClassifier</a> framework.
+<code class="docutils literal notranslate"><span class="pre">OneVsRestClassifier</span></code> offers an easy way to apply any multi-class classifier model from sklearn to multi-label classification tasks.</p>
 <p>To train a state-of-the-art Pytorch neural network for multi-label classification and produce <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> on a real image dataset, see our <a class="reference external" href="https://github.com/cleanlab/examples">example</a> notebook <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/multilabel_classification/pytorch_network_training.ipynb">“Train a neural network for multi-label classification on the CelebA dataset”</a>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SEED</span> <span class="o">=</span><span class="mi">0</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SEED</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
 <span class="n">y_onehot</span> <span class="o">=</span> <span class="n">int2onehot</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="n">num_class</span><span class="p">)</span>  <span class="c1"># labels in a binary format for sklearn OneVsRestClassifier</span>
 <span class="n">single_class_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>  <span class="c1"># used only for stratifying the cross-validation split</span>
 <span class="n">clf</span> <span class="o">=</span> <span class="n">OneVsRestClassifier</span><span class="p">(</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">SEED</span><span class="p">))</span>
@@ -901,9 +901,9 @@ cross-validation).</p>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_to_display</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># increase this to see more examples</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;labels for first </span><span class="si">{</span><span class="n">num_to_display</span><span class="si">}</span><span class="s2"> examples in cleanlab format:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;labels for first </span><span class="si">{</span><span class="n">num_to_display</span><span class="si">}</span><span class="s2"> examples in format expected by cleanlab:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="p">[:</span><span class="n">num_to_display</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pred_probs for first </span><span class="si">{</span><span class="n">num_to_display</span><span class="si">}</span><span class="s2"> examples in cleanlab format:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pred_probs for first </span><span class="si">{</span><span class="n">num_to_display</span><span class="si">}</span><span class="s2"> examples in format expected by cleanlab:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pred_probs</span><span class="p">[:</span><span class="n">num_to_display</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -913,18 +913,18 @@ cross-validation).</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-labels for first 3 examples in cleanlab format:
-[[0], [1, 2], [0]]
-pred_probs for first 3 examples in cleanlab format:
-[[1.   0.05 0.  ]
- [0.96 0.38 0.03]
- [0.94 0.06 0.01]]
+labels for first 3 examples in format expected by cleanlab:
+[[0], [0, 2], [0]]
+pred_probs for first 3 examples in format expected by cleanlab:
+[[1.   0.   0.  ]
+ [0.96 0.09 0.88]
+ [1.   0.01 0.22]]
 </pre></div></div>
 </div>
 </section>
 <section id="3.-Use-cleanlab-to-find-label-issues">
 <h2>3. Use cleanlab to find label issues<a class="headerlink" href="#3.-Use-cleanlab-to-find-label-issues" title="Permalink to this heading">#</a></h2>
-<p>Based on the given <code class="docutils literal notranslate"><span class="pre">labels</span></code> and <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> from a trained model, cleanlab can quickly help us find label errors in our dataset. Here we request that the indices of the examples identified with label issues be sorted by cleanlab’s normalized margin score, which is used to measure the quality of individual labels. The returned <code class="docutils literal notranslate"><span class="pre">issues</span></code> are a list of indices corresponding to the examples in your dataset that cleanlab finds most likely to be mislabeled. These indices are sorted by the
+<p>Based on the given <code class="docutils literal notranslate"><span class="pre">labels</span></code> and <code class="docutils literal notranslate"><span class="pre">pred_probs</span></code> from a trained model, cleanlab can quickly help us find label errors in our dataset. Here we request that the indices of the examples identified with label issues be sorted by cleanlab’s self-confidence score, which is used to measure the quality of individual labels. The returned <code class="docutils literal notranslate"><span class="pre">issues</span></code> are a list of indices corresponding to the examples in your dataset that cleanlab finds most likely to be mislabeled. These indices are sorted by the
 <em>self-confidence</em> label quality score, with the lowest quality labels at the start.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
@@ -947,8 +947,8 @@ pred_probs for first 3 examples in cleanlab format:
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Indices of examples with label issues:
-[216  65 188 276  21 229 175 172 253   1 176 251 278 143 102 214 266 184
- 240 167  19  47 120 140 234  80  14 107  44]
+[275 267 225  72 171 234 165  44   6  29 227 188 102 262 263  35 266 139
+ 143 172  53 216 265 176 164  73  75  10 159 107]
 </pre></div></div>
 </div>
 <p>Note we specified the <code class="docutils literal notranslate"><span class="pre">multi_label</span></code> option above to distinguish the task from <em>multi-class classification</em> (otherwise assumed as the default task).</p>
