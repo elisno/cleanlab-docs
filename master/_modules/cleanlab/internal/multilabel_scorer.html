@@ -585,7 +585,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;axis&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">})</span></div>
+        <span class="n">updated_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="o">**</span><span class="n">updated_kwargs</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Aggregator(method=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">, kwargs=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">)&quot;</span></div>
@@ -712,7 +713,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes a quality score for each label in a multi-label classification problem</span>
 <span class="sd">        based on out-of-sample predicted probabilities.</span>
-<span class="sd">        The score is computed by averaging the base_scorer over all labels.</span>
+<span class="sd">        For each example, the label quality scores for each class are aggregated into a single overall label quality score.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -757,14 +758,98 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_validate_labels_and_pred_probs</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
-        <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_class_label_quality_scores</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="n">base_scorer_kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="o">**</span><span class="n">aggregator_kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MultilabelScorer.aggregate"><a class="viewcode-back" href="../../../cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.MultilabelScorer.aggregate">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">class_label_quality_scores</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Aggregates the label quality scores for each class into a single overall label quality score for each example.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        class_label_quality_scores:</span>
+<span class="sd">            A 2D array of shape (n_samples, n_labels) with the label quality scores for each class.</span>
+
+<span class="sd">            See also</span>
+<span class="sd">            --------</span>
+<span class="sd">            get_class_label_quality_scores</span>
+
+<span class="sd">        kwargs:</span>
+<span class="sd">            Additional keyword arguments to pass to the aggregator.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        scores:</span>
+<span class="sd">            A 1D array of shape (n_samples,) with the quality scores for each datapoint.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from cleanlab.internal.multilabel_scorer import MultilabelScorer</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; class_label_quality_scores = np.array([[0.9, 0.9, 0.3],[0.4, 0.9, 0.6]])</span>
+<span class="sd">        &gt;&gt;&gt; scorer = MultilabelScorer() # Use the default aggregator (exponential moving average) with default parameters.</span>
+<span class="sd">        &gt;&gt;&gt; scores = scorer.aggregate(class_label_quality_scores)</span>
+<span class="sd">        &gt;&gt;&gt; scores</span>
+<span class="sd">        array([0.42, 0.452])</span>
+<span class="sd">        &gt;&gt;&gt; new_scores = scorer.aggregate(class_label_quality_scores, alpha=0.5) # Use the default aggregator with custom parameters.</span>
+<span class="sd">        &gt;&gt;&gt; new_scores</span>
+<span class="sd">        array([0.6, 0.575])</span>
+
+<span class="sd">        Warning</span>
+<span class="sd">        -------</span>
+<span class="sd">        Make sure that keyword arguments correspond to the aggregation function used.</span>
+<span class="sd">        I.e. the ``exponential_moving_average`` function supports an ``alpha`` keyword argument, but ``np.min`` does not.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregator</span><span class="p">(</span><span class="n">class_label_quality_scores</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MultilabelScorer.get_class_label_quality_scores"><a class="viewcode-back" href="../../../cleanlab/internal/multilabel_scorer.html#cleanlab.internal.multilabel_scorer.MultilabelScorer.get_class_label_quality_scores">[docs]</a>    <span class="k">def</span> <span class="nf">get_class_label_quality_scores</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">base_scorer_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Computes separate label quality scores for each class.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        labels:</span>
+<span class="sd">            A 2D array of shape (n_samples, n_labels) with binary labels.</span>
+
+<span class="sd">        pred_probs:</span>
+<span class="sd">            A 2D array of shape (n_samples, n_labels) with predicted probabilities.</span>
+
+<span class="sd">        base_scorer_kwargs:</span>
+<span class="sd">            Keyword arguments to pass to the base scoring-function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        class_label_quality_scores:</span>
+<span class="sd">            A 2D array of shape (n_samples, n_labels) with the quality scores for each label.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from cleanlab.internal.multilabel_scorer import MultilabelScorer</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; labels = np.array([[0, 1, 0], [1, 0, 1]])</span>
+<span class="sd">        &gt;&gt;&gt; pred_probs = np.array([[0.1, 0.9, 0.7], [0.4, 0.1, 0.6]])</span>
+<span class="sd">        &gt;&gt;&gt; scorer = MultilabelScorer() # Use the default base scorer (SELF_CONFIDENCE)</span>
+<span class="sd">        &gt;&gt;&gt; class_label_quality_scores = scorer.get_class_label_quality_scores(labels, pred_probs)</span>
+<span class="sd">        &gt;&gt;&gt; class_label_quality_scores</span>
+<span class="sd">        array([[0.9, 0.9, 0.3],</span>
+<span class="sd">               [0.4, 0.9, 0.6]])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">class_label_quality_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">base_scorer_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">base_scorer_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">label_i</span><span class="p">,</span> <span class="n">pred_prob_i</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">T</span><span class="p">)):</span>
             <span class="n">pred_prob_i_two_columns</span> <span class="o">=</span> <span class="n">stack_complement</span><span class="p">(</span><span class="n">pred_prob_i</span><span class="p">)</span>
-            <span class="n">scores</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_scorer</span><span class="p">(</span><span class="n">label_i</span><span class="p">,</span> <span class="n">pred_prob_i_two_columns</span><span class="p">,</span> <span class="o">**</span><span class="n">base_scorer_kwargs</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregator</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="o">**</span><span class="n">aggregator_kwargs</span><span class="p">)</span></div>
+            <span class="n">class_label_quality_scores</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_scorer</span><span class="p">(</span>
+                <span class="n">label_i</span><span class="p">,</span> <span class="n">pred_prob_i_two_columns</span><span class="p">,</span> <span class="o">**</span><span class="n">base_scorer_kwargs</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">class_label_quality_scores</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_validate_labels_and_pred_probs</span><span class="p">(</span><span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

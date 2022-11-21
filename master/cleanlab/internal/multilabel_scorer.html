@@ -627,6 +627,12 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.multilabel_scorer.MultilabelScorer.__call__" title="cleanlab.internal.multilabel_scorer.MultilabelScorer.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>(labels, pred_probs[, ...])</p></td>
 <td><p>Computes a quality score for each label in a multi-label classification problem based on out-of-sample predicted probabilities.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.internal.multilabel_scorer.MultilabelScorer.aggregate" title="cleanlab.internal.multilabel_scorer.MultilabelScorer.aggregate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aggregate</span></code></a>(class_label_quality_scores, **kwargs)</p></td>
+<td><p>Aggregates the label quality scores for each class into a single overall label quality score for each example.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.internal.multilabel_scorer.MultilabelScorer.get_class_label_quality_scores" title="cleanlab.internal.multilabel_scorer.MultilabelScorer.get_class_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_class_label_quality_scores</span></code></a>(labels, ...)</p></td>
+<td><p>Computes separate label quality scores for each class.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -635,7 +641,7 @@
 <span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_scorer_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">aggregator_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/multilabel_scorer.html#MultilabelScorer.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.multilabel_scorer.MultilabelScorer.__call__" title="Permalink to this definition">#</a></dt>
 <dd><p>Computes a quality score for each label in a multi-label classification problem
 based on out-of-sample predicted probabilities.
-The score is computed by averaging the base_scorer over all labels.</p>
+For each example, the label quality scores for each class are aggregated into a single overall label quality score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -675,6 +681,82 @@ The score is computed by averaging the base_scorer over all labels.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">scores</span> <span class="o">=</span> <span class="n">scorer</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">scores</span>
 <span class="go">array([0.9, 0.4])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cleanlab.internal.multilabel_scorer.MultilabelScorer.aggregate">
+<span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">class_label_quality_scores</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/multilabel_scorer.html#MultilabelScorer.aggregate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.multilabel_scorer.MultilabelScorer.aggregate" title="Permalink to this definition">#</a></dt>
+<dd><p>Aggregates the label quality scores for each class into a single overall label quality score for each example.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>class_label_quality_scores</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – <p>A 2D array of shape (n_samples, n_labels) with the label quality scores for each class.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#cleanlab.internal.multilabel_scorer.MultilabelScorer.get_class_label_quality_scores" title="cleanlab.internal.multilabel_scorer.MultilabelScorer.get_class_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_class_label_quality_scores</span></code></a></p>
+</div>
+</p></li>
+<li><p><strong>kwargs</strong> – Additional keyword arguments to pass to the aggregator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">scores</span></code> – A 1D array of shape (n_samples,) with the quality scores for each datapoint.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cleanlab.internal.multilabel_scorer</span> <span class="kn">import</span> <span class="n">MultilabelScorer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">class_label_quality_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span> <span class="o">=</span> <span class="n">MultilabelScorer</span><span class="p">()</span> <span class="c1"># Use the default aggregator (exponential moving average) with default parameters.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scores</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">class_label_quality_scores</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scores</span>
+<span class="go">array([0.42, 0.452])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_scores</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">class_label_quality_scores</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1"># Use the default aggregator with custom parameters.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_scores</span>
+<span class="go">array([0.6, 0.575])</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure that keyword arguments correspond to the aggregation function used.
+I.e. the <code class="docutils literal notranslate"><span class="pre">exponential_moving_average</span></code> function supports an <code class="docutils literal notranslate"><span class="pre">alpha</span></code> keyword argument, but <code class="docutils literal notranslate"><span class="pre">np.min</span></code> does not.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cleanlab.internal.multilabel_scorer.MultilabelScorer.get_class_label_quality_scores">
+<span class="sig-name descname"><span class="pre">get_class_label_quality_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_scorer_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cleanlab/internal/multilabel_scorer.html#MultilabelScorer.get_class_label_quality_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.internal.multilabel_scorer.MultilabelScorer.get_class_label_quality_scores" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes separate label quality scores for each class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – A 2D array of shape (n_samples, n_labels) with binary labels.</p></li>
+<li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – A 2D array of shape (n_samples, n_labels) with predicted probabilities.</p></li>
+<li><p><strong>base_scorer_kwargs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – Keyword arguments to pass to the base scoring-function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">class_label_quality_scores</span></code> – A 2D array of shape (n_samples, n_labels) with the quality scores for each label.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cleanlab.internal.multilabel_scorer</span> <span class="kn">import</span> <span class="n">MultilabelScorer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pred_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scorer</span> <span class="o">=</span> <span class="n">MultilabelScorer</span><span class="p">()</span> <span class="c1"># Use the default base scorer (SELF_CONFIDENCE)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">class_label_quality_scores</span> <span class="o">=</span> <span class="n">scorer</span><span class="o">.</span><span class="n">get_class_label_quality_scores</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">class_label_quality_scores</span>
+<span class="go">array([[0.9, 0.9, 0.3],</span>
+<span class="go">       [0.4, 0.9, 0.6]])</span>
 </pre></div>
 </div>
 </dd></dl>
