@@ -422,7 +422,7 @@ if you prefer to rank the sentences based on their overall label quality.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – <p>Nested list of given labels for all tokens, such that <cite>labels[i]</cite> is a list of labels, one for each token in the <cite>i</cite>-th sentence.</p>
-<p>For a dataset with K classes, each label must be in 0, 1, …, K-1. All classes must be present in the dataset.</p>
+<p>For a dataset with K classes, each class label must be integer in 0, 1, …, K-1.</p>
 </p></li>
 <li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – <p>List of np arrays, such that <cite>pred_probs[i]</cite> has shape <code class="docutils literal notranslate"><span class="pre">(T,</span> <span class="pre">K)</span></code> if the <cite>i</cite>-th sentence contains T tokens.</p>
 <p>Each row of <cite>pred_probs[i]</cite> corresponds to a token <cite>t</cite> in the <cite>i</cite>-th sentence,

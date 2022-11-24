@@ -415,7 +415,7 @@
 
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Methods to rank/order data by cleanlab&#39;s `label quality score`.</span>
+<span class="sd">Methods to rank examples in standard (multi-class) classification datasets by cleanlab&#39;s `label quality score`.</span>
 <span class="sd">Except for :py:func:`order_label_issues &lt;cleanlab.rank.order_label_issues&gt;`, which operates only on the subset of the data identified</span>
 <span class="sd">as potential label issues/errors, the methods in this module can be used on whichever subset</span>
 <span class="sd">of the dataset you choose (including the entire dataset) and provide a `label quality score` for</span>
@@ -423,7 +423,7 @@
 <span class="sd">indices of individual datapoints based on their quality.</span>
 
 <span class="sd">Note: multi-label classification is not supported by most methods in this module,</span>
-<span class="sd">each example must belong to a single class, e.g. format: ``labels = np.ndarray([1,0,2,1,1,0...])``.</span>
+<span class="sd">each example must be labeled as belonging to a single class, e.g. format: ``labels = np.ndarray([1,0,2,1,1,0...])``.</span>
 
 <span class="sd">Note: Label quality scores are most accurate when they are computed based on out-of-sample `pred_probs` from your model.</span>
 <span class="sd">To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use :ref:`cross-validation &lt;pred_probs_cross_val&gt;`. This is encouraged to get better results.</span>
@@ -515,9 +515,9 @@
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;self_confidence&quot;</span><span class="p">,</span>
     <span class="n">adjust_pred_probs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Returns label quality scores for each datapoint.</span>
+    <span class="sd">&quot;&quot;&quot;Returns a label quality score for each datapoint.</span>
 
-<span class="sd">    This is a function to compute label-quality scores for classification datasets,</span>
+<span class="sd">    This is a function to compute label quality scores for standard (multi-class) classification datasets,</span>
 <span class="sd">    where lower scores indicate labels less likely to be correct.</span>
 
 <span class="sd">    Score is between 0 and 1.</span>
@@ -530,7 +530,6 @@
 <span class="sd">    labels : np.ndarray</span>
 <span class="sd">      A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
 <span class="sd">      *Format requirements*: for dataset with K classes, labels must be in 0, 1, ..., K-1.</span>
-<span class="sd">      All the classes (0, 1, ..., and K-1) MUST be present in ``labels``, such that: ``len(set(labels)) == pred_probs.shape[1]``</span>
 <span class="sd">      Note: multi-label classification is not supported by this method, each example must belong to a single class, e.g. format: ``labels = np.ndarray([1,0,2,1,1,0...])``.</span>
 
 <span class="sd">    pred_probs : np.ndarray, optional</span>

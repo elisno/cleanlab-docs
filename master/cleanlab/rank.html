@@ -399,14 +399,14 @@
 
  <section id="module-cleanlab.rank">
 <span id="rank"></span><h1>rank<a class="headerlink" href="#module-cleanlab.rank" title="Permalink to this heading">#</a></h1>
-<p>Methods to rank/order data by cleanlab’s <cite>label quality score</cite>.
+<p>Methods to rank examples in standard (multi-class) classification datasets by cleanlab’s <cite>label quality score</cite>.
 Except for <a class="reference internal" href="#cleanlab.rank.order_label_issues" title="cleanlab.rank.order_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">order_label_issues</span></code></a>, which operates only on the subset of the data identified
 as potential label issues/errors, the methods in this module can be used on whichever subset
 of the dataset you choose (including the entire dataset) and provide a <cite>label quality score</cite> for
 every example. You can then do something like: <code class="docutils literal notranslate"><span class="pre">np.argsort(label_quality_score)</span></code> to obtain ranked
 indices of individual datapoints based on their quality.</p>
 <p>Note: multi-label classification is not supported by most methods in this module,
-each example must belong to a single class, e.g. format: <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">np.ndarray([1,0,2,1,1,0...])</span></code>.</p>
+each example must be labeled as belonging to a single class, e.g. format: <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">np.ndarray([1,0,2,1,1,0...])</span></code>.</p>
 <p>Note: Label quality scores are most accurate when they are computed based on out-of-sample <cite>pred_probs</cite> from your model.
 To obtain out-of-sample predicted probabilities for every datapoint in your dataset, you can use <a class="reference internal" href="../tutorials/pred_probs_cross_val.html#pred-probs-cross-val"><span class="std std-ref">cross-validation</span></a>. This is encouraged to get better results.</p>
 <p><strong>Functions:</strong></p>
@@ -423,7 +423,7 @@ To obtain out-of-sample predicted probabilities for every datapoint in your data
 <td><p>Returns label quality scores based on predictions from an ensemble of models.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#cleanlab.rank.get_label_quality_scores" title="cleanlab.rank.get_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>(labels, pred_probs, *)</p></td>
-<td><p>Returns label quality scores for each datapoint.</p></td>
+<td><p>Returns a label quality score for each datapoint.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.rank.get_normalized_margin_for_each_label" title="cleanlab.rank.get_normalized_margin_for_each_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_normalized_margin_for_each_label</span></code></a>(labels, ...)</p></td>
 <td><p>Returns the &quot;normalized margin&quot; label-quality score for each datapoint.</p></td>
@@ -542,8 +542,8 @@ Lower scores indicate more likely mislabeled examples.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.rank.get_label_quality_scores">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.rank.</span></span><span class="sig-name descname"><span class="pre">get_label_quality_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'self_confidence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjust_pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/rank.html#get_label_quality_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.rank.get_label_quality_scores" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns label quality scores for each datapoint.</p>
-<p>This is a function to compute label-quality scores for classification datasets,
+<dd><p>Returns a label quality score for each datapoint.</p>
+<p>This is a function to compute label quality scores for standard (multi-class) classification datasets,
 where lower scores indicate labels less likely to be correct.</p>
 <p>Score is between 0 and 1.</p>
 <p>1 - clean label (given label is likely correct).
@@ -553,7 +553,6 @@ where lower scores indicate labels less likely to be correct.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>labels</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>) – A discrete vector of noisy labels, i.e. some labels may be erroneous.
 <em>Format requirements</em>: for dataset with K classes, labels must be in 0, 1, …, K-1.
-All the classes (0, 1, …, and K-1) MUST be present in <code class="docutils literal notranslate"><span class="pre">labels</span></code>, such that: <code class="docutils literal notranslate"><span class="pre">len(set(labels))</span> <span class="pre">==</span> <span class="pre">pred_probs.shape[1]</span></code>
 Note: multi-label classification is not supported by this method, each example must belong to a single class, e.g. format: <code class="docutils literal notranslate"><span class="pre">labels</span> <span class="pre">=</span> <span class="pre">np.ndarray([1,0,2,1,1,0...])</span></code>.</p></li>
 <li><p><strong>pred_probs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code>, <em>optional</em>) – <p>An array of shape <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">K)</span></code> of model-predicted probabilities,
 <code class="docutils literal notranslate"><span class="pre">P(label=k|x)</span></code>. Each row of this matrix corresponds

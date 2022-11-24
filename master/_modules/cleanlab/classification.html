@@ -414,9 +414,10 @@
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">cleanlab can be used for multiclass (or multi-label) learning with noisy labels for any dataset and model.</span>
+<span class="sd">cleanlab can be used for learning with noisy labels for any dataset and model.</span>
 
-<span class="sd">The :py:class:`CleanLearning &lt;cleanlab.classification.CleanLearning&gt;` class wraps an instance of an</span>
+<span class="sd">For regular (multi-class) classification tasks,</span>
+<span class="sd">the :py:class:`CleanLearning &lt;cleanlab.classification.CleanLearning&gt;` class wraps an instance of an</span>
 <span class="sd">sklearn classifier. The wrapped classifier must adhere to the `sklearn estimator API</span>
 <span class="sd">&lt;https://scikit-learn.org/stable/developers/develop.html#rolling-your-own-estimator&gt;`_,</span>
 <span class="sd">meaning it must define four functions:</span>
@@ -555,7 +556,7 @@
 <span class="sd">    Automated and robust learning with noisy labels using any dataset and any model. This class</span>
 <span class="sd">    trains a model `clf` with error-prone, noisy labels as if the model had been instead trained</span>
 <span class="sd">    on a dataset with perfect labels. It achieves this by cleaning out the error and providing</span>
-<span class="sd">    cleaned data while training.</span>
+<span class="sd">    cleaned data while training. This class is currently intended for standard (multi-class) classification tasks.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -705,8 +706,8 @@
 <span class="sd">          and no other order-destroying operation (eg. ``repeat()``) has been applied.</span>
 
 <span class="sd">        labels : array_like</span>
-<span class="sd">          An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">          Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">          An array of shape ``(N,)`` of noisy classification labels, where some labels may be erroneous.</span>
+<span class="sd">          Elements must be integers in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 <span class="sd">          Supported `array_like` types include: ``np.ndarray``, ``pd.Series``, or ``list``.</span>
 
 <span class="sd">        pred_probs : np.ndarray, optional</span>

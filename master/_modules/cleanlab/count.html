@@ -414,12 +414,17 @@
 <span class="c1"># along with cleanlab.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Methods for estimating latent structures used for confident learning, including:</span>
+<span class="sd">Methods to estimate latent structures used for confident learning, including:</span>
 
 <span class="sd">* Latent prior of the unobserved, error-less labels: `py`: ``p(y)``</span>
 <span class="sd">* Latent noisy channel (noise matrix) characterizing the flipping rates: `nm`: ``P(given label | true label)``</span>
 <span class="sd">* Latent inverse noise matrix characterizing the flipping process: `inv`: ``P(true label | given label)``</span>
 <span class="sd">* Latent `confident_joint`, an un-normalized matrix that counts the confident subset of label errors under the joint distribution for true/given label</span>
+
+<span class="sd">These are estimated from a classification dataset. This module considers two types of datasets:</span>
+
+<span class="sd">* standard (multi-class) classification where each example is labeled as belonging to exactly one of K classes (e.g. ``labels = np.array([0,0,1,0,2,1])``)</span>
+<span class="sd">* multi-label classification where each example can be labeled as belonging to multiple classes (e.g. ``labels = [[1,2],[1],[0],[],...]``)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span> <span class="k">as</span> <span class="n">LogReg</span>
@@ -431,7 +436,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">cleanlab.typing</span> <span class="kn">import</span> <span class="n">LabelLike</span>
-
+<span class="kn">from</span> <span class="nn">cleanlab.internal.multilabel_utils</span> <span class="kn">import</span> <span class="n">stack_complement</span><span class="p">,</span> <span class="n">get_onehot_num_classes</span>
 <span class="kn">from</span> <span class="nn">cleanlab.internal.util</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">value_counts_fill_missing_classes</span><span class="p">,</span>
     <span class="n">clip_values</span><span class="p">,</span>
@@ -445,8 +450,6 @@
     <span class="n">is_tensorflow_dataset</span><span class="p">,</span>
     <span class="n">TINY_VALUE</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">cleanlab.internal.multilabel_utils</span> <span class="kn">import</span> <span class="n">stack_complement</span><span class="p">,</span> <span class="n">get_onehot_num_classes</span>
-
 <span class="kn">from</span> <span class="nn">cleanlab.internal.latent_algebra</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">compute_inv_noise_matrix</span><span class="p">,</span>
     <span class="n">compute_py</span><span class="p">,</span>
@@ -466,34 +469,24 @@
     <span class="n">estimation_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;off_diagonal&quot;</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Estimates the number of label issues in the `labels` of a dataset. Use this method to get the most accurate</span>
-<span class="sd">    estimate of number of label issues when you don&#39;t need the indices of the label issues.</span>
+    <span class="sd">&quot;&quot;&quot;Estimates the number of label issues in a classification dataset. Use this method to get the most accurate</span>
+<span class="sd">    estimate of number of label issues when you don&#39;t need the indices of the examples with label issues.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels :</span>
-<span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
-<span class="sd">      For multi-label classification where each example can belong to multiple classes,</span>
-<span class="sd">      refer to documentation for this argument in :py:func:`find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` for details.</span>
+<span class="sd">    labels : np.ndarray or list</span>
+<span class="sd">      Given class labels for each example in the dataset, some of which may be erroneous,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 
 <span class="sd">    pred_probs :</span>
-<span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
-<span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
-<span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
-<span class="sd">      `x` belongs to each possible class, for each of the K classes. The</span>
-<span class="sd">      columns must be ordered such that these probabilities correspond to</span>
-<span class="sd">      class 0, 1, ..., K-1. `pred_probs` should have been computed using 3 (or</span>
-<span class="sd">      higher) fold cross-validation.</span>
+<span class="sd">      Model-predicted class probabilities for each example in the dataset,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 
 <span class="sd">    confident_joint :</span>
-<span class="sd">      An array of shape ``(K, K)`` representing the confident joint, the matrix used for identifying label issues, which</span>
-<span class="sd">      estimates a confident subset of the joint distribution of the noisy and true labels, ``P_{noisy label, true label}``.</span>
-<span class="sd">      Entry ``(j, k)`` in the matrix is the number of examples confidently counted into the pair of ``(noisy label=j, true label=k)`` classes.</span>
+<span class="sd">      Array of estimated class label error statisics used for identifying label issues,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 <span class="sd">      The `confident_joint` can be computed using :py:func:`count.compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;`.</span>
-<span class="sd">      If not provided, it is computed from the given (noisy) `labels` and `pred_probs`.</span>
-<span class="sd">      If `multi_label` is True, then the `confident_joint` should be a one-vs-rest array of shape ``(K, 2, 2)``, refer to :py:func:`find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` for details.</span>
-
+<span class="sd">      If not provided, it is internally computed from the given (noisy) `labels` and `pred_probs`.</span>
 
 <span class="sd">    estimation_method :</span>
 <span class="sd">      Method for estimating the number of label issues in dataset by counting the examples in the off-diagonal of the `confident_joint` ``P(label=i, true_label=j)``.</span>
@@ -510,8 +503,9 @@
 <span class="sd">       TL;DR: use this method to get the most accurate estimate of number of label issues when you don&#39;t need the indices of the label issues.</span>
 
 <span class="sd">    multi_label : bool, optional</span>
-<span class="sd">       Refer to documentation for this argument in :py:func:`compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;` with `multi_label=True` for details.</span>
-
+<span class="sd">      Set ``False`` if your dataset is for regular (multi-class) classification, where each example belongs to exactly one class.</span>
+<span class="sd">      Set ``True`` if your dataset is for multi-label classification, where each example can belong to multiple classes.</span>
+<span class="sd">      See documentation of :py:func:`compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;` for details.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -564,16 +558,16 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-
 <span class="sd">    labels: list</span>
 <span class="sd">       Refer to documentation for this argument in ``count.calibrate_confident_joint()`` with `multi_label=True` for details.</span>
+
 <span class="sd">    pred_probs : np.ndarray</span>
 <span class="sd">       Predicted-probabilities in the same format expected by the :py:func:`get_confident_thresholds &lt;cleanlab.count.get_confident_thresholds&gt;` function.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    num_issues : int</span>
-<span class="sd">       The estimated number of examples with label issues in the multilabel dataset.</span>
+<span class="sd">       The estimated number of examples with label issues in the multi-label dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">from</span> <span class="nn">cleanlab.filter</span> <span class="kn">import</span> <span class="n">find_label_issues</span>
@@ -584,7 +578,9 @@
     <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">issues_idx</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="calibrate_confident_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.calibrate_confident_joint">[docs]</a><span class="k">def</span> <span class="nf">calibrate_confident_joint</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="calibrate_confident_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.calibrate_confident_joint">[docs]</a><span class="k">def</span> <span class="nf">calibrate_confident_joint</span><span class="p">(</span>
+    <span class="n">confident_joint</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">LabelLike</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">multi_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Calibrates any confident joint estimate ``P(label=i, true_label=j)`` such that</span>
 <span class="sd">    ``np.sum(cj) == len(labels)`` and ``np.sum(cj, axis = 1) == np.bincount(labels)``.</span>
 
@@ -605,22 +601,18 @@
 <span class="sd">      If not provided, it is computed from the given (noisy) `labels` and `pred_probs`.</span>
 <span class="sd">      If `multi_label` is True, then the `confident_joint` should be a one-vs-rest array of shape ``(K, 2, 2)``, and an array of the same shape will be returned.</span>
 
-<span class="sd">    labels : np.ndarray</span>
-<span class="sd">      A discrete vector of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      *Format requirements*: for dataset with K classes, labels must be in 0, 1, ..., K-1.</span>
-<span class="sd">      All the classes (0, 1, ..., and K-1) MUST be present in ``labels``, such that:</span>
-<span class="sd">      ``len(set(labels)) == pred_probs.shape[1]`` for standard multi-class classification with single-labeled data (e.g. ``labels =  [1,0,2,1,1,0...]``).</span>
-<span class="sd">      For multi-label classification where each example can belong to multiple classes(e.g. ``labels = [[1,2],[1],[0],..]``),</span>
-<span class="sd">      your labels should instead satisfy: ``len(set(k for l in labels for k in l)) == pred_probs.shape[1])``.</span>
+<span class="sd">    labels : np.ndarray or list</span>
+<span class="sd">      Given class labels for each example in the dataset, some of which may be erroneous,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 
 <span class="sd">    multi_label : bool, optional</span>
-<span class="sd">      If ``True``, labels should be an iterable (e.g. list) of iterables, containing a</span>
-<span class="sd">      list of labels for each example, instead of just a single label.</span>
-<span class="sd">      The multi-label setting supports classification tasks where an example has 1 or more labels.</span>
-<span class="sd">      Example of a multi-labeled `labels` input: ``[[0,1], [1], [0,2], [0,1,2], [0], [1], ...]``.</span>
-<span class="sd">      The major difference in how this is calibrated versus single-label is that</span>
-<span class="sd">      confident/calibrated joint arrays have shape ``(K, 2, 2)`` formatted in a one-vs-rest fashion such that they contain a 2x2 matrix for each class that counts examples which are correctly/incorrectly labeled as belonging to that class.</span>
-<span class="sd">      After calibration, the entries in each class-specific 2x2 matrix will sum to the number of examples.</span>
+<span class="sd">      If ``False``, dataset is for regular (multi-class) classification, where each example belongs to exactly one class.</span>
+<span class="sd">      If ``True``, dataset is for multi-label classification, where each example can belong to multiple classes.</span>
+<span class="sd">      See documentation of :py:func:`compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;` for details.</span>
+<span class="sd">      In multi-label classification, the confident/calibrated joint arrays have shape ``(K, 2, 2)``</span>
+<span class="sd">      formatted in a one-vs-rest fashion such that they contain a 2x2 matrix for each class</span>
+<span class="sd">      that counts examples which are correctly/incorrectly labeled as belonging to that class.</span>
+<span class="sd">      After calibration, the entries in each class-specific 2x2 matrix will sum to the number of examples.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -635,7 +627,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_calibrate_confident_joint_multilabel</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`labels` must be list when `multi_label=True`.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_calibrate_confident_joint_multilabel</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">)</span>
         <span class="n">label_counts</span> <span class="o">=</span> <span class="n">value_counts_fill_missing_classes</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -670,7 +665,7 @@
 <span class="sd">    confident_joint : np.ndarray</span>
 <span class="sd">        Refer to documentation for this argument in count.calibrate_confident_joint() for details.</span>
 
-<span class="sd">    labels : np.ndarray</span>
+<span class="sd">    labels : list</span>
 <span class="sd">        Refer to documentation for this argument in count.calibrate_confident_joint() for details.</span>
 
 <span class="sd">    multi_label : bool, optional</span>
@@ -691,7 +686,13 @@
     <span class="k">return</span> <span class="n">calibrate_confident_joint_list</span>
 
 
-<div class="viewcode-block" id="estimate_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_joint">[docs]</a><span class="k">def</span> <span class="nf">estimate_joint</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="estimate_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_joint">[docs]</a><span class="k">def</span> <span class="nf">estimate_joint</span><span class="p">(</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">LabelLike</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">confident_joint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">multi_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Estimates the joint distribution of label noise ``P(label=i, true_label=j)`` guaranteed to:</span>
 
@@ -700,36 +701,24 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels : np.ndarray</span>
-<span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
-<span class="sd">      All the classes (0, 1, ..., and K-1) MUST be present in ``labels``, such that:</span>
-<span class="sd">      ``len(set(labels)) == pred_probs.shape[1]`` for standard multi-class classification with single-labeled data (e.g. ``labels =  [1,0,2,1,1,0...]``).</span>
-<span class="sd">      For multi-label classification where each example can belong to multiple classes(e.g. ``labels = [[1,2],[1],[0],..]``),</span>
-<span class="sd">      your labels should instead satisfy: ``len(set(k for l in labels for k in l)) == pred_probs.shape[1])``.</span>
+<span class="sd">    labels : np.ndarray or list</span>
+<span class="sd">      Given class labels for each example in the dataset, some of which may be erroneous,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 
 <span class="sd">    pred_probs : np.ndarray</span>
-<span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
-<span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
-<span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
-<span class="sd">      `x` belongs to each possible class, for each of the K classes. The</span>
-<span class="sd">      columns must be ordered such that these probabilities correspond to</span>
-<span class="sd">      class 0, 1, ..., K-1. `pred_probs` should have been computed using 3 (or</span>
-<span class="sd">      higher) fold cross-validation.</span>
+<span class="sd">      Model-predicted class probabilities for each example in the dataset,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 
 <span class="sd">    confident_joint : np.ndarray, optional</span>
-<span class="sd">      An array of shape ``(K, K)`` representing the confident joint, the matrix used for identifying label issues, which</span>
-<span class="sd">      estimates a confident subset of the joint distribution of the noisy and true labels, ``P_{noisy label, true label}``.</span>
-<span class="sd">      Entry ``(j, k)`` in the matrix is the number of examples confidently counted into the pair of ``(noisy label=j, true label=k)`` classes.</span>
+<span class="sd">      Array of estimated class label error statisics used for identifying label issues,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 <span class="sd">      The `confident_joint` can be computed using :py:func:`count.compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;`.</span>
-<span class="sd">      If not provided, it is computed from the given (noisy) `labels` and `pred_probs`.</span>
-<span class="sd">      If `multi_label` is True, then the `confident_joint` should instead be a one-vs-rest array of shape ``(K, 2, 2)``.</span>
+<span class="sd">      If not provided, it is internally computed from the given (noisy) `labels` and `pred_probs`.</span>
 
 <span class="sd">    multi_label : bool, optional</span>
-<span class="sd">      If ``True``, labels should be an iterable (e.g. list) of iterables, containing a</span>
-<span class="sd">      list of labels for each example, instead of just a single label.</span>
-<span class="sd">      The multi-label setting supports classification tasks where an example has 1 or more labels.</span>
-<span class="sd">      Example of a multi-labeled `labels` input: ``[[0,1], [1], [0,2], [0,1,2], [0], [1], ...]``.</span>
+<span class="sd">      If ``False``, dataset is for regular (multi-class) classification, where each example belongs to exactly one class.</span>
+<span class="sd">      If ``True``, dataset is for multi-label classification, where each example can belong to multiple classes.</span>
+<span class="sd">      See documentation of :py:func:`compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;` for details.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -755,14 +744,19 @@
 
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">calibrated_cj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_estimate_joint_multilabel</span><span class="p">(</span>
-            <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">confident_joint</span><span class="o">=</span><span class="n">confident_joint</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`labels` must be list when `multi_label=True`.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_estimate_joint_multilabel</span><span class="p">(</span>
+                <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span> <span class="n">confident_joint</span><span class="o">=</span><span class="n">confident_joint</span>
+            <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">calibrated_cj</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">calibrated_cj</span><span class="p">)),</span> <span class="n">a_min</span><span class="o">=</span><span class="n">TINY_VALUE</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_estimate_joint_multilabel</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">confident_joint</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_estimate_joint_multilabel</span><span class="p">(</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">confident_joint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Parameters</span>
 <span class="sd">     ----------</span>
 <span class="sd">     labels : list</span>
@@ -790,6 +784,7 @@
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">calibrated_cj</span> <span class="o">=</span> <span class="n">confident_joint</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">calibrated_cj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
     <span class="n">calibrated_cf</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">num_classes</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">class_num</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pred_prob_for_class</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">y_one</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">T</span><span class="p">)):</span>
         <span class="n">pred_probs_binary</span> <span class="o">=</span> <span class="n">stack_complement</span><span class="p">(</span><span class="n">pred_prob_for_class</span><span class="p">)</span>
@@ -803,13 +798,13 @@
 
 
 <div class="viewcode-block" id="compute_confident_joint"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.compute_confident_joint">[docs]</a><span class="k">def</span> <span class="nf">compute_confident_joint</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">LabelLike</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">calibrate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">multi_label</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">return_indices_of_off_diagonals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">calibrate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">multi_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_indices_of_off_diagonals</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Estimates the confident counts of latent true vs observed noisy labels</span>
 <span class="sd">    for the examples in our dataset. This array of shape ``(K, K)`` is called the **confident joint**</span>
@@ -823,21 +818,13 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels : np.ndarray</span>
-<span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
-<span class="sd">      ``len(set(labels)) == pred_probs.shape[1]`` for standard multi-class classification with single-labeled data (e.g. ``labels =  [1,0,2,1,1,0...]``).</span>
-<span class="sd">      For multi-label classification where each example can belong to multiple classes(e.g. ``labels = [[1,2],[1],[0],..]``),</span>
-<span class="sd">      your labels should instead satisfy: ``len(set(k for l in labels for k in l)) == pred_probs.shape[1])``.</span>
+<span class="sd">    labels : np.ndarray or list</span>
+<span class="sd">      Given class labels for each example in the dataset, some of which may be erroneous,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 
-<span class="sd">    pred_probs : np.ndarray, optional</span>
-<span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
-<span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
-<span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
-<span class="sd">      `x` belongs to each possible class, for each of the K classes. The</span>
-<span class="sd">      columns must be ordered such that these probabilities correspond to</span>
-<span class="sd">      class 0, 1, ..., K-1. `pred_probs` should have been computed using 3 (or</span>
-<span class="sd">      higher) fold cross-validation.</span>
+<span class="sd">    pred_probs : np.ndarray</span>
+<span class="sd">      Model-predicted class probabilities for each example in the dataset,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 
 <span class="sd">    thresholds : array_like, optional</span>
 <span class="sd">      An array of shape ``(K, 1)`` or ``(K,)`` of per-class threshold</span>
@@ -859,14 +846,11 @@
 <span class="sd">        the latent true joint counts of noisy and true labels.</span>
 
 <span class="sd">    multi_label : bool, optional</span>
-<span class="sd">      If ``True``, labels should be an iterable (e.g. list) of iterables, containing a</span>
-<span class="sd">      list of labels for each example, instead of just a single label.</span>
-<span class="sd">      The multi-label setting supports classification tasks where an example has 1 or more labels.</span>
-<span class="sd">      Example of a multi-labeled `labels` input: ``[[0,1], [1], [0,2], [0,1,2], [0], [1], ...]``.</span>
-<span class="sd">      The major difference in how this is calibrated versus single-label is that</span>
-<span class="sd">      the total number of errors considered is based on the number of labels,</span>
-<span class="sd">      not the number of examples. So, the calibrated `confident_joint` will sum</span>
-<span class="sd">      to the number of total labels.</span>
+<span class="sd">      If ``True``, this is multi-label classification dataset (where each example can belong to more than one class)</span>
+<span class="sd">      rather than a regular (multi-class) classifiction dataset.</span>
+<span class="sd">      In this case, `labels` should be an iterable (e.g. list) of iterables (e.g. ``List[List[int]]``),</span>
+<span class="sd">      containing the list of classes to which each example belongs, instead of just a single class.</span>
+<span class="sd">      Example of `labels` for a multi-label classification dataset: ``[[0,1], [1], [0,2], [0,1,2], [0], [1], [], ...]``.</span>
 
 <span class="sd">    return_indices_of_off_diagonals : bool, optional</span>
 <span class="sd">      If ``True``, returns indices of examples that were counted in off-diagonals</span>
@@ -894,7 +878,6 @@
 
 <span class="sd">    Note</span>
 <span class="sd">    ----</span>
-
 <span class="sd">    We provide a for-loop based simplification of the confident joint</span>
 <span class="sd">    below. This implementation is not efficient, not used in practice, and</span>
 <span class="sd">    not complete, but covers the gist of how the confident joint is computed:</span>
@@ -926,6 +909,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`labels` must be list when `multi_label=True`.&quot;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">_compute_confident_joint_multi_label</span><span class="p">(</span>
             <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
             <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">,</span>
@@ -983,12 +969,12 @@
 
 
 <span class="k">def</span> <span class="nf">_compute_confident_joint_multi_label</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">calibrate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">return_indices_of_off_diagonals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">calibrate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_indices_of_off_diagonals</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Computes the confident joint for multi_labeled data. Thus,</span>
 <span class="sd">    input `labels` is a list of lists (or list of iterable).</span>
@@ -1073,16 +1059,16 @@
 
 
 <div class="viewcode-block" id="estimate_latent"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_latent">[docs]</a><span class="k">def</span> <span class="nf">estimate_latent</span><span class="p">(</span>
-    <span class="n">confident_joint</span><span class="p">,</span>
-    <span class="n">labels</span><span class="p">,</span>
+    <span class="n">confident_joint</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">py_method</span><span class="o">=</span><span class="s2">&quot;cnt&quot;</span><span class="p">,</span>
-    <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">py_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cnt&quot;</span><span class="p">,</span>
+    <span class="n">converge_latent_estimates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Computes the latent prior ``p(y)``, the noise matrix ``P(labels|y)`` and the</span>
 <span class="sd">    inverse noise matrix ``P(y|labels)`` from the `confident_joint` ``count(labels, y)``. The</span>
 <span class="sd">    `confident_joint` can be estimated by `compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;`</span>
-<span class="sd">    by counting confident examples.</span>
+<span class="sd">    which counts confident examples.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1094,8 +1080,8 @@
 <span class="sd">      If not provided, it is computed from the given (noisy) `labels` and `pred_probs`.</span>
 
 <span class="sd">    labels : np.ndarray</span>
-<span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">      A 1D array of shape ``(N,)`` containing class labels for a standard (multi-class) classification dataset. Some given labels may be erroneous.</span>
+<span class="sd">      Elements must be integers in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
 <span class="sd">    py_method : {&quot;cnt&quot;, &quot;eqn&quot;, &quot;marginal&quot;, &quot;marginal_ps&quot;}, default=&quot;cnt&quot;</span>
 <span class="sd">      `py` is shorthand for the &quot;class proportions (a.k.a prior) of the true labels&quot;.</span>
@@ -1157,13 +1143,13 @@
 
 
 <div class="viewcode-block" id="estimate_py_and_noise_matrices_from_probabilities"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.estimate_py_and_noise_matrices_from_probabilities">[docs]</a><span class="k">def</span> <span class="nf">estimate_py_and_noise_matrices_from_probabilities</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">,</span>
-    <span class="n">pred_probs</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">thresholds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">converge_latent_estimates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">py_method</span><span class="o">=</span><span class="s2">&quot;cnt&quot;</span><span class="p">,</span>
-    <span class="n">calibrate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">thresholds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">converge_latent_estimates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">py_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cnt&quot;</span><span class="p">,</span>
+    <span class="n">calibrate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Computes the confident counts</span>
 <span class="sd">    estimate of latent variables `py` and the noise rates</span>
@@ -1183,17 +1169,12 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels : np.ndarray</span>
-<span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">      A 1D array of shape ``(N,)`` containing class labels for a standard (multi-class) classification dataset. Some given labels may be erroneous.</span>
+<span class="sd">      Elements must be integers in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
 <span class="sd">    pred_probs : np.ndarray</span>
-<span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
-<span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
-<span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
-<span class="sd">      `x` belongs to each possible class, for each of the K classes. The</span>
-<span class="sd">      columns must be ordered such that these probabilities correspond to</span>
-<span class="sd">      class 0, 1, ..., K-1. `pred_probs` should have been computed using 3 (or</span>
-<span class="sd">      higher) fold cross-validation.</span>
+<span class="sd">      Model-predicted class probabilities for each example in the dataset,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 
 <span class="sd">    thresholds : array_like, optional</span>
 <span class="sd">      An array of shape ``(K, 1)`` or ``(K,)`` of per-class threshold</span>
@@ -1238,6 +1219,7 @@
         <span class="n">thresholds</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span>
         <span class="n">calibrate</span><span class="o">=</span><span class="n">calibrate</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
     <span class="n">py</span><span class="p">,</span> <span class="n">noise_matrix</span><span class="p">,</span> <span class="n">inv_noise_matrix</span> <span class="o">=</span> <span class="n">estimate_latent</span><span class="p">(</span>
         <span class="n">confident_joint</span><span class="o">=</span><span class="n">confident_joint</span><span class="p">,</span>
         <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
@@ -1289,9 +1271,10 @@
 <span class="sd">          ``clf``, must be able to fit() and predict() data with this format.</span>
 
 <span class="sd">    labels : np.ndarray or pd.Series</span>
-<span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in (0, 1, ..., K-1) where K is the number of classes,</span>
-<span class="sd">      and all classes must be present at least once.</span>
+<span class="sd">      A 1D array of shape ``(N,)`` containing class labels for a standard (multi-class) classification dataset.</span>
+<span class="sd">      Some given labels may be erroneous.</span>
+<span class="sd">      Elements must be integers in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">      All classes must be present in the dataset.</span>
 
 <span class="sd">    clf : estimator instance, optional</span>
 <span class="sd">      A classifier implementing the `sklearn estimator API</span>
@@ -1299,7 +1282,7 @@
 
 <span class="sd">    cv_n_folds : int, default=5</span>
 <span class="sd">      The number of cross-validation folds used to compute</span>
-<span class="sd">      out-of-sample probabilities for each example in `X`.</span>
+<span class="sd">      out-of-sample predicted probabilities for each example in `X`.</span>
 
 <span class="sd">    thresholds : array_like, optional</span>
 <span class="sd">      An array of shape ``(K, 1)`` or ``(K,)`` of per-class threshold</span>
@@ -1465,8 +1448,10 @@
 <span class="sd">      `clf`, must be able to handle data with this shape.</span>
 
 <span class="sd">    labels : np.ndarray</span>
-<span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">      A 1D array of shape ``(N,)`` containing class labels for a standard (multi-class) classification dataset.</span>
+<span class="sd">      Some given labels may be erroneous.</span>
+<span class="sd">      Elements must be integers in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">      All classes must be present in the dataset.</span>
 
 <span class="sd">    clf : estimator instance, optional</span>
 <span class="sd">      A classifier implementing the `sklearn estimator API</span>
@@ -1553,7 +1538,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This function computes the out-of-sample predicted</span>
 <span class="sd">    probability [P(label=k|x)] for every example in X using cross</span>
-<span class="sd">    validation. Output is a np.ndarray of shape (N, K) where N is</span>
+<span class="sd">    validation. Output is a np.ndarray of shape ``(N, K)`` where N is</span>
 <span class="sd">    the number of training examples and K is the number of classes.</span>
 
 <span class="sd">    Parameters</span>
@@ -1564,8 +1549,10 @@
 <span class="sd">      `clf`, must be able to handle data with this shape.</span>
 
 <span class="sd">    labels : np.ndarray</span>
-<span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">      A 1D array of shape ``(N,)`` containing class labels for a standard (multi-class) classification dataset.</span>
+<span class="sd">      Some given labels may be erroneous.</span>
+<span class="sd">      Elements must be integers in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">      All classes must be present in the dataset.</span>
 
 <span class="sd">    clf : estimator instance, optional</span>
 <span class="sd">      A classifier implementing the `sklearn estimator API</span>
@@ -1633,7 +1620,7 @@
 
 <span class="sd">    labels : np.ndarray</span>
 <span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
+<span class="sd">      Elements must be integers in the set 0, 1, ..., K-1, where K is the number of classes.</span>
 
 <span class="sd">    clf : estimator instance, optional</span>
 <span class="sd">      A classifier implementing the `sklearn estimator API</span>
@@ -1691,13 +1678,13 @@
 
 
 <span class="k">def</span> <span class="nf">_converge_estimates</span><span class="p">(</span>
-    <span class="n">ps</span><span class="p">,</span>
-    <span class="n">py</span><span class="p">,</span>
-    <span class="n">noise_matrix</span><span class="p">,</span>
-    <span class="n">inverse_noise_matrix</span><span class="p">,</span>
+    <span class="n">ps</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">py</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">noise_matrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">inverse_noise_matrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">inv_noise_matrix_iterations</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">noise_matrix_iterations</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">inv_noise_matrix_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">noise_matrix_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Updates py := P(true_label=k) and both `noise_matrix` and `inverse_noise_matrix`</span>
 <span class="sd">    to be numerically consistent with each other, by iteratively updating their estimates based on</span>
@@ -1767,49 +1754,35 @@
 
 
 <div class="viewcode-block" id="get_confident_thresholds"><a class="viewcode-back" href="../../cleanlab/count.html#cleanlab.count.get_confident_thresholds">[docs]</a><span class="k">def</span> <span class="nf">get_confident_thresholds</span><span class="p">(</span>
-    <span class="n">labels</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">LabelLike</span><span class="p">,</span>
     <span class="n">pred_probs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">multi_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Returns expected (average) &quot;self-confidence&quot; for each class.</span>
 
-<span class="sd">    The confident class threshold for a class j is the expected (average) &quot;self-confidence&quot; for class j.</span>
+<span class="sd">    The confident class threshold for a class j is the expected (average) &quot;self-confidence&quot; for class j,</span>
+<span class="sd">    i.e. the model-predicted probability of this class averaged amongst all examples labeled as class j.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    labels : np.ndarray</span>
-<span class="sd">      An array of shape ``(N,)`` of noisy labels, i.e. some labels may be erroneous.</span>
-<span class="sd">      Elements must be in the set 0, 1, ..., K-1, where K is the number of classes.</span>
-<span class="sd">      All the classes (0, 1, ..., and K-1) MUST be present in ``labels``, such that:</span>
-<span class="sd">      ``len(set(labels)) == pred_probs.shape[1]`` for standard multi-class classification with single-labeled data (e.g. ``labels =  [1,0,2,1,1,0...]``).</span>
-<span class="sd">      For multi-label classification where each example can belong to multiple classes(e.g. ``labels = [[1,2],[1],[0],..]``),</span>
-<span class="sd">      your labels should instead satisfy: ``len(set(k for l in labels for k in l)) == pred_probs.shape[1])``.</span>
-<span class="sd">      if multilabel is True, input `labels` is a list of lists (or list of iterable).</span>
+<span class="sd">    labels : np.ndarray or list</span>
+<span class="sd">      Given class labels for each example in the dataset, some of which may be erroneous,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 
 <span class="sd">    pred_probs : np.ndarray</span>
-<span class="sd">      An array of shape ``(N, K)`` of model-predicted probabilities,</span>
-<span class="sd">      ``P(label=k|x)``. Each row of this matrix corresponds</span>
-<span class="sd">      to an example `x` and contains the model-predicted probabilities that</span>
-<span class="sd">      `x` belongs to each possible class, for each of the K classes. The</span>
-<span class="sd">      columns must be ordered such that these probabilities correspond to</span>
-<span class="sd">      class 0, 1, ..., K-1. `pred_probs` should have been computed using 3 (or</span>
-<span class="sd">      higher) fold cross-validation.</span>
+<span class="sd">      Model-predicted class probabilities for each example in the dataset,</span>
+<span class="sd">      in same format expected by :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` function.</span>
 
-<span class="sd">    multi_label : bool, optional</span>
-<span class="sd">      If ``True``, labels should be an iterable (e.g. list) of iterables, containing a</span>
-<span class="sd">      list of labels for each example, instead of just a single label.</span>
-<span class="sd">      Assumes all classes in pred_probs.shape[1] are represented in labels.</span>
-<span class="sd">      The multi-label setting supports classification tasks where an example has 1 or more labels.</span>
-<span class="sd">      Example of a multi-labeled `labels` input: ``[[0,1], [1], [0,2], [0,1,2], [0], [1], ...]``.</span>
-<span class="sd">      The major difference in how this is calibrated versus single-label is that</span>
-<span class="sd">      the total number of errors considered is based on the number of labels,</span>
-<span class="sd">      not the number of examples. So, the calibrated `confident_joint` will sum</span>
-<span class="sd">      to the number of total labels.</span>
+<span class="sd">    multi_label : bool, default = False</span>
+<span class="sd">      Set ``False`` if your dataset is for regular (multi-class) classification, where each example belongs to exactly one class.</span>
+<span class="sd">      Set ``True`` if your dataset is for multi-label classification, where each example can belong to multiple classes.</span>
+<span class="sd">      See documentation of :py:func:`compute_confident_joint &lt;cleanlab.count.compute_confident_joint&gt;` for details.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    confident_thresholds : np.ndarray</span>
-<span class="sd">      An array of shape ``(K, )`` where K is the number of classes.&quot;&quot;&quot;</span>
+<span class="sd">      An array of shape ``(K, )`` where K is the number of classes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">multi_label</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_get_confident_thresholds_multilabel</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">pred_probs</span><span class="o">=</span><span class="n">pred_probs</span><span class="p">)</span>
@@ -1842,9 +1815,10 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labels: list</span>
-<span class="sd">       Refer to documentation for this argument in ``count.calibrate_confident_joint()`` with `multi_label=True` for details.</span>
+<span class="sd">       Refer to documentation for this argument in ``count.calibrate_confident_joint()`` with ``multi_label=True`` for details.</span>
+
 <span class="sd">    pred_probs : np.ndarray</span>
-<span class="sd">       Predicted-probabilities in the same format expected by the :py:func:`get_confident_thresholds &lt;cleanlab.count.get_confident_thresholds&gt;` function.</span>
+<span class="sd">       Predicted class probabilities in the same format expected by the :py:func:`get_confident_thresholds &lt;cleanlab.count.get_confident_thresholds&gt;` function.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
