@@ -401,13 +401,13 @@
 <span id="multilabel-classification"></span><h1>multilabel_classification<a class="headerlink" href="#module-cleanlab.multilabel_classification" title="Permalink to this heading">#</a></h1>
 <p>Methods to rank the severity of label issues in multi-label classification datasets.
 Here each example can belong to one or more classes, or none of the classes at all.
-Unlike in multi-class classification, predicted class probabilities from model need not sum to 1 for each row.</p>
+Unlike in standard multi-class classification, predicted class probabilities from model need not sum to 1 for each row in multi-label classification.</p>
 <p><strong>Functions:</strong></p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#cleanlab.multilabel_classification.get_label_quality_scores" title="cleanlab.multilabel_classification.get_label_quality_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_quality_scores</span></code></a>(labels, pred_probs, *)</p></td>
-<td><p>Returns a label quality score for each datapoint.</p></td>
+<td><p>Computes a label quality score each example in a multi-label classification dataset.</p></td>
 </tr>
 </tbody>
 </table>
@@ -415,12 +415,12 @@ Unlike in multi-class classification, predicted class probabilities from model n
 <dl class="py function">
 <dt class="sig sig-object py" id="cleanlab.multilabel_classification.get_label_quality_scores">
 <span class="sig-prename descclassname"><span class="pre">cleanlab.multilabel_classification.</span></span><span class="sig-name descname"><span class="pre">get_label_quality_scores</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_probs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'self_confidence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjust_pred_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregator_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'alpha':</span> <span class="pre">0.8,</span> <span class="pre">'method':</span> <span class="pre">'exponential_moving_average'}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cleanlab/multilabel_classification.html#get_label_quality_scores"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cleanlab.multilabel_classification.get_label_quality_scores" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns a label quality score for each datapoint.</p>
-<p>This is a function to compute label quality scores for multi-label classification datasets,
-where lower scores indicate labels more likely to contain an error.</p>
-<p>Score is between 0 and 1 with lower values indicating labels inferred to be worse.
+<dd><p>Computes a label quality score each example in a multi-label classification dataset.</p>
+<p>Scores are between 0 and 1 with lower scores indicating examples whose label more likely contains an error.
 For each example, this method internally computes a separate score for each individual class
 and then aggregates these per-class scores into an overall label quality score for the example.</p>
+<p>To estimate exactly which examples are mislabeled in a multi-label classification dataset,
+you can also use <a class="reference internal" href="filter.html#cleanlab.filter.find_label_issues" title="cleanlab.filter.find_label_issues"><code class="xref py py-func docutils literal notranslate"><span class="pre">filter.find_label_issues</span></code></a> with argument <code class="docutils literal notranslate"><span class="pre">multi_label=True</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

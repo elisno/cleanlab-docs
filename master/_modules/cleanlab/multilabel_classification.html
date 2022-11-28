@@ -416,7 +416,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Methods to rank the severity of label issues in multi-label classification datasets.</span>
 <span class="sd">Here each example can belong to one or more classes, or none of the classes at all.</span>
-<span class="sd">Unlike in multi-class classification, predicted class probabilities from model need not sum to 1 for each row.</span>
+<span class="sd">Unlike in standard multi-class classification, predicted class probabilities from model need not sum to 1 for each row in multi-label classification.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -436,14 +436,14 @@
     <span class="n">adjust_pred_probs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">aggregator_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;exponential_moving_average&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">}</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Returns a label quality score for each datapoint.</span>
+    <span class="sd">&quot;&quot;&quot;Computes a label quality score each example in a multi-label classification dataset.</span>
 
-<span class="sd">    This is a function to compute label quality scores for multi-label classification datasets,</span>
-<span class="sd">    where lower scores indicate labels more likely to contain an error.</span>
-
-<span class="sd">    Score is between 0 and 1 with lower values indicating labels inferred to be worse.</span>
+<span class="sd">    Scores are between 0 and 1 with lower scores indicating examples whose label more likely contains an error.</span>
 <span class="sd">    For each example, this method internally computes a separate score for each individual class</span>
 <span class="sd">    and then aggregates these per-class scores into an overall label quality score for the example.</span>
+<span class="sd">    </span>
+<span class="sd">    To estimate exactly which examples are mislabeled in a multi-label classification dataset,</span>
+<span class="sd">    you can also use :py:func:`filter.find_label_issues &lt;cleanlab.filter.find_label_issues&gt;` with argument ``multi_label=True``.  </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
