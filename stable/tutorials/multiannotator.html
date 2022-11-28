@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Find Label Errors in Token Classification (Text) Datasets" href="token_classification.html" /><link rel="prev" title="Detect Outliers with Cleanlab and PyTorch Image Models (timm)" href="outliers.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Find Label Errors in Multi-Label Classification Datasets" href="multilabel_classification.html" /><link rel="prev" title="Detect Outliers with Cleanlab and PyTorch Image Models (timm)" href="outliers.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Improve Consensus Labels for Multiannotator Data - cleanlab</title>
@@ -183,6 +183,7 @@
 <li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Improve Consensus Labels for Multiannotator Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multilabel_classification.html">Find Label Errors in Multi-Label Classification Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="token_classification.html">Find Label Errors in Token Classification (Text) Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
@@ -196,6 +197,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/dataset.html">dataset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/outlier.html">outlier</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/multiannotator.html">multiannotator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleanlab/multilabel_classification.html">multilabel_classification</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/token_classification/index.html">token_classification</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/filter.html">filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/rank.html">rank</a></li>
@@ -218,6 +220,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/multilabel_utils.html">multilabel_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/multilabel_scorer.html">multilabel_scorer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/token_classification_utils.html">token_classification_utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/validation.html">validation</a></li>
 </ul>
@@ -225,6 +229,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/cleanlab/cleanlab/blob/master/CONTRIBUTING.md">How to contribute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../migrating/migrate_v2.html">Migrating to v2.x</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
@@ -233,6 +238,7 @@
 <li class="toctree-l1"><a class="reference external" href="https://github.com/cleanlab/cleanlab">GitHub</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/cleanlab/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://anaconda.org/Cleanlab/cleanlab">Conda</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://cleanlab.ai/studio/">Cleanlab Studio</a></li>
 </ul>
 
 </div>
@@ -381,7 +387,7 @@
             document.getElementById("doc_ver_warning").innerHTML =
             `<div class="admonition warning">
             <p class="admonition-title">Warning</p>
-            <p>This documentation is for an old version (<code class="docutils literal notranslate"><span class="pre">master</span></code>) of <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>. To see the documentation for the latest stable version (<code class="docutils literal notranslate"><span class="pre">` + version_number + `</span></code>), click <a href="/">here</a>.</p>
+            <p>This documentation is for an old version (<code class="docutils literal notranslate"><span class="pre">v2.2.0</span></code>) of <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>. To see the documentation for the latest stable version (<code class="docutils literal notranslate"><span class="pre">` + version_number + `</span></code>), click <a href="/">here</a>.</p>
             </div>`;
         } else {
             document.getElementById("doc_ver_warning").remove();
@@ -664,7 +670,7 @@ div.rendered_html tbody tr:hover {
         const h1_element = document.getElementsByTagName("h1");
         h1_element[0].insertAdjacentHTML("afterend", `
         <p>
-            <a style="background-color:white;color:black;padding:4px 12px;text-decoration:none;display:inline-block;border-radius:8px;box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)" href="https://colab.research.google.com/github/cleanlab/cleanlab-docs/blob/master/v2.1.0/tutorials/multiannotator.ipynb" target="_blank">
+            <a style="background-color:white;color:black;padding:4px 12px;text-decoration:none;display:inline-block;border-radius:8px;box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)" href="https://colab.research.google.com/github/cleanlab/cleanlab-docs/blob/master/v2.2.0/tutorials/multiannotator.ipynb" target="_blank">
             <img src="https://colab.research.google.com/img/colab_favicon_256px.png" alt="" style="width:40px;height:40px;vertical-align:middle">
             <span style="vertical-align:middle">Run in Google Colab</span>
             </a>
@@ -674,7 +680,7 @@ div.rendered_html tbody tr:hover {
 
 </script><section id="Improve-Consensus-Labels-for-Multiannotator-Data">
 <h1>Improve Consensus Labels for Multiannotator Data<a class="headerlink" href="#Improve-Consensus-Labels-for-Multiannotator-Data" title="Permalink to this heading">#</a></h1>
-<p>This quickstart tutorial shows how to use cleanlab for classification data that has been labeled by multiple annotators (where each example has been labeled by at least one annotator, but not every annotator has labeled every example). Compared to existing crowdsourcing tools, cleanlab helps you better analyze such data by leveraging a trained classifier model in addition to the raw annotations. With one line of code, you can automatically compute:</p>
+<p>This 5-minute quickstart tutorial shows how to use cleanlab for classification data that has been labeled by multiple annotators (where each example has been labeled by at least one annotator, but not every annotator has labeled every example). Compared to existing crowdsourcing tools, cleanlab helps you better analyze such data by leveraging a trained classifier model in addition to the raw annotations. With one line of code, you can automatically compute:</p>
 <ul class="simple">
 <li><p>A <strong>consensus label</strong> for each example that aggregates the individual annotations more accurately than alternative aggregation via majority-vote or other algorithms used in crowdsourcing.</p></li>
 <li><p>a <strong>quality score for each consensus label</strong> which measures our confidence that this label is correct (via well-calibrated estimates that account for the: number annotators which have labeled this example, overall quality of each annotator, and quality of our trained ML models).</p></li>
@@ -1022,8 +1028,9 @@ array([[ 5.60856743,  1.41693214],
 <div class="admonition note">
 <p class="admonition-title">Bringing Your Own Data (BYOD)?</p>
 <p>You can easily replace the above with your own multiannotator labels and features, then continue with the rest of the tutorial.</p>
-<p><code class="docutils literal notranslate"><span class="pre">multiannotator_labels</span></code> should be a numpy array or pandas DataFrame with each column representing an annotator and each row representing an example. Your labels should be represented as integer indices 0, 1, …, num_classes - 1, where examples that are not annotated by a particular annotator are represented using <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> or <code class="docutils literal notranslate"><span class="pre">pd.NA</span></code>. Your features can be represented however you like (since these are not inputs to <code class="docutils literal notranslate"><span class="pre">cleanlab.multiannotator</span></code> methods) as long as you are able to fit a
-classifer to them and obtain its predicted class probabilities!</p>
+<p><code class="docutils literal notranslate"><span class="pre">multiannotator_labels</span></code> should be a numpy array or pandas DataFrame with each column representing an annotator and each row representing an example. Your labels should be represented as integer indices 0, 1, …, num_classes - 1, where examples that are not annotated by a particular annotator are represented using <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> or <code class="docutils literal notranslate"><span class="pre">pd.NA</span></code>. If you have string labels or other labels that do not fit the required format, you can convert them to the proper format using
+<code class="docutils literal notranslate"><span class="pre">cleanlab.internal.multiannotator_utils.format_multiannotator_labels</span></code>.</p>
+<p>Your features can be represented however you like (since these are not inputs to <code class="docutils literal notranslate"><span class="pre">cleanlab.multiannotator</span></code> methods) as long as you are able to fit a classifer to them and obtain its predicted class probabilities!</p>
 </div>
 </section>
 <section id="3.-Get-majority-vote-labels-and-compute-out-of-sample-predicted-probabilites">
@@ -1541,11 +1548,11 @@ Accuracy of better quality examples = 0.9857651245551602
 </div>
 <p>You can also repeatedly iterate this process of getting better consensus labels using the model’s out-of-sample predicted probabilites and then retraining the model with the improved labels to get even better predicted probabilities!</p>
 <p>For details, see our <a class="reference external" href="https://github.com/cleanlab/examples">examples</a> notebook on <a class="reference external" href="https://github.com/cleanlab/examples/blob/master/multiannotator_cifar10/multiannotator_cifar10.ipynb">Iterative use of Cleanlab to Improve Classification Models (and Consensus Labels) from Data Labeled by Multiple Annotators</a>.</p>
-<section id="How-does-cleanlab.multiannotator-work?">
-<h3>How does cleanlab.multiannotator work?<a class="headerlink" href="#How-does-cleanlab.multiannotator-work?" title="Permalink to this heading">#</a></h3>
-<p>All estimates above are produced via the CROWDLAB algorithm, described and benchmarked in this paper:</p>
-<p><a class="reference external" href="https://cleanlab.github.io/multiannotator-benchmarks/paper.pdf">Utilizing supervised models to infer consensus labels and their quality from data with multiple annotators</a></p>
 </section>
+<section id="How-does-cleanlab.multiannotator-work?">
+<h2>How does cleanlab.multiannotator work?<a class="headerlink" href="#How-does-cleanlab.multiannotator-work?" title="Permalink to this heading">#</a></h2>
+<p>All estimates above are produced via the CROWDLAB algorithm, described and benchmarked in this paper:</p>
+<p><a class="reference external" href="https://arxiv.org/abs/2210.06812">Utilizing supervised models to infer consensus labels and their quality from data with multiple annotators</a></p>
 </section>
 </section>
  
@@ -1554,12 +1561,12 @@ Accuracy of better quality examples = 0.9857651245551602
       <footer>
          
         <div class="related-pages">
-          <a class="next-page" href="token_classification.html">
+          <a class="next-page" href="multilabel_classification.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Find Label Errors in Token Classification (Text) Datasets</div>
+                <div class="title">Find Label Errors in Multi-Label Classification Datasets</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -1633,10 +1640,8 @@ Accuracy of better quality examples = 0.9857651245551602
 <li><a class="reference internal" href="#Inspecting-consensus-quality-scores-to-find-potential-consensus-label-errors">Inspecting consensus quality scores to find potential consensus label errors</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#5.-Retrain-model-using-improved-consensus-labels">5. Retrain model using improved consensus labels</a><ul>
+<li><a class="reference internal" href="#5.-Retrain-model-using-improved-consensus-labels">5. Retrain model using improved consensus labels</a></li>
 <li><a class="reference internal" href="#How-does-cleanlab.multiannotator-work?">How does cleanlab.multiannotator work?</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

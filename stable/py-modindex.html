@@ -181,6 +181,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorials/dataset_health.html">Find Dataset-level Issues for Dataset Curation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/outliers.html">Detect Outliers with Cleanlab and PyTorch Image Models (timm)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/multiannotator.html">Improve Consensus Labels for Multiannotator Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/multilabel_classification.html">Find Label Errors in Multi-Label Classification Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/token_classification.html">Find Label Errors in Token Classification (Text) Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/pred_probs_cross_val.html">Computing Out-of-Sample Predicted Probabilities with Cross-Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/faq.html">FAQ</a></li>
@@ -194,6 +195,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/dataset.html">dataset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/outlier.html">outlier</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleanlab/multiannotator.html">multiannotator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleanlab/multilabel_classification.html">multilabel_classification</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/token_classification/index.html">token_classification</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/token_classification/filter.html">filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/token_classification/rank.html">rank</a></li>
@@ -216,6 +218,8 @@
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/multilabel_utils.html">multilabel_utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/multilabel_scorer.html">multilabel_scorer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/token_classification_utils.html">token_classification_utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/internal/validation.html">validation</a></li>
 </ul>
@@ -223,6 +227,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/cleanlab/cleanlab/blob/master/CONTRIBUTING.md">How to contribute</a></li>
 <li class="toctree-l1"><a class="reference internal" href="migrating/migrate_v2.html">Migrating to v2.x</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Links</span></p>
@@ -231,6 +236,7 @@
 <li class="toctree-l1"><a class="reference external" href="https://github.com/cleanlab/cleanlab">GitHub</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/cleanlab/">PyPI</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://anaconda.org/Cleanlab/cleanlab">Conda</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://cleanlab.ai/studio/">Cleanlab Studio</a></li>
 </ul>
 
 </div>
@@ -457,6 +463,24 @@
   <tr class="cg-1">
     <td></td>
     <td>&#160;&#160;&#160;
+        <a href="cleanlab/internal/multiannotator_utils.html#module-cleanlab.internal.multiannotator_utils"><code class="xref">cleanlab.internal.multiannotator_utils</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="cleanlab/internal/multilabel_scorer.html#module-cleanlab.internal.multilabel_scorer"><code class="xref">cleanlab.internal.multilabel_scorer</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="cleanlab/internal/multilabel_utils.html#module-cleanlab.internal.multilabel_utils"><code class="xref">cleanlab.internal.multilabel_utils</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
         <a href="cleanlab/internal/token_classification_utils.html#module-cleanlab.internal.token_classification_utils"><code class="xref">cleanlab.internal.token_classification_utils</code></a></td><td>
     <em></em></td>
   </tr>
@@ -476,6 +500,12 @@
     <td></td>
     <td>&#160;&#160;&#160;
         <a href="cleanlab/multiannotator.html#module-cleanlab.multiannotator"><code class="xref">cleanlab.multiannotator</code></a></td><td>
+    <em></em></td>
+  </tr>
+  <tr class="cg-1">
+    <td></td>
+    <td>&#160;&#160;&#160;
+        <a href="cleanlab/multilabel_classification.html#module-cleanlab.multilabel_classification"><code class="xref">cleanlab.multilabel_classification</code></a></td><td>
     <em></em></td>
   </tr>
   <tr class="cg-1">
