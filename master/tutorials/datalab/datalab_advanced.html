@@ -1126,11 +1126,11 @@ Overall dataset quality in terms of this issue: 0.9318
 
 Examples representing most severe instances of this issue:
      is_label_issue  label_score given_label predicted_label
-77             True     0.006939        high             mid
+77             True     0.006940        high             mid
 7              True     0.007830         low             mid
-40             True     0.014826         mid             low
-107            True     0.021220        high             mid
-120            True     0.026403        high             mid
+40             True     0.014828         mid             low
+107            True     0.021241        high             mid
+120            True     0.026407        high             mid
 </pre></div></div>
 </div>
 <p>We can check for additional types of issues with the same <code class="docutils literal notranslate"><span class="pre">Datalab</span></code>. Here, we would like to detect outliers and near duplicates which both utilize the features of the data.</p>
@@ -1176,11 +1176,11 @@ Overall dataset quality in terms of this issue: 0.9318
 
 Examples representing most severe instances of this issue:
      is_label_issue  label_score given_label predicted_label
-77             True     0.006939        high             mid
+77             True     0.006940        high             mid
 7              True     0.007830         low             mid
-40             True     0.014826         mid             low
-107            True     0.021220        high             mid
-120            True     0.026403        high             mid
+40             True     0.014828         mid             low
+107            True     0.021241        high             mid
+120            True     0.026407        high             mid
 
 
 ---------------------- outlier issues ----------------------
@@ -1269,11 +1269,11 @@ Overall dataset quality in terms of this issue: 0.9318
 
 Examples representing most severe instances of this issue:
      is_label_issue  label_score given_label predicted_label
-77             True     0.006939        high             mid
+77             True     0.006940        high             mid
 7              True     0.007830         low             mid
-40             True     0.014826         mid             low
-107            True     0.021220        high             mid
-120            True     0.026403        high             mid
+40             True     0.014828         mid             low
+107            True     0.021241        high             mid
+120            True     0.026407        high             mid
 
 
 ---------------------- outlier issues ----------------------
@@ -1322,7 +1322,7 @@ Examples representing most severe instances of this issue:
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/home/runner/work/cleanlab/cleanlab/cleanlab/datalab/internal/data_issues.py:300: UserWarning: Overwriting columns [&#39;is_outlier_issue&#39;, &#39;outlier_score&#39;] in self.issues with columns from issue manager OutlierIssueManager.
+/home/runner/work/cleanlab/cleanlab/cleanlab/datalab/internal/data_issues.py:300: UserWarning: Overwriting columns [&#39;outlier_score&#39;, &#39;is_outlier_issue&#39;] in self.issues with columns from issue manager OutlierIssueManager.
   warnings.warn(
 /home/runner/work/cleanlab/cleanlab/cleanlab/datalab/internal/data_issues.py:330: UserWarning: Overwriting row in self.issue_summary with row from issue manager OutlierIssueManager.
   warnings.warn(
@@ -1366,16 +1366,16 @@ Overall dataset quality in terms of this issue: 0.9318
 
 Examples representing most severe instances of this issue:
      is_label_issue  label_score given_label predicted_label
-77             True     0.006939        high             mid
+77             True     0.006940        high             mid
 7              True     0.007830         low             mid
-40             True     0.014826         mid             low
-107            True     0.021220        high             mid
-120            True     0.026403        high             mid
-54             True     0.039117         mid             low
-53             True     0.044594        high             mid
-105            True     0.105121         mid            high
-4              True     0.133588        high             mid
-43             True     0.168035        high             mid
+40             True     0.014828         mid             low
+107            True     0.021241        high             mid
+120            True     0.026407        high             mid
+54             True     0.039122         mid             low
+53             True     0.044598        high             mid
+105            True     0.105196         mid            high
+4              True     0.133654        high             mid
+43             True     0.168033        high             mid
 
 
 ---------------------- outlier issues ----------------------
@@ -1453,7 +1453,7 @@ threshold: 0.13
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "6790b00bd7094f77a8e8292604c7eef7"}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "5afb6d4d76dc410b9b1d52ce3c2493b8"}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -1501,11 +1501,11 @@ Overall dataset quality in terms of this issue: 0.9318
 
 Examples representing most severe instances of this issue:
      is_label_issue  label_score given_label predicted_label
-77             True     0.006939        high             mid
+77             True     0.006940        high             mid
 7              True     0.007830         low             mid
-40             True     0.014826         mid             low
-107            True     0.021220        high             mid
-120            True     0.026403        high             mid
+40             True     0.014828         mid             low
+107            True     0.021241        high             mid
+120            True     0.026407        high             mid
 
 
 ---------------------- outlier issues ----------------------
@@ -1652,11 +1652,11 @@ Overall dataset quality in terms of this issue: 0.9318
 
 Examples representing most severe instances of this issue:
      is_label_issue  label_score given_label predicted_label
-77             True     0.006939        high             mid
+77             True     0.006940        high             mid
 7              True     0.007830         low             mid
-40             True     0.014826         mid             low
-107            True     0.021220        high             mid
-120            True     0.026403        high             mid
+40             True     0.014828         mid             low
+107            True     0.021241        high             mid
+120            True     0.026407        high             mid
 
 
 ------------------- superstition issues --------------------
@@ -1718,7 +1718,7 @@ Examples representing most severe instances of this issue:
 </pre></div></div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"1e9b3856c63b4299870c2b46febcfd24": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "f5c0604797294786b0f9d39ff7c827bb": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "0fade7815b734be7806ba16006042626": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_1e9b3856c63b4299870c2b46febcfd24", "max": 132.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_f5c0604797294786b0f9d39ff7c827bb", "value": 132.0}}, "3a9b4d9ae7d745c3a27ed307a01fcb2f": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "ff85f5688b26406e941ac1a983c04a47": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "ce04f78414c24bb2b5027d1ec0d3f113": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_3a9b4d9ae7d745c3a27ed307a01fcb2f", "placeholder": "\u200b", "style": "IPY_MODEL_ff85f5688b26406e941ac1a983c04a47", "value": "Saving the dataset (1/1 shards): 100%"}}, "7b8e583a68fa4729ba2df87f47b007f0": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c5daa6e9992b459aba7fb49ca304de87": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "4a39f793efd5479185c7d7ec4dab8dec": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_7b8e583a68fa4729ba2df87f47b007f0", "placeholder": "\u200b", "style": "IPY_MODEL_c5daa6e9992b459aba7fb49ca304de87", "value": " 132/132 [00:00&lt;00:00, 9717.05 examples/s]"}}, "c56913a3a60243e8853362e7dd7bb5f3": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6790b00bd7094f77a8e8292604c7eef7": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_ce04f78414c24bb2b5027d1ec0d3f113", "IPY_MODEL_0fade7815b734be7806ba16006042626", "IPY_MODEL_4a39f793efd5479185c7d7ec4dab8dec"], "layout": "IPY_MODEL_c56913a3a60243e8853362e7dd7bb5f3"}}}, "version_major": 2, "version_minor": 0}
+{"state": {"6d6cb29795f3465cac27dcdd7b88b07d": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "064b0a0d1ecd450584e4e5143af1a9f0": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "152a47b48f164ce5b5b81b4b423ed189": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_6d6cb29795f3465cac27dcdd7b88b07d", "max": 132.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_064b0a0d1ecd450584e4e5143af1a9f0", "value": 132.0}}, "4e691501a0ff424699b655c26a7fcf57": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e0be633ee9e04100a32c02f9f18a6752": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "4d299dd20cf04d40bbdd413c6cf29424": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_4e691501a0ff424699b655c26a7fcf57", "placeholder": "\u200b", "style": "IPY_MODEL_e0be633ee9e04100a32c02f9f18a6752", "value": "Saving the dataset (1/1 shards): 100%"}}, "197224f1929a48cba5f6eb13eca93e37": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "38068c40d18c4b198c05da88b82fcd6a": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "49a7d7cd7a2b46e781ed7b0a7d48d686": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_197224f1929a48cba5f6eb13eca93e37", "placeholder": "\u200b", "style": "IPY_MODEL_38068c40d18c4b198c05da88b82fcd6a", "value": " 132/132 [00:00&lt;00:00, 10553.12 examples/s]"}}, "1e38381043934a619eef05f3fd172fc3": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "5afb6d4d76dc410b9b1d52ce3c2493b8": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_4d299dd20cf04d40bbdd413c6cf29424", "IPY_MODEL_152a47b48f164ce5b5b81b4b423ed189", "IPY_MODEL_49a7d7cd7a2b46e781ed7b0a7d48d686"], "layout": "IPY_MODEL_1e38381043934a619eef05f3fd172fc3"}}}, "version_major": 2, "version_minor": 0}
 </script></section>
 </section>
  
