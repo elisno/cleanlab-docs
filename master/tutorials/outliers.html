@@ -1,8 +1,8 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV8RVEFX82"></script>
         <script>
@@ -23,16 +23,17 @@
 <meta name="description" content="This quickstart tutorial shows how to detect outliers (out-of-distribution examples) in image data, using the cifar10 dataset as an example. You can easily replace the image dataset + neural networ..." />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Estimate Consensus and Annotator Quality for Data Labeled by Multiple Annotators" href="multiannotator.html" /><link rel="prev" title="Find Dataset-level Issues for Dataset Curation" href="dataset_health.html" />
 
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>Detect Outliers with Cleanlab and PyTorch Image Models (timm) - cleanlab</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/katex-math.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/katex-math.css?v=91adb8b6" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=96bccb3e" />
     
     
 
@@ -166,7 +167,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a style="padding-bottom: 0px;" class="sidebar-brand centered" href="../index.html">
+      <div class="sidebar-sticky"><a style="padding-bottom: 0px;" class="sidebar-brand" href="../index.html">
     
     <div class="sidebar-logo-container">
         <img class="sidebar-logo" src="https://raw.githubusercontent.com/cleanlab/assets/master/cleanlab/cleanlab_logo_only.png" alt="Logo" />
@@ -183,7 +184,7 @@
     aria-label="Star cleanlab/cleanlab on GitHub">Star</a>
 </div>
 <form class="sidebar-search-container" method="get" action="../search.html" role="search">
-  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -193,7 +194,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current">
-<li class="toctree-l1 has-children"><a class="reference internal" href="datalab/index.html">Datalab Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="datalab/index.html">Datalab Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Datalab Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="datalab/datalab_quickstart.html">Detecting Common Data Issues with Datalab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datalab/datalab_advanced.html">Advanced Data Auditing with Datalab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="datalab/text.html">Text Dataset</a></li>
@@ -218,19 +219,19 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/datalab/index.html">datalab</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../cleanlab/datalab/guide/index.html">Datalab guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/datalab/index.html">datalab</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of datalab</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../cleanlab/datalab/guide/index.html">Datalab guides</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Datalab guides</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../cleanlab/datalab/guide/issue_type_description.html">Datalab Issue Types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cleanlab/datalab/guide/custom_issue_manager.html">Creating Your Own Issues Manager</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/datalab/datalab.html">datalab</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../cleanlab/datalab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../cleanlab/datalab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of internal</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../cleanlab/datalab/internal/data.html">data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cleanlab/datalab/internal/data_issues.html">data_issues</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cleanlab/datalab/internal/issue_finder.html">issue_finder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../cleanlab/datalab/internal/factory.html">factory</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/index.html">issue_manager</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/index.html">issue_manager</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of issue_manager</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/issue_manager.html">Base issue_manager module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/label.html">label</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/outlier.html">outlier</a></li>
@@ -240,7 +241,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/underperforming_group.html">underperforming_group</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/null.html">null</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/data_valuation.html">data_valuation</a></li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/regression/index.html">regression</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/regression/index.html">regression</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of regression</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l5"><a class="reference internal" href="../cleanlab/datalab/internal/issue_manager/regression/label.html">label</a></li>
 </ul>
 </li>
@@ -258,52 +259,52 @@
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/dataset.html">dataset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/outlier.html">outlier</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cleanlab/multiannotator.html">multiannotator</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/multilabel_classification/index.html">multilabel_classification</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/multilabel_classification/index.html">multilabel_classification</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of multilabel_classification</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/multilabel_classification/filter.html">filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/multilabel_classification/rank.html">rank</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/multilabel_classification/dataset.html">dataset</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/regression/index.html">regression</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/regression/index.html">regression</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of regression</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/regression/rank.html">regression.rank</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/regression/learn.html">regression.learn</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/token_classification/index.html">token_classification</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/token_classification/index.html">token_classification</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of token_classification</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/filter.html">filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/rank.html">rank</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/token_classification/summary.html">summary</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/segmentation/index.html">segmentation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/segmentation/index.html">segmentation</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of segmentation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/segmentation/rank.html">rank</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/segmentation/filter.html">filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/segmentation/summary.html">summary</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/object_detection/index.html">object_detection</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/object_detection/index.html">object_detection</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of object_detection</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/object_detection/rank.html">rank</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/object_detection/filter.html">filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/object_detection/summary.html">summary</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/benchmarking/index.html">benchmarking</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of benchmarking</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/benchmarking/noise_generation.html">noise_generation</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/models/index.html">models</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/models/index.html">models</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of models</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/models/keras.html">keras</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/models/fasttext.html">fasttext</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of experimental</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/label_issues_batched.html">label_issues_batched</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/mnist_pytorch.html">mnist_pytorch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/coteaching.html">coteaching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/experimental/cifar_cnn.html">cifar_cnn</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/internal/index.html">internal</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle navigation of internal</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/util.html">util</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/latent_algebra.html">latent_algebra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/internal/label_quality_utils.html">label_quality_utils</a></li>
@@ -317,7 +318,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/datalab/guide/index.html">Datalab issue types</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/datalab/guide/index.html">Datalab issue types</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle navigation of Datalab issue types</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/datalab/guide/issue_type_description.html">Datalab Issue Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/datalab/guide/custom_issue_manager.html">Creating Your Own Issues Manager</a></li>
 </ul>
@@ -477,7 +478,8 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+          
+<div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -535,255 +537,7 @@
 
 <!-- End of Version Warning Banner -->
 
- 
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt *,
-div.nbinput.container div.input_area pre,
-div.nboutput.container div.output_area pre,
-div.nbinput.container div.input_area .highlight,
-div.nboutput.container div.output_area .highlight {
-    border: none;
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-div.nbinput.container > div[class*=highlight],
-div.nboutput.container > div[class*=highlight] {
-    margin: 0;
-}
-
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt * {
-    background: none;
-}
-
-div.nboutput.container div.output_area .highlight,
-div.nboutput.container div.output_area pre {
-    background: unset;
-}
-
-div.nboutput.container div.output_area div.highlight {
-    color: unset;  /* override Pygments text color */
-}
-
-/* avoid gaps between output lines */
-div.nboutput.container div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput.container,
-div.nboutput.container {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput.container,
-    div.nboutput.container {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput.container {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast.container {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput.container div.prompt pre {
-    color: #307FC1;
-}
-
-/* output prompt */
-div.nboutput.container div.prompt pre {
-    color: #BF5B3D;
-}
-
-/* all prompts */
-div.nbinput.container div.prompt,
-div.nboutput.container div.prompt {
-    width: 4.5ex;
-    padding-top: 5px;
-    position: relative;
-    user-select: none;
-}
-
-div.nbinput.container div.prompt > div,
-div.nboutput.container div.prompt > div {
-    position: absolute;
-    right: 0;
-    margin-right: 0.3ex;
-}
-
-@media (max-width: 540px) {
-    div.nbinput.container div.prompt,
-    div.nboutput.container div.prompt {
-        width: unset;
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput.container div.prompt.empty {
-        padding: 0;
-    }
-
-    div.nbinput.container div.prompt > div,
-    div.nboutput.container div.prompt > div {
-        position: unset;
-    }
-}
-
-/* disable scrollbars on prompts */
-div.nbinput.container div.prompt pre,
-div.nboutput.container div.prompt pre {
-    overflow: hidden;
-}
-
-/* input/output area */
-div.nbinput.container div.input_area,
-div.nboutput.container div.output_area {
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.input_area,
-    div.nboutput.container div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput.container div.input_area {
-    border: 1px solid #e0e0e0;
-    border-radius: 2px;
-    /*background: #f5f5f5;*/
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput.container div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput.container div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput.container div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-
-
-div.nbinput.container div.input_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight].math,
-div.nboutput.container div.output_area.rendered_html,
-div.nboutput.container div.output_area > div.output_javascript,
-div.nboutput.container div.output_area:not(.rendered_html) > img{
-    padding: 5px;
-    margin: 0;
-}
-
-/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
-div.nbinput.container div.input_area > div[class^='highlight'],
-div.nboutput.container div.output_area > div[class^='highlight']{
-    overflow-y: hidden;
-}
-
-/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt .copybtn {
-    display: none;
-}
-
-/* Some additional styling taken form the Jupyter notebook CSS */
-div.rendered_html table {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 12px;
-  table-layout: fixed;
-}
-div.rendered_html thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
-}
-div.rendered_html tr,
-div.rendered_html th,
-div.rendered_html td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
-div.rendered_html th {
-  font-weight: bold;
-}
-div.rendered_html tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-div.rendered_html tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
-}
-</style>
-<style>
+ <style>
     .nbinput .prompt,
     .nboutput .prompt {
         display: none;
@@ -818,13 +572,13 @@ div.rendered_html tbody tr:hover {
 
 </script><section id="Detect-Outliers-with-Cleanlab-and-PyTorch-Image-Models-(timm)">
 <h1>Detect Outliers with Cleanlab and PyTorch Image Models (timm)<a class="headerlink" href="#Detect-Outliers-with-Cleanlab-and-PyTorch-Image-Models-(timm)" title="Permalink to this heading">#</a></h1>
-<p>This quickstart tutorial shows how to detect outliers (out-of-distribution examples) in image data, using the <a class="reference external" href="https://www.cs.toronto.edu/~kriz/cifar.html">cifar10</a> dataset as an example. You can easily replace the image dataset + neural network used here with any other Pytorch dataset + neural network (e.g. to instead detect outliers in text data with minimal code changes).</p>
+<p>This quickstart tutorial shows how to detect outliers (out-of-distribution examples) in image data, using the <a class="reference external" href="https://www.cs.toronto.edu/~kriz/cifar.html">cifar10</a> dataset as an example. You can easily replace the image dataset + neural network used here with any other Pytorch dataset + neural network (e.g. to instead detect outliers in text data with minimal code changes).</p>
 <p><strong>Overview of what we’ll do in this tutorial:</strong></p>
 <p>Detect outliers using <code class="docutils literal notranslate"><span class="pre">feature_embeddings</span></code></p>
 <ul class="simple">
 <li><p>Pre-process <a class="reference external" href="https://www.cs.toronto.edu/~kriz/cifar.html">cifar10</a> into Pytorch datasets where <code class="docutils literal notranslate"><span class="pre">train_data</span></code> only contains images of animals and <code class="docutils literal notranslate"><span class="pre">test_data</span></code> contains images from all classes.</p></li>
 <li><p>Use a pretrained neural network model from <a class="reference external" href="https://github.com/rwightman/pytorch-image-models">timm</a> to extract feature embeddings of each image.</p></li>
-<li><p>Use cleanlab to find naturally occurring outlier examples in the <code class="docutils literal notranslate"><span class="pre">train_data</span></code> (i.e. atypical images).</p></li>
+<li><p>Use cleanlab to find naturally occurring outlier examples in the <code class="docutils literal notranslate"><span class="pre">train_data</span></code> (i.e. atypical images).</p></li>
 <li><p>Find outlier examples in the <code class="docutils literal notranslate"><span class="pre">test_data</span></code> that do not stem from training data distribution (including out-of-distribution non-animal images).</p></li>
 <li><p>Explore threshold selection for determining which images are outliers vs not.</p></li>
 </ul>
@@ -936,11 +690,1044 @@ out-of-distribution: <code class="docutils literal notranslate"><span class="pre
 Downloading https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz to ./data/cifar-10-python.tar.gz
 </pre></div></div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "09720daaa7304cea99fa01082c540e8b"}</script></div>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>0%|          | 0/170498071 [00:00&amp;lt;?, ?it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>0%|          | 0/170498071 [00:00&lt;?, ?it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>0%|          | 0/170498071 [00:00&lt;?, ?it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>0%|          | 458752/170498071 [00:00&amp;lt;00:37, 4581211.19it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>0%|          | 458752/170498071 [00:00&lt;00:37, 4581211.19it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>0%|          | 458752/170498071 [00:00&lt;00:37, 4581211.19it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>1%|▏         | 2555904/170498071 [00:00&amp;lt;00:11, 14191611.86it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>1%|▏         | 2555904/170498071 [00:00&lt;00:11, 14191611.86it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>1%|▏         | 2555904/170498071 [00:00&lt;00:11, 14191611.86it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>3%|▎         | 4915200/170498071 [00:00&amp;lt;00:08, 18466175.06it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>3%|▎         | 4915200/170498071 [00:00&lt;00:08, 18466175.06it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>3%|▎         | 4915200/170498071 [00:00&lt;00:08, 18466175.06it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>4%|▍         | 7503872/170498071 [00:00&amp;lt;00:07, 21375187.70it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>4%|▍         | 7503872/170498071 [00:00&lt;00:07, 21375187.70it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>4%|▍         | 7503872/170498071 [00:00&lt;00:07, 21375187.70it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>6%|▌         | 10059776/170498071 [00:00&amp;lt;00:07, 22804303.24it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>6%|▌         | 10059776/170498071 [00:00&lt;00:07, 22804303.24it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>6%|▌         | 10059776/170498071 [00:00&lt;00:07, 22804303.24it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>7%|▋         | 12582912/170498071 [00:00&amp;lt;00:06, 23541433.52it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>7%|▋         | 12582912/170498071 [00:00&lt;00:06, 23541433.52it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>7%|▋         | 12582912/170498071 [00:00&lt;00:06, 23541433.52it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>9%|▉         | 15171584/170498071 [00:00&amp;lt;00:06, 24269043.23it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>9%|▉         | 15171584/170498071 [00:00&lt;00:06, 24269043.23it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>9%|▉         | 15171584/170498071 [00:00&lt;00:06, 24269043.23it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>10%|█         | 17727488/170498071 [00:00&amp;lt;00:06, 24614915.72it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>10%|█         | 17727488/170498071 [00:00&lt;00:06, 24614915.72it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>10%|█         | 17727488/170498071 [00:00&lt;00:06, 24614915.72it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>12%|█▏        | 20283392/170498071 [00:00&amp;lt;00:06, 24842278.59it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>12%|█▏        | 20283392/170498071 [00:00&lt;00:06, 24842278.59it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>12%|█▏        | 20283392/170498071 [00:00&lt;00:06, 24842278.59it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>13%|█▎        | 22806528/170498071 [00:01&amp;lt;00:05, 24895654.16it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>13%|█▎        | 22806528/170498071 [00:01&lt;00:05, 24895654.16it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>13%|█▎        | 22806528/170498071 [00:01&lt;00:05, 24895654.16it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>15%|█▍        | 25395200/170498071 [00:01&amp;lt;00:05, 25171825.83it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>15%|█▍        | 25395200/170498071 [00:01&lt;00:05, 25171825.83it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>15%|█▍        | 25395200/170498071 [00:01&lt;00:05, 25171825.83it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>16%|█▋        | 28049408/170498071 [00:01&amp;lt;00:05, 25452508.43it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>16%|█▋        | 28049408/170498071 [00:01&lt;00:05, 25452508.43it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>16%|█▋        | 28049408/170498071 [00:01&lt;00:05, 25452508.43it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>18%|█▊        | 30638080/170498071 [00:01&amp;lt;00:05, 25529378.10it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>18%|█▊        | 30638080/170498071 [00:01&lt;00:05, 25529378.10it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>18%|█▊        | 30638080/170498071 [00:01&lt;00:05, 25529378.10it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>20%|█▉        | 33259520/170498071 [00:01&amp;lt;00:05, 25671887.46it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>20%|█▉        | 33259520/170498071 [00:01&lt;00:05, 25671887.46it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>20%|█▉        | 33259520/170498071 [00:01&lt;00:05, 25671887.46it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>21%|██        | 35880960/170498071 [00:01&amp;lt;00:05, 25827981.16it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>21%|██        | 35880960/170498071 [00:01&lt;00:05, 25827981.16it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>21%|██        | 35880960/170498071 [00:01&lt;00:05, 25827981.16it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>23%|██▎       | 38469632/170498071 [00:01&amp;lt;00:05, 25783729.86it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>23%|██▎       | 38469632/170498071 [00:01&lt;00:05, 25783729.86it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>23%|██▎       | 38469632/170498071 [00:01&lt;00:05, 25783729.86it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>24%|██▍       | 41123840/170498071 [00:01&amp;lt;00:04, 25887339.54it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>24%|██▍       | 41123840/170498071 [00:01&lt;00:04, 25887339.54it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>24%|██▍       | 41123840/170498071 [00:01&lt;00:04, 25887339.54it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>26%|██▌       | 43745280/170498071 [00:01&amp;lt;00:04, 25836845.52it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>26%|██▌       | 43745280/170498071 [00:01&lt;00:04, 25836845.52it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>26%|██▌       | 43745280/170498071 [00:01&lt;00:04, 25836845.52it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>27%|██▋       | 46366720/170498071 [00:01&amp;lt;00:04, 25787042.48it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>27%|██▋       | 46366720/170498071 [00:01&lt;00:04, 25787042.48it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>27%|██▋       | 46366720/170498071 [00:01&lt;00:04, 25787042.48it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>29%|██▉       | 49053696/170498071 [00:02&amp;lt;00:04, 25945931.95it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>29%|██▉       | 49053696/170498071 [00:02&lt;00:04, 25945931.95it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>29%|██▉       | 49053696/170498071 [00:02&lt;00:04, 25945931.95it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>30%|███       | 51675136/170498071 [00:02&amp;lt;00:04, 25789726.83it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>30%|███       | 51675136/170498071 [00:02&lt;00:04, 25789726.83it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>30%|███       | 51675136/170498071 [00:02&lt;00:04, 25789726.83it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>32%|███▏      | 54591488/170498071 [00:02&amp;lt;00:04, 26786611.51it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>32%|███▏      | 54591488/170498071 [00:02&lt;00:04, 26786611.51it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>32%|███▏      | 54591488/170498071 [00:02&lt;00:04, 26786611.51it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>34%|███▍      | 57835520/170498071 [00:02&amp;lt;00:03, 28424602.95it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>34%|███▍      | 57835520/170498071 [00:02&lt;00:03, 28424602.95it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>34%|███▍      | 57835520/170498071 [00:02&lt;00:03, 28424602.95it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>36%|███▌      | 61308928/170498071 [00:02&amp;lt;00:03, 30250676.04it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>36%|███▌      | 61308928/170498071 [00:02&lt;00:03, 30250676.04it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>36%|███▌      | 61308928/170498071 [00:02&lt;00:03, 30250676.04it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>38%|███▊      | 65601536/170498071 [00:02&amp;lt;00:03, 33892874.99it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>38%|███▊      | 65601536/170498071 [00:02&lt;00:03, 33892874.99it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>38%|███▊      | 65601536/170498071 [00:02&lt;00:03, 33892874.99it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>41%|████      | 69304320/170498071 [00:02&amp;lt;00:02, 34822057.27it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>41%|████      | 69304320/170498071 [00:02&lt;00:02, 34822057.27it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>41%|████      | 69304320/170498071 [00:02&lt;00:02, 34822057.27it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>44%|████▍     | 75071488/170498071 [00:02&amp;lt;00:02, 41613624.24it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>44%|████▍     | 75071488/170498071 [00:02&lt;00:02, 41613624.24it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>44%|████▍     | 75071488/170498071 [00:02&lt;00:02, 41613624.24it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>48%|████▊     | 82411520/170498071 [00:02&amp;lt;00:01, 50993042.03it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>48%|████▊     | 82411520/170498071 [00:02&lt;00:01, 50993042.03it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>48%|████▊     | 82411520/170498071 [00:02&lt;00:01, 50993042.03it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>53%|█████▎    | 91095040/170498071 [00:02&amp;lt;00:01, 61686030.94it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>53%|█████▎    | 91095040/170498071 [00:02&lt;00:01, 61686030.94it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>53%|█████▎    | 91095040/170498071 [00:02&lt;00:01, 61686030.94it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>58%|█████▊    | 99319808/170498071 [00:03&amp;lt;00:01, 67803204.06it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>58%|█████▊    | 99319808/170498071 [00:03&lt;00:01, 67803204.06it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>58%|█████▊    | 99319808/170498071 [00:03&lt;00:01, 67803204.06it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>63%|██████▎   | 107479040/170498071 [00:03&amp;lt;00:00, 71926538.27it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>63%|██████▎   | 107479040/170498071 [00:03&lt;00:00, 71926538.27it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>63%|██████▎   | 107479040/170498071 [00:03&lt;00:00, 71926538.27it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>68%|██████▊   | 115802112/170498071 [00:03&amp;lt;00:00, 75060039.50it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>68%|██████▊   | 115802112/170498071 [00:03&lt;00:00, 75060039.50it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>68%|██████▊   | 115802112/170498071 [00:03&lt;00:00, 75060039.50it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>73%|███████▎  | 124289024/170498071 [00:03&amp;lt;00:00, 77972713.49it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>73%|███████▎  | 124289024/170498071 [00:03&lt;00:00, 77972713.49it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>73%|███████▎  | 124289024/170498071 [00:03&lt;00:00, 77972713.49it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>78%|███████▊  | 132808704/170498071 [00:03&amp;lt;00:00, 80087031.81it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>78%|███████▊  | 132808704/170498071 [00:03&lt;00:00, 80087031.81it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>78%|███████▊  | 132808704/170498071 [00:03&lt;00:00, 80087031.81it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>83%|████████▎ | 141393920/170498071 [00:03&amp;lt;00:00, 81795358.25it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>83%|████████▎ | 141393920/170498071 [00:03&lt;00:00, 81795358.25it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>83%|████████▎ | 141393920/170498071 [00:03&lt;00:00, 81795358.25it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>88%|████████▊ | 150142976/170498071 [00:03&amp;lt;00:00, 83397007.05it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>88%|████████▊ | 150142976/170498071 [00:03&lt;00:00, 83397007.05it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>88%|████████▊ | 150142976/170498071 [00:03&lt;00:00, 83397007.05it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>93%|█████████▎| 158892032/170498071 [00:03&amp;lt;00:00, 84592434.41it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>93%|█████████▎| 158892032/170498071 [00:03&lt;00:00, 84592434.41it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>93%|█████████▎| 158892032/170498071 [00:03&lt;00:00, 84592434.41it/s]</p>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">more-to-come<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">class<span class="colon">:</span></dt>
+<dd class="field-even"><p>stderr</p>
+</dd>
+</dl>
+<div class="highlight"><pre></div></div></blockquote>
+<dl>
+<dt>98%|█████████▊| 167837696/170498071 [00:03&amp;lt;00:00, 85937092.50it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>98%|█████████▊| 167837696/170498071 [00:03&lt;00:00, 85937092.50it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>98%|█████████▊| 167837696/170498071 [00:03&lt;00:00, 85937092.50it/s]</p>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre></div></div>
+</div>
+<dl>
+<dt>100%|██████████| 170498071/170498071 [00:03&amp;lt;00:00, 44199640.18it/s]</dt><dd><blockquote>
+<div><p>&lt;/pre&gt;</p>
+</div></blockquote>
+</dd>
+<dt>100%|██████████| 170498071/170498071 [00:03&lt;00:00, 44199640.18it/s]</dt><dd><blockquote>
+<div><p>end{sphinxVerbatim}</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>100%|██████████| 170498071/170498071 [00:03&lt;00:00, 44199640.18it/s]</p>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
@@ -1082,10 +1869,8 @@ dimension are of a similar scale.</p>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-Downloading: &#34;https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-rsb-weights/resnet50_a1_0-14fe96d1.pth&#34; to /home/runner/.cache/torch/hub/checkpoints/resnet50_a1_0-14fe96d1.pth
-</pre></div></div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "6ddc0e0157d440e59e6e589d74f37865"}</script></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
@@ -1201,7 +1986,7 @@ Fitting OOD estimator based on provided features ...
 </div>
 </div>
 <p>All test examples whose <code class="docutils literal notranslate"><span class="pre">test_ood_features_scores</span></code> fall left of the red line will be marked as an outlier.</p>
-<p>Let’s plot the least-certain outliers of our <code class="docutils literal notranslate"><span class="pre">test_data</span></code> (i.e. 15 images with outlier scores right along the threshold). These are the images immediately to the left of that cutoff threshold (red line). The majority of them are still truly out-of-distribution non-animal images, but there are a few atypical-looking animals that are now erroneously identified as outliers as well.</p>
+<p>Let’s plot the least-certain outliers of our <code class="docutils literal notranslate"><span class="pre">test_data</span></code> (i.e. 15 images with outlier scores right along the threshold). These are the images immediately to the left of that cutoff threshold (red line). The majority of them are still truly out-of-distribution non-animal images, but there are a few atypical-looking animals that are now erroneously identified as outliers as well.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
@@ -1306,7 +2091,7 @@ Fitting OOD estimator based on provided pred_probs ...
 <p>Detecting outliers based on feature embeddings can be done for arbitrary unlabeled datasets, but requires a meaningful numerical representation of the data. Detecting outliers based on predicted probabilities applies mainly for labeled classification datasets, but can be done with any effective classifier. The effectiveness of the latter approach depends on: how much auxiliary information captured in the feature values is lost in the predicted probabilities (determined by the particular set of
 labels in the classification task), the accuracy of our classifier, and how properly its predictions reflect epistemic uncertainty. Read more about it <a class="reference external" href="https://pub.towardsai.net/a-simple-adjustment-improves-out-of-distribution-detection-for-any-classifier-5e96bbb2d627">here</a>.</p>
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"a887824105e54c0da7574c7c04868da4": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "f8cc88adca364c9aadce937875d4fb61": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "16a5b13a4f1140429b8b022a39534987": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_a887824105e54c0da7574c7c04868da4", "max": 170498071.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_f8cc88adca364c9aadce937875d4fb61", "value": 170498071.0}}, "ccd669f7043c492d9c6b3f2215c52d5b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "03e213f227dc4b498a626ef8fc859427": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "d2a2f8b2470c4d249c15840e37e1e643": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_ccd669f7043c492d9c6b3f2215c52d5b", "placeholder": "\u200b", "style": "IPY_MODEL_03e213f227dc4b498a626ef8fc859427", "value": "100%"}}, "e62f39e3ed3d4c54b0cd43f297de55e0": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "11b62f0b997946c69f2dab7efad028ac": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "StyleView", "description_width": ""}}, "cf9d4e9136644dccb4937b5176d0ae26": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HTMLView", "description": "", "description_tooltip": null, "layout": "IPY_MODEL_e62f39e3ed3d4c54b0cd43f297de55e0", "placeholder": "\u200b", "style": "IPY_MODEL_11b62f0b997946c69f2dab7efad028ac", "value": " 170498071/170498071 [00:01&lt;00:00, 110864697.07it/s]"}}, "394f808de951464ba87edb7b6137979d": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "1.2.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "1.2.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "1.2.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "overflow_x": null, "overflow_y": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "09720daaa7304cea99fa01082c540e8b": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "1.5.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "1.5.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_d2a2f8b2470c4d249c15840e37e1e643", "IPY_MODEL_16a5b13a4f1140429b8b022a39534987", "IPY_MODEL_cf9d4e9136644dccb4937b5176d0ae26"], "layout": "IPY_MODEL_394f808de951464ba87edb7b6137979d"}}}, "version_major": 2, "version_minor": 0}
+{"state": {"c68de649ac5a43faa554f9a2ad0b77a0": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "5d1e33e950c841d3a1c3de8bea0e6dea": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "190b00a0c7a549278bba948ce7c13154": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_c68de649ac5a43faa554f9a2ad0b77a0", "max": 102469840.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_5d1e33e950c841d3a1c3de8bea0e6dea", "tabbable": null, "tooltip": null, "value": 102469840.0}}, "541deba731bd4ce58886b6bde18a072d": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "1b98cd2f7f5e47128020cdd30a3cdd21": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "7d29be53319a487fade394d038e9e153": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_541deba731bd4ce58886b6bde18a072d", "placeholder": "\u200b", "style": "IPY_MODEL_1b98cd2f7f5e47128020cdd30a3cdd21", "tabbable": null, "tooltip": null, "value": "model.safetensors: 100%"}}, "ea1fe3f22c9045119a6cb7b63751ff00": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "67fb8329ceca4e29b4d3709f00ed8b7e": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "025f4ab8b4874b5db95338b1a9bf733f": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_ea1fe3f22c9045119a6cb7b63751ff00", "placeholder": "\u200b", "style": "IPY_MODEL_67fb8329ceca4e29b4d3709f00ed8b7e", "tabbable": null, "tooltip": null, "value": " 102M/102M [00:00&lt;00:00, 311MB/s]"}}, "23ab27234b3342ea8784456aca08cc12": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6ddc0e0157d440e59e6e589d74f37865": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_7d29be53319a487fade394d038e9e153", "IPY_MODEL_190b00a0c7a549278bba948ce7c13154", "IPY_MODEL_025f4ab8b4874b5db95338b1a9bf733f"], "layout": "IPY_MODEL_23ab27234b3342ea8784456aca08cc12", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}
 </script></section>
 </section>
  
@@ -1322,10 +2107,10 @@ labels in the classification task), the accuracy of our classifier, and how prop
                 </div>
                 <div class="title">Estimate Consensus and Annotator Quality for Data Labeled by Multiple Annotators</div>
               </div>
-              <svg><use href="#svg-arrow-right"></use></svg>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
           <a class="prev-page" href="dataset_health.html">
-              <svg><use href="#svg-arrow-right"></use></svg>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
@@ -1379,7 +2164,7 @@ labels in the classification task), the accuracy of our classifier, and how prop
       <div class="toc-sticky toc-scroll">
         <div class="toc-title-container">
           <span class="toc-title">
-            Contents
+            On this page
           </span>
         </div>
         <div class="toc-tree-container">
@@ -1404,16 +2189,14 @@ labels in the classification task), the accuracy of our classifier, and how prop
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/scripts/furo.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=2b91c5f0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
