@@ -544,7 +544,7 @@
             document.getElementById("doc_ver_warning").innerHTML =
             `<div class="admonition warning">
             <p class="admonition-title">Warning</p>
-            <p>This documentation is for an old version (<code class="docutils literal notranslate"><span class="pre">v2.6.2</span></code>) of <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>. To see the documentation for the latest stable version (<code class="docutils literal notranslate"><span class="pre">` + version_number + `</span></code>), click <a href="/cleanlab-docs/">here</a>.</p>
+            <p>This documentation is for an old version (<code class="docutils literal notranslate"><span class="pre">v2.6.5</span></code>) of <code class="docutils literal notranslate"><span class="pre">cleanlab</span></code>. To see the documentation for the latest stable version (<code class="docutils literal notranslate"><span class="pre">` + version_number + `</span></code>), click <a href="/cleanlab-docs/">here</a>.</p>
             </div>`;
         } else {
             document.getElementById("doc_ver_warning").remove();
@@ -579,7 +579,7 @@
         const h1_element = document.getElementsByTagName("h1");
         h1_element[0].insertAdjacentHTML("afterend", `
         <p>
-            <a style="background-color:white;color:black;padding:4px 12px;text-decoration:none;display:inline-block;border-radius:8px;box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)" href="https://colab.research.google.com/github/elisno/cleanlab-docs/blob/master/v2.6.2/tutorials/token_classification.ipynb" target="_blank">
+            <a style="background-color:white;color:black;padding:4px 12px;text-decoration:none;display:inline-block;border-radius:8px;box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19)" href="https://colab.research.google.com/github/elisno/cleanlab-docs/blob/master/v2.6.5/tutorials/token_classification.ipynb" target="_blank">
             <img src="https://colab.research.google.com/img/colab_favicon_256px.png" alt="" style="width:40px;height:40px;vertical-align:middle">
             <span style="vertical-align:middle">Run in Google Colab</span>
             </a>
@@ -642,16 +642,16 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2024-02-27 19:37:22--  https://data.deepai.org/conll2003.zip
-Resolving data.deepai.org (data.deepai.org)... 169.150.249.164, 2400:52e0:1a01::985:1
-Connecting to data.deepai.org (data.deepai.org)|169.150.249.164|:443... connected.
+--2024-02-27 20:30:18--  https://data.deepai.org/conll2003.zip
+Resolving data.deepai.org (data.deepai.org)... 169.150.236.99, 2400:52e0:1a00::941:1
+Connecting to data.deepai.org (data.deepai.org)|169.150.236.99|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 982975 (960K) [application/zip]
 Saving to: ‘conll2003.zip’
 
-conll2003.zip       100%[===================&gt;] 959.94K  --.-KB/s    in 0.09s
+conll2003.zip       100%[===================&gt;] 959.94K  6.11MB/s    in 0.2s
 
-2024-02-27 19:37:22 (10.1 MB/s) - ‘conll2003.zip’ saved [982975/982975]
+2024-02-27 20:30:18 (6.11 MB/s) - ‘conll2003.zip’ saved [982975/982975]
 
 mkdir: cannot create directory ‘data’: File exists
 Archive:  conll2003.zip
@@ -659,16 +659,16 @@ Archive:  conll2003.zip
   inflating: data/test.txt
   inflating: data/train.txt
   inflating: data/valid.txt
---2024-02-27 19:37:22--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
-Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 3.5.25.201, 3.5.17.171, 3.5.25.112, ...
-Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|3.5.25.201|:443... connected.
+--2024-02-27 20:30:18--  https://cleanlab-public.s3.amazonaws.com/TokenClassification/pred_probs.npz
+Resolving cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)... 54.231.197.65, 16.182.67.97, 52.217.106.76, ...
+Connecting to cleanlab-public.s3.amazonaws.com (cleanlab-public.s3.amazonaws.com)|54.231.197.65|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 17045998 (16M) [binary/octet-stream]
 Saving to: ‘pred_probs.npz’
 
-pred_probs.npz      100%[===================&gt;]  16.26M  23.6MB/s    in 0.7s
+pred_probs.npz      100%[===================&gt;]  16.26M  62.4MB/s    in 0.3s
 
-2024-02-27 19:37:23 (23.6 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
+2024-02-27 20:30:19 (62.4 MB/s) - ‘pred_probs.npz’ saved [17045998/17045998]
 
 </pre></div></div>
 </div>
