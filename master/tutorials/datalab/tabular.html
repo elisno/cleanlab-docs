@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/cleanlab/assets/master/cleanlab/clos-preview-card.png" />
 <meta property="og:image:alt" content="cleanlab" />
 <meta name="description" content="In this 5-minute quickstart tutorial, we use Datalab to detect various issues in a classification dataset with tabular (numeric/categorical) features. Tabular (or structured) data are typically org..." />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Image Classification with PyTorch and Cleanlab" href="image.html" /><link rel="prev" title="Detecting Issues in a Text Dataset with Datalab" href="text.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Detecting Issues in an Image Dataset with Datalab" href="image.html" /><link rel="prev" title="Detecting Issues in a Text Dataset with Datalab" href="text.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>Detecting Issues in Tabular Data (Numeric/Categorical columns) with Datalab - cleanlab</title>
@@ -210,8 +210,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../indepth_overview.html">Workflows of Data-Centric AI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dataset_health.html">Find Dataset-level Issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../outliers.html">Identifying Outliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dataset_health.html">Analyze Dataset-level Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outliers.html">Outlier Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../multiannotator.html">Improving Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../multilabel_classification.html">Multi-Label Classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../regression.html">Noisy Labels in Regression</a></li>
@@ -646,8 +646,7 @@ automatically identifies <em>hundreds</em> of examples in this dataset that were
 </div><section id="1.-Install-required-dependencies">
 <h2>1. Install required dependencies<a class="headerlink" href="#1.-Install-required-dependencies" title="Permalink to this heading">#</a></h2>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install all packages required for this tutorial as follows:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>sklearn<span class="w"> </span>datasets
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;cleanlab[datalab]&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;cleanlab[datalab]&quot;</span>
 <span class="c1"># Make sure to install the version corresponding to this tutorial</span>
 <span class="c1"># E.g. if viewing master branch documentation:</span>
 <span class="c1">#     !pip install git+https://github.com/cleanlab/cleanlab.git</span>
@@ -878,7 +877,7 @@ Audit complete. 358 issues found in the dataset.
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/sklearn/neighbors/_base.py:246: EfficiencyWarning: Precomputed sparse input was not sorted by row values. Use the function sklearn.neighbors.sort_graph_by_row_values to sort the input by row values, with warn_when_not_sorted=False to remove this warning.
+/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/sklearn/neighbors/_base.py:246: EfficiencyWarning: Precomputed sparse input was not sorted by row values. Use the function sklearn.neighbors.sort_graph_by_row_values to sort the input by row values, with warn_when_not_sorted=False to remove this warning.
   warnings.warn(
 </pre></div></div>
 </div>
@@ -1475,7 +1474,7 @@ issues (more types of issues than this cleanlab package), helps you quickly corr
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Image Classification with PyTorch and Cleanlab</div>
+                <div class="title">Detecting Issues in an Image Dataset with Datalab</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

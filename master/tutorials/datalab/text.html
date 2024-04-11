@@ -210,8 +210,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../indepth_overview.html">Workflows of Data-Centric AI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../dataset_health.html">Find Dataset-level Issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../outliers.html">Identifying Outliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dataset_health.html">Analyze Dataset-level Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outliers.html">Outlier Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../multiannotator.html">Improving Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../multilabel_classification.html">Multi-Label Classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../regression.html">Noisy Labels in Regression</a></li>
@@ -647,7 +647,7 @@ including mislabeled data, out-of-scope examples (outliers), or otherwise ambigu
 </div><section id="1.-Install-required-dependencies">
 <h2>1. Install required dependencies<a class="headerlink" href="#1.-Install-required-dependencies" title="Permalink to this heading">#</a></h2>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install all packages required for this tutorial as follows:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>sklearn<span class="w"> </span>sentence-transformers
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>sentence-transformers
 <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;cleanlab[datalab]&quot;</span>
 <span class="c1"># Make sure to install the version corresponding to this tutorial</span>
 <span class="c1"># E.g. if viewing master branch documentation:</span>
@@ -757,7 +757,7 @@ including mislabeled data, out-of-scope examples (outliers), or otherwise ambigu
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 This dataset has 10 classes.
-Classes: {&#39;card_payment_fee_charged&#39;, &#39;card_about_to_expire&#39;, &#39;visa_or_mastercard&#39;, &#39;lost_or_stolen_phone&#39;, &#39;beneficiary_not_allowed&#39;, &#39;supported_cards_and_currencies&#39;, &#39;getting_spare_card&#39;, &#39;apple_pay_or_google_pay&#39;, &#39;cancel_transfer&#39;, &#39;change_pin&#39;}
+Classes: {&#39;apple_pay_or_google_pay&#39;, &#39;supported_cards_and_currencies&#39;, &#39;card_payment_fee_charged&#39;, &#39;cancel_transfer&#39;, &#39;lost_or_stolen_phone&#39;, &#39;change_pin&#39;, &#39;beneficiary_not_allowed&#39;, &#39;visa_or_mastercard&#39;, &#39;getting_spare_card&#39;, &#39;card_about_to_expire&#39;}
 </pre></div></div>
 </div>
 <p>Let’s view the i-th example in the dataset:</p>
@@ -806,7 +806,7 @@ Example Text: i no longer want to transfer funds, can we cancel that transaction
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 No sentence-transformers model found with name /home/runner/.cache/torch/sentence_transformers/google_electra-small-discriminator. Creating a new one with MEAN pooling.
-/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/torch/_utils.py:831: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/torch/_utils.py:831: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
   return self.fget.__get__(instance, owner)()
 </pre></div></div>
 </div>
@@ -872,7 +872,7 @@ Audit complete. 85 issues found in the dataset.
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/sklearn/neighbors/_base.py:246: EfficiencyWarning: Precomputed sparse input was not sorted by row values. Use the function sklearn.neighbors.sort_graph_by_row_values to sort the input by row values, with warn_when_not_sorted=False to remove this warning.
+/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/sklearn/neighbors/_base.py:246: EfficiencyWarning: Precomputed sparse input was not sorted by row values. Use the function sklearn.neighbors.sort_graph_by_row_values to sort the input by row values, with warn_when_not_sorted=False to remove this warning.
   warnings.warn(
 </pre></div></div>
 </div>

@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/cleanlab/assets/master/cleanlab/clos-preview-card.png" />
 <meta property="og:image:alt" content="cleanlab" />
 <meta name="description" content="In this tutorial, you will learn how to easily incorporate cleanlab into your ML development workflows to: Automatically find issues such as label errors, outliers and near duplicates lurking in yo..." />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Find Dataset-level Issues for Dataset Curation" href="dataset_health.html" /><link rel="prev" title="Classification with Tabular Data using Scikit-Learn and Cleanlab" href="clean_learning/tabular.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Understanding Dataset-level Labeling Issues" href="dataset_health.html" /><link rel="prev" title="Classification with Structured/Tabular Data and Noisy Labels" href="clean_learning/tabular.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>The Workflows of Data-centric AI for Classification with Noisy Labels - cleanlab</title>
@@ -210,8 +210,8 @@
 </ul>
 </li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Workflows of Data-Centric AI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Find Dataset-level Issues</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outliers.html">Identifying Outliers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset_health.html">Analyze Dataset-level Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outliers.html">Outlier Detection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multiannotator.html">Improving Consensus Labels for Multiannotator Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multilabel_classification.html">Multi-Label Classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="regression.html">Noisy Labels in Regression</a></li>
@@ -638,7 +638,7 @@ classification</span></a>, and <a class="reference external" href="token_classif
 <section id="Install-dependencies-and-import-them">
 <h2>Install dependencies and import them<a class="headerlink" href="#Install-dependencies-and-import-them" title="Permalink to this heading">#</a></h2>
 <p>You can use pip to install all packages required for this tutorial as follows:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>!pip install sklearn matplotlib
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>!pip install matplotlib
 !pip install cleanlab[datalab]
 # Make sure to install the version corresponding to this tutorial
 # E.g. if viewing master branch documentation:
@@ -831,7 +831,7 @@ Audit complete. 78 issues found in the dataset.
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/sklearn/neighbors/_base.py:246: EfficiencyWarning: Precomputed sparse input was not sorted by row values. Use the function sklearn.neighbors.sort_graph_by_row_values to sort the input by row values, with warn_when_not_sorted=False to remove this warning.
+/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/sklearn/neighbors/_base.py:246: EfficiencyWarning: Precomputed sparse input was not sorted by row values. Use the function sklearn.neighbors.sort_graph_by_row_values to sort the input by row values, with warn_when_not_sorted=False to remove this warning.
   warnings.warn(
 </pre></div></div>
 </div>
@@ -2346,7 +2346,7 @@ array([ 99,   8,  64, 107,  10,  16,  51,  63, 121, 213, 212, 218, 117,
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Find Dataset-level Issues for Dataset Curation</div>
+                <div class="title">Understanding Dataset-level Labeling Issues</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -2357,7 +2357,7 @@ array([ 99,   8,  64, 107,  10,  16,  51,  63, 121, 213, 212, 218, 117,
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Classification with Tabular Data using Scikit-Learn and Cleanlab</div>
+                <div class="title">Classification with Structured/Tabular Data and Noisy Labels</div>
                 
               </div>
             </a>
