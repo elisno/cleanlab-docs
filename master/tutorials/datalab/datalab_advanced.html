@@ -202,6 +202,7 @@
 <li class="toctree-l2"><a class="reference internal" href="image.html">Image Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="audio.html">Audio Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cleanlab/datalab/guide/issue_type_description.html">Guide to Datalab Issue Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflows.html">Miscellaneous workflows with Datalab</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../clean_learning/index.html">CleanLearning Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of CleanLearning Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -929,12 +930,17 @@ name.</p>
 Finding label issues ...
 
 Audit complete. 11 issues found in the dataset.
-Here is a summary of the different kinds of issues found in the data:
+Dataset Information: num_examples: 132, num_classes: 3
+
+Here is a summary of various issues found in your data:
 
 issue_type  num_issues
      label          11
 
-Dataset Information: num_examples: 132, num_classes: 3
+Learn about each issue: https://docs.cleanlab.ai/stable/cleanlab/datalab/guide/issue_type_description.html
+See which examples in your dataset exhibit each issue via: `datalab.get_issues(&lt;ISSUE_NAME&gt;)`
+
+Data indices corresponding to top examples of each issue are shown below.
 
 
 ----------------------- label issues -----------------------
@@ -977,14 +983,19 @@ Fitting OOD estimator based on provided features ...
 Finding near_duplicate issues ...
 
 Audit complete. 21 issues found in the dataset.
-Here is a summary of the different kinds of issues found in the data:
+Dataset Information: num_examples: 132, num_classes: 3
+
+Here is a summary of various issues found in your data:
 
     issue_type  num_issues
          label          11
        outlier           6
 near_duplicate           4
 
-Dataset Information: num_examples: 132, num_classes: 3
+Learn about each issue: https://docs.cleanlab.ai/stable/cleanlab/datalab/guide/issue_type_description.html
+See which examples in your dataset exhibit each issue via: `datalab.get_issues(&lt;ISSUE_NAME&gt;)`
+
+Data indices corresponding to top examples of each issue are shown below.
 
 
 ----------------------- label issues -----------------------
@@ -1070,14 +1081,19 @@ Finding outlier issues ...
 Fitting OOD estimator based on provided features ...
 
 Audit complete. 22 issues found in the dataset.
-Here is a summary of the different kinds of issues found in the data:
+Dataset Information: num_examples: 132, num_classes: 3
+
+Here is a summary of various issues found in your data:
 
     issue_type  num_issues
          label          11
        outlier           7
 near_duplicate           4
 
-Dataset Information: num_examples: 132, num_classes: 3
+Learn about each issue: https://docs.cleanlab.ai/stable/cleanlab/datalab/guide/issue_type_description.html
+See which examples in your dataset exhibit each issue via: `datalab.get_issues(&lt;ISSUE_NAME&gt;)`
+
+Data indices corresponding to top examples of each issue are shown below.
 
 
 ----------------------- label issues -----------------------
@@ -1167,14 +1183,19 @@ Examples representing most severe instances of this issue:
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Here is a summary of the different kinds of issues found in the data:
+Dataset Information: num_examples: 132, num_classes: 3
+
+Here is a summary of various issues found in your data:
 
     issue_type  num_issues
          label          11
        outlier           7
 near_duplicate           4
 
-Dataset Information: num_examples: 132, num_classes: 3
+Learn about each issue: https://docs.cleanlab.ai/stable/cleanlab/datalab/guide/issue_type_description.html
+See which examples in your dataset exhibit each issue via: `datalab.get_issues(&lt;ISSUE_NAME&gt;)`
+
+Data indices corresponding to top examples of each issue are shown below.
 
 
 ----------------------- label issues -----------------------
@@ -1276,7 +1297,7 @@ threshold: 0.13
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "b2a3172488eb48bcb08582860a5ada34"}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "d7336293d90a46d8b4c9c9b974cfc7c7"}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -1302,14 +1323,19 @@ Saved Datalab to folder: datalab-files
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Datalab loaded from folder: datalab-files
-Here is a summary of the different kinds of issues found in the data:
+Dataset Information: num_examples: 132, num_classes: 3
+
+Here is a summary of various issues found in your data:
 
     issue_type  num_issues
          label          11
        outlier           7
 near_duplicate           4
 
-Dataset Information: num_examples: 132, num_classes: 3
+Learn about each issue: https://docs.cleanlab.ai/stable/cleanlab/datalab/guide/issue_type_description.html
+See which examples in your dataset exhibit each issue via: `datalab.get_issues(&lt;ISSUE_NAME&gt;)`
+
+Data indices corresponding to top examples of each issue are shown below.
 
 
 ----------------------- label issues -----------------------
@@ -1452,7 +1478,9 @@ Examples representing most severe instances of this issue:
 Finding superstition issues ...
 
 Audit complete. 32 issues found in the dataset.
-Here is a summary of the different kinds of issues found in the data:
+Dataset Information: num_examples: 132, num_classes: 3
+
+Here is a summary of various issues found in your data:
 
     issue_type  num_issues
          label          11
@@ -1460,7 +1488,10 @@ Here is a summary of the different kinds of issues found in the data:
        outlier           7
 near_duplicate           4
 
-Dataset Information: num_examples: 132, num_classes: 3
+Learn about each issue: https://docs.cleanlab.ai/stable/cleanlab/datalab/guide/issue_type_description.html
+See which examples in your dataset exhibit each issue via: `datalab.get_issues(&lt;ISSUE_NAME&gt;)`
+
+Data indices corresponding to top examples of each issue are shown below.
 
 
 ----------------------- label issues -----------------------
@@ -1541,7 +1572,7 @@ Examples representing most severe instances of this issue:
 </pre></div></div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"a76722878bb34be290b72fdc699b1607": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "aac586a30dd2430e85bbfa65f39ea1ce": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "0343f9d1bead463fb4ead13fa31d63da": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_a76722878bb34be290b72fdc699b1607", "max": 132.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_aac586a30dd2430e85bbfa65f39ea1ce", "tabbable": null, "tooltip": null, "value": 132.0}}, "1b9468e8fbb44137b7c5eb9e554d37b6": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "20f2654967dc421e92be18a16ef1723f": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "8f62d17628da44d8bdc2ad1abec27fbf": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_1b9468e8fbb44137b7c5eb9e554d37b6", "placeholder": "\u200b", "style": "IPY_MODEL_20f2654967dc421e92be18a16ef1723f", "tabbable": null, "tooltip": null, "value": "Saving\u2007the\u2007dataset\u2007(1/1\u2007shards):\u2007100%"}}, "93d7e40250224078ac8bfa1d6c16709b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "242cf3a70c6141d9b009cac1ea02b91d": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "3dfac96a48664cbea064018973569afd": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_93d7e40250224078ac8bfa1d6c16709b", "placeholder": "\u200b", "style": "IPY_MODEL_242cf3a70c6141d9b009cac1ea02b91d", "tabbable": null, "tooltip": null, "value": "\u2007132/132\u2007[00:00&lt;00:00,\u200713676.06\u2007examples/s]"}}, "09173fc89cbe4fdcb8995717d84ad8b7": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "b2a3172488eb48bcb08582860a5ada34": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_8f62d17628da44d8bdc2ad1abec27fbf", "IPY_MODEL_0343f9d1bead463fb4ead13fa31d63da", "IPY_MODEL_3dfac96a48664cbea064018973569afd"], "layout": "IPY_MODEL_09173fc89cbe4fdcb8995717d84ad8b7", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}
+{"state": {"09a7f8b798fd49a8924a233fdc0953b2": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "53f46bf7082a4ed5aefcbebaa470712f": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "38279a7cef63470aa9990ea459198314": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_09a7f8b798fd49a8924a233fdc0953b2", "max": 132.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_53f46bf7082a4ed5aefcbebaa470712f", "tabbable": null, "tooltip": null, "value": 132.0}}, "b4eb370760554fad88275162b0967107": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d28fd01ee4ec4899bd1c545bc197aaca": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "0b27a309f94a4ad6a8f2eeddb00b7e1b": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_b4eb370760554fad88275162b0967107", "placeholder": "\u200b", "style": "IPY_MODEL_d28fd01ee4ec4899bd1c545bc197aaca", "tabbable": null, "tooltip": null, "value": "Saving\u2007the\u2007dataset\u2007(1/1\u2007shards):\u2007100%"}}, "8bd4dc8bbe6e488bb94b5ed3fdcf6bd0": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "70ecb58ac15a49caaf871368a231c565": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "d75c45622a02490cb7def6516a4e2f0d": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_8bd4dc8bbe6e488bb94b5ed3fdcf6bd0", "placeholder": "\u200b", "style": "IPY_MODEL_70ecb58ac15a49caaf871368a231c565", "tabbable": null, "tooltip": null, "value": "\u2007132/132\u2007[00:00&lt;00:00,\u200710607.51\u2007examples/s]"}}, "85a34c8b182d43a78a6af0ed8242418b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d7336293d90a46d8b4c9c9b974cfc7c7": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_0b27a309f94a4ad6a8f2eeddb00b7e1b", "IPY_MODEL_38279a7cef63470aa9990ea459198314", "IPY_MODEL_d75c45622a02490cb7def6516a4e2f0d"], "layout": "IPY_MODEL_85a34c8b182d43a78a6af0ed8242418b", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}
 </script></section>
 </section>
  
