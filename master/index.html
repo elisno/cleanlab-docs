@@ -13,11 +13,11 @@
             gtag('config', 'G-EV8RVEFX82');
             
         </script>
-    <meta property="og:title" content="Cleanlab Open-Source Documentation" />
+    <meta property="og:title" content="Open-Source Documentation | Cleanlab" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://docs.cleanlab.ai/master/index.html" />
 <meta property="og:site_name" content="cleanlab" />
-<meta property="og:description" content="Get started, learn about capabilities, and follow tutorials to improve your own Data and Models." />
+<meta property="og:description" content="Get started with Cleanlab Open-Source, learn about capabilities, and follow tutorials to improve your own Data and Models." />
 <meta property="og:image" content="https://raw.githubusercontent.com/cleanlab/assets/master/cleanlab/clos-preview-card.png" />
 <meta property="og:image:alt" content="cleanlab" />
 <meta name="description" content="cleanlab automatically detects data and label issues in your ML datasets. This helps you improve your data and train reliable ML models on noisy real-world datasets. cleanlab has already found thou..." />
@@ -204,6 +204,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorials/datalab/workflows.html">Miscellaneous workflows with Datalab</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/improving_ml_performance.html">Improving ML Performance</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/clean_learning/index.html">CleanLearning Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of CleanLearning Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/clean_learning/text.html">Text Classification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/clean_learning/tabular.html">Tabular Classification (Numeric/Categorical)</a></li>
@@ -305,7 +306,6 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/models/index.html">models</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle navigation of models</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="cleanlab/models/keras.html">keras</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cleanlab/models/fasttext.html">fasttext</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle navigation of experimental</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -380,6 +380,15 @@
                 class="reference internal"
                 href="/cleanlab-docs/master/"
                 >developer</a
+            >
+        </li>
+        
+        <li class="toctree-l1">
+            <a
+                id="v2.6.6"
+                class="reference internal"
+                href="/cleanlab-docs/v2.6.6/"
+                >v2.6.6</a
             >
         </li>
         
@@ -656,14 +665,14 @@
 </section>
 <section id="handle-label-errors-and-train-robust-models-with-noisy-labels">
 <h2>3. Handle label errors and train robust models with noisy labels<a class="headerlink" href="#handle-label-errors-and-train-robust-models-with-noisy-labels" title="Permalink to this heading">#</a></h2>
-<p>Mislabeled data is a particularly concerning issue plaguing real-world datasets. To use a scikit-learn-compatible model for classification with noisy labels, you don’t need to train a model to find label issues – you can pass the untrained model object, data, and labels into <a class="reference internal" href="cleanlab/classification.html#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.find_label_issues</span></code></a> and cleanlab will handle model training for you.</p>
+<p>Mislabeled data is a particularly concerning issue plaguing real-world datasets. To use a scikit-learn-compatible model for classification with noisy labels, you don’t need to train a model to find label issues – you can pass the untrained model object, data, and labels into <a class="reference internal" href="cleanlab/classification.html#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CleanLearning.find_label_issues</span></code></a> and cleanlab will handle model training for you.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab.classification</span> <span class="kn">import</span> <span class="n">CleanLearning</span>
 
 <span class="c1"># This works with any sklearn-compatible model - just input data + labels and cleanlab will detect label issues ツ</span>
 <span class="n">label_issues_info</span> <span class="o">=</span> <span class="n">CleanLearning</span><span class="p">(</span><span class="n">clf</span><span class="o">=</span><span class="n">sklearn_compatible_model</span><span class="p">)</span><span class="o">.</span><span class="n">find_label_issues</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="cleanlab/classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> also works with models from most standard ML frameworks by wrapping the model for scikit-learn compliance, e.g. <a class="reference external" href="tutorials/text.ipynb">tensorflow/keras</a> (using our KerasWrapperModel), <a class="reference external" href="tutorials/image.ipynb">pytorch</a> (using skorch package), etc.</p>
+<p><a class="reference internal" href="cleanlab/classification.html#cleanlab.classification.CleanLearning" title="cleanlab.classification.CleanLearning"><code class="xref py py-class docutils literal notranslate"><span class="pre">CleanLearning</span></code></a> also works with models from most standard ML frameworks by wrapping the model for scikit-learn compliance, e.g. pytorch (can use <a class="reference external" href="https://github.com/skorch-dev/skorch">skorch</a> package), tensorflow/keras (can use our <a href="#id1"><span class="problematic" id="id2">:py:class:`KerasWrapperModel &lt;cleanlab/models/keras&gt;`_</span></a>), etc.</p>
 <p><a class="reference internal" href="cleanlab/classification.html#cleanlab.classification.CleanLearning.find_label_issues" title="cleanlab.classification.CleanLearning.find_label_issues"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_label_issues</span></code></a> returns a boolean mask flagging which examples have label issues and a numeric label quality score for each example quantifying our confidence that its label is correct.</p>
 <p>Beyond standard classification tasks, cleanlab can also detect mislabeled examples in: <a class="reference internal" href="tutorials/multilabel_classification.html"><span class="doc">multi-label data</span></a> (e.g. image/document tagging), <a class="reference internal" href="tutorials/token_classification.html"><span class="doc">sequence prediction</span></a> (e.g. entity recognition), and <a class="reference internal" href="tutorials/multiannotator.html"><span class="doc">data labeled by multiple annotators</span></a> (e.g. crowdsourcing).</p>
 <div class="admonition important">

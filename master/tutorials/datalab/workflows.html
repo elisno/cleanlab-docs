@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/cleanlab/assets/master/cleanlab/clos-preview-card.png" />
 <meta property="og:image:alt" content="cleanlab" />
 <meta name="description" content="This tutorial demonstrates various useful things you can do with Datalab that may not be covered in other tutorials. First get familiar with Datalab via the quickstart/ advanced tutorials before go..." />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="CleanLearning Tutorials" href="../clean_learning/index.html" /><link rel="prev" title="Datalab Issue Types" href="../../cleanlab/datalab/guide/issue_type_description.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Improving ML Performance via Data Curation with Train vs Test Splits" href="../improving_ml_performance.html" /><link rel="prev" title="Datalab Issue Types" href="../../cleanlab/datalab/guide/issue_type_description.html" />
 
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/cleanlab/assets/a4483476d449f2f05a4c7cde329e72358099cc07/cleanlab/cleanlab_favicon.svg"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>Miscellaneous workflows with Datalab - cleanlab</title>
@@ -205,6 +205,7 @@
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Miscellaneous workflows with Datalab</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../improving_ml_performance.html">Improving ML Performance</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../clean_learning/index.html">CleanLearning Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of CleanLearning Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../clean_learning/text.html">Text Classification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../clean_learning/tabular.html">Tabular Classification (Numeric/Categorical)</a></li>
@@ -306,7 +307,6 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../cleanlab/models/index.html">models</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle navigation of models</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../cleanlab/models/keras.html">keras</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../cleanlab/models/fasttext.html">fasttext</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle navigation of experimental</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -381,6 +381,15 @@
                 class="reference internal"
                 href="/cleanlab-docs/master/"
                 >developer</a
+            >
+        </li>
+        
+        <li class="toctree-l1">
+            <a
+                id="v2.6.6"
+                class="reference internal"
+                href="/cleanlab-docs/v2.6.6/"
+                >v2.6.6</a
             >
         </li>
         
@@ -764,8 +773,8 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;5000x5000 sparse matrix of type &#39;&lt;class &#39;numpy.float32&#39;&gt;&#39;
-        with 50000 stored elements in Compressed Sparse Row format&gt;
+&lt;Compressed Sparse Row sparse matrix of dtype &#39;float32&#39;
+        with 50000 stored elements and shape (5000, 5000)&gt;
 </pre></div></div>
 </div>
 </section>
@@ -814,15 +823,6 @@
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/runner/work/cleanlab/cleanlab/cleanlab/datalab/internal/issue_finder.py:116: UserWarning: Both `features` and `knn_graph` were provided. Most issue managers will likely prefer using `knn_graph` instead of `features` for efficiency.
-  warnings.warn(
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Finding null issues ...
@@ -834,15 +834,6 @@ Finding class_imbalance issues ...
 Finding underperforming_group issues ...
 
 Audit complete. 523 issues found in the dataset.
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/sklearn/neighbors/_base.py:246: EfficiencyWarning: Precomputed sparse input was not sorted by row values. Use the function sklearn.neighbors.sort_graph_by_row_values to sort the input by row values, with warn_when_not_sorted=False to remove this warning.
-  warnings.warn(
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1314,7 +1305,7 @@ Audit complete. 523 issues found in the dataset.
 <div class="highlight"><pre>
 Finding data_valuation issues ...
 
-Audit complete. 0 issues found in the dataset.
+Audit complete. 147 issues found in the dataset.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1347,12 +1338,12 @@ Audit complete. 0 issues found in the dataset.
     <tr>
       <th>0</th>
       <td>False</td>
-      <td>0.500140</td>
+      <td>0.500047</td>
     </tr>
     <tr>
       <th>1</th>
       <td>False</td>
-      <td>0.500233</td>
+      <td>0.500093</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1362,12 +1353,12 @@ Audit complete. 0 issues found in the dataset.
     <tr>
       <th>3</th>
       <td>False</td>
-      <td>0.500186</td>
+      <td>0.500047</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>False</td>
-      <td>0.500140</td>
+      <td>True</td>
+      <td>0.499953</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1377,22 +1368,22 @@ Audit complete. 0 issues found in the dataset.
     <tr>
       <th>1068</th>
       <td>False</td>
-      <td>0.500047</td>
+      <td>0.500000</td>
     </tr>
     <tr>
       <th>1069</th>
       <td>False</td>
-      <td>0.500047</td>
+      <td>0.500000</td>
     </tr>
     <tr>
       <th>1070</th>
       <td>False</td>
-      <td>0.500140</td>
+      <td>0.500047</td>
     </tr>
     <tr>
       <th>1071</th>
       <td>False</td>
-      <td>0.500373</td>
+      <td>0.500000</td>
     </tr>
     <tr>
       <th>1072</th>
@@ -1407,7 +1398,9 @@ Audit complete. 0 issues found in the dataset.
 </section>
 <section id="4.-(Optional)-Visualize-Data-Valuation-Scores">
 <h3>4. (Optional) Visualize Data Valuation Scores<a class="headerlink" href="#4.-(Optional)-Visualize-Data-Valuation-Scores" title="Permalink to this heading">#</a></h3>
-<p>Finally, we will visualize the data valuation scores using a histogram to understand the distribution of scores across different labels.</p>
+<p>Let’s visualize the data valuation scores across our dataset.</p>
+<p>Cleanlab’s Shapely scores are transformed to lie between 0 and 1 such that: a score below 0.5 indicates a negative contribution to the model’s training performance, while a score above 0.5 indicates a positive contribution.</p>
+<p>By examining the scores across different classes, we can identify whether positive or negative contributions are disproportionately concentrated in a single class. This can help detect biases in the training data.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -1415,29 +1408,28 @@ Audit complete. 0 issues found in the dataset.
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="c1"># Prepare the data for plotting a histogram</span>
+<span class="c1"># Prepare the data for plotting</span>
 <span class="n">plot_data</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">data_valuation_issues</span>
     <span class="c1"># Optionally, add a &#39;given_label&#39; column to distinguish between labels in the histogram</span>
     <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;given_label&quot;</span><span class="p">:</span> <span class="n">df_text</span><span class="p">[</span><span class="s2">&quot;Label&quot;</span><span class="p">]}))</span>
 <span class="p">)</span>
 
-<span class="c1"># Plot histograms of data valuation scores for each label</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span>
+<span class="c1"># Plot strip plots of data valuation scores for each label</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">stripplot</span><span class="p">(</span>
     <span class="n">data</span><span class="o">=</span><span class="n">plot_data</span><span class="p">,</span>
-    <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;given_label&quot;</span><span class="p">,</span>  <span class="c1"># Comment out if no labels should be used in the visualization</span>
     <span class="n">x</span><span class="o">=</span><span class="s2">&quot;data_valuation_score&quot;</span><span class="p">,</span>
-    <span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
-    <span class="n">element</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span>
-    <span class="n">multiple</span><span class="o">=</span><span class="s2">&quot;stack&quot;</span><span class="p">,</span>  <span class="c1"># Stack histograms for different labels</span>
+    <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;given_label&quot;</span><span class="p">,</span>  <span class="c1"># Comment out if no labels should be used in the visualization</span>
+    <span class="n">dodge</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">jitter</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="c1"># Set y-axis to a logarithmic scale for better visualization of wide-ranging counts</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Data Valuation Scores by Label&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">lab</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;data_valuation&quot;</span><span class="p">][</span><span class="s2">&quot;threshold&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Issue Threshold&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Strip plot of Data Valuation Scores by Label&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Data Valuation Score&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Count (log scale)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1449,7 +1441,7 @@ Audit complete. 0 issues found in the dataset.
 <img alt="../../_images/tutorials_datalab_workflows_19_0.png" src="../../_images/tutorials_datalab_workflows_19_0.png" />
 </div>
 </div>
-<p>Learn more about the data valuation issue type <a class="reference external" href="issue_type_description.html#data-valuation-issue">here</a>.</p>
+<p>Learn more about the data valuation issue type in the <a class="reference external" href="../../cleanlab/datalab/guide/issue_type_description.html#data-valuation-issue">Issue Type Guide</a>.</p>
 </section>
 </section>
 <section id="Find-Underperforming-Groups-in-a-Dataset">
@@ -1602,77 +1594,77 @@ Audit complete. 11 issues found in the dataset.
     <tr>
       <th>3</th>
       <td>True</td>
-      <td>0.270508</td>
-      <td>1</td>
+      <td>0.328308</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>6</th>
       <td>True</td>
-      <td>0.270508</td>
+      <td>0.328308</td>
       <td>1</td>
       <td>0</td>
     </tr>
     <tr>
       <th>7</th>
       <td>True</td>
-      <td>0.270508</td>
-      <td>1</td>
+      <td>0.328308</td>
+      <td>0</td>
       <td>0</td>
     </tr>
     <tr>
       <th>8</th>
       <td>True</td>
-      <td>0.270508</td>
+      <td>0.328308</td>
       <td>1</td>
       <td>0</td>
     </tr>
     <tr>
       <th>13</th>
       <td>True</td>
-      <td>0.270508</td>
-      <td>0</td>
+      <td>0.328308</td>
+      <td>1</td>
       <td>0</td>
     </tr>
     <tr>
       <th>14</th>
       <td>True</td>
-      <td>0.270508</td>
-      <td>0</td>
+      <td>0.328308</td>
       <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>15</th>
       <td>True</td>
-      <td>0.270508</td>
+      <td>0.328308</td>
       <td>1</td>
       <td>0</td>
     </tr>
     <tr>
       <th>21</th>
       <td>True</td>
-      <td>0.270508</td>
-      <td>0</td>
+      <td>0.328308</td>
       <td>1</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>22</th>
       <td>True</td>
-      <td>0.270508</td>
+      <td>0.328308</td>
       <td>1</td>
       <td>0</td>
     </tr>
     <tr>
       <th>28</th>
       <td>True</td>
-      <td>0.270508</td>
-      <td>1</td>
+      <td>0.328308</td>
       <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>31</th>
       <td>True</td>
-      <td>0.270508</td>
+      <td>0.328308</td>
       <td>0</td>
       <td>1</td>
     </tr>
@@ -1716,7 +1708,7 @@ Audit complete. 11 issues found in the dataset.
 <img alt="../../_images/tutorials_datalab_workflows_31_0.png" src="../../_images/tutorials_datalab_workflows_31_0.png" />
 </div>
 </div>
-<p>Learn more about the underperforming group issue type <a class="reference external" href="issue_type_description.html#underperforming-group-issue">here</a>.</p>
+<p>Learn more about the underperforming group issue type in the <a class="reference external" href="../../cleanlab/datalab/guide/issue_type_description.html#underperforming-group-issue">Issue Type Guide</a>.</p>
 </section>
 </section>
 <section id="Predefining-Data-Slices-for-Detecting-Underperforming-Groups">
@@ -2475,7 +2467,7 @@ Audit complete. 1 issues found in the dataset.
 p-value: 0.0
 </pre></div></div>
 </div>
-<p>Learn more about the non-iid issue type <a class="reference external" href="issue_type_description.html#non-iid-issue">here</a>.</p>
+<p>Learn more about the non-iid issue type in the <a class="reference external" href="../../cleanlab/datalab/guide/issue_type_description.html#non-iid-issue">Issue Type Guide</a>.</p>
 </section>
 </section>
 <section id="Catch-Null-Values-in-a-Dataset">
@@ -3148,229 +3140,229 @@ Audit complete. 1 issues found in the dataset.
 </div>
 <div class="output_area rendered_html docutils container">
 <style type="text/css">
-#T_229bf_row0_col0, #T_229bf_row0_col1, #T_229bf_row0_col2, #T_229bf_row0_col3, #T_229bf_row0_col4, #T_229bf_row0_col5, #T_229bf_row1_col0, #T_229bf_row1_col5, #T_229bf_row2_col0, #T_229bf_row2_col5, #T_229bf_row3_col0, #T_229bf_row3_col5, #T_229bf_row4_col0, #T_229bf_row5_col0 {
+#T_022b5_row0_col0, #T_022b5_row0_col1, #T_022b5_row0_col2, #T_022b5_row0_col3, #T_022b5_row0_col4, #T_022b5_row0_col5, #T_022b5_row1_col0, #T_022b5_row1_col5, #T_022b5_row2_col0, #T_022b5_row2_col5, #T_022b5_row3_col0, #T_022b5_row3_col5, #T_022b5_row4_col0, #T_022b5_row5_col0 {
   background-color: yellow;
 }
-#T_229bf_row0_col7 {
+#T_022b5_row0_col7 {
   background-color: lightblue;
   background-color: orange;
 }
-#T_229bf_row0_col8, #T_229bf_row1_col7, #T_229bf_row1_col8, #T_229bf_row2_col7, #T_229bf_row2_col8, #T_229bf_row3_col7, #T_229bf_row3_col8, #T_229bf_row4_col7, #T_229bf_row4_col8, #T_229bf_row5_col7, #T_229bf_row5_col8, #T_229bf_row6_col7, #T_229bf_row6_col8, #T_229bf_row7_col7, #T_229bf_row7_col8, #T_229bf_row8_col7, #T_229bf_row8_col8, #T_229bf_row9_col7, #T_229bf_row9_col8, #T_229bf_row10_col7, #T_229bf_row10_col8, #T_229bf_row11_col7, #T_229bf_row11_col8, #T_229bf_row12_col7, #T_229bf_row12_col8, #T_229bf_row13_col7, #T_229bf_row13_col8, #T_229bf_row14_col7, #T_229bf_row14_col8, #T_229bf_row15_col7, #T_229bf_row15_col8 {
+#T_022b5_row0_col8, #T_022b5_row1_col7, #T_022b5_row1_col8, #T_022b5_row2_col7, #T_022b5_row2_col8, #T_022b5_row3_col7, #T_022b5_row3_col8, #T_022b5_row4_col7, #T_022b5_row4_col8, #T_022b5_row5_col7, #T_022b5_row5_col8, #T_022b5_row6_col7, #T_022b5_row6_col8, #T_022b5_row7_col7, #T_022b5_row7_col8, #T_022b5_row8_col7, #T_022b5_row8_col8, #T_022b5_row9_col7, #T_022b5_row9_col8, #T_022b5_row10_col7, #T_022b5_row10_col8, #T_022b5_row11_col7, #T_022b5_row11_col8, #T_022b5_row12_col7, #T_022b5_row12_col8, #T_022b5_row13_col7, #T_022b5_row13_col8, #T_022b5_row14_col7, #T_022b5_row14_col8, #T_022b5_row15_col7, #T_022b5_row15_col8 {
   background-color: lightblue;
 }
 </style>
-<table id="T_229bf">
+<table id="T_022b5">
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_229bf_level0_col0" class="col_heading level0 col0" >Age</th>
-      <th id="T_229bf_level0_col1" class="col_heading level0 col1" >Gender</th>
-      <th id="T_229bf_level0_col2" class="col_heading level0 col2" >Location</th>
-      <th id="T_229bf_level0_col3" class="col_heading level0 col3" >Annual_Spending</th>
-      <th id="T_229bf_level0_col4" class="col_heading level0 col4" >Number_of_Transactions</th>
-      <th id="T_229bf_level0_col5" class="col_heading level0 col5" >Last_Purchase_Date</th>
-      <th id="T_229bf_level0_col6" class="col_heading level0 col6" >|</th>
-      <th id="T_229bf_level0_col7" class="col_heading level0 col7" >is_null_issue</th>
-      <th id="T_229bf_level0_col8" class="col_heading level0 col8" >null_score</th>
+      <th id="T_022b5_level0_col0" class="col_heading level0 col0" >Age</th>
+      <th id="T_022b5_level0_col1" class="col_heading level0 col1" >Gender</th>
+      <th id="T_022b5_level0_col2" class="col_heading level0 col2" >Location</th>
+      <th id="T_022b5_level0_col3" class="col_heading level0 col3" >Annual_Spending</th>
+      <th id="T_022b5_level0_col4" class="col_heading level0 col4" >Number_of_Transactions</th>
+      <th id="T_022b5_level0_col5" class="col_heading level0 col5" >Last_Purchase_Date</th>
+      <th id="T_022b5_level0_col6" class="col_heading level0 col6" >|</th>
+      <th id="T_022b5_level0_col7" class="col_heading level0 col7" >is_null_issue</th>
+      <th id="T_022b5_level0_col8" class="col_heading level0 col8" >null_score</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_229bf_level0_row0" class="row_heading level0 row0" >8</th>
-      <td id="T_229bf_row0_col0" class="data row0 col0" >nan</td>
-      <td id="T_229bf_row0_col1" class="data row0 col1" >nan</td>
-      <td id="T_229bf_row0_col2" class="data row0 col2" >nan</td>
-      <td id="T_229bf_row0_col3" class="data row0 col3" >nan</td>
-      <td id="T_229bf_row0_col4" class="data row0 col4" >nan</td>
-      <td id="T_229bf_row0_col5" class="data row0 col5" >NaT</td>
-      <td id="T_229bf_row0_col6" class="data row0 col6" ></td>
-      <td id="T_229bf_row0_col7" class="data row0 col7" >True</td>
-      <td id="T_229bf_row0_col8" class="data row0 col8" >0.000000</td>
+      <th id="T_022b5_level0_row0" class="row_heading level0 row0" >8</th>
+      <td id="T_022b5_row0_col0" class="data row0 col0" >nan</td>
+      <td id="T_022b5_row0_col1" class="data row0 col1" >nan</td>
+      <td id="T_022b5_row0_col2" class="data row0 col2" >nan</td>
+      <td id="T_022b5_row0_col3" class="data row0 col3" >nan</td>
+      <td id="T_022b5_row0_col4" class="data row0 col4" >nan</td>
+      <td id="T_022b5_row0_col5" class="data row0 col5" >NaT</td>
+      <td id="T_022b5_row0_col6" class="data row0 col6" ></td>
+      <td id="T_022b5_row0_col7" class="data row0 col7" >True</td>
+      <td id="T_022b5_row0_col8" class="data row0 col8" >0.000000</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row1" class="row_heading level0 row1" >1</th>
-      <td id="T_229bf_row1_col0" class="data row1 col0" >nan</td>
-      <td id="T_229bf_row1_col1" class="data row1 col1" >Female</td>
-      <td id="T_229bf_row1_col2" class="data row1 col2" >Rural</td>
-      <td id="T_229bf_row1_col3" class="data row1 col3" >6421.160000</td>
-      <td id="T_229bf_row1_col4" class="data row1 col4" >5.000000</td>
-      <td id="T_229bf_row1_col5" class="data row1 col5" >NaT</td>
-      <td id="T_229bf_row1_col6" class="data row1 col6" ></td>
-      <td id="T_229bf_row1_col7" class="data row1 col7" >False</td>
-      <td id="T_229bf_row1_col8" class="data row1 col8" >0.666667</td>
+      <th id="T_022b5_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_022b5_row1_col0" class="data row1 col0" >nan</td>
+      <td id="T_022b5_row1_col1" class="data row1 col1" >Female</td>
+      <td id="T_022b5_row1_col2" class="data row1 col2" >Rural</td>
+      <td id="T_022b5_row1_col3" class="data row1 col3" >6421.160000</td>
+      <td id="T_022b5_row1_col4" class="data row1 col4" >5.000000</td>
+      <td id="T_022b5_row1_col5" class="data row1 col5" >NaT</td>
+      <td id="T_022b5_row1_col6" class="data row1 col6" ></td>
+      <td id="T_022b5_row1_col7" class="data row1 col7" >False</td>
+      <td id="T_022b5_row1_col8" class="data row1 col8" >0.666667</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row2" class="row_heading level0 row2" >9</th>
-      <td id="T_229bf_row2_col0" class="data row2 col0" >nan</td>
-      <td id="T_229bf_row2_col1" class="data row2 col1" >Male</td>
-      <td id="T_229bf_row2_col2" class="data row2 col2" >Rural</td>
-      <td id="T_229bf_row2_col3" class="data row2 col3" >4655.820000</td>
-      <td id="T_229bf_row2_col4" class="data row2 col4" >1.000000</td>
-      <td id="T_229bf_row2_col5" class="data row2 col5" >NaT</td>
-      <td id="T_229bf_row2_col6" class="data row2 col6" ></td>
-      <td id="T_229bf_row2_col7" class="data row2 col7" >False</td>
-      <td id="T_229bf_row2_col8" class="data row2 col8" >0.666667</td>
+      <th id="T_022b5_level0_row2" class="row_heading level0 row2" >9</th>
+      <td id="T_022b5_row2_col0" class="data row2 col0" >nan</td>
+      <td id="T_022b5_row2_col1" class="data row2 col1" >Male</td>
+      <td id="T_022b5_row2_col2" class="data row2 col2" >Rural</td>
+      <td id="T_022b5_row2_col3" class="data row2 col3" >4655.820000</td>
+      <td id="T_022b5_row2_col4" class="data row2 col4" >1.000000</td>
+      <td id="T_022b5_row2_col5" class="data row2 col5" >NaT</td>
+      <td id="T_022b5_row2_col6" class="data row2 col6" ></td>
+      <td id="T_022b5_row2_col7" class="data row2 col7" >False</td>
+      <td id="T_022b5_row2_col8" class="data row2 col8" >0.666667</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row3" class="row_heading level0 row3" >14</th>
-      <td id="T_229bf_row3_col0" class="data row3 col0" >nan</td>
-      <td id="T_229bf_row3_col1" class="data row3 col1" >Male</td>
-      <td id="T_229bf_row3_col2" class="data row3 col2" >Rural</td>
-      <td id="T_229bf_row3_col3" class="data row3 col3" >6790.460000</td>
-      <td id="T_229bf_row3_col4" class="data row3 col4" >3.000000</td>
-      <td id="T_229bf_row3_col5" class="data row3 col5" >NaT</td>
-      <td id="T_229bf_row3_col6" class="data row3 col6" ></td>
-      <td id="T_229bf_row3_col7" class="data row3 col7" >False</td>
-      <td id="T_229bf_row3_col8" class="data row3 col8" >0.666667</td>
+      <th id="T_022b5_level0_row3" class="row_heading level0 row3" >14</th>
+      <td id="T_022b5_row3_col0" class="data row3 col0" >nan</td>
+      <td id="T_022b5_row3_col1" class="data row3 col1" >Male</td>
+      <td id="T_022b5_row3_col2" class="data row3 col2" >Rural</td>
+      <td id="T_022b5_row3_col3" class="data row3 col3" >6790.460000</td>
+      <td id="T_022b5_row3_col4" class="data row3 col4" >3.000000</td>
+      <td id="T_022b5_row3_col5" class="data row3 col5" >NaT</td>
+      <td id="T_022b5_row3_col6" class="data row3 col6" ></td>
+      <td id="T_022b5_row3_col7" class="data row3 col7" >False</td>
+      <td id="T_022b5_row3_col8" class="data row3 col8" >0.666667</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row4" class="row_heading level0 row4" >13</th>
-      <td id="T_229bf_row4_col0" class="data row4 col0" >nan</td>
-      <td id="T_229bf_row4_col1" class="data row4 col1" >Male</td>
-      <td id="T_229bf_row4_col2" class="data row4 col2" >Urban</td>
-      <td id="T_229bf_row4_col3" class="data row4 col3" >9167.470000</td>
-      <td id="T_229bf_row4_col4" class="data row4 col4" >4.000000</td>
-      <td id="T_229bf_row4_col5" class="data row4 col5" >2024-01-02 00:00:00</td>
-      <td id="T_229bf_row4_col6" class="data row4 col6" ></td>
-      <td id="T_229bf_row4_col7" class="data row4 col7" >False</td>
-      <td id="T_229bf_row4_col8" class="data row4 col8" >0.833333</td>
+      <th id="T_022b5_level0_row4" class="row_heading level0 row4" >13</th>
+      <td id="T_022b5_row4_col0" class="data row4 col0" >nan</td>
+      <td id="T_022b5_row4_col1" class="data row4 col1" >Male</td>
+      <td id="T_022b5_row4_col2" class="data row4 col2" >Urban</td>
+      <td id="T_022b5_row4_col3" class="data row4 col3" >9167.470000</td>
+      <td id="T_022b5_row4_col4" class="data row4 col4" >4.000000</td>
+      <td id="T_022b5_row4_col5" class="data row4 col5" >2024-01-02 00:00:00</td>
+      <td id="T_022b5_row4_col6" class="data row4 col6" ></td>
+      <td id="T_022b5_row4_col7" class="data row4 col7" >False</td>
+      <td id="T_022b5_row4_col8" class="data row4 col8" >0.833333</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row5" class="row_heading level0 row5" >15</th>
-      <td id="T_229bf_row5_col0" class="data row5 col0" >nan</td>
-      <td id="T_229bf_row5_col1" class="data row5 col1" >Other</td>
-      <td id="T_229bf_row5_col2" class="data row5 col2" >Rural</td>
-      <td id="T_229bf_row5_col3" class="data row5 col3" >5327.960000</td>
-      <td id="T_229bf_row5_col4" class="data row5 col4" >8.000000</td>
-      <td id="T_229bf_row5_col5" class="data row5 col5" >2024-01-03 00:00:00</td>
-      <td id="T_229bf_row5_col6" class="data row5 col6" ></td>
-      <td id="T_229bf_row5_col7" class="data row5 col7" >False</td>
-      <td id="T_229bf_row5_col8" class="data row5 col8" >0.833333</td>
+      <th id="T_022b5_level0_row5" class="row_heading level0 row5" >15</th>
+      <td id="T_022b5_row5_col0" class="data row5 col0" >nan</td>
+      <td id="T_022b5_row5_col1" class="data row5 col1" >Other</td>
+      <td id="T_022b5_row5_col2" class="data row5 col2" >Rural</td>
+      <td id="T_022b5_row5_col3" class="data row5 col3" >5327.960000</td>
+      <td id="T_022b5_row5_col4" class="data row5 col4" >8.000000</td>
+      <td id="T_022b5_row5_col5" class="data row5 col5" >2024-01-03 00:00:00</td>
+      <td id="T_022b5_row5_col6" class="data row5 col6" ></td>
+      <td id="T_022b5_row5_col7" class="data row5 col7" >False</td>
+      <td id="T_022b5_row5_col8" class="data row5 col8" >0.833333</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row6" class="row_heading level0 row6" >0</th>
-      <td id="T_229bf_row6_col0" class="data row6 col0" >56.000000</td>
-      <td id="T_229bf_row6_col1" class="data row6 col1" >Other</td>
-      <td id="T_229bf_row6_col2" class="data row6 col2" >Rural</td>
-      <td id="T_229bf_row6_col3" class="data row6 col3" >4099.620000</td>
-      <td id="T_229bf_row6_col4" class="data row6 col4" >3.000000</td>
-      <td id="T_229bf_row6_col5" class="data row6 col5" >2024-01-03 00:00:00</td>
-      <td id="T_229bf_row6_col6" class="data row6 col6" ></td>
-      <td id="T_229bf_row6_col7" class="data row6 col7" >False</td>
-      <td id="T_229bf_row6_col8" class="data row6 col8" >1.000000</td>
+      <th id="T_022b5_level0_row6" class="row_heading level0 row6" >0</th>
+      <td id="T_022b5_row6_col0" class="data row6 col0" >56.000000</td>
+      <td id="T_022b5_row6_col1" class="data row6 col1" >Other</td>
+      <td id="T_022b5_row6_col2" class="data row6 col2" >Rural</td>
+      <td id="T_022b5_row6_col3" class="data row6 col3" >4099.620000</td>
+      <td id="T_022b5_row6_col4" class="data row6 col4" >3.000000</td>
+      <td id="T_022b5_row6_col5" class="data row6 col5" >2024-01-03 00:00:00</td>
+      <td id="T_022b5_row6_col6" class="data row6 col6" ></td>
+      <td id="T_022b5_row6_col7" class="data row6 col7" >False</td>
+      <td id="T_022b5_row6_col8" class="data row6 col8" >1.000000</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row7" class="row_heading level0 row7" >2</th>
-      <td id="T_229bf_row7_col0" class="data row7 col0" >46.000000</td>
-      <td id="T_229bf_row7_col1" class="data row7 col1" >Male</td>
-      <td id="T_229bf_row7_col2" class="data row7 col2" >Suburban</td>
-      <td id="T_229bf_row7_col3" class="data row7 col3" >5436.550000</td>
-      <td id="T_229bf_row7_col4" class="data row7 col4" >3.000000</td>
-      <td id="T_229bf_row7_col5" class="data row7 col5" >2024-02-26 00:00:00</td>
-      <td id="T_229bf_row7_col6" class="data row7 col6" ></td>
-      <td id="T_229bf_row7_col7" class="data row7 col7" >False</td>
-      <td id="T_229bf_row7_col8" class="data row7 col8" >1.000000</td>
+      <th id="T_022b5_level0_row7" class="row_heading level0 row7" >2</th>
+      <td id="T_022b5_row7_col0" class="data row7 col0" >46.000000</td>
+      <td id="T_022b5_row7_col1" class="data row7 col1" >Male</td>
+      <td id="T_022b5_row7_col2" class="data row7 col2" >Suburban</td>
+      <td id="T_022b5_row7_col3" class="data row7 col3" >5436.550000</td>
+      <td id="T_022b5_row7_col4" class="data row7 col4" >3.000000</td>
+      <td id="T_022b5_row7_col5" class="data row7 col5" >2024-02-26 00:00:00</td>
+      <td id="T_022b5_row7_col6" class="data row7 col6" ></td>
+      <td id="T_022b5_row7_col7" class="data row7 col7" >False</td>
+      <td id="T_022b5_row7_col8" class="data row7 col8" >1.000000</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row8" class="row_heading level0 row8" >3</th>
-      <td id="T_229bf_row8_col0" class="data row8 col0" >32.000000</td>
-      <td id="T_229bf_row8_col1" class="data row8 col1" >Female</td>
-      <td id="T_229bf_row8_col2" class="data row8 col2" >Rural</td>
-      <td id="T_229bf_row8_col3" class="data row8 col3" >4046.660000</td>
-      <td id="T_229bf_row8_col4" class="data row8 col4" >3.000000</td>
-      <td id="T_229bf_row8_col5" class="data row8 col5" >2024-03-23 00:00:00</td>
-      <td id="T_229bf_row8_col6" class="data row8 col6" ></td>
-      <td id="T_229bf_row8_col7" class="data row8 col7" >False</td>
-      <td id="T_229bf_row8_col8" class="data row8 col8" >1.000000</td>
+      <th id="T_022b5_level0_row8" class="row_heading level0 row8" >3</th>
+      <td id="T_022b5_row8_col0" class="data row8 col0" >32.000000</td>
+      <td id="T_022b5_row8_col1" class="data row8 col1" >Female</td>
+      <td id="T_022b5_row8_col2" class="data row8 col2" >Rural</td>
+      <td id="T_022b5_row8_col3" class="data row8 col3" >4046.660000</td>
+      <td id="T_022b5_row8_col4" class="data row8 col4" >3.000000</td>
+      <td id="T_022b5_row8_col5" class="data row8 col5" >2024-03-23 00:00:00</td>
+      <td id="T_022b5_row8_col6" class="data row8 col6" ></td>
+      <td id="T_022b5_row8_col7" class="data row8 col7" >False</td>
+      <td id="T_022b5_row8_col8" class="data row8 col8" >1.000000</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row9" class="row_heading level0 row9" >4</th>
-      <td id="T_229bf_row9_col0" class="data row9 col0" >60.000000</td>
-      <td id="T_229bf_row9_col1" class="data row9 col1" >Female</td>
-      <td id="T_229bf_row9_col2" class="data row9 col2" >Suburban</td>
-      <td id="T_229bf_row9_col3" class="data row9 col3" >3467.670000</td>
-      <td id="T_229bf_row9_col4" class="data row9 col4" >6.000000</td>
-      <td id="T_229bf_row9_col5" class="data row9 col5" >2024-03-01 00:00:00</td>
-      <td id="T_229bf_row9_col6" class="data row9 col6" ></td>
-      <td id="T_229bf_row9_col7" class="data row9 col7" >False</td>
-      <td id="T_229bf_row9_col8" class="data row9 col8" >1.000000</td>
+      <th id="T_022b5_level0_row9" class="row_heading level0 row9" >4</th>
+      <td id="T_022b5_row9_col0" class="data row9 col0" >60.000000</td>
+      <td id="T_022b5_row9_col1" class="data row9 col1" >Female</td>
+      <td id="T_022b5_row9_col2" class="data row9 col2" >Suburban</td>
+      <td id="T_022b5_row9_col3" class="data row9 col3" >3467.670000</td>
+      <td id="T_022b5_row9_col4" class="data row9 col4" >6.000000</td>
+      <td id="T_022b5_row9_col5" class="data row9 col5" >2024-03-01 00:00:00</td>
+      <td id="T_022b5_row9_col6" class="data row9 col6" ></td>
+      <td id="T_022b5_row9_col7" class="data row9 col7" >False</td>
+      <td id="T_022b5_row9_col8" class="data row9 col8" >1.000000</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row10" class="row_heading level0 row10" >5</th>
-      <td id="T_229bf_row10_col0" class="data row10 col0" >25.000000</td>
-      <td id="T_229bf_row10_col1" class="data row10 col1" >Female</td>
-      <td id="T_229bf_row10_col2" class="data row10 col2" >Suburban</td>
-      <td id="T_229bf_row10_col3" class="data row10 col3" >4757.370000</td>
-      <td id="T_229bf_row10_col4" class="data row10 col4" >4.000000</td>
-      <td id="T_229bf_row10_col5" class="data row10 col5" >2024-01-03 00:00:00</td>
-      <td id="T_229bf_row10_col6" class="data row10 col6" ></td>
-      <td id="T_229bf_row10_col7" class="data row10 col7" >False</td>
-      <td id="T_229bf_row10_col8" class="data row10 col8" >1.000000</td>
+      <th id="T_022b5_level0_row10" class="row_heading level0 row10" >5</th>
+      <td id="T_022b5_row10_col0" class="data row10 col0" >25.000000</td>
+      <td id="T_022b5_row10_col1" class="data row10 col1" >Female</td>
+      <td id="T_022b5_row10_col2" class="data row10 col2" >Suburban</td>
+      <td id="T_022b5_row10_col3" class="data row10 col3" >4757.370000</td>
+      <td id="T_022b5_row10_col4" class="data row10 col4" >4.000000</td>
+      <td id="T_022b5_row10_col5" class="data row10 col5" >2024-01-03 00:00:00</td>
+      <td id="T_022b5_row10_col6" class="data row10 col6" ></td>
+      <td id="T_022b5_row10_col7" class="data row10 col7" >False</td>
+      <td id="T_022b5_row10_col8" class="data row10 col8" >1.000000</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row11" class="row_heading level0 row11" >6</th>
-      <td id="T_229bf_row11_col0" class="data row11 col0" >38.000000</td>
-      <td id="T_229bf_row11_col1" class="data row11 col1" >Female</td>
-      <td id="T_229bf_row11_col2" class="data row11 col2" >Rural</td>
-      <td id="T_229bf_row11_col3" class="data row11 col3" >4199.530000</td>
-      <td id="T_229bf_row11_col4" class="data row11 col4" >6.000000</td>
-      <td id="T_229bf_row11_col5" class="data row11 col5" >2024-01-03 00:00:00</td>
-      <td id="T_229bf_row11_col6" class="data row11 col6" ></td>
-      <td id="T_229bf_row11_col7" class="data row11 col7" >False</td>
-      <td id="T_229bf_row11_col8" class="data row11 col8" >1.000000</td>
+      <th id="T_022b5_level0_row11" class="row_heading level0 row11" >6</th>
+      <td id="T_022b5_row11_col0" class="data row11 col0" >38.000000</td>
+      <td id="T_022b5_row11_col1" class="data row11 col1" >Female</td>
+      <td id="T_022b5_row11_col2" class="data row11 col2" >Rural</td>
+      <td id="T_022b5_row11_col3" class="data row11 col3" >4199.530000</td>
+      <td id="T_022b5_row11_col4" class="data row11 col4" >6.000000</td>
+      <td id="T_022b5_row11_col5" class="data row11 col5" >2024-01-03 00:00:00</td>
+      <td id="T_022b5_row11_col6" class="data row11 col6" ></td>
+      <td id="T_022b5_row11_col7" class="data row11 col7" >False</td>
+      <td id="T_022b5_row11_col8" class="data row11 col8" >1.000000</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row12" class="row_heading level0 row12" >7</th>
-      <td id="T_229bf_row12_col0" class="data row12 col0" >56.000000</td>
-      <td id="T_229bf_row12_col1" class="data row12 col1" >Male</td>
-      <td id="T_229bf_row12_col2" class="data row12 col2" >Suburban</td>
-      <td id="T_229bf_row12_col3" class="data row12 col3" >4991.710000</td>
-      <td id="T_229bf_row12_col4" class="data row12 col4" >6.000000</td>
-      <td id="T_229bf_row12_col5" class="data row12 col5" >2024-04-03 00:00:00</td>
-      <td id="T_229bf_row12_col6" class="data row12 col6" ></td>
-      <td id="T_229bf_row12_col7" class="data row12 col7" >False</td>
-      <td id="T_229bf_row12_col8" class="data row12 col8" >1.000000</td>
+      <th id="T_022b5_level0_row12" class="row_heading level0 row12" >7</th>
+      <td id="T_022b5_row12_col0" class="data row12 col0" >56.000000</td>
+      <td id="T_022b5_row12_col1" class="data row12 col1" >Male</td>
+      <td id="T_022b5_row12_col2" class="data row12 col2" >Suburban</td>
+      <td id="T_022b5_row12_col3" class="data row12 col3" >4991.710000</td>
+      <td id="T_022b5_row12_col4" class="data row12 col4" >6.000000</td>
+      <td id="T_022b5_row12_col5" class="data row12 col5" >2024-04-03 00:00:00</td>
+      <td id="T_022b5_row12_col6" class="data row12 col6" ></td>
+      <td id="T_022b5_row12_col7" class="data row12 col7" >False</td>
+      <td id="T_022b5_row12_col8" class="data row12 col8" >1.000000</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row13" class="row_heading level0 row13" >10</th>
-      <td id="T_229bf_row13_col0" class="data row13 col0" >40.000000</td>
-      <td id="T_229bf_row13_col1" class="data row13 col1" >Female</td>
-      <td id="T_229bf_row13_col2" class="data row13 col2" >Rural</td>
-      <td id="T_229bf_row13_col3" class="data row13 col3" >5584.020000</td>
-      <td id="T_229bf_row13_col4" class="data row13 col4" >7.000000</td>
-      <td id="T_229bf_row13_col5" class="data row13 col5" >2024-03-29 00:00:00</td>
-      <td id="T_229bf_row13_col6" class="data row13 col6" ></td>
-      <td id="T_229bf_row13_col7" class="data row13 col7" >False</td>
-      <td id="T_229bf_row13_col8" class="data row13 col8" >1.000000</td>
+      <th id="T_022b5_level0_row13" class="row_heading level0 row13" >10</th>
+      <td id="T_022b5_row13_col0" class="data row13 col0" >40.000000</td>
+      <td id="T_022b5_row13_col1" class="data row13 col1" >Female</td>
+      <td id="T_022b5_row13_col2" class="data row13 col2" >Rural</td>
+      <td id="T_022b5_row13_col3" class="data row13 col3" >5584.020000</td>
+      <td id="T_022b5_row13_col4" class="data row13 col4" >7.000000</td>
+      <td id="T_022b5_row13_col5" class="data row13 col5" >2024-03-29 00:00:00</td>
+      <td id="T_022b5_row13_col6" class="data row13 col6" ></td>
+      <td id="T_022b5_row13_col7" class="data row13 col7" >False</td>
+      <td id="T_022b5_row13_col8" class="data row13 col8" >1.000000</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row14" class="row_heading level0 row14" >11</th>
-      <td id="T_229bf_row14_col0" class="data row14 col0" >28.000000</td>
-      <td id="T_229bf_row14_col1" class="data row14 col1" >Female</td>
-      <td id="T_229bf_row14_col2" class="data row14 col2" >Urban</td>
-      <td id="T_229bf_row14_col3" class="data row14 col3" >3102.320000</td>
-      <td id="T_229bf_row14_col4" class="data row14 col4" >2.000000</td>
-      <td id="T_229bf_row14_col5" class="data row14 col5" >2024-04-07 00:00:00</td>
-      <td id="T_229bf_row14_col6" class="data row14 col6" ></td>
-      <td id="T_229bf_row14_col7" class="data row14 col7" >False</td>
-      <td id="T_229bf_row14_col8" class="data row14 col8" >1.000000</td>
+      <th id="T_022b5_level0_row14" class="row_heading level0 row14" >11</th>
+      <td id="T_022b5_row14_col0" class="data row14 col0" >28.000000</td>
+      <td id="T_022b5_row14_col1" class="data row14 col1" >Female</td>
+      <td id="T_022b5_row14_col2" class="data row14 col2" >Urban</td>
+      <td id="T_022b5_row14_col3" class="data row14 col3" >3102.320000</td>
+      <td id="T_022b5_row14_col4" class="data row14 col4" >2.000000</td>
+      <td id="T_022b5_row14_col5" class="data row14 col5" >2024-04-07 00:00:00</td>
+      <td id="T_022b5_row14_col6" class="data row14 col6" ></td>
+      <td id="T_022b5_row14_col7" class="data row14 col7" >False</td>
+      <td id="T_022b5_row14_col8" class="data row14 col8" >1.000000</td>
     </tr>
     <tr>
-      <th id="T_229bf_level0_row15" class="row_heading level0 row15" >12</th>
-      <td id="T_229bf_row15_col0" class="data row15 col0" >28.000000</td>
-      <td id="T_229bf_row15_col1" class="data row15 col1" >Male</td>
-      <td id="T_229bf_row15_col2" class="data row15 col2" >Rural</td>
-      <td id="T_229bf_row15_col3" class="data row15 col3" >6637.990000</td>
-      <td id="T_229bf_row15_col4" class="data row15 col4" >11.000000</td>
-      <td id="T_229bf_row15_col5" class="data row15 col5" >2024-04-08 00:00:00</td>
-      <td id="T_229bf_row15_col6" class="data row15 col6" ></td>
-      <td id="T_229bf_row15_col7" class="data row15 col7" >False</td>
-      <td id="T_229bf_row15_col8" class="data row15 col8" >1.000000</td>
+      <th id="T_022b5_level0_row15" class="row_heading level0 row15" >12</th>
+      <td id="T_022b5_row15_col0" class="data row15 col0" >28.000000</td>
+      <td id="T_022b5_row15_col1" class="data row15 col1" >Male</td>
+      <td id="T_022b5_row15_col2" class="data row15 col2" >Rural</td>
+      <td id="T_022b5_row15_col3" class="data row15 col3" >6637.990000</td>
+      <td id="T_022b5_row15_col4" class="data row15 col4" >11.000000</td>
+      <td id="T_022b5_row15_col5" class="data row15 col5" >2024-04-08 00:00:00</td>
+      <td id="T_022b5_row15_col6" class="data row15 col6" ></td>
+      <td id="T_022b5_row15_col7" class="data row15 col7" >False</td>
+      <td id="T_022b5_row15_col8" class="data row15 col8" >1.000000</td>
     </tr>
   </tbody>
 </table></div>
 </div>
-<p>Learn more about the null issue type <a class="reference external" href="issue_type_description.html#null-issue">here</a>.</p>
+<p>Learn more about the null issue type in the <a class="reference external" href="../../cleanlab/datalab/guide/issue_type_description.html#null-issue">Issue Type Guide</a>.</p>
 </section>
 </section>
 <section id="Detect-class-imbalance-in-your-dataset">
@@ -3481,6 +3473,594 @@ Audit complete. 4 issues found in the dataset.
 </div>
 </section>
 </section>
+<section id="Identify-Spurious-Correlations-in-Image-Datasets">
+<h2>Identify Spurious Correlations in Image Datasets<a class="headerlink" href="#Identify-Spurious-Correlations-in-Image-Datasets" title="Permalink to this heading">#</a></h2>
+<p>This section demonstrates how to detect spurious correlations in image datasets by measuring how strongly individual image properties correlate with class labels. These correlations could lead to unreliable model predictions and poor generalization.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Datalab</span></code> automatically analyzes image-specific attributes such as:</p>
+<ul class="simple">
+<li><p>Darkness</p></li>
+<li><p>Blurriness</p></li>
+<li><p>Aspect ratio anomalies</p></li>
+<li><p>More image-specific features from <a class="reference external" href="https://cleanvision.readthedocs.io/en/latest/tutorials/tutorial.html#What-is-CleanVision?">CleanVision</a></p></li>
+</ul>
+<p>This analysis helps identify unintended biases in datasets and guides steps to enhance the robustness of machine learning models.</p>
+<section id="id8">
+<h3>1. Load the Dataset<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<p>For this tutorial, we’ll use a subset of the CIFAR-10 dataset with artificially introduced biases to illustrate how Datalab detects spurious correlations. We’ll assume you have a directory of images organized into subdirectories by class.</p>
+<p>To fetch the data for this tutorial, make sure you have <code class="docutils literal notranslate"><span class="pre">wget</span></code> and <code class="docutils literal notranslate"><span class="pre">zip</span></code> installed.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download the dataset</span>
+<span class="o">!</span>wget<span class="w"> </span>-nc<span class="w"> </span>https://s.cleanlab.ai/CIFAR-10-subset.zip
+<span class="o">!</span>unzip<span class="w"> </span>-q<span class="w"> </span>CIFAR-10-subset.zip
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--2024-07-31 15:36:41--  https://s.cleanlab.ai/CIFAR-10-subset.zip
+Resolving s.cleanlab.ai (s.cleanlab.ai)... 185.199.111.153, 185.199.110.153, 185.199.109.153, ...
+Connecting to s.cleanlab.ai (s.cleanlab.ai)|185.199.111.153|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 986707 (964K) [application/zip]
+Saving to: ‘CIFAR-10-subset.zip’
+
+CIFAR-10-subset.zip 100%[===================&gt;] 963.58K  --.-KB/s    in 0.02s
+
+2024-07-31 15:36:41 (41.4 MB/s) - ‘CIFAR-10-subset.zip’ saved [986707/986707]
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">torchvision.datasets</span> <span class="kn">import</span> <span class="n">ImageFolder</span>
+
+<span class="k">def</span> <span class="nf">load_image_dataset</span><span class="p">(</span><span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load images from a directory structure and create a datasets.Dataset object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_dir : str</span>
+<span class="sd">        Path to the root directory containing class subdirectories.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    datasets.Dataset</span>
+<span class="sd">        A Dataset object containing &#39;image&#39; and &#39;label&#39; columns.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">image_dataset</span> <span class="o">=</span> <span class="n">ImageFolder</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">img</span> <span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">image_dataset</span><span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">label</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">image_dataset</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="n">images</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">labels</span><span class="p">})</span>
+
+<span class="c1"># Load the dataset</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;CIFAR-10-subset/darkened_images&quot;</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">load_image_dataset</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="2.-Run-Datalab-Analysis">
+<h3>2. Run Datalab Analysis<a class="headerlink" href="#2.-Run-Datalab-Analysis" title="Permalink to this heading">#</a></h3>
+<p>Now that we have loaded our dataset, let’s use <code class="docutils literal notranslate"><span class="pre">Datalab</span></code> to analyze it for potential spurious correlations.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cleanlab</span> <span class="kn">import</span> <span class="n">Datalab</span>
+
+<span class="c1"># Initialize Datalab with the dataset</span>
+<span class="n">lab</span> <span class="o">=</span> <span class="n">Datalab</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span> <span class="n">label_name</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">image_key</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+
+<span class="c1"># Run the analysis</span>
+<span class="n">lab</span><span class="o">.</span><span class="n">find_issues</span><span class="p">()</span>
+
+<span class="c1"># Generate and display the report</span>
+<span class="n">lab</span><span class="o">.</span><span class="n">report</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Finding class_imbalance issues ...
+Finding dark, light, low_information, odd_aspect_ratio, odd_size, grayscale, blurry images ...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "e34b1e209e0547778cbcd4a5680262fa"}</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Removing dark, blurry from potential issues in the dataset as it exceeds max_prevalence=0.1
+
+Audit complete. 0 issues found in the dataset.
+No issues found in the data. Good job!
+
+Try re-running Datalab.report() with `show_summary_score = True` and `show_all_issues = True`.
+
+
+
+Removing dark from potential issues in the dataset as it exceeds max_prevalence=0.1
+Removing blurry from potential issues in the dataset as it exceeds max_prevalence=0.1
+
+
+
+Here is a summary of spurious correlations between image features like &#39;dark_score&#39;, &#39;blurry_score&#39;, etc., and class labels detected in the data.
+
+A lower score for each property implies a higher correlation of that property with the class labels.
+
+
+property  score
+    dark    0.0
+
+Here are the images corresponding to the extreme (minimum and maximum) individual scores for each of the detected correlated properties:
+
+
+Images with minimum and maximum individual scores for dark issue:
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorials_datalab_workflows_82_3.png" src="../../_images/tutorials_datalab_workflows_82_3.png" />
+</div>
+</div>
+</section>
+<section id="3.-Interpret-the-Results">
+<h3>3. Interpret the Results<a class="headerlink" href="#3.-Interpret-the-Results" title="Permalink to this heading">#</a></h3>
+<p>While the <code class="docutils literal notranslate"><span class="pre">lab.report()</span></code> output is comprehensive, we can use more targeted methods to examine the results:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># Get the correlation scores for image properties</span>
+<span class="n">correlation_scores</span> <span class="o">=</span> <span class="n">lab</span><span class="o">.</span><span class="n">_correlations_df</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Correlation scores for image properties:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">correlation_scores</span><span class="p">)</span>
+
+<span class="c1"># Get image-specific issues</span>
+<span class="n">issue_name</span> <span class="o">=</span> <span class="s2">&quot;dark&quot;</span>
+<span class="n">image_issues</span> <span class="o">=</span> <span class="n">lab</span><span class="o">.</span><span class="n">get_issues</span><span class="p">(</span><span class="n">issue_name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Image-specific issues:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">image_issues</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Correlation scores for image properties:
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>property</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>dark_score</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>light_score</td>
+      <td>0.180</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>low_information_score</td>
+      <td>0.015</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>odd_aspect_ratio_score</td>
+      <td>0.500</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>odd_size_score</td>
+      <td>0.500</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>grayscale_score</td>
+      <td>0.500</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>blurry_score</td>
+      <td>0.015</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Image-specific issues:
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>is_dark_issue</th>
+      <th>dark_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>True</td>
+      <td>0.237196</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>True</td>
+      <td>0.197229</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>True</td>
+      <td>0.254188</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>True</td>
+      <td>0.229170</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>True</td>
+      <td>0.208907</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>False</td>
+      <td>0.793840</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>False</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>197</th>
+      <td>False</td>
+      <td>0.971560</td>
+    </tr>
+    <tr>
+      <th>198</th>
+      <td>False</td>
+      <td>0.862236</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>False</td>
+      <td>0.973533</td>
+    </tr>
+  </tbody>
+</table>
+<p>200 rows × 2 columns</p>
+</div></div>
+</div>
+<blockquote>
+<div><p><strong>Important Note</strong>: The <code class="docutils literal notranslate"><span class="pre">_correlations_df</span></code> attribute is an internal implementation detail of Datalab. It may change or be removed in future versions without notice. For production use or if you need stable interfaces, consider using the public methods and attributes provided by Datalab.</p>
+</div></blockquote>
+<p>Interpreting the results:</p>
+<ol class="arabic simple">
+<li><p><strong>Correlation Scores</strong>: The <code class="docutils literal notranslate"><span class="pre">correlation_scores</span></code> DataFrame shows scores for various image properties. Lower scores (closer to 0) indicate stronger correlations with class labels, suggesting potential spurious correlations.</p></li>
+<li><p><strong>Image-Specific Issues</strong>: The <code class="docutils literal notranslate"><span class="pre">image_issues</span></code> DataFrame provides details on detected image-specific problems, including the issue type and affected samples.</p></li>
+</ol>
+<p>In our CIFAR-10 subset example, you should see that the ‘dark’ property has a low score in the correlation_scores, indicating a strong correlation with one of the classes (likely the ‘frog’ class). This is due to our artificial darkening of these images to demonstrate the concept.</p>
+<p>For real-world datasets, pay attention to:</p>
+<ul class="simple">
+<li><p>Properties with notably low scores in the correlation_scores DataFrame</p></li>
+<li><p>Prevalent issues in the image_issues DataFrame</p></li>
+</ul>
+<p>These may represent unintended biases in your data collection or preprocessing steps and warrant further investigation.</p>
+<blockquote>
+<div><p><strong>Note</strong>: Using these methods provides a more programmatic and focused way to analyze the results compared to the verbose output of <code class="docutils literal notranslate"><span class="pre">lab.report()</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="4.-(Optional)-Compare-with-a-Dataset-Without-Spurious-Correlations">
+<h3>4. (Optional) Compare with a Dataset Without Spurious Correlations<a class="headerlink" href="#4.-(Optional)-Compare-with-a-Dataset-Without-Spurious-Correlations" title="Permalink to this heading">#</a></h3>
+<p>To understand the impact of spurious correlations, it can be helpful to compare our results with a dataset that doesn’t have artificially introduced biases. In this case, we’ll use the original CIFAR-10 subset.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the original dataset</span>
+<span class="n">original_data_dir</span> <span class="o">=</span> <span class="s2">&quot;CIFAR-10-subset/original_images&quot;</span>
+<span class="n">original_dataset</span> <span class="o">=</span> <span class="n">load_image_dataset</span><span class="p">(</span><span class="n">original_data_dir</span><span class="p">)</span>
+
+<span class="c1"># Create a new Datalab instance and run analysis</span>
+<span class="n">original_lab</span> <span class="o">=</span> <span class="n">Datalab</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">original_dataset</span><span class="p">,</span> <span class="n">label_name</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">image_key</span><span class="o">=</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+<span class="n">original_lab</span><span class="o">.</span><span class="n">find_issues</span><span class="p">()</span>
+
+<span class="c1"># Compare correlation scores</span>
+<span class="n">original_scores</span> <span class="o">=</span> <span class="n">original_lab</span><span class="o">.</span><span class="n">_correlations_df</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Correlation scores for original dataset:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">original_scores</span><span class="p">)</span>
+
+<span class="c1"># Compare image-specific issues</span>
+<span class="n">original_issues</span> <span class="o">=</span> <span class="n">original_lab</span><span class="o">.</span><span class="n">get_issues</span><span class="p">(</span><span class="s2">&quot;dark&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Image-specific issues in original dataset:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">original_issues</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Finding class_imbalance issues ...
+Finding dark, light, low_information, odd_aspect_ratio, odd_size, grayscale, blurry images ...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "06ad1fc800a144049651e8a3d98c3000"}</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Audit complete. 0 issues found in the dataset.
+Correlation scores for original dataset:
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>property</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>dark_score</td>
+      <td>0.300</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>light_score</td>
+      <td>0.415</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>low_information_score</td>
+      <td>0.325</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>odd_aspect_ratio_score</td>
+      <td>0.500</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>odd_size_score</td>
+      <td>0.500</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>grayscale_score</td>
+      <td>0.500</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>blurry_score</td>
+      <td>0.335</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Image-specific issues in original dataset:
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>is_dark_issue</th>
+      <th>dark_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>False</td>
+      <td>0.797509</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>False</td>
+      <td>0.663760</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>False</td>
+      <td>0.849826</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>False</td>
+      <td>0.773951</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>False</td>
+      <td>0.699518</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>False</td>
+      <td>0.793840</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>False</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>197</th>
+      <td>False</td>
+      <td>0.971560</td>
+    </tr>
+    <tr>
+      <th>198</th>
+      <td>False</td>
+      <td>0.862236</td>
+    </tr>
+    <tr>
+      <th>199</th>
+      <td>False</td>
+      <td>0.973533</td>
+    </tr>
+  </tbody>
+</table>
+<p>200 rows × 2 columns</p>
+</div></div>
+</div>
+<p>When comparing the results:</p>
+<ol class="arabic simple">
+<li><p>Look for differences in the correlation scores, especially for the ‘dark’ property.</p></li>
+<li><p>Compare the number and types of image-specific issues detected.</p></li>
+</ol>
+<p>You should notice that the original dataset has more balanced correlation scores and fewer (or no) issues related to darkness. This comparison highlights how spurious correlations can be detected by <code class="docutils literal notranslate"><span class="pre">Datalab</span></code>.</p>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"77f9fc01ba3d44e88c9576ab3091870f": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "eb77ecf432ba47c98dc93ef27cb49567": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "6e535dd5c4674a799fe610f8e3554986": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_77f9fc01ba3d44e88c9576ab3091870f", "max": 200.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_eb77ecf432ba47c98dc93ef27cb49567", "tabbable": null, "tooltip": null, "value": 200.0}}, "b24453e0538d4fed9daa4079c2d25317": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "abd84d6b75974ef9b963c0da8c68b032": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "559263dd397547bfac22de40b4ebcbe0": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_b24453e0538d4fed9daa4079c2d25317", "placeholder": "\u200b", "style": "IPY_MODEL_abd84d6b75974ef9b963c0da8c68b032", "tabbable": null, "tooltip": null, "value": "100%"}}, "17e2761e211549b59b8e771ecd7ee813": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c73567f961f64bdcb20c0db0e497c1e9": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "56e959f0cb2d497f9b9a66b7e04a4a88": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_17e2761e211549b59b8e771ecd7ee813", "placeholder": "\u200b", "style": "IPY_MODEL_c73567f961f64bdcb20c0db0e497c1e9", "tabbable": null, "tooltip": null, "value": "\u2007200/200\u2007[00:00&lt;00:00,\u2007700.27it/s]"}}, "a22e8f4fea6a4edc992a49c9386367d2": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e34b1e209e0547778cbcd4a5680262fa": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_559263dd397547bfac22de40b4ebcbe0", "IPY_MODEL_6e535dd5c4674a799fe610f8e3554986", "IPY_MODEL_56e959f0cb2d497f9b9a66b7e04a4a88"], "layout": "IPY_MODEL_a22e8f4fea6a4edc992a49c9386367d2", "tabbable": null, "tooltip": null}}, "3fd1f902a9724027b8f6e28cef19b1a7": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "85678b3c294f433595c21103de7bddeb": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "ff193c37c75245f09b4153a10b47b5c5": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_3fd1f902a9724027b8f6e28cef19b1a7", "max": 200.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_85678b3c294f433595c21103de7bddeb", "tabbable": null, "tooltip": null, "value": 200.0}}, "5a7a173a4f04496b82985b1a831162f9": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "69bdce6e03234f79a807b52504415530": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "963a22bee4cb4c75a1aaaa735998eae3": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_5a7a173a4f04496b82985b1a831162f9", "placeholder": "\u200b", "style": "IPY_MODEL_69bdce6e03234f79a807b52504415530", "tabbable": null, "tooltip": null, "value": "100%"}}, "7d75c68298304acb81d69e39351e7b64": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "a7a420c0177e4b56851f0d718612ae2a": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "5eca0cd6eec04b54a1d7d7cac6dd7110": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_7d75c68298304acb81d69e39351e7b64", "placeholder": "\u200b", "style": "IPY_MODEL_a7a420c0177e4b56851f0d718612ae2a", "tabbable": null, "tooltip": null, "value": "\u2007200/200\u2007[00:00&lt;00:00,\u2007678.10it/s]"}}, "c3451c09a374404db4a7d60c9b185aa6": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "06ad1fc800a144049651e8a3d98c3000": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_963a22bee4cb4c75a1aaaa735998eae3", "IPY_MODEL_ff193c37c75245f09b4153a10b47b5c5", "IPY_MODEL_5eca0cd6eec04b54a1d7d7cac6dd7110"], "layout": "IPY_MODEL_c3451c09a374404db4a7d60c9b185aa6", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}
+</script></section>
+</section>
 </section>
  
         </article>
@@ -3488,12 +4068,12 @@ Audit complete. 4 issues found in the dataset.
       <footer>
          
         <div class="related-pages">
-          <a class="next-page" href="../clean_learning/index.html">
+          <a class="next-page" href="../improving_ml_performance.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">CleanLearning Tutorials</div>
+                <div class="title">Improving ML Performance via Data Curation with Train vs Test Splits</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -3610,6 +4190,13 @@ Audit complete. 4 issues found in the dataset.
 <li><a class="reference internal" href="#1.-Prepare-data">1. Prepare data</a></li>
 <li><a class="reference internal" href="#2.-Detect-class-imbalance-with-Datalab">2. Detect class imbalance with Datalab</a></li>
 <li><a class="reference internal" href="#3.-(Optional)-Visualize-class-imbalance-issues">3. (Optional) Visualize class imbalance issues</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Identify-Spurious-Correlations-in-Image-Datasets">Identify Spurious Correlations in Image Datasets</a><ul>
+<li><a class="reference internal" href="#id8">1. Load the Dataset</a></li>
+<li><a class="reference internal" href="#2.-Run-Datalab-Analysis">2. Run Datalab Analysis</a></li>
+<li><a class="reference internal" href="#3.-Interpret-the-Results">3. Interpret the Results</a></li>
+<li><a class="reference internal" href="#4.-(Optional)-Compare-with-a-Dataset-Without-Spurious-Correlations">4. (Optional) Compare with a Dataset Without Spurious Correlations</a></li>
 </ul>
 </li>
 </ul>

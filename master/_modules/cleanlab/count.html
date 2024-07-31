@@ -195,6 +195,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/datalab/workflows.html">Miscellaneous workflows with Datalab</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/improving_ml_performance.html">Improving ML Performance</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/clean_learning/index.html">CleanLearning Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of CleanLearning Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/clean_learning/text.html">Text Classification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorials/clean_learning/tabular.html">Tabular Classification (Numeric/Categorical)</a></li>
@@ -296,7 +297,6 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../cleanlab/models/index.html">models</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle navigation of models</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../cleanlab/models/keras.html">keras</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../cleanlab/models/fasttext.html">fasttext</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle navigation of experimental</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -371,6 +371,15 @@
                 class="reference internal"
                 href="/cleanlab-docs/master/"
                 >developer</a
+            >
+        </li>
+        
+        <li class="toctree-l1">
+            <a
+                id="v2.6.6"
+                class="reference internal"
+                href="/cleanlab-docs/v2.6.6/"
+                >v2.6.6</a
             >
         </li>
         
@@ -1202,6 +1211,7 @@
     <span class="c1"># size num_classes, with True if the example confidently belongs to that class and False if not.</span>
     <span class="n">pred_probs_bool</span> <span class="o">=</span> <span class="n">pred_probs</span> <span class="o">&gt;=</span> <span class="n">thresholds</span> <span class="o">-</span> <span class="mf">1e-6</span>
     <span class="n">num_confident_bins</span> <span class="o">=</span> <span class="n">pred_probs_bool</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># The indices where this is false, are often outliers (not confident of any label)</span>
     <span class="n">at_least_one_confident</span> <span class="o">=</span> <span class="n">num_confident_bins</span> <span class="o">&gt;</span> <span class="mi">0</span>
     <span class="n">more_than_one_confident</span> <span class="o">=</span> <span class="n">num_confident_bins</span> <span class="o">&gt;</span> <span class="mi">1</span>
     <span class="n">pred_probs_argmax</span> <span class="o">=</span> <span class="n">pred_probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -1221,7 +1231,8 @@
         <span class="n">y_true</span><span class="o">=</span><span class="n">true_labels_confident</span><span class="p">,</span>
         <span class="n">y_pred</span><span class="o">=</span><span class="n">labels_confident</span><span class="p">,</span>
         <span class="n">labels</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">pred_probs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># Guarantee at least one correctly labeled example is represented in every class</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="c1"># Guarantee at least one correctly labeled example is represented in every class</span>
     <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">confident_joint</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">calibrate</span><span class="p">:</span>
         <span class="n">confident_joint</span> <span class="o">=</span> <span class="n">calibrate_confident_joint</span><span class="p">(</span><span class="n">confident_joint</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>

@@ -205,6 +205,7 @@
 <li class="toctree-l2"><a class="reference internal" href="datalab/workflows.html">Miscellaneous workflows with Datalab</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="improving_ml_performance.html">Improving ML Performance</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="clean_learning/index.html">CleanLearning Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of CleanLearning Tutorials</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="clean_learning/text.html">Text Classification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="clean_learning/tabular.html">Tabular Classification (Numeric/Categorical)</a></li>
@@ -306,7 +307,6 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/models/index.html">models</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle navigation of models</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cleanlab/models/keras.html">keras</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cleanlab/models/fasttext.html">fasttext</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../cleanlab/experimental/index.html">experimental</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle navigation of experimental</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -381,6 +381,15 @@
                 class="reference internal"
                 href="/cleanlab-docs/master/"
                 >developer</a
+            >
+        </li>
+        
+        <li class="toctree-l1">
+            <a
+                id="v2.6.6"
+                class="reference internal"
+                href="/cleanlab-docs/v2.6.6/"
+                >v2.6.6</a
             >
         </li>
         
@@ -834,7 +843,7 @@ respect to the ordering of classes, which for Datalab is: lexicographically sort
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -842,22 +851,12 @@ respect to the ordering of classes, which for Datalab is: lexicographically sort
 Finding null issues ...
 Finding label issues ...
 Finding outlier issues ...
-Fitting OOD estimator based on provided features ...
 Finding near_duplicate issues ...
 Finding non_iid issues ...
 Finding class_imbalance issues ...
 Finding underperforming_group issues ...
 
 Audit complete. 78 issues found in the dataset.
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/sklearn/neighbors/_base.py:246: EfficiencyWarning: Precomputed sparse input was not sorted by row values. Use the function sklearn.neighbors.sort_graph_by_row_values to sort the input by row values, with warn_when_not_sorted=False to remove this warning.
-  warnings.warn(
 </pre></div></div>
 </div>
 <p>After the audit is complete, review the findings using the <code class="docutils literal notranslate"><span class="pre">report</span></code> method:</p>
